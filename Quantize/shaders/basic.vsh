@@ -7,13 +7,13 @@
 //
 
 attribute vec3 position;
+uniform mat4 camera;
 
 //varying lowp vec4 colorVarying;
 //varying vec4 colorVarying;
 
-//uniform mat4 modelViewProjectionMatrix;
 
 void main()
 {
-    gl_Position = vec4(position, 1);//modelViewProjectionMatrix * position;
+    gl_Position = vec4(position, 1) * camera;
 }

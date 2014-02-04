@@ -12,6 +12,7 @@
 
 #include "Tools.h"
 #include "Math/Vector3.h"
+#include "Math/Matrix44.h"
 
 #include "Model.h"
 
@@ -22,11 +23,19 @@ class Quantize {
 public:
     GLuint _program;
     GLuint _attrPosition;
+    GLuint _uniformCamera;
     
     Model* model;
+    
+    Matrix44 _projection;
 
     Quantize() : _program(0), model(nullptr) {
 
+        _projection.SetIndentity();
+        
+        _projection.SetScale(Vector3(
+            0.5, 1, 1
+        ));
     }
     
     void initialize() {
@@ -51,7 +60,8 @@ public:
         GLValidateProgram(_program);
         
         // Get a handle to shader attributes
-        _attrPosition = glGetAttribLocation(_program, "position");
+        _attrPosition  = glGetAttribLocation(_program, "position");
+        _uniformCamera = glGetUniformLocation(_program, "camera");
         GLError();
 
         glDetachShader(_program, vsh);
@@ -109,8 +119,14 @@ public:
         
         GLValidateProgram(_program);
 
+        glUniformMatrix4fv(_uniformCamera,  // Location
+                            1,              // Amount of matrices
+                            0,              // Require transpose
+                            _projection.f   // Float array with values
+        );
+
         render(*model);
-        
+
         // Run draw calls.
         //glFlush();
         glSwapAPPLE();
