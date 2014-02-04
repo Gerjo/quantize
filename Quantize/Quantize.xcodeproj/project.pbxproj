@@ -16,11 +16,19 @@
 		A6C56A2D189FC8DF00DFAA00 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A6C56A2C189FC8DF00DFAA00 /* Images.xcassets */; };
 		A6C56A34189FC8DF00DFAA00 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C56A33189FC8DF00DFAA00 /* XCTest.framework */; };
 		A6C56A35189FC8DF00DFAA00 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C56A14189FC8DF00DFAA00 /* Cocoa.framework */; };
-		A6C56A3D189FC8DF00DFAA00 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A6C56A3B189FC8DF00DFAA00 /* InfoPlist.strings */; };
-		A6C56A3F189FC8DF00DFAA00 /* QuantizeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C56A3E189FC8DF00DFAA00 /* QuantizeTests.m */; };
 		A6C56A4A189FCA0E00DFAA00 /* GLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = A6C56A49189FCA0E00DFAA00 /* GLView.mm */; };
 		A6C56A4C189FCACC00DFAA00 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C56A4B189FCACC00DFAA00 /* OpenGL.framework */; };
 		A6C56A4E189FD07C00DFAA00 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C56A4D189FD07C00DFAA00 /* CoreVideo.framework */; };
+		A6C56A5218A102DD00DFAA00 /* Quantize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6C56A5018A102DD00DFAA00 /* Quantize.cpp */; };
+		A6C56AA218A106F000DFAA00 /* basic.fsh in Sources */ = {isa = PBXBuildFile; fileRef = A6C56AA018A106F000DFAA00 /* basic.fsh */; };
+		A6C56AA318A106F000DFAA00 /* basic.vsh in Sources */ = {isa = PBXBuildFile; fileRef = A6C56AA118A106F000DFAA00 /* basic.vsh */; };
+		A6C56C2718A139EB00DFAA00 /* Frmath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C1418A139EB00DFAA00 /* Frmath.cpp */; };
+		A6C56C2818A139EB00DFAA00 /* Intersections.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C1618A139EB00DFAA00 /* Intersections.cpp */; };
+		A6C56C2918A139EB00DFAA00 /* Matrix33.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C1818A139EB00DFAA00 /* Matrix33.cpp */; };
+		A6C56C2A18A139EB00DFAA00 /* Matrix44.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C1A18A139EB00DFAA00 /* Matrix44.cpp */; };
+		A6C56C2D18A139EB00DFAA00 /* Vector2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C2118A139EB00DFAA00 /* Vector2.cpp */; };
+		A6C56C2E18A139EB00DFAA00 /* Vector3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C2318A139EB00DFAA00 /* Vector3.cpp */; };
+		A6C56C2F18A139EB00DFAA00 /* Vector4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C2518A139EB00DFAA00 /* Vector4.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,13 +58,30 @@
 		A6C56A2C189FC8DF00DFAA00 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A6C56A32189FC8DF00DFAA00 /* QuantizeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuantizeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6C56A33189FC8DF00DFAA00 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		A6C56A3A189FC8DF00DFAA00 /* QuantizeTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "QuantizeTests-Info.plist"; sourceTree = "<group>"; };
-		A6C56A3C189FC8DF00DFAA00 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		A6C56A3E189FC8DF00DFAA00 /* QuantizeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QuantizeTests.m; sourceTree = "<group>"; };
 		A6C56A48189FC9E300DFAA00 /* GLView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLView.h; sourceTree = "<group>"; };
-		A6C56A49189FCA0E00DFAA00 /* GLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GLView.mm; sourceTree = "<group>"; };
+		A6C56A49189FCA0E00DFAA00 /* GLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = GLView.mm; path = Quantize/GLView.mm; sourceTree = "<group>"; };
 		A6C56A4B189FCACC00DFAA00 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		A6C56A4D189FD07C00DFAA00 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		A6C56A5018A102DD00DFAA00 /* Quantize.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Quantize.cpp; sourceTree = "<group>"; };
+		A6C56A5118A102DD00DFAA00 /* Quantize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quantize.h; sourceTree = "<group>"; };
+		A6C56AA018A106F000DFAA00 /* basic.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = basic.fsh; sourceTree = "<group>"; };
+		A6C56AA118A106F000DFAA00 /* basic.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = basic.vsh; sourceTree = "<group>"; };
+		A6C56AA518A1092A00DFAA00 /* Tools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tools.h; sourceTree = "<group>"; };
+		A6C56C1418A139EB00DFAA00 /* Frmath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Frmath.cpp; sourceTree = "<group>"; };
+		A6C56C1518A139EB00DFAA00 /* Frmath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Frmath.h; sourceTree = "<group>"; };
+		A6C56C1618A139EB00DFAA00 /* Intersections.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Intersections.cpp; sourceTree = "<group>"; };
+		A6C56C1718A139EB00DFAA00 /* Intersections.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Intersections.h; sourceTree = "<group>"; };
+		A6C56C1818A139EB00DFAA00 /* Matrix33.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Matrix33.cpp; sourceTree = "<group>"; };
+		A6C56C1918A139EB00DFAA00 /* Matrix33.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Matrix33.h; sourceTree = "<group>"; };
+		A6C56C1A18A139EB00DFAA00 /* Matrix44.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Matrix44.cpp; sourceTree = "<group>"; };
+		A6C56C1B18A139EB00DFAA00 /* Matrix44.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Matrix44.h; sourceTree = "<group>"; };
+		A6C56C2118A139EB00DFAA00 /* Vector2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Vector2.cpp; sourceTree = "<group>"; };
+		A6C56C2218A139EB00DFAA00 /* Vector2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector2.h; sourceTree = "<group>"; };
+		A6C56C2318A139EB00DFAA00 /* Vector3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Vector3.cpp; sourceTree = "<group>"; };
+		A6C56C2418A139EB00DFAA00 /* Vector3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector3.h; sourceTree = "<group>"; };
+		A6C56C2518A139EB00DFAA00 /* Vector4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Vector4.cpp; sourceTree = "<group>"; };
+		A6C56C2618A139EB00DFAA00 /* Vector4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector4.h; sourceTree = "<group>"; };
+		A6C56C3018A1480200DFAA00 /* Model.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,8 +110,14 @@
 		A6C56A08189FC8DF00DFAA00 = {
 			isa = PBXGroup;
 			children = (
+				A6C56C1318A139EB00DFAA00 /* Math */,
+				A6C56C3018A1480200DFAA00 /* Model.h */,
+				A6C56AA518A1092A00DFAA00 /* Tools.h */,
+				A6C56A5118A102DD00DFAA00 /* Quantize.h */,
+				A6C56A5018A102DD00DFAA00 /* Quantize.cpp */,
+				A6C56A49189FCA0E00DFAA00 /* GLView.mm */,
+				A6C56A9F18A106F000DFAA00 /* shaders */,
 				A6C56A1A189FC8DF00DFAA00 /* Quantize */,
-				A6C56A38189FC8DF00DFAA00 /* QuantizeTests */,
 				A6C56A13189FC8DF00DFAA00 /* Frameworks */,
 				A6C56A12189FC8DF00DFAA00 /* Products */,
 			);
@@ -132,7 +163,7 @@
 				A6C56A2C189FC8DF00DFAA00 /* Images.xcassets */,
 				A6C56A1B189FC8DF00DFAA00 /* Supporting Files */,
 				A6C56A48189FC9E300DFAA00 /* GLView.h */,
-				A6C56A49189FCA0E00DFAA00 /* GLView.mm */,
+				A6C56A4F18A1029900DFAA00 /* Apple */,
 			);
 			path = Quantize;
 			sourceTree = "<group>";
@@ -149,22 +180,41 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		A6C56A38189FC8DF00DFAA00 /* QuantizeTests */ = {
+		A6C56A4F18A1029900DFAA00 /* Apple */ = {
 			isa = PBXGroup;
 			children = (
-				A6C56A3E189FC8DF00DFAA00 /* QuantizeTests.m */,
-				A6C56A39189FC8DF00DFAA00 /* Supporting Files */,
 			);
-			path = QuantizeTests;
+			name = Apple;
 			sourceTree = "<group>";
 		};
-		A6C56A39189FC8DF00DFAA00 /* Supporting Files */ = {
+		A6C56A9F18A106F000DFAA00 /* shaders */ = {
 			isa = PBXGroup;
 			children = (
-				A6C56A3A189FC8DF00DFAA00 /* QuantizeTests-Info.plist */,
-				A6C56A3B189FC8DF00DFAA00 /* InfoPlist.strings */,
+				A6C56AA018A106F000DFAA00 /* basic.fsh */,
+				A6C56AA118A106F000DFAA00 /* basic.vsh */,
 			);
-			name = "Supporting Files";
+			path = shaders;
+			sourceTree = "<group>";
+		};
+		A6C56C1318A139EB00DFAA00 /* Math */ = {
+			isa = PBXGroup;
+			children = (
+				A6C56C1418A139EB00DFAA00 /* Frmath.cpp */,
+				A6C56C1518A139EB00DFAA00 /* Frmath.h */,
+				A6C56C1618A139EB00DFAA00 /* Intersections.cpp */,
+				A6C56C1718A139EB00DFAA00 /* Intersections.h */,
+				A6C56C1818A139EB00DFAA00 /* Matrix33.cpp */,
+				A6C56C1918A139EB00DFAA00 /* Matrix33.h */,
+				A6C56C1A18A139EB00DFAA00 /* Matrix44.cpp */,
+				A6C56C1B18A139EB00DFAA00 /* Matrix44.h */,
+				A6C56C2118A139EB00DFAA00 /* Vector2.cpp */,
+				A6C56C2218A139EB00DFAA00 /* Vector2.h */,
+				A6C56C2318A139EB00DFAA00 /* Vector3.cpp */,
+				A6C56C2418A139EB00DFAA00 /* Vector3.h */,
+				A6C56C2518A139EB00DFAA00 /* Vector4.cpp */,
+				A6C56C2618A139EB00DFAA00 /* Vector4.h */,
+			);
+			path = Math;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -254,7 +304,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A6C56A3D189FC8DF00DFAA00 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,9 +314,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6C56AA318A106F000DFAA00 /* basic.vsh in Sources */,
 				A6C56A28189FC8DF00DFAA00 /* AppDelegate.m in Sources */,
+				A6C56C2E18A139EB00DFAA00 /* Vector3.cpp in Sources */,
+				A6C56C2A18A139EB00DFAA00 /* Matrix44.cpp in Sources */,
+				A6C56C2D18A139EB00DFAA00 /* Vector2.cpp in Sources */,
 				A6C56A21189FC8DF00DFAA00 /* main.m in Sources */,
+				A6C56C2918A139EB00DFAA00 /* Matrix33.cpp in Sources */,
+				A6C56A5218A102DD00DFAA00 /* Quantize.cpp in Sources */,
+				A6C56C2F18A139EB00DFAA00 /* Vector4.cpp in Sources */,
+				A6C56C2818A139EB00DFAA00 /* Intersections.cpp in Sources */,
 				A6C56A4A189FCA0E00DFAA00 /* GLView.mm in Sources */,
+				A6C56C2718A139EB00DFAA00 /* Frmath.cpp in Sources */,
+				A6C56AA218A106F000DFAA00 /* basic.fsh in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,7 +334,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A6C56A3F189FC8DF00DFAA00 /* QuantizeTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,14 +370,6 @@
 				A6C56A2A189FC8DF00DFAA00 /* Base */,
 			);
 			name = MainMenu.xib;
-			sourceTree = "<group>";
-		};
-		A6C56A3B189FC8DF00DFAA00 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A6C56A3C189FC8DF00DFAA00 /* en */,
-			);
-			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -396,8 +446,10 @@
 		A6C56A43189FC8DF00DFAA00 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Quantize/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Quantize/Quantize-Prefix.pch";
 				GCC_WARN_PEDANTIC = YES;
@@ -410,8 +462,10 @@
 		A6C56A44189FC8DF00DFAA00 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Quantize/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Quantize/Quantize-Prefix.pch";
 				GCC_WARN_PEDANTIC = YES;
