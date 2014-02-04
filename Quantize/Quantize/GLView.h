@@ -11,10 +11,11 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface GLView : NSOpenGLView {
-
+@interface GLView : NSOpenGLView<NSWindowDelegate> {
+//@interface GLView : NSOpenGLView {
 }
 
 - (void) drawRect: (NSRect) bounds;
 
 @end
+

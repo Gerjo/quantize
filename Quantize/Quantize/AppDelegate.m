@@ -8,11 +8,15 @@
 
 #import "AppDelegate.h"
 
+static NSTimer *timer = nil;
+
+
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    // Insert code here to initialize your application
+    printf("applicationDidFinishLaunching\n");
+
 }
 
 @end

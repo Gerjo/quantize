@@ -20,6 +20,7 @@
 		A6C56A3F189FC8DF00DFAA00 /* QuantizeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C56A3E189FC8DF00DFAA00 /* QuantizeTests.m */; };
 		A6C56A4A189FCA0E00DFAA00 /* GLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = A6C56A49189FCA0E00DFAA00 /* GLView.mm */; };
 		A6C56A4C189FCACC00DFAA00 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C56A4B189FCACC00DFAA00 /* OpenGL.framework */; };
+		A6C56A4E189FD07C00DFAA00 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C56A4D189FD07C00DFAA00 /* CoreVideo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		A6C56A48189FC9E300DFAA00 /* GLView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLView.h; sourceTree = "<group>"; };
 		A6C56A49189FCA0E00DFAA00 /* GLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GLView.mm; sourceTree = "<group>"; };
 		A6C56A4B189FCACC00DFAA00 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		A6C56A4D189FD07C00DFAA00 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6C56A4E189FD07C00DFAA00 /* CoreVideo.framework in Frameworks */,
 				A6C56A4C189FCACC00DFAA00 /* OpenGL.framework in Frameworks */,
 				A6C56A15189FC8DF00DFAA00 /* Cocoa.framework in Frameworks */,
 			);
@@ -101,6 +104,7 @@
 		A6C56A13189FC8DF00DFAA00 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A6C56A4D189FD07C00DFAA00 /* CoreVideo.framework */,
 				A6C56A4B189FCACC00DFAA00 /* OpenGL.framework */,
 				A6C56A14189FC8DF00DFAA00 /* Cocoa.framework */,
 				A6C56A33189FC8DF00DFAA00 /* XCTest.framework */,
