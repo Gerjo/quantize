@@ -58,7 +58,7 @@
 		A6C56A2C189FC8DF00DFAA00 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A6C56A32189FC8DF00DFAA00 /* QuantizeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuantizeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6C56A33189FC8DF00DFAA00 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		A6C56A48189FC9E300DFAA00 /* GLView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLView.h; sourceTree = "<group>"; };
+		A6C56A48189FC9E300DFAA00 /* GLView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLView.h; path = Quantize/GLView.h; sourceTree = "<group>"; };
 		A6C56A49189FCA0E00DFAA00 /* GLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = GLView.mm; path = Quantize/GLView.mm; sourceTree = "<group>"; };
 		A6C56A4B189FCACC00DFAA00 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		A6C56A4D189FD07C00DFAA00 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
@@ -115,6 +115,7 @@
 				A6C56AA518A1092A00DFAA00 /* Tools.h */,
 				A6C56A5118A102DD00DFAA00 /* Quantize.h */,
 				A6C56A5018A102DD00DFAA00 /* Quantize.cpp */,
+				A6C56A48189FC9E300DFAA00 /* GLView.h */,
 				A6C56A49189FCA0E00DFAA00 /* GLView.mm */,
 				A6C56A9F18A106F000DFAA00 /* shaders */,
 				A6C56A1A189FC8DF00DFAA00 /* Quantize */,
@@ -162,7 +163,6 @@
 				A6C56A29189FC8DF00DFAA00 /* MainMenu.xib */,
 				A6C56A2C189FC8DF00DFAA00 /* Images.xcassets */,
 				A6C56A1B189FC8DF00DFAA00 /* Supporting Files */,
-				A6C56A48189FC9E300DFAA00 /* GLView.h */,
 				A6C56A4F18A1029900DFAA00 /* Apple */,
 			);
 			path = Quantize;

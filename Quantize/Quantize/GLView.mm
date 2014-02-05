@@ -1,6 +1,7 @@
 #import "GLView.h"
 #include <OpenGL/gl.h>
 
+#include "Vector2.h"
 #include "Quantize.h"
 
 static NSTimer *timer = nil;
@@ -16,7 +17,11 @@ static bool isInitialized = false;
     //[self setNeedsDisplay:YES];
     
     if( ! isInitialized) {
-        quantize->initialize();
+        quantize->initialize(
+            [[[self window] contentView] bounds].size.width,
+            [[[self window] contentView] bounds].size.height
+        );
+        
         isInitialized = true;
     }
 
@@ -24,7 +29,54 @@ static bool isInitialized = false;
     
 }
 
+
+- (void)mouseDown:(NSEvent *)theEvent {
+    printf("mousedown\n");
+}
+
+- (void)mouseMoved:(NSEvent *) event {
+    CGPoint touchPosition = [event locationInWindow];
+
+    Furiosity::Vector2 v(touchPosition.x, touchPosition.y);
+    
+    quantize->onMove(v);
+}
+
+- (void)mouseDragged:(NSEvent *)theEvent {
+    //quantize->onMove(<#const Furiosity::Vector2 &location#>);
+    //printf("drag, it is.\n");
+}
+
+- (void) scrollWheel: (NSEvent*) event {
+    Furiosity::Vector2 v([event deltaX], [event deltaY]);
+    quantize->onScroll(v);
+}
+
+/*- (void)mouseDown:(NSEvent *)theEvent;
+- (void)rightMouseDown:(NSEvent *)theEvent;
+- (void)otherMouseDown:(NSEvent *)theEvent;
+- (void)mouseUp:(NSEvent *)theEvent;
+- (void)rightMouseUp:(NSEvent *)theEvent;
+- (void)otherMouseUp:(NSEvent *)theEvent;
+- (void)mouseMoved:(NSEvent *)theEvent;
+- (void)mouseDragged:(NSEvent *)theEvent;
+- (void)scrollWheel:(NSEvent *)theEvent;
+- (void)rightMouseDragged:(NSEvent *)theEvent;
+- (void)otherMouseDragged:(NSEvent *)theEvent;
+- (void)mouseEntered:(NSEvent *)theEvent;
+- (void)mouseExited:(NSEvent *)theEvent;
+- (void)keyDown:(NSEvent *)theEvent;
+- (void)keyUp:(NSEvent *)theEvent;*/
+
+
 - (void)prepareOpenGL {
+    [[self window] setAcceptsMouseMovedEvents: YES];
+    [[self window] makeFirstResponder:self];
+
+    ProcessSerialNumber psn;
+    GetCurrentProcess(&psn);
+    TransformProcessType(&psn, kProcessTransformToForegroundApplication);
+    SetFrontProcess(&psn);
     
     GLint swapInt = 1;
     [[self openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
