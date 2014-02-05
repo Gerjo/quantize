@@ -82,6 +82,7 @@
 		A6C56C2518A139EB00DFAA00 /* Vector4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Vector4.cpp; sourceTree = "<group>"; };
 		A6C56C2618A139EB00DFAA00 /* Vector4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector4.h; sourceTree = "<group>"; };
 		A6C56C3018A1480200DFAA00 /* Model.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
+		A6C56C3318A287E300DFAA00 /* Parser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Parser.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +115,7 @@
 				A6C56C3018A1480200DFAA00 /* Model.h */,
 				A6C56AA518A1092A00DFAA00 /* Tools.h */,
 				A6C56A5118A102DD00DFAA00 /* Quantize.h */,
+				A6C56C3318A287E300DFAA00 /* Parser.h */,
 				A6C56A5018A102DD00DFAA00 /* Quantize.cpp */,
 				A6C56A48189FC9E300DFAA00 /* GLView.h */,
 				A6C56A49189FCA0E00DFAA00 /* GLView.mm */,

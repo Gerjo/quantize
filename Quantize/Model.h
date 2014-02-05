@@ -18,21 +18,24 @@ using namespace Furiosity;
 struct VertexData {
     Vector3 position;
     Vector3 normal;
+    Vector2 uv;
     unsigned char color[4] = {(unsigned char)0, 255, 0, 0};
     
-    VertexData(Vector3 position,  Vector3 normal = Vector3(0, 0, 0))
+    VertexData(Vector3 position,  Vector3 normal = Vector3(0, 0, 0), Vector2 uv = Vector2(1, 1))
         : position(position)
         , normal(normal){
             // codes
     }
     
-    VertexData(float x,float y,float z,float a,float b,float c)
+    VertexData(float x,float y,float z,float a,float b,float c, float u = 1, float v = 1)
         : position(x, y, z)
-        , normal(0,0,0) {
+        , normal(a, b, c)
+        , uv(u, v) {
             // codes
     }};
 
 class Model {
+    
     
 public:
     GLuint vbo[2];
@@ -42,7 +45,44 @@ public:
     std::vector<unsigned short> indices;
     std::vector<VertexData> vertices;
 
-    Model() {
+    bool _isuploaded;
+
+    Model() : vbo{0}, _isuploaded(false) {
+    
+    }
+    
+    bool isUpoaded() {
+        return _isuploaded;
+    }
+    
+    void upload() {
+        glGenBuffers(2, &vbo[0]);
+        GLError();
+        
+        // Activate
+        glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
+        GLError();
+        
+        // Copy into VBO:
+        glBufferData(GL_ARRAY_BUFFER, sizeof(VertexData) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
+        GLError();
+        glBindBuffer(GL_ARRAY_BUFFER, 0); // unbind buffer
+        GLError();
+        
+        // Activate
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[1]);
+        GLError();
+        
+        // Copy into VBO:
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short) * indices.size(), &indices[0], GL_STATIC_DRAW);
+        GLError();
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0); // unbind buffer
+        GLError();
+        
+        _isuploaded = true;
+    }
+    
+    void loadCube() {
         
         transform.SetIndentity();
         
@@ -105,29 +145,6 @@ public:
             }
             
         }
-        
-        glGenBuffers(2, &vbo[0]);
-        GLError();
-        
-        // Activate
-        glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
-        GLError();
-        
-        // Copy into VBO:
-        glBufferData(GL_ARRAY_BUFFER, sizeof(VertexData) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
-        GLError();
-        glBindBuffer(GL_ARRAY_BUFFER, 0); // unbind buffer
-        GLError();
-        
-        // Activate
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[1]);
-        GLError();
-        
-        // Copy into VBO:
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short) * indices.size(), &indices[0], GL_STATIC_DRAW);
-        GLError();
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0); // unbind buffer
-        GLError();
     }
     
 };

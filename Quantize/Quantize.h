@@ -10,10 +10,11 @@
 
 #include <cstdio>
 
-#include "Tools.h"
 #include "Math/Vector3.h"
 #include "Math/Matrix44.h"
 
+#include "Tools.h"
+#include "Parser.h"
 #include "Model.h"
 
 using namespace Furiosity;
@@ -35,6 +36,7 @@ public:
     
     Matrix44 _projection;
     
+    Vector3 position;
     
     Vector2 mouse;
 
@@ -62,7 +64,6 @@ public:
         if(_program != 0) {
             Exit("Program already initialized.");
         }
-        
         
         this->width  = width;
         this->height = height;
@@ -121,7 +122,12 @@ public:
         glDeleteShader(fsh);
         
         // A mesh wrapper
-        model = new Model();
+        //model = new Model();
+        //model->loadCube();
+        //model->upload();
+        
+        model = Parser::FromFile("models/tiger2.obj")[0];
+        model->upload();
     };
     
     
@@ -213,9 +219,9 @@ public:
         
         // Camera position.
         Matrix44 transform =
-            Matrix44::CreateTranslation(0, 0, -mouse.y/100.0f)
+            Matrix44::CreateTranslation(0, 0, -5)
             * Matrix44::CreateRotateY(mouse.x/100.0f)
-            * Matrix44::CreateRotateX(1.34f)
+            * Matrix44::CreateRotateX(mouse.y/100.0f)
         
         ;
         
