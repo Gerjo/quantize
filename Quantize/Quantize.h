@@ -228,11 +228,11 @@ public:
        
          
         Matrix44 projection = Matrix44::CreatePerspective(
-            3.14159268/2.0f,    // Field of view
-            0.5f,               // Aspect ratio
-            0.0f,               // near
-            1000.0f             // far
-        );                      // where ever you ware
+            3.14159268/2.0f,      // Field of view
+            width/height,         // Aspect ratio
+            0.01f,                // near
+            1000.0f               // far
+        );                        // where ever you ware
         
         Matrix44 transform =
             Matrix44::CreateTranslation(0, 0, -mouse.y/100.0f)
@@ -241,6 +241,9 @@ public:
             * Matrix44::CreateRotateX(1.34f)
         
         ;
+        
+        transform = projection * transform;
+        
         // Shader activate!
         glUseProgram(_program);
 
