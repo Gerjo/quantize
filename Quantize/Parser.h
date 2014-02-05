@@ -96,14 +96,14 @@ struct Parser {
                         int vertexIndex = atoi(nums[0].c_str());
                         int uvIndex     = atoi(nums[1].c_str());
                         
-                        if(vertexIndex < 0 || uvIndex < 0 || vertexIndex > vertices.size() || uvIndex > uvs.size()) {
+                        if(vertexIndex <= 0 || uvIndex <= 0 || vertexIndex > vertices.size() || uvIndex > uvs.size()) {
                             Exit("Some face index was out-of-bounds.");
                         }
                         
                         VertexData face(
-                            vertices[vertexIndex],
+                            vertices[vertexIndex - 1],
                             Vector3(0, 0, 0),       // todo: normals?
-                            uvs[uvIndex]
+                            uvs[uvIndex - 1]
                         );
                         
                         faces.push_back(face);
