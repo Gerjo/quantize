@@ -35,7 +35,8 @@ struct VertexData {
     }};
 
 class Model {
-    
+private:
+    bool _isuploaded;
     
 public:
     GLuint vbo[2];
@@ -45,7 +46,9 @@ public:
     std::vector<unsigned short> indices;
     std::vector<VertexData> vertices;
 
-    bool _isuploaded;
+    // Identifiers as specified in the obj file.
+    std::string material;
+    std::string group;
 
     Model() : vbo{0}, _isuploaded(false) {
     

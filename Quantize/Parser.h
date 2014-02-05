@@ -39,8 +39,8 @@ struct Parser {
         std::deque<Vector3> vertices;
         std::deque<Vector2> uvs;
         
-        std::vector<VertexData> faces;
-        
+    
+        Model* model = nullptr;
     
         // Parse per line.
         for(size_t linenumber = 0, run = 1, readOffset = 0; run; ++linenumber) {
@@ -64,13 +64,22 @@ struct Parser {
                 const string& key = chunks[0];
                 
                 if(key == "g") {
-                    printf("New group: %s\n", chunks[1].c_str());
+                    printf("Creating new model for: %s\n", chunks[1].c_str());
+                    
+                    model = new Model();
+                    model->group = chunks[1];
+
+                    models.push_back(model);
                     
                 } else if(key == "#") {
                     // Sourcecode comment.
                     
                 } else if(key == "usemtl") {
-                    printf("Using material: %s\n", chunks[1].c_str());
+                    //printf("Using material: %s\n", chunks[1].c_str());
+                    
+                    model->material = chunks[1];
+
+                    // is texture?
                     
                 } else if(key == "vt") {
                     // Neglecting any optional 3rd component.
@@ -81,11 +90,6 @@ struct Parser {
                
                 } else if(key == "f") {
                 
-                    // Pre-allocate storage space for the faces vector.
-                    if(faces.capacity() < vertices.size()) {
-                        faces.reserve(vertices.size());
-                    }
-                    
                     for(size_t i = 1; i < chunks.size(); ++i) {
                         auto nums = StringExplode(chunks[i], "/");
                         
@@ -106,7 +110,8 @@ struct Parser {
                             uvs[uvIndex - 1]
                         );
                         
-                        faces.push_back(face);
+                        // Add to the current active model.
+                        model->vertices.push_back(face);
                     }
                
                 } else {
@@ -119,32 +124,27 @@ struct Parser {
             readOffset = pos + 1;
         }
         
-        
-        
-        printf("Vertices: %lu, UVs: %lu, Faces: %lu.\n", vertices.size(), uvs.size(), faces.size());
-        
-        
-        models.push_back(new Model());
-        
-        
-        std::vector<unsigned short> indices;
-        
-        for(size_t i = 0, j = 0; i < faces.size(); ++i) {
-            indices.push_back((unsigned short)indices.size());
+        printf("Loaded %lu models, total Vertices: %lu and UVs: %lu.\n", models.size(), vertices.size(), uvs.size());
+
+        for(Model* model : models) {
+            printf("  model: %s with %lu vertices.\n", model->group.c_str(), model->vertices.size());
             
-            faces[i].color[0] = j * 10;
-            faces[i].color[1] = j * 30;
-            faces[i].color[2] = j * 7 + 60;
-            
-            if(i % 6 == 0) {
-                ++j;
+            std::vector<unsigned short> indices;
+        
+            for(size_t i = 0, j = 0; i < model->vertices.size(); ++i) {
+                model->indices.push_back((unsigned short)model->indices.size());
+                
+                // Random-ish color. This is usefull until textures work.
+                model->vertices[i].color[0] = j * 10;
+                model->vertices[i].color[1] = j * 30;
+                model->vertices[i].color[2] = j * 7 + 60;
+                
+                if(i % 6 == 0) {
+                    ++j;
+                }
             }
         }
         
-        models.back()->vertices = faces;
-        models.back()->indices  = indices;
-        
-        //exit(0);
         return models;
     }
 };

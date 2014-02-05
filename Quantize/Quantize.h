@@ -40,9 +40,10 @@ public:
     
     Vector2 mouse;
 
+    std::vector<Model*> models;
+
     Quantize()
         : _program(0)
-        , model(nullptr)
         , width(200)
         , height(100)
         , _attrPosition(0)
@@ -126,8 +127,10 @@ public:
         //model->loadCube();
         //model->upload();
         
-        model = Parser::FromFile("models/tiger2.obj")[0];
-        model->upload();
+        for(Model* model : Parser::FromFile("models/tiger2.obj")) {
+            model->upload();
+            models.push_back(model);
+        }
     };
     
     
@@ -239,8 +242,9 @@ public:
                             projection.f   // Float array with values
         );
 
-        // Render calls. TODO: some array structure for multiple models.
-        render(*model);
+        for(Model* model : models) {
+            render(*model);
+        }
 
         // Run draw calls.
         //glFlush();
