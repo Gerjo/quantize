@@ -64,7 +64,7 @@ struct Parser {
                 const string& key = chunks[0];
                 
                 if(key == "g") {
-                    printf("Creating new model for: %s\n", chunks[1].c_str());
+                    //printf("Creating new model for: %s\n", chunks[1].c_str());
                     
                     model = new Model();
                     model->group = chunks[1];

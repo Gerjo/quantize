@@ -50,7 +50,9 @@ public:
     std::string material;
     std::string group;
 
-    Model() : vbo{0}, _isuploaded(false) {
+    GLuint texture;
+
+    Model() : vbo{0}, _isuploaded(false), texture(0) {
     
     }
     

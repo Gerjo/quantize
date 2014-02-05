@@ -29,6 +29,23 @@
 		A6C56C2D18A139EB00DFAA00 /* Vector2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C2118A139EB00DFAA00 /* Vector2.cpp */; };
 		A6C56C2E18A139EB00DFAA00 /* Vector3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C2318A139EB00DFAA00 /* Vector3.cpp */; };
 		A6C56C2F18A139EB00DFAA00 /* Vector4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C2518A139EB00DFAA00 /* Vector4.cpp */; };
+		A6C56C4F18A2AA5000DFAA00 /* png.c in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C3618A2AA5000DFAA00 /* png.c */; };
+		A6C56C5018A2AA5000DFAA00 /* pngerror.c in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C3A18A2AA5000DFAA00 /* pngerror.c */; };
+		A6C56C5118A2AA5000DFAA00 /* pngget.c in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C3B18A2AA5000DFAA00 /* pngget.c */; };
+		A6C56C5218A2AA5000DFAA00 /* pngmem.c in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C3E18A2AA5000DFAA00 /* pngmem.c */; };
+		A6C56C5318A2AA5000DFAA00 /* pngpread.c in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C3F18A2AA5000DFAA00 /* pngpread.c */; };
+		A6C56C5418A2AA5000DFAA00 /* pngread.c in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C4118A2AA5000DFAA00 /* pngread.c */; };
+		A6C56C5518A2AA5000DFAA00 /* pngrio.c in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C4218A2AA5000DFAA00 /* pngrio.c */; };
+		A6C56C5618A2AA5000DFAA00 /* pngrtran.c in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C4318A2AA5000DFAA00 /* pngrtran.c */; };
+		A6C56C5718A2AA5000DFAA00 /* pngrutil.c in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C4418A2AA5000DFAA00 /* pngrutil.c */; };
+		A6C56C5818A2AA5000DFAA00 /* pngset.c in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C4518A2AA5000DFAA00 /* pngset.c */; };
+		A6C56C5918A2AA5000DFAA00 /* pngtrans.c in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C4718A2AA5000DFAA00 /* pngtrans.c */; };
+		A6C56C5A18A2AA5000DFAA00 /* pngvalid.c in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C4818A2AA5000DFAA00 /* pngvalid.c */; };
+		A6C56C5B18A2AA5000DFAA00 /* pngwio.c in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C4918A2AA5000DFAA00 /* pngwio.c */; };
+		A6C56C5C18A2AA5000DFAA00 /* pngwrite.c in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C4A18A2AA5000DFAA00 /* pngwrite.c */; };
+		A6C56C5D18A2AA5000DFAA00 /* pngwtran.c in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C4B18A2AA5000DFAA00 /* pngwtran.c */; };
+		A6C56C5E18A2AA5000DFAA00 /* pngwutil.c in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C4C18A2AA5000DFAA00 /* pngwutil.c */; };
+		A6C56C6018A2ABB400DFAA00 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C56C5F18A2ABB400DFAA00 /* libz.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +100,32 @@
 		A6C56C2618A139EB00DFAA00 /* Vector4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector4.h; sourceTree = "<group>"; };
 		A6C56C3018A1480200DFAA00 /* Model.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
 		A6C56C3318A287E300DFAA00 /* Parser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Parser.h; sourceTree = "<group>"; };
+		A6C56C3418A2A88900DFAA00 /* Textures.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Textures.h; sourceTree = "<group>"; };
+		A6C56C3618A2AA5000DFAA00 /* png.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = png.c; sourceTree = "<group>"; };
+		A6C56C3718A2AA5000DFAA00 /* png.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = png.h; sourceTree = "<group>"; };
+		A6C56C3818A2AA5000DFAA00 /* pngconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngconf.h; sourceTree = "<group>"; };
+		A6C56C3918A2AA5000DFAA00 /* pngdebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngdebug.h; sourceTree = "<group>"; };
+		A6C56C3A18A2AA5000DFAA00 /* pngerror.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngerror.c; sourceTree = "<group>"; };
+		A6C56C3B18A2AA5000DFAA00 /* pngget.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngget.c; sourceTree = "<group>"; };
+		A6C56C3C18A2AA5000DFAA00 /* pnginfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pnginfo.h; sourceTree = "<group>"; };
+		A6C56C3D18A2AA5000DFAA00 /* pnglibconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pnglibconf.h; sourceTree = "<group>"; };
+		A6C56C3E18A2AA5000DFAA00 /* pngmem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngmem.c; sourceTree = "<group>"; };
+		A6C56C3F18A2AA5000DFAA00 /* pngpread.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngpread.c; sourceTree = "<group>"; };
+		A6C56C4018A2AA5000DFAA00 /* pngpriv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngpriv.h; sourceTree = "<group>"; };
+		A6C56C4118A2AA5000DFAA00 /* pngread.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngread.c; sourceTree = "<group>"; };
+		A6C56C4218A2AA5000DFAA00 /* pngrio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngrio.c; sourceTree = "<group>"; };
+		A6C56C4318A2AA5000DFAA00 /* pngrtran.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngrtran.c; sourceTree = "<group>"; };
+		A6C56C4418A2AA5000DFAA00 /* pngrutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngrutil.c; sourceTree = "<group>"; };
+		A6C56C4518A2AA5000DFAA00 /* pngset.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngset.c; sourceTree = "<group>"; };
+		A6C56C4618A2AA5000DFAA00 /* pngstruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngstruct.h; sourceTree = "<group>"; };
+		A6C56C4718A2AA5000DFAA00 /* pngtrans.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngtrans.c; sourceTree = "<group>"; };
+		A6C56C4818A2AA5000DFAA00 /* pngvalid.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngvalid.c; sourceTree = "<group>"; };
+		A6C56C4918A2AA5000DFAA00 /* pngwio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngwio.c; sourceTree = "<group>"; };
+		A6C56C4A18A2AA5000DFAA00 /* pngwrite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngwrite.c; sourceTree = "<group>"; };
+		A6C56C4B18A2AA5000DFAA00 /* pngwtran.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngwtran.c; sourceTree = "<group>"; };
+		A6C56C4C18A2AA5000DFAA00 /* pngwutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngwutil.c; sourceTree = "<group>"; };
+		A6C56C4E18A2AA5000DFAA00 /* cexcept.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cexcept.h; sourceTree = "<group>"; };
+		A6C56C5F18A2ABB400DFAA00 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +133,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6C56C6018A2ABB400DFAA00 /* libz.dylib in Frameworks */,
 				A6C56A4E189FD07C00DFAA00 /* CoreVideo.framework in Frameworks */,
 				A6C56A4C189FCACC00DFAA00 /* OpenGL.framework in Frameworks */,
 				A6C56A15189FC8DF00DFAA00 /* Cocoa.framework in Frameworks */,
@@ -111,7 +155,9 @@
 		A6C56A08189FC8DF00DFAA00 = {
 			isa = PBXGroup;
 			children = (
+				A6C56C3518A2AA5000DFAA00 /* libPNG */,
 				A6C56C1318A139EB00DFAA00 /* Math */,
+				A6C56C3418A2A88900DFAA00 /* Textures.h */,
 				A6C56C3018A1480200DFAA00 /* Model.h */,
 				A6C56AA518A1092A00DFAA00 /* Tools.h */,
 				A6C56A5118A102DD00DFAA00 /* Quantize.h */,
@@ -138,6 +184,7 @@
 		A6C56A13189FC8DF00DFAA00 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A6C56C5F18A2ABB400DFAA00 /* libz.dylib */,
 				A6C56A4D189FD07C00DFAA00 /* CoreVideo.framework */,
 				A6C56A4B189FCACC00DFAA00 /* OpenGL.framework */,
 				A6C56A14189FC8DF00DFAA00 /* Cocoa.framework */,
@@ -217,6 +264,45 @@
 				A6C56C2618A139EB00DFAA00 /* Vector4.h */,
 			);
 			path = Math;
+			sourceTree = "<group>";
+		};
+		A6C56C3518A2AA5000DFAA00 /* libPNG */ = {
+			isa = PBXGroup;
+			children = (
+				A6C56C3618A2AA5000DFAA00 /* png.c */,
+				A6C56C3718A2AA5000DFAA00 /* png.h */,
+				A6C56C3818A2AA5000DFAA00 /* pngconf.h */,
+				A6C56C3918A2AA5000DFAA00 /* pngdebug.h */,
+				A6C56C3A18A2AA5000DFAA00 /* pngerror.c */,
+				A6C56C3B18A2AA5000DFAA00 /* pngget.c */,
+				A6C56C3C18A2AA5000DFAA00 /* pnginfo.h */,
+				A6C56C3D18A2AA5000DFAA00 /* pnglibconf.h */,
+				A6C56C3E18A2AA5000DFAA00 /* pngmem.c */,
+				A6C56C3F18A2AA5000DFAA00 /* pngpread.c */,
+				A6C56C4018A2AA5000DFAA00 /* pngpriv.h */,
+				A6C56C4118A2AA5000DFAA00 /* pngread.c */,
+				A6C56C4218A2AA5000DFAA00 /* pngrio.c */,
+				A6C56C4318A2AA5000DFAA00 /* pngrtran.c */,
+				A6C56C4418A2AA5000DFAA00 /* pngrutil.c */,
+				A6C56C4518A2AA5000DFAA00 /* pngset.c */,
+				A6C56C4618A2AA5000DFAA00 /* pngstruct.h */,
+				A6C56C4718A2AA5000DFAA00 /* pngtrans.c */,
+				A6C56C4818A2AA5000DFAA00 /* pngvalid.c */,
+				A6C56C4918A2AA5000DFAA00 /* pngwio.c */,
+				A6C56C4A18A2AA5000DFAA00 /* pngwrite.c */,
+				A6C56C4B18A2AA5000DFAA00 /* pngwtran.c */,
+				A6C56C4C18A2AA5000DFAA00 /* pngwutil.c */,
+				A6C56C4D18A2AA5000DFAA00 /* visupng */,
+			);
+			path = libPNG;
+			sourceTree = "<group>";
+		};
+		A6C56C4D18A2AA5000DFAA00 /* visupng */ = {
+			isa = PBXGroup;
+			children = (
+				A6C56C4E18A2AA5000DFAA00 /* cexcept.h */,
+			);
+			path = visupng;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -316,18 +402,34 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6C56C5918A2AA5000DFAA00 /* pngtrans.c in Sources */,
+				A6C56C5218A2AA5000DFAA00 /* pngmem.c in Sources */,
 				A6C56AA318A106F000DFAA00 /* basic.vsh in Sources */,
+				A6C56C5718A2AA5000DFAA00 /* pngrutil.c in Sources */,
 				A6C56A28189FC8DF00DFAA00 /* AppDelegate.m in Sources */,
+				A6C56C5B18A2AA5000DFAA00 /* pngwio.c in Sources */,
 				A6C56C2E18A139EB00DFAA00 /* Vector3.cpp in Sources */,
+				A6C56C5818A2AA5000DFAA00 /* pngset.c in Sources */,
+				A6C56C5318A2AA5000DFAA00 /* pngpread.c in Sources */,
+				A6C56C5018A2AA5000DFAA00 /* pngerror.c in Sources */,
 				A6C56C2A18A139EB00DFAA00 /* Matrix44.cpp in Sources */,
+				A6C56C5E18A2AA5000DFAA00 /* pngwutil.c in Sources */,
 				A6C56C2D18A139EB00DFAA00 /* Vector2.cpp in Sources */,
+				A6C56C5518A2AA5000DFAA00 /* pngrio.c in Sources */,
 				A6C56A21189FC8DF00DFAA00 /* main.m in Sources */,
+				A6C56C5618A2AA5000DFAA00 /* pngrtran.c in Sources */,
 				A6C56C2918A139EB00DFAA00 /* Matrix33.cpp in Sources */,
+				A6C56C5D18A2AA5000DFAA00 /* pngwtran.c in Sources */,
+				A6C56C4F18A2AA5000DFAA00 /* png.c in Sources */,
 				A6C56A5218A102DD00DFAA00 /* Quantize.cpp in Sources */,
+				A6C56C5C18A2AA5000DFAA00 /* pngwrite.c in Sources */,
 				A6C56C2F18A139EB00DFAA00 /* Vector4.cpp in Sources */,
+				A6C56C5A18A2AA5000DFAA00 /* pngvalid.c in Sources */,
+				A6C56C5418A2AA5000DFAA00 /* pngread.c in Sources */,
 				A6C56C2818A139EB00DFAA00 /* Intersections.cpp in Sources */,
 				A6C56A4A189FCA0E00DFAA00 /* GLView.mm in Sources */,
 				A6C56C2718A139EB00DFAA00 /* Frmath.cpp in Sources */,
+				A6C56C5118A2AA5000DFAA00 /* pngget.c in Sources */,
 				A6C56AA218A106F000DFAA00 /* basic.fsh in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

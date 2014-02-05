@@ -16,6 +16,7 @@
 #include "Tools.h"
 #include "Parser.h"
 #include "Model.h"
+#include "Textures.h"
 
 using namespace Furiosity;
 using std::string;
@@ -128,8 +129,12 @@ public:
         //model->upload();
         
         for(Model* model : Parser::FromFile("models/tiger2.obj")) {
+            model->texture = Textures::LoadPNG("models/body_1.png");
             model->upload();
             models.push_back(model);
+            
+            
+            
         }
     };
     
