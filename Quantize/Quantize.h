@@ -35,7 +35,6 @@ public:
     
     Matrix44 _projection;
     
-    float foo;
     
     Vector2 mouse;
 
@@ -44,20 +43,11 @@ public:
         , model(nullptr)
         , width(200)
         , height(100)
-        , foo(0)
         , _attrPosition(0)
         , _attrNormal(0)
         , _uniformCamera(0)
         , _uniformTransform(0)
         {
-
-        _projection.SetIndentity();
-        
-        //_projection = Matrix44::CreatePerspective(1, 1, 0, 1000000);
-        
-        //_projection.SetScale(Vector3(
-        //    0.5, 1, 1
-        //));
     }
     
     void onScroll(const Vector2& delta) {
@@ -79,15 +69,29 @@ public:
         
         printf("Window size: %d by %d\n", (int)width, (int)height);
         
-        //glEnable(GL_DEPTH_TEST);
+        glEnable(GL_DEPTH_TEST);
         
+        // Hide faces not facing us.
         glEnable(GL_CULL_FACE);
        
-        // Map GPU coordinates to screen.
+        // OpenGL space is normalized to [-1,1] for each dimension.
+        // Setting this view port will create an affine mapping from
+        // screen to opengl. TODO: let the projection matrix handle
+        // this?
         glViewport(0, 0, width, height);
         
+        // Usual perspective matrix
+        _projection = Matrix44::CreatePerspective(
+            3.14159268/2.0f,      // Field of view
+            width/height,         // Aspect ratio
+            0.01f,                // near
+            1000.0f               // far
+        );
+        
+        // Programs contain shaders.
         _program = glCreateProgram();
 
+        // Prepare all shaders. These will exit on failure.
         GLuint vsh = CompileShader("shaders/basic.vsh");
         GLuint fsh = CompileShader("shaders/basic.fsh");
         
@@ -110,18 +114,21 @@ public:
         _uniformTransform = glGetUniformLocation(_program, "transform");
         GLError();
 
-
+        // Remove the shaders, they are compiled and no longer required.
         glDetachShader(_program, vsh);
         glDeleteShader(vsh);
         glDetachShader(_program, fsh);
         glDeleteShader(fsh);
         
+        // A mesh wrapper
         model = new Model();
     };
     
     
+    /// Render a model.
+    ///
+    /// @param A model to render.
     void render(Model& model) {
-        GLError();
         
         // Set the view projection, once. This is shard among all models.
         glUniformMatrix4fv(_uniformTransform,  // Location
@@ -173,10 +180,11 @@ public:
         glEnableVertexAttribArray(_attrColor);
         GLError();
         
-        // Bind vertex index buffer:
+        // Bind vertex index buffer.
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model.vbo[1]);
         GLError();
         
+        //
         glDrawElements(
             GL_TRIANGLES,                     // GL primitive type
             (GLsizei) model.indices.size(),   // How many indices to draw
@@ -185,75 +193,47 @@ public:
         );
         GLError();
         
-        // Disable attributes, we've never done this before. Doing this makes sure
-        // some global state doesn't leak into the next set of gl calls.
+        // Disable attributes. Doing this makes sure some global state
+        // doesn't leak into the next set of gl calls.
         glDisableVertexAttribArray(_attrPosition);
+        glDisableVertexAttribArray(_attrColor);
         GLError();
 
-        // Unbind buffers:
+        // Unbind buffers.
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         GLError();
     }
     
+    /// Entry point for the update and draw loops.
+    /// @param Time elapsed since previous call to update.
     void update(float dt) {
         glClearColor(0, 0, 0, 0);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
-        foo += 0.01;
-        
-       /*
-       
-           // Update camera
-            float d = GameplaySettings::CameraDistance;
-            Matrix44 frView = Matrix44::CreateTranslation(0.0f, 0.0f, -d);
-            Matrix44 rotView = gInputManager.Orientation();
-            Matrix44 viewFix = Matrix44::CreateRotateX(HalfPi);
-            //
-            rotView.Transpose();
-            frView = frView * rotView * viewFix;
-            camera.SetView(frView);
-            
-            //KEEP UPDATING FoV, ASPECT RATIO
-            float aspect = fabsf(gGeneralManager.ScreenWidth() / gGeneralManager.ScreenHeight());
-            Matrix44 frProj = Matrix44::CreatePerspective(DegToRad(GameplaySettings::FieldOfView), aspect * GameplaySettings::AspectRatio, 0.1f, 100.0f);
-            camera.SetProjection(frProj);
-       
-       */
-               //projection.SetIndentity();
-        
-        Matrix44 translation  = Matrix44::CreateTranslation(0, 0, -10);
-       // Matrix44 rotation     = Matrix44::CreateRotateY(mouse.x/100.0f);
-
-       
-         
-        Matrix44 projection = Matrix44::CreatePerspective(
-            3.14159268/2.0f,      // Field of view
-            width/height,         // Aspect ratio
-            0.01f,                // near
-            1000.0f               // far
-        );                        // where ever you ware
-        
+        // Camera position.
         Matrix44 transform =
             Matrix44::CreateTranslation(0, 0, -mouse.y/100.0f)
-            *
-            Matrix44::CreateRotateY(mouse.x/100.0f)
+            * Matrix44::CreateRotateY(mouse.x/100.0f)
             * Matrix44::CreateRotateX(1.34f)
         
         ;
         
-        transform = projection * transform;
+        // Pre-multiply all projection related matrices. These are constant
+        // terms.
+        Matrix44 projection = _projection * transform;
         
         // Shader activate!
         glUseProgram(_program);
 
-                
+        // Update the uniform.
         glUniformMatrix4fv(_uniformCamera,  // Location
                             1,              // Amount of matrices
                             false,          // Require transpose
-                            transform.f   // Float array with values
+                            projection.f   // Float array with values
         );
 
+        // Render calls. TODO: some array structure for multiple models.
         render(*model);
 
         // Run draw calls.
