@@ -83,7 +83,7 @@ struct Parser {
                     
                 } else if(key == "vt") {
                     // Neglecting any optional 3rd component.
-                    uvs.push_back(Vector2(::atof(chunks[1].c_str()), ::atof(chunks[2].c_str())));
+                    uvs.push_back(Vector2(::atof(chunks[1].c_str()), 1-::atof(chunks[2].c_str())));
                 
                 } else if(key == "v") {
                     vertices.push_back(Vector3(::atof(chunks[1].c_str()), ::atof(chunks[2].c_str()), ::atof(chunks[3].c_str())));
