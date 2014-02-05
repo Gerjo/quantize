@@ -55,7 +55,7 @@ struct Textures {
         ::fclose(fp);
     
         
-        GLint internalFormat;
+        GLint internalFormat = 0;
         
         // Available PNG formats:
         switch (color_type) {

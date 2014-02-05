@@ -89,7 +89,7 @@ public:
     }
     
     void loadCube() {
-        
+        Exit("No longer works without textures.");
         transform.SetIndentity();
         
         /*vertices.push_back(VertexData(Vector3(1, 0, 0)));

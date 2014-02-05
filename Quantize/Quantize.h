@@ -75,6 +75,7 @@ public:
         
         printf("Window size: %d by %d\n", (int)width, (int)height);
         
+        // Let open GL deal with the z-index and order of rendering.
         glEnable(GL_DEPTH_TEST);
         
         // Hide faces not facing us.
@@ -156,7 +157,7 @@ public:
         glUniform1i(_uniformSampler_1, 0);              // Set the sampler to tex 0
         GLError();
         
-        // Set the view projection, once. This is shard among all models.
+        // Set the perspective projection, once. This is shared among all models.
         glUniformMatrix4fv(_uniformTransform,  // Location
                             1,                 // Amount of matrices
                             false,             // Require transpose
@@ -171,7 +172,7 @@ public:
         glVertexAttribPointer(_attrPosition,                       // The attribute in the shader.
                             3,                                     // Number of "fields", in this case 3 floats X, Y & Z.
                             GL_FLOAT,                              // Data type
-                            GL_FALSE,                              // Must these values be normalized? No tanks.
+                            GL_FALSE,                              // Must these values be normalized? No thanks.
                             sizeof(VertexData),                    // Size of each structure
                             (void*) offsetof(VertexData, position) // Offset
         );
@@ -180,12 +181,12 @@ public:
         glEnableVertexAttribArray(_attrPosition);
         GLError();
         
-        /*glVertexAttribPointer(_attrNormal,                   // The attribute in the shader.
-                            3,                               // Number of "fields", in this case 3 floats X, Y & Z.
-                            GL_FLOAT,                        // Data type
-                            GL_FALSE,                        // Must these values be normalized? No tanks.
-                            sizeof(VertexData),              // Size of each structure
-                            (void*) sizeof(Vector3)          // Offset
+        /*glVertexAttribPointer(_attrNormal,                       // The attribute in the shader.
+                            3,                                   // Number of "fields", in this case 3 floats X, Y & Z.
+                            GL_FLOAT,                            // Data type
+                            GL_FALSE,                            // Must these values be normalized? No thanks.
+                            sizeof(VertexData),                  // Size of each structure
+                            (void*) offsetof(VertexData, normal) // Offset
         );
         GLError();
         
@@ -194,7 +195,7 @@ public:
         
         
         
-         glVertexAttribPointer(_attrColor,                      // The attribute in the shader.
+        glVertexAttribPointer(_attrColor,                      // The attribute in the shader.
                             4,                                  // Number of "fields", in this case 4: RGBA
                             GL_UNSIGNED_BYTE,                   // Data type
                             GL_TRUE,                            // Must these values be normalized? ja bitte
@@ -251,7 +252,7 @@ public:
         
         // Camera position.
         Matrix44 transform =
-            Matrix44::CreateTranslation(0, 0, -5)
+            Matrix44::CreateTranslation(-2, -2, -5)
             * Matrix44::CreateRotateY(mouse.x/100.0f)
             * Matrix44::CreateRotateX(mouse.y/100.0f)
         
