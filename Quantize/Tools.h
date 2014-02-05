@@ -16,6 +16,7 @@
 #include <stdarg.h>
 #include <cstdio>
 #include <cassert>
+#include <vector>
 
 static std::string ReadFile(const std::string& filename) {
     std::ifstream t(filename.c_str());
@@ -59,6 +60,52 @@ static bool StringEndsWith(const std::string& subject,
         suffix.length(),
         suffix
     ) == 0;
+}
+
+static bool StringStartsWith(const std::string& subject,
+                                 const std::string& prefix)
+{
+    // Early out, prefix is longer than the subject:
+    if(prefix.length() > subject.length())
+    {
+        return false;
+    }
+    
+    // Compare per character:
+    for(int i = 0; i < prefix.length(); ++i)
+    {
+        if(subject[i] != prefix[i])
+        {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+static std::vector<std::string> StringExplode(const std::string& subject,
+                                                  const std::string& delimiter)
+{
+    std::vector<std::string> result;
+    
+    size_t offset = 0;
+    
+    for(size_t at = 0; (at = subject.find_first_of(delimiter, offset)) != std::string::npos; )
+    {
+        const std::string str = subject.substr(offset, at - offset);
+
+        result.push_back(str);
+        
+        offset += str.length() + delimiter.length();
+    }
+    
+    // There may be remnants:
+    if(offset < subject.length())
+    {
+        result.push_back(subject.substr(offset));
+    }
+    
+    return result;
 }
 
 /// TODO: macro with __line__ etc.
