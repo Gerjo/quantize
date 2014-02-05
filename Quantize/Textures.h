@@ -108,17 +108,19 @@ struct Textures {
         GLError();
         
         printf(" done.\n");
-        
-        // Main reason why we use PNG. Random models from the internet come with
-        // random formats, and generating mipmaps may be non-trivial. This will
-        // always work :)
-        glGenerateMipmap(GL_TEXTURE_2D);
-        
+      
         GLenum error = glGetError();
     
         if (error != GL_NO_ERROR) {
             Exit("Error uploading PNG texture %s to GPU. glError: 0x%04X\n", filename.c_str(), error);
         }
+        
+          
+        // Main reason why we use PNG for this demo. Random models from the
+        // internet come with random formats, and generating mipmaps may be
+        // non-trivial. This will always work :)
+        glGenerateMipmap(GL_TEXTURE_2D);
+        
         
         // Data is on the GPU's RAM, release it from the CPU's RAM.
         ::free(data);
