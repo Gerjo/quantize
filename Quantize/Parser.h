@@ -104,6 +104,8 @@ struct Parser {
                             Exit("Some face index was out-of-bounds.");
                         }
                         
+                        //printf("%f %f\n", uvs[uvIndex - 1].x, uvs[uvIndex - 1].y);
+                        
                         VertexData face(
                             vertices[vertexIndex - 1],
                             Vector3(0, 0, 0),       // todo: normals?

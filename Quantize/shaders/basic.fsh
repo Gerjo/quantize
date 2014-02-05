@@ -7,7 +7,22 @@
 //
 
 varying vec4 fragmentColor;
+varying vec2 fragmentUV;
+
+uniform sampler2D sampler_1;
 
 void main() {
-    gl_FragColor = fragmentColor;//vec4(1.0, 0.0, 0.0, 1.0);
+    // Query the texture.
+    vec4 color = texture2D(sampler_1, fragmentUV);
+    
+    //color.a = 0.5;
+    
+    // Blend color.
+    //color *= fragmentColor;
+    
+    // TODO:
+    //  - super fancy fragment shading :o
+    
+    // Final pixel color.
+    gl_FragColor = color;//vec4(1, 0, 0, 0);//fragmentColor;
 }

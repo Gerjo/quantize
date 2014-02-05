@@ -27,9 +27,12 @@ public:
     GLuint _attrPosition;
     GLuint _attrNormal;
     GLuint _attrColor;
+    GLuint _attrUV;
+
     GLuint _uniformCamera;
     GLuint _uniformTransform;
-    
+    GLuint _uniformSampler_1;
+
     float width;
     float height;
     
@@ -113,8 +116,10 @@ public:
         _attrPosition     = glGetAttribLocation(_program, "position");
         _attrNormal       = glGetAttribLocation(_program, "normal");
         _attrColor        = glGetAttribLocation(_program, "color");
+        _attrUV           = glGetAttribLocation(_program, "uv");
         _uniformCamera    = glGetUniformLocation(_program, "camera");
         _uniformTransform = glGetUniformLocation(_program, "transform");
+        _uniformSampler_1 = glGetUniformLocation(_program, "sampler_1");
         GLError();
 
         // Remove the shaders, they are compiled and no longer required.
@@ -129,7 +134,8 @@ public:
         //model->upload();
         
         for(Model* model : Parser::FromFile("models/tiger2.obj")) {
-            model->texture = Textures::LoadPNG("models/body_1.png");
+            model->texture = Textures::LoadPNG("models/" + model->group + ".png");
+            //model->texture = Textures::LoadPNG("models/red.png");
             model->upload();
             models.push_back(model);
             
@@ -144,6 +150,12 @@ public:
     /// @param A model to render.
     void render(Model& model) {
         
+        // Texture enabling
+        glActiveTexture(GL_TEXTURE0);                   // Use texture 0
+        glBindTexture(GL_TEXTURE_2D, model.texture);    // Work with this texture
+        glUniform1i(_uniformSampler_1, 0);              // Set the sampler to tex 0
+        GLError();
+        
         // Set the view projection, once. This is shard among all models.
         glUniformMatrix4fv(_uniformTransform,  // Location
                             1,                 // Amount of matrices
@@ -156,12 +168,12 @@ public:
         glBindBuffer(GL_ARRAY_BUFFER, model.vbo[0]);
 
         
-        glVertexAttribPointer(_attrPosition,                 // The attribute in the shader.
-                            3,                               // Number of "fields", in this case 3 floats X, Y & Z.
-                            GL_FLOAT,                        // Data type
-                            GL_FALSE,                        // Must these values be normalized? No tanks.
-                            sizeof(VertexData),              // Size of each structure
-                            0                                // Offset
+        glVertexAttribPointer(_attrPosition,                       // The attribute in the shader.
+                            3,                                     // Number of "fields", in this case 3 floats X, Y & Z.
+                            GL_FLOAT,                              // Data type
+                            GL_FALSE,                              // Must these values be normalized? No tanks.
+                            sizeof(VertexData),                    // Size of each structure
+                            (void*) offsetof(VertexData, position) // Offset
         );
         GLError();
          
@@ -194,6 +206,18 @@ public:
         glEnableVertexAttribArray(_attrColor);
         GLError();
         
+        glVertexAttribPointer(_attrUV,                          // The attribute in the shader.
+                            2,                                  // Number of "fields", in this case 2: U & V
+                            GL_FLOAT,                           // Data type
+                            GL_FALSE,                           // Must these values be normalized? nein
+                            sizeof(VertexData),                 // Size of each structure
+                            (void*) offsetof(VertexData, uv)    // Offset
+        );
+        GLError();
+        
+        glEnableVertexAttribArray(_attrUV);
+        GLError();
+
         // Bind vertex index buffer.
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model.vbo[1]);
         GLError();
@@ -236,6 +260,9 @@ public:
         // Pre-multiply all projection related matrices. These are constant
         // terms.
         Matrix44 projection = _projection * transform;
+        
+        glEnable (GL_BLEND);
+        glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         
         // Shader activate!
         glUseProgram(_program);

@@ -23,7 +23,8 @@ struct VertexData {
     
     VertexData(Vector3 position,  Vector3 normal = Vector3(0, 0, 0), Vector2 uv = Vector2(1, 1))
         : position(position)
-        , normal(normal){
+        , normal(normal)
+        , uv(uv) {
             // codes
     }
     
