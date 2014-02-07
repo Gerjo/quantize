@@ -72,11 +72,6 @@ static bool isInitialized = false;
 - (void)prepareOpenGL {
     [[self window] setAcceptsMouseMovedEvents: YES];
     [[self window] makeFirstResponder:self];
-
-    ProcessSerialNumber psn;
-    GetCurrentProcess(&psn);
-    TransformProcessType(&psn, kProcessTransformToForegroundApplication);
-    SetFrontProcess(&psn);
     
     GLint swapInt = 1;
     [[self openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];

@@ -50,7 +50,7 @@ struct Textures {
         
         // Clean up after the read, and free any memory allocated
         png_destroy_read_struct(&png_ptr, &info_ptr, NULL /* png_infopp_NULL */);
-        
+
         // Close the file
         ::fclose(fp);
     
