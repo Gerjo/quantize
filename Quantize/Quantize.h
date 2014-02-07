@@ -23,38 +23,67 @@ using std::string;
 
 class Quantize {
 public:
-    GLuint _program;
+    /// Main shader program.
+    GLuint _programMesh;
+    
+    /// Shader attributes.
     GLuint _attrPosition;
     GLuint _attrNormal;
     GLuint _attrColor;
     GLuint _attrUV;
 
+    /// Shader uniforms.
     GLuint _uniformCamera;
     GLuint _uniformTransform;
     GLuint _uniformSampler_1;
 
+    /// Width width and height.
     float width;
     float height;
     
-    Model* model;
-    
+    /// Perspective projection.
     Matrix44 _projection;
     
-    Vector3 position;
-    
+    /// Mouse location.
     Vector2 mouse;
 
+    /// Collection of models to render.
     std::vector<Model*> models;
 
+    /// Framebuffer
+    GLuint fbo;
+    GLuint _fboTexture;
+    GLuint _renderBuffer;
+
+    /// Post processing shader
+    GLuint _programPost;
+    GLuint _attrUvFBO;
+    GLuint _uniformFboTexture;
+    GLuint _vboFboVertices;
+
     Quantize()
-        : _program(0)
+        : _programMesh(0)
         , width(200)
         , height(100)
         , _attrPosition(0)
         , _attrNormal(0)
+        , _attrColor(0)
+        , _attrUV(0)
         , _uniformCamera(0)
         , _uniformTransform(0)
+        , _uniformSampler_1(0)
         {
+    }
+    
+    ~Quantize() {
+        glDeleteRenderbuffers(1, &_renderBuffer);
+        glDeleteTextures(1, &_fboTexture);
+        glDeleteFramebuffers(1, &fbo);
+        
+        glDeleteProgram(_programPost);
+        glDeleteProgram(_programMesh);
+        
+        glDeleteBuffers(1, &_vboFboVertices);
     }
     
     void onScroll(const Vector2& delta) {
@@ -66,84 +95,173 @@ public:
     }
     
     void initialize(float width, float height) {
-        if(_program != 0) {
+        if(_programMesh != 0) {
             Exit("Program already initialized.");
         }
         
         this->width  = width;
         this->height = height;
         
-        printf("Window size: %d by %d\n", (int)width, (int)height);
-        
         // Let open GL deal with the z-index and order of rendering.
         glEnable(GL_DEPTH_TEST);
         
         // Hide faces not facing us.
         glEnable(GL_CULL_FACE);
-       
-        // OpenGL space is normalized to [-1,1] for each dimension.
-        // Setting this view port will create an affine mapping from
-        // screen to opengl. TODO: let the projection matrix handle
-        // this?
+        
+        // Enable alpha layers
+        glEnable (GL_BLEND);
+        
+        // Premultiplied alpha. (I think? I always confuse the two)
+        glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        
+        // Setup the mesh rendering shader programs
+        initializeMeshProgram();
+        
+        // Setup the FBO, RBO and related shaders.
+        initializePostProgram();
+        
+        // Affine coordinate transformation. We can do some scaling here,
+        // e.g., map [-1,1] to [0, screensize] - though it makes more sense
+        // to use a matrix (_projection) for that.
         glViewport(0, 0, width, height);
         
         // Usual perspective matrix
         _projection = Matrix44::CreatePerspective(
-            3.14159268/2.0f,      // Field of view
+            3.14159268/2.5f,      // Field of view
             width/height,         // Aspect ratio
             0.01f,                // near
             1000.0f               // far
         );
         
+
+        // Load some 3D model
+        for(Model* model : Parser::FromFile("models/tiger2.obj")) {
+            // Upload a texture to the GPU and retrieve the handle.
+            // TODO: more robust loading and texture pooling.
+            model->texture = Textures::LoadPNG("models/" + model->group + ".png");
+            
+            // Create VBO (upload stuff to the GPU)
+            model->upload();
+            
+            // Store internally
+            models.push_back(model);
+        }
+    };
+    
+    void initializeMeshProgram() {
         // Programs contain shaders.
-        _program = glCreateProgram();
+        _programMesh = glCreateProgram();
 
         // Prepare all shaders. These will exit on failure.
         GLuint vsh = CompileShader("shaders/basic.vsh");
         GLuint fsh = CompileShader("shaders/basic.fsh");
         
         // Attach vertex shader to program.
-        glAttachShader(_program, vsh);
+        glAttachShader(_programMesh, vsh);
         GLError();
         
         // Attach fragment shader to program.
-        glAttachShader(_program, fsh);
+        glAttachShader(_programMesh, fsh);
         GLError();
 
-        glLinkProgram(_program);
-        GLValidateProgram(_program);
+        glLinkProgram(_programMesh);
+        GLValidateProgram(_programMesh);
         
         // Get a handle to shader attributes
-        _attrPosition     = glGetAttribLocation(_program, "position");
-        _attrNormal       = glGetAttribLocation(_program, "normal");
-        _attrColor        = glGetAttribLocation(_program, "color");
-        _attrUV           = glGetAttribLocation(_program, "uv");
-        _uniformCamera    = glGetUniformLocation(_program, "camera");
-        _uniformTransform = glGetUniformLocation(_program, "transform");
-        _uniformSampler_1 = glGetUniformLocation(_program, "sampler_1");
+        _attrPosition     = glGetAttribLocation(_programMesh, "position");
+        _attrNormal       = glGetAttribLocation(_programMesh, "normal");
+        _attrColor        = glGetAttribLocation(_programMesh, "color");
+        _attrUV           = glGetAttribLocation(_programMesh, "uv");
+        _uniformCamera    = glGetUniformLocation(_programMesh, "camera");
+        _uniformTransform = glGetUniformLocation(_programMesh, "transform");
+        _uniformSampler_1 = glGetUniformLocation(_programMesh, "sampler_1");
         GLError();
 
         // Remove the shaders, they are compiled and no longer required.
-        glDetachShader(_program, vsh);
+        glDetachShader(_programMesh, vsh);
         glDeleteShader(vsh);
-        glDetachShader(_program, fsh);
+        glDetachShader(_programMesh, fsh);
         glDeleteShader(fsh);
+    }
+    
+    void initializePostProgram() {
+        // We render to a texture, so let's create a texture.
+        glActiveTexture(GL_TEXTURE0);
+        glGenTextures(1, &_fboTexture);
+        glBindTexture(GL_TEXTURE_2D, _fboTexture);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        GLError();
         
-        // A mesh wrapper
-        //model = new Model();
-        //model->loadCube();
-        //model->upload();
+        // Depth buffer  (Render Buffer Object)
+        glGenRenderbuffers(1, &_renderBuffer);
+        glBindRenderbuffer(GL_RENDERBUFFER, _renderBuffer);
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, width, height);
+        glBindRenderbuffer(GL_RENDERBUFFER, 0);
+        GLError();
         
-        for(Model* model : Parser::FromFile("models/tiger2.obj")) {
-            model->texture = Textures::LoadPNG("models/" + model->group + ".png");
-            //model->texture = Textures::LoadPNG("models/red.png");
-            model->upload();
-            models.push_back(model);
-            
-            
-            
+        // Framebuffer to link everything together
+        glGenFramebuffers(1, &fbo);
+        glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _fboTexture, 0);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _renderBuffer);
+        GLenum status;
+        if ((status = glCheckFramebufferStatus(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE) {
+            Exit("glCheckFramebufferStatus: error %p.", status);
         }
-    };
+      
+        // Disable buffer, for now.
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        
+        // Prepare all shaders. These will exit on failure.
+        GLuint postvsh = CompileShader("shaders/postp.vsh");
+        GLuint postfsh = CompileShader("shaders/postp.fsh");
+        
+        GLint link_ok = 0;
+        GLint validate_ok = 0;
+        
+        _programPost = glCreateProgram();
+        glAttachShader(_programPost, postvsh);
+        glAttachShader(_programPost, postfsh);
+        glLinkProgram(_programPost);
+        glGetProgramiv(_programPost, GL_LINK_STATUS, &link_ok);
+        
+        if ( ! link_ok) {
+            Exit("Linking failed.");
+        }
+        
+        glValidateProgram(_programPost);
+        glGetProgramiv(_programPost, GL_VALIDATE_STATUS, &validate_ok);
+        GLValidateProgram(_programPost);
+
+        // Get a handle to the variables in the shader programs
+        _attrUvFBO         = glGetAttribLocation(_programPost, "position");
+        _uniformFboTexture = glGetUniformLocation(_programPost, "texture");
+        GLError();
+        
+        // The rectangle used to render onto, the UVs are derived from this.
+        GLfloat fbo_vertices[] = {
+            -1, -1,
+             1, -1,
+            -1,  1,
+             1,  1,
+        };
+        
+        glGenBuffers(1, &_vboFboVertices);
+        glBindBuffer(GL_ARRAY_BUFFER, _vboFboVertices);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(fbo_vertices), fbo_vertices, GL_STATIC_DRAW);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        
+        // Cleanup
+        glDetachShader(_programPost, postvsh);
+        glDeleteShader(postvsh);
+        glDetachShader(_programPost, postfsh);
+        glDeleteShader(postfsh);
+    }
     
     
     /// Render a model.
@@ -247,26 +365,28 @@ public:
     /// Entry point for the update and draw loops.
     /// @param Time elapsed since previous call to update.
     void update(float dt) {
+    
+        // Enable framebuffer render target
+        glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+        GLFBError();
+        
         glClearColor(0, 0, 0, 0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
-        // Camera position.
+        // Camera position (insert FPS code here).
         Matrix44 transform =
             Matrix44::CreateTranslation(-2, -2, -5)
             * Matrix44::CreateRotateY(mouse.x/100.0f)
             * Matrix44::CreateRotateX(mouse.y/100.0f)
-        
         ;
         
         // Pre-multiply all projection related matrices. These are constant
         // terms.
         Matrix44 projection = _projection * transform;
         
-        glEnable (GL_BLEND);
-        glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         
         // Shader activate!
-        glUseProgram(_program);
+        glUseProgram(_programMesh);
 
         // Update the uniform.
         glUniformMatrix4fv(_uniformCamera,  // Location
@@ -278,6 +398,34 @@ public:
         for(Model* model : models) {
             render(*model);
         }
+
+        // Stop rendering to buffer.
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        GLFBError();
+
+
+        glClearColor(1.0, 0.0, 0.0, 1.0);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        glUseProgram(_programPost);
+        
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, _fboTexture);
+        glUniform1i(_uniformFboTexture, 0);
+        glEnableVertexAttribArray(_attrUvFBO);
+        GLError();
+        
+        glBindBuffer(GL_ARRAY_BUFFER, _vboFboVertices);
+        glVertexAttribPointer(
+                _attrUvFBO,  // attribute
+                2,                           // number of elements per vertex, here (x,y)
+                GL_FLOAT,                    // the type of each element
+                GL_FALSE,                    // take our values as-is
+                0,                           // no extra data between each position
+                0                            // offset of first element
+        );
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glDisableVertexAttribArray(_attrUvFBO);
 
         // Run draw calls.
         //glFlush();

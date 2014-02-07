@@ -144,6 +144,37 @@ static void GLError() {
     }
 }
 
+static void GLFBError() {
+    GLenum framebufferStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+
+    switch (framebufferStatus) {
+        case GL_FRAMEBUFFER_COMPLETE: break;
+        case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
+            Exit("Framebuffer Object Error: Attachment Point Unconnected");
+            break;
+        case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
+            Exit("Framebuffer Object Error: Missing Attachment");
+            break;
+        case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT:
+            Exit("Framebuffer Object Error: Dimensions do not match");
+            break;
+        case GL_FRAMEBUFFER_INCOMPLETE_FORMATS_EXT:
+            Exit("Framebuffer Object Error: Formats");
+            break;
+        case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER:
+            Exit("Framebuffer Object Error: Draw Buffer");
+            break;
+        case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER:
+            Exit("Framebuffer Object Error: Read Buffer");
+            break;
+        case GL_FRAMEBUFFER_UNSUPPORTED:
+            Exit("Framebuffer Object Error: Unsupported Framebuffer Configuration");
+            break;
+        default:
+            Exit("Framebuffer Object Error: Unkown Framebuffer Object Failure");
+            break;
+    }
+}
 
 static GLuint CompileShader(const std::string& filename) {
     if(FileExists(filename)) {

@@ -47,6 +47,8 @@
 		A6C56C5E18A2AA5000DFAA00 /* pngwutil.c in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C4C18A2AA5000DFAA00 /* pngwutil.c */; };
 		A6C56C6018A2ABB400DFAA00 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C56C5F18A2ABB400DFAA00 /* libz.dylib */; };
 		A6C56C6918A58C4D00DFAA00 /* tinyxml2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C6218A58C4D00DFAA00 /* tinyxml2.cpp */; };
+		A6C56C6F18A5924E00DFAA00 /* postp.vsh in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C6D18A5924E00DFAA00 /* postp.vsh */; };
+		A6C56C7018A5924E00DFAA00 /* postp.fsh in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C6E18A5924E00DFAA00 /* postp.fsh */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -130,6 +132,8 @@
 		A6C56C6218A58C4D00DFAA00 /* tinyxml2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxml2.cpp; sourceTree = "<group>"; };
 		A6C56C6318A58C4D00DFAA00 /* tinyxml2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tinyxml2.h; sourceTree = "<group>"; };
 		A6C56C6418A58C4D00DFAA00 /* Xml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Xml.h; sourceTree = "<group>"; };
+		A6C56C6D18A5924E00DFAA00 /* postp.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = postp.vsh; sourceTree = "<group>"; };
+		A6C56C6E18A5924E00DFAA00 /* postp.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = postp.fsh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -244,6 +248,8 @@
 		A6C56A9F18A106F000DFAA00 /* shaders */ = {
 			isa = PBXGroup;
 			children = (
+				A6C56C6D18A5924E00DFAA00 /* postp.vsh */,
+				A6C56C6E18A5924E00DFAA00 /* postp.fsh */,
 				A6C56AA018A106F000DFAA00 /* basic.fsh */,
 				A6C56AA118A106F000DFAA00 /* basic.vsh */,
 			);
@@ -430,6 +436,8 @@
 				A6C56C2A18A139EB00DFAA00 /* Matrix44.cpp in Sources */,
 				A6C56C5E18A2AA5000DFAA00 /* pngwutil.c in Sources */,
 				A6C56C2D18A139EB00DFAA00 /* Vector2.cpp in Sources */,
+				A6C56C6F18A5924E00DFAA00 /* postp.vsh in Sources */,
+				A6C56C7018A5924E00DFAA00 /* postp.fsh in Sources */,
 				A6C56C5518A2AA5000DFAA00 /* pngrio.c in Sources */,
 				A6C56A21189FC8DF00DFAA00 /* main.m in Sources */,
 				A6C56C5618A2AA5000DFAA00 /* pngrtran.c in Sources */,
