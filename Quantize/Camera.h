@@ -27,7 +27,6 @@ public:
     Vector2 mouse;
     Vector3 position = Vector3(-2, -2, -10);
     float roll;
-    Matrix44 orientation;
     
     Camera() {
         
@@ -37,8 +36,8 @@ public:
         Matrix44 _translation = Matrix44::CreateTranslation(position.x, position.y, position.z);
         Matrix44 _rotateX = Matrix44::CreateRotateX(-mouse.y / 100.0f);
         Matrix44 _rotateY = _rotateX * Matrix44::CreateRotateY(mouse.x / 100.0f);
-        orientation = _rotateY * _rotateX;
-        return orientation * _translation;
+        Matrix44 _rotation = _rotateY * _rotateX;
+        return _rotation * _translation;
         
         
         /*
@@ -54,7 +53,10 @@ public:
     
     void onScroll(const Vector2& delta) {
         Vector3 _translation = Vector3(0, 0, delta.y);
-        _translation = orientation * _translation;
+        Matrix44 _rotateX = Matrix44::CreateRotateX(mouse.y / 100.0f);
+        Matrix44 _rotateY = _rotateX * Matrix44::CreateRotateY(-mouse.x / 100.0f);
+        Matrix44 _rotation = _rotateY * _rotateX;
+        _translation = _rotation * _translation;
         position += _translation;
     }
     
