@@ -31,7 +31,7 @@ static bool isInitialized = false;
 
 
 - (void)mouseDown:(NSEvent *)theEvent {
-    printf("mousedown\n");
+    quantize->camera->onClick();
 }
 
 - (void)mouseMoved:(NSEvent *) event {
@@ -39,7 +39,7 @@ static bool isInitialized = false;
 
     Furiosity::Vector2 v(touchPosition.x, touchPosition.y);
     
-    quantize->onMove(v);
+    quantize->camera->onMove(v);
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent {
@@ -49,7 +49,8 @@ static bool isInitialized = false;
 
 - (void) scrollWheel: (NSEvent*) event {
     Furiosity::Vector2 v([event deltaX], [event deltaY]);
-    quantize->onScroll(v);
+    
+    quantize->camera->onScroll(v);
 }
 
 /*- (void)mouseDown:(NSEvent *)theEvent;
