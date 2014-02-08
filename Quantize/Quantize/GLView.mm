@@ -53,6 +53,32 @@ static bool isInitialized = false;
     quantize->camera->onScroll(v);
 }
 
+- (void)keyDown:(NSEvent *)theEvent {
+    if ([theEvent modifierFlags]) {
+        NSString *theKey = [theEvent charactersIgnoringModifiers];
+        unichar keyChar = 0;
+        if ( [theKey length] == 0 )
+            return;
+        if ( [theKey length] == 1 ) {
+            keyChar = [theKey characterAtIndex:0];
+            switch (keyChar) {
+                case 'w':
+                    quantize->camera->onW();
+                    break;
+                case 'a':
+                    quantize->camera->onA();
+                    break;
+                case 's':
+                    quantize->camera->onS();
+                    break;
+                case 'd':
+                    quantize->camera->onD();
+                    break;
+            }
+        }
+    }
+}
+
 /*- (void)mouseDown:(NSEvent *)theEvent;
 - (void)rightMouseDown:(NSEvent *)theEvent;
 - (void)otherMouseDown:(NSEvent *)theEvent;

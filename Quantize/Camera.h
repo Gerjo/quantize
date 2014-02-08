@@ -34,8 +34,8 @@ public:
     
     Matrix44 transform() {
         Matrix44 _translation = Matrix44::CreateTranslation(position.x, position.y, position.z);
-        Matrix44 _rotateX = Matrix44::CreateRotateX(-mouse.y / 100.0f);
-        Matrix44 _rotateY = _rotateX * Matrix44::CreateRotateY(mouse.x / 100.0f);
+        Matrix44 _rotateX = Matrix44::CreateRotateX(-mouse.y / 200.0f);
+        Matrix44 _rotateY = _rotateX * Matrix44::CreateRotateY(mouse.x / 200.0f);
         Matrix44 _rotation = _rotateY * _rotateX;
         return _rotation * _translation;
         
@@ -47,20 +47,48 @@ public:
          */
     }
     
-    void onMove(const Vector2& location) {
-        mouse = location;
-    }
-    
-    void onScroll(const Vector2& delta) {
-        Vector3 _translation = Vector3(0, 0, delta.y);
+    void move(const Vector3& translation) {
         Matrix44 _rotateX = Matrix44::CreateRotateX(mouse.y / 100.0f);
         Matrix44 _rotateY = _rotateX * Matrix44::CreateRotateY(-mouse.x / 100.0f);
         Matrix44 _rotation = _rotateY * _rotateX;
-        _translation = _rotation * _translation;
+        Vector3 _translation = _rotation * translation;
         position += _translation;
     }
     
-    void onClick() {
+    void onMove(const Vector2& location) {
+        Vector2 _offset = Vector2(350.0f, 250.0f);
+        mouse = location - _offset;
+    }
+    
+    void onW() {
+        move(Vector3(0, 0, 1));
+    }
+    
+    void onA() {
+        move(Vector3(1, 0, 0));
+    }
+    
+    void onS() {
+        move(Vector3(0, 0, -1));
+    }
+    
+    void onD() {
+        move(Vector3(-1, 0, 0));
+    }
+    
+    void onQ() {
         
+    }
+    
+    void onE() {
+        
+    }
+    
+    void onScroll(const Vector2& delta) {
+        move(Vector3(0, 0, delta.y));
+    }
+    
+    void onClick() {
+        printf("%.2f %.2f \n", mouse.x, mouse.y);
     }
 };
