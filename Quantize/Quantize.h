@@ -136,6 +136,7 @@ public:
 
         // Load some 3D model
         for(Model* model : Parser::FromFile("models/tiger2.obj")) {
+        //for(Model* model : Parser::FromFile("models/IS.obj")) {
         //for(Model* model : Parser::FromFile("models/cube.obj")) {
             // Upload a texture to the GPU and retrieve the handle.
             // TODO: more robust loading and texture pooling.
@@ -384,7 +385,6 @@ public:
         // Pre-multiply all projection related matrices. These are constant
         // terms.
         Matrix44 projection = _projection * transform;
-        
         
         // Shader activate!
         glUseProgram(_programMesh);

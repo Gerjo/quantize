@@ -65,7 +65,7 @@ struct Parser {
             if( ! chunks.empty()) {
                 const string& key = chunks[0];
                 
-                if(key == "g") {
+                if(key == "g" || key == "o") {
                     //printf("Creating new model for: %s\n", chunks[1].c_str());
                     
                     // Encountered a new group, only create a new model if the
@@ -80,6 +80,9 @@ struct Parser {
 
                 } else if(StringStartsWith(key, "#")) {
                     // Sourcecode comment.
+                    
+                } else if(key == "s") {
+                    // Smooth shading on or off.
                     
                 } else if(key == "mtllib") {
                     // Material file to use.
