@@ -74,8 +74,12 @@ static bool isInitialized = false;
                 case 'd':
                     quantize->camera->onD();
                     break;
+                case 'q':
+                    exit(0);
+                    break;
             }
         }
+        
     }
 }
 
