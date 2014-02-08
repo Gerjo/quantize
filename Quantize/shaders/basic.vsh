@@ -29,9 +29,12 @@ void main() {
     vec4 normal4 = camera * transform * vec4(normal, 1.0);
     
     float intensity = dot(light, normal4);
-    
-    intensity = min(1.6, intensity);
-    intensity = max(0.5, intensity);
+
+    intensity = clamp(
+        intensity,
+        0.5,        // Not too dark (minimal light)
+        1.6         // Not too light (maximal light)
+    );
     
     fragmentColor = vec4(intensity, intensity, intensity, 1);
     
