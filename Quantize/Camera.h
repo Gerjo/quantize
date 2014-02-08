@@ -34,25 +34,19 @@ public:
     
     Matrix44 transform() {
         Matrix44 _translation = Matrix44::CreateTranslation(position.x, position.y, position.z);
-        Matrix44 _rotateX = Matrix44::CreateRotateX(-mouse.y / 200.0f);
-        Matrix44 _rotateY = _rotateX * Matrix44::CreateRotateY(mouse.x / 200.0f);
-        Matrix44 _rotation = _rotateY * _rotateX;
+        Matrix44 _rotation = computeRotation(-1, 1);
         return _rotation * _translation;
-        
-        
-        /*
-        Matrix44::CreateRotateY(mouse.x/100.0f)
-        * Matrix44::CreateRotateX(mouse.y/100.0f)
-        * Matrix44::CreateTranslation(-2, -2, -5)
-         */
     }
     
-    void move(const Vector3& translation) {
-        Matrix44 _rotateX = Matrix44::CreateRotateX(mouse.y / 200.0f);
-        Matrix44 _rotateY = _rotateX * Matrix44::CreateRotateY(-mouse.x / 200.0f);
-        Matrix44 _rotation = _rotateY * _rotateX;
-        Vector3 _translation = _rotation * translation;
-        position += _translation;
+    Vector3 orientedTranslation(const Vector3& translation) {
+        Matrix44 _rotation = computeRotation(1, -1);
+        return _rotation * translation;
+    }
+    
+    Matrix44 computeRotation(int signX, int signY) {
+        Matrix44 _rotateX = Matrix44::CreateRotateX(signX * mouse.y / 200.0f);
+        Matrix44 _rotateY = _rotateX * Matrix44::CreateRotateY(signY * mouse.x / 200.0f);
+        return _rotateY * _rotateX;
     }
     
     void onMove(const Vector2& location) {
@@ -60,32 +54,32 @@ public:
         mouse = location - _offset;
     }
     
-    void onW() {
-        move(Vector3(0, 0, 1));
+    void onW() { //Move Forward
+        position += orientedTranslation(Vector3(0, 0, 1));
     }
     
-    void onA() {
-        move(Vector3(1, 0, 0));
+    void onA() { //Move Left
+        position += orientedTranslation(Vector3(1, 0, 0));
     }
     
-    void onS() {
-        move(Vector3(0, 0, -1));
+    void onS() { //Move Right
+        position += orientedTranslation(Vector3(0, 0, -1));
     }
     
-    void onD() {
-        move(Vector3(-1, 0, 0));
+    void onD() { //Move Back
+        position += orientedTranslation(Vector3(-1, 0, 0));
     }
     
-    void onQ() {
+    void onQ() { //Roll CCW
         
     }
     
-    void onE() {
+    void onE() { //Roll CW
         
     }
     
     void onScroll(const Vector2& delta) {
-        move(Vector3(0, 0, delta.y));
+        position += orientedTranslation(Vector3(0, 0, delta.y));
     }
     
     void onClick() {
