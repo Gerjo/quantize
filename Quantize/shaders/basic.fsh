@@ -23,5 +23,5 @@ void main() {
     //  - super fancy fragment shading :o
     
     // Final pixel color.
-    gl_FragColor = color;//vec4(1, 0, 0, 0);//fragmentColor;
+    gl_FragColor = color * fragmentColor;
 }

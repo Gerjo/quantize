@@ -106,7 +106,7 @@ public:
         glEnable(GL_DEPTH_TEST);
         
         // Hide faces not facing us.
-        glEnable(GL_CULL_FACE);
+        //glEnable(GL_CULL_FACE);
         
         // Enable alpha layers
         glEnable (GL_BLEND);
@@ -300,7 +300,7 @@ public:
         glEnableVertexAttribArray(_attrPosition);
         GLError();
         
-        /*glVertexAttribPointer(_attrNormal,                       // The attribute in the shader.
+        glVertexAttribPointer(_attrNormal,                       // The attribute in the shader.
                             3,                                   // Number of "fields", in this case 3 floats X, Y & Z.
                             GL_FLOAT,                            // Data type
                             GL_FALSE,                            // Must these values be normalized? No thanks.
@@ -310,7 +310,7 @@ public:
         GLError();
         
         glEnableVertexAttribArray(_attrNormal);
-        GLError();*/
+        GLError();
         
         
         
