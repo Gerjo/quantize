@@ -25,7 +25,7 @@ void main() {
     
     tmp = color;
     
-    vec4 light = vec4(10.0, 10.0, 10.0, 1.0);
+    vec4 light = vec4(10.0, 15.0, 10.0, 1.0);
     vec4 normal4 = camera * transform * vec4(normal, 1.0);
     
     float intensity = dot(light, normal4);

@@ -135,8 +135,8 @@ public:
         
 
         // Load some 3D model
-        //for(Model* model : Parser::FromFile("models/tiger2.obj")) {
-        for(Model* model : Parser::FromFile("models/cube.obj")) {
+        for(Model* model : Parser::FromFile("models/tiger2.obj")) {
+        //for(Model* model : Parser::FromFile("models/cube.obj")) {
             // Upload a texture to the GPU and retrieve the handle.
             // TODO: more robust loading and texture pooling.
             model->texture = Textures::LoadPNG("models/" + model->group + ".png");
@@ -376,7 +376,7 @@ public:
         
         // Camera position (insert FPS code here).
         Matrix44 transform =
-            Matrix44::CreateTranslation(-2, -2, -5)
+            Matrix44::CreateTranslation(-2, -2, -6)
             * Matrix44::CreateRotateY(mouse.x/100.0f)
             * Matrix44::CreateRotateX(mouse.y/100.0f)
         ;

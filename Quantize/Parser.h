@@ -104,9 +104,11 @@ struct Parser {
                     vertices.push_back(Vector3(::atof(chunks[1].c_str()), ::atof(chunks[2].c_str()), ::atof(chunks[3].c_str())));
                
                 } else if(key == "f") {
-                
+                    const size_t startSize = model->vertices.size();
+                    
                     for(size_t i = 1; i < chunks.size(); ++i) {
                         auto nums = StringExplode(chunks[i], "/");
+                        
                         
                         // Some files have loads of empty spaces. Ignore those.
                         if( ! nums.empty()) {
@@ -116,8 +118,8 @@ struct Parser {
                             }
                             
                             int vertexIndex = atoi(nums[0].c_str());
-                            int uvIndex     = atoi(nums[1].c_str());
-                            int normalIndex = atoi(nums[2].c_str());
+                            int uvIndex     = nums.size() > 1 ? atoi(nums[1].c_str()) : 0;
+                            int normalIndex = nums.size() > 2 ? atoi(nums[2].c_str()) : 0;
                             
                             if(vertexIndex <= 0 || vertexIndex > vertices.size()) {
                                 Exit("Face vertex index out-of-bounds.");
@@ -135,7 +137,23 @@ struct Parser {
                             model->vertices.push_back(face);
                         }
                     }
-               
+                    
+                    if(model->vertices.size() - startSize != 3) {
+                        Exit("The face is not a triangle, i.e., does not use 3 coordinates.");
+                    }
+                    
+                    // Get two linearly independent directions.
+                    Vector3 directionA = model->vertices[startSize].position - model->vertices[startSize + 1].position;
+                    Vector3 directionB = model->vertices[startSize].position - model->vertices[startSize + 2].position;
+                    
+                    Vector3 normal = directionA.Cross(directionB);
+                    normal.Normalize();
+                    
+                    for(size_t i = startSize; i < model->vertices.size(); ++i) {
+                        model->vertices[i].normal = normal;
+                    }
+                    
+                    
                 } else {
                     printf("%s\n", line.c_str());
                     Exit("Unknown .obj key: %s", key.c_str());
