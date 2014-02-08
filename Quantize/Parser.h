@@ -36,11 +36,13 @@ struct Parser {
         }
     
         // Using a deque to avoid resizing.
-        std::deque<Vector3> vertices;
-        std::deque<Vector2> uvs;
-        
+        std::deque<Vector3> vertices;   vertices.push_back(Vector3(0, 0, 0));
+        std::deque<Vector2> uvs;        uvs.push_back(Vector2(0, 0));
+        std::deque<Vector3> normals;    normals.push_back(Vector3(0, 0, 0));
     
-        Model* model = nullptr;
+        Model* model = new Model();
+        models.push_back(model);
+
     
         // Parse per line.
         for(size_t linenumber = 0, run = 1, readOffset = 0; run; ++linenumber) {
@@ -66,16 +68,25 @@ struct Parser {
                 if(key == "g") {
                     //printf("Creating new model for: %s\n", chunks[1].c_str());
                     
-                    model = new Model();
+                    // Encountered a new group, only create a new model if the
+                    // current model is empty. There are cases were "usemtl"
+                    // comes before the group specification.
+                    if( ! model->vertices.empty()) {
+                        model = new Model();
+                        models.push_back(model);
+                    }
+                    
                     model->group = chunks[1];
 
-                    models.push_back(model);
-                    
-                } else if(key == "#") {
+                } else if(StringStartsWith(key, "#")) {
                     // Sourcecode comment.
                     
+                } else if(key == "mtllib") {
+                    // Material file to use.
+                    //model->material = chunks[1];
+                    
                 } else if(key == "usemtl") {
-                    //printf("Using material: %s\n", chunks[1].c_str());
+                    printf("Using material: %s\n", chunks[1].c_str());
                     
                     model->material = chunks[1];
 
@@ -83,7 +94,11 @@ struct Parser {
                     
                 } else if(key == "vt") {
                     // Neglecting any optional 3rd component.
+                    // Flipping the 2nd coordinate to match OpenGL's spec.
                     uvs.push_back(Vector2(::atof(chunks[1].c_str()), 1-::atof(chunks[2].c_str())));
+                
+                } else if(key == "vn") {
+                    normals.push_back(Vector3(::atof(chunks[1].c_str()), ::atof(chunks[2].c_str()), ::atof(chunks[3].c_str())));
                 
                 } else if(key == "v") {
                     vertices.push_back(Vector3(::atof(chunks[1].c_str()), ::atof(chunks[2].c_str()), ::atof(chunks[3].c_str())));
@@ -93,27 +108,32 @@ struct Parser {
                     for(size_t i = 1; i < chunks.size(); ++i) {
                         auto nums = StringExplode(chunks[i], "/");
                         
-                        if(nums.size() < 2) {
-                            Exit("Not enough face indices. We expect vertex and uv-mapping.");
+                        // Some files have loads of empty spaces. Ignore those.
+                        if( ! nums.empty()) {
+                        
+                            if(nums.size() < 2) {
+                                Exit("Not enough face indices. We expect vertex and uv-mapping.\nFound: %s.\n n:%lu", line.c_str(), nums.size());
+                            }
+                            
+                            int vertexIndex = atoi(nums[0].c_str());
+                            int uvIndex     = atoi(nums[1].c_str());
+                            int normalIndex = atoi(nums[2].c_str());
+                            
+                            if(vertexIndex <= 0 || vertexIndex > vertices.size()) {
+                                Exit("Face vertex index out-of-bounds.");
+                            }
+                            
+                            //printf("%f %f\n", uvs[uvIndex - 1].x, uvs[uvIndex - 1].y);
+                            
+                            VertexData face(
+                                vertices[vertexIndex],
+                                normals[normalIndex],
+                                uvs[uvIndex]
+                            );
+                            
+                            // Add to the current active model.
+                            model->vertices.push_back(face);
                         }
-                        
-                        int vertexIndex = atoi(nums[0].c_str());
-                        int uvIndex     = atoi(nums[1].c_str());
-                        
-                        if(vertexIndex <= 0 || uvIndex <= 0 || vertexIndex > vertices.size() || uvIndex > uvs.size()) {
-                            Exit("Some face index was out-of-bounds.");
-                        }
-                        
-                        //printf("%f %f\n", uvs[uvIndex - 1].x, uvs[uvIndex - 1].y);
-                        
-                        VertexData face(
-                            vertices[vertexIndex - 1],
-                            Vector3(0, 0, 0),       // todo: normals?
-                            uvs[uvIndex - 1]
-                        );
-                        
-                        // Add to the current active model.
-                        model->vertices.push_back(face);
                     }
                
                 } else {

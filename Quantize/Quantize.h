@@ -51,7 +51,7 @@ public:
     std::vector<Model*> models;
 
     /// Framebuffer
-    GLuint fbo;
+    GLuint _fbo;
     GLuint _fboTexture;
     GLuint _renderBuffer;
 
@@ -78,7 +78,7 @@ public:
     ~Quantize() {
         glDeleteRenderbuffers(1, &_renderBuffer);
         glDeleteTextures(1, &_fboTexture);
-        glDeleteFramebuffers(1, &fbo);
+        glDeleteFramebuffers(1, &_fbo);
         
         glDeleteProgram(_programPost);
         glDeleteProgram(_programMesh);
@@ -135,7 +135,8 @@ public:
         
 
         // Load some 3D model
-        for(Model* model : Parser::FromFile("models/tiger2.obj")) {
+        //for(Model* model : Parser::FromFile("models/tiger2.obj")) {
+        for(Model* model : Parser::FromFile("models/cube.obj")) {
             // Upload a texture to the GPU and retrieve the handle.
             // TODO: more robust loading and texture pooling.
             model->texture = Textures::LoadPNG("models/" + model->group + ".png");
@@ -205,8 +206,8 @@ public:
         GLError();
         
         // Framebuffer to link everything together
-        glGenFramebuffers(1, &fbo);
-        glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+        glGenFramebuffers(1, &_fbo);
+        glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _fboTexture, 0);
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _renderBuffer);
         GLenum status;
@@ -367,7 +368,7 @@ public:
     void update(float dt) {
     
         // Enable framebuffer render target
-        glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+        glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
         GLFBError();
         
         glClearColor(0, 0, 0, 0);
@@ -404,7 +405,7 @@ public:
         GLFBError();
 
 
-        glClearColor(1.0, 0.0, 0.0, 1.0);
+        glClearColor(0.541, 0.361, 0.361, 1.0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glUseProgram(_programPost);
@@ -431,5 +432,5 @@ public:
         //glFlush();
         glSwapAPPLE();
     }
-    
 };
+

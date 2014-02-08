@@ -104,7 +104,7 @@ static std::vector<std::string> StringExplode(const std::string& subject,
     {
         result.push_back(subject.substr(offset));
     }
-    
+        
     return result;
 }
 

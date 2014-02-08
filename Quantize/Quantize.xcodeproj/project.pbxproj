@@ -49,6 +49,14 @@
 		A6C56C6918A58C4D00DFAA00 /* tinyxml2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C6218A58C4D00DFAA00 /* tinyxml2.cpp */; };
 		A6C56C6F18A5924E00DFAA00 /* postp.vsh in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C6D18A5924E00DFAA00 /* postp.vsh */; };
 		A6C56C7018A5924E00DFAA00 /* postp.fsh in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C6E18A5924E00DFAA00 /* postp.fsh */; };
+		A6C56C7A18A63E3F00DFAA00 /* Body_1.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C7218A63E3F00DFAA00 /* Body_1.png */; };
+		A6C56C7B18A63E3F00DFAA00 /* Body_2.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C7318A63E3F00DFAA00 /* Body_2.png */; };
+		A6C56C7C18A63E3F00DFAA00 /* cube.obj in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C7418A63E3F00DFAA00 /* cube.obj */; };
+		A6C56C7D18A63E3F00DFAA00 /* red.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C7518A63E3F00DFAA00 /* red.png */; };
+		A6C56C7E18A63E3F00DFAA00 /* tiger2.obj in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C7618A63E3F00DFAA00 /* tiger2.obj */; };
+		A6C56C7F18A63E3F00DFAA00 /* Track.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C7718A63E3F00DFAA00 /* Track.png */; };
+		A6C56C8018A63E3F00DFAA00 /* Turret.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C7818A63E3F00DFAA00 /* Turret.png */; };
+		A6C56C8118A63E3F00DFAA00 /* Turret_2.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C7918A63E3F00DFAA00 /* Turret_2.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -134,6 +142,14 @@
 		A6C56C6418A58C4D00DFAA00 /* Xml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Xml.h; sourceTree = "<group>"; };
 		A6C56C6D18A5924E00DFAA00 /* postp.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = postp.vsh; sourceTree = "<group>"; };
 		A6C56C6E18A5924E00DFAA00 /* postp.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = postp.fsh; sourceTree = "<group>"; };
+		A6C56C7218A63E3F00DFAA00 /* Body_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Body_1.png; sourceTree = "<group>"; };
+		A6C56C7318A63E3F00DFAA00 /* Body_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Body_2.png; sourceTree = "<group>"; };
+		A6C56C7418A63E3F00DFAA00 /* cube.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cube.obj; sourceTree = "<group>"; };
+		A6C56C7518A63E3F00DFAA00 /* red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = red.png; sourceTree = "<group>"; };
+		A6C56C7618A63E3F00DFAA00 /* tiger2.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tiger2.obj; sourceTree = "<group>"; };
+		A6C56C7718A63E3F00DFAA00 /* Track.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Track.png; sourceTree = "<group>"; };
+		A6C56C7818A63E3F00DFAA00 /* Turret.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Turret.png; sourceTree = "<group>"; };
+		A6C56C7918A63E3F00DFAA00 /* Turret_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Turret_2.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +179,7 @@
 		A6C56A08189FC8DF00DFAA00 = {
 			isa = PBXGroup;
 			children = (
+				A6C56C7118A63E3F00DFAA00 /* models */,
 				A6C56C6118A58C4D00DFAA00 /* tinyXML */,
 				A6C56C3518A2AA5000DFAA00 /* libPNG */,
 				A6C56C1318A139EB00DFAA00 /* Math */,
@@ -326,6 +343,21 @@
 			path = tinyXML;
 			sourceTree = "<group>";
 		};
+		A6C56C7118A63E3F00DFAA00 /* models */ = {
+			isa = PBXGroup;
+			children = (
+				A6C56C7218A63E3F00DFAA00 /* Body_1.png */,
+				A6C56C7318A63E3F00DFAA00 /* Body_2.png */,
+				A6C56C7418A63E3F00DFAA00 /* cube.obj */,
+				A6C56C7518A63E3F00DFAA00 /* red.png */,
+				A6C56C7618A63E3F00DFAA00 /* tiger2.obj */,
+				A6C56C7718A63E3F00DFAA00 /* Track.png */,
+				A6C56C7818A63E3F00DFAA00 /* Turret.png */,
+				A6C56C7918A63E3F00DFAA00 /* Turret_2.png */,
+			);
+			path = models;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -402,10 +434,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6C56C8018A63E3F00DFAA00 /* Turret.png in Resources */,
 				A6C56A1F189FC8DF00DFAA00 /* InfoPlist.strings in Resources */,
 				A6C56A2D189FC8DF00DFAA00 /* Images.xcassets in Resources */,
+				A6C56C7E18A63E3F00DFAA00 /* tiger2.obj in Resources */,
 				A6C56A25189FC8DF00DFAA00 /* Credits.rtf in Resources */,
 				A6C56A2B189FC8DF00DFAA00 /* MainMenu.xib in Resources */,
+				A6C56C7B18A63E3F00DFAA00 /* Body_2.png in Resources */,
+				A6C56C7D18A63E3F00DFAA00 /* red.png in Resources */,
+				A6C56C7A18A63E3F00DFAA00 /* Body_1.png in Resources */,
+				A6C56C7C18A63E3F00DFAA00 /* cube.obj in Resources */,
+				A6C56C8118A63E3F00DFAA00 /* Turret_2.png in Resources */,
+				A6C56C7F18A63E3F00DFAA00 /* Track.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
