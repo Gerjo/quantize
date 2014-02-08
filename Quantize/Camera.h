@@ -48,8 +48,8 @@ public:
     }
     
     void move(const Vector3& translation) {
-        Matrix44 _rotateX = Matrix44::CreateRotateX(mouse.y / 100.0f);
-        Matrix44 _rotateY = _rotateX * Matrix44::CreateRotateY(-mouse.x / 100.0f);
+        Matrix44 _rotateX = Matrix44::CreateRotateX(mouse.y / 200.0f);
+        Matrix44 _rotateY = _rotateX * Matrix44::CreateRotateY(-mouse.x / 200.0f);
         Matrix44 _rotation = _rotateY * _rotateX;
         Vector3 _translation = _rotation * translation;
         position += _translation;
