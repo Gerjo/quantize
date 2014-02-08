@@ -186,6 +186,7 @@
 		A6C56C9118A66D5900DFAA00 /* Gun_Object_1.003.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gun_Object_1.003.png; sourceTree = "<group>"; };
 		A6C56C9218A66D5900DFAA00 /* fur.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fur.png; sourceTree = "<group>"; };
 		A6C56C9318A66D5900DFAA00 /* Additional.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Additional.txt; sourceTree = "<group>"; };
+		CC65799418A6456E0035EB43 /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -222,6 +223,7 @@
 				A6C56C3418A2A88900DFAA00 /* Textures.h */,
 				A6C56C3018A1480200DFAA00 /* Model.h */,
 				A6C56AA518A1092A00DFAA00 /* Tools.h */,
+				CC65799418A6456E0035EB43 /* Camera.h */,
 				A6C56A5118A102DD00DFAA00 /* Quantize.h */,
 				A6C56C3318A287E300DFAA00 /* Parser.h */,
 				A6C56A5018A102DD00DFAA00 /* Quantize.cpp */,

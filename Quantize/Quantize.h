@@ -17,6 +17,7 @@
 #include "Parser.h"
 #include "Model.h"
 #include "Textures.h"
+#include "Camera.h"
 
 using namespace Furiosity;
 using std::string;
@@ -44,8 +45,8 @@ public:
     /// Perspective projection.
     Matrix44 _projection;
     
-    /// Mouse location.
-    Vector2 mouse;
+    /// Camera
+    Camera* camera = new Camera;
 
     /// Collection of models to render.
     std::vector<Model*> models;
@@ -84,14 +85,6 @@ public:
         glDeleteProgram(_programMesh);
         
         glDeleteBuffers(1, &_vboFboVertices);
-    }
-    
-    void onScroll(const Vector2& delta) {
-    
-    }
-    
-    void onMove(const Vector2& location) {
-        mouse = location;
     }
     
     void initialize(float width, float height) {
@@ -376,11 +369,7 @@ public:
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
         // Camera position (insert FPS code here).
-        Matrix44 transform =
-            Matrix44::CreateTranslation(-2, -2, -6)
-            * Matrix44::CreateRotateY(mouse.x/100.0f)
-            * Matrix44::CreateRotateX(mouse.y/100.0f)
-        ;
+        Matrix44 transform = camera->transform();
         
         // Pre-multiply all projection related matrices. These are constant
         // terms.
