@@ -35,7 +35,8 @@ public:
 
     /// Shader uniforms.
     GLuint _uniformCamera;
-    GLuint _uniformTransform;
+    GLuint _uniformModelTransform;
+    GLuint _uniformNormalTransform;
     GLuint _uniformSampler_1;
 
     /// Width width and height.
@@ -71,7 +72,8 @@ public:
         , _attrColor(0)
         , _attrUV(0)
         , _uniformCamera(0)
-        , _uniformTransform(0)
+        , _uniformModelTransform(0)
+        , _uniformNormalTransform(0)
         , _uniformSampler_1(0)
         {
     }
@@ -94,6 +96,10 @@ public:
         
         this->width  = width;
         this->height = height;
+        
+        const GLubyte* version = glGetString(GL_SHADING_LANGUAGE_VERSION);
+        
+        printf("Supported shader model: %s\n", version);
         
         // Let open GL deal with the z-index and order of rendering.
         glEnable(GL_DEPTH_TEST);
@@ -129,11 +135,17 @@ public:
 
         // Load some 3D model
         for(Model* model : Parser::FromFile("models/tiger2.obj")) {
+        //for(Model* model : Parser::FromFile("models/asteroid40k.obj")) {
         //for(Model* model : Parser::FromFile("models/IS.obj")) {
         //for(Model* model : Parser::FromFile("models/cube.obj")) {
             // Upload a texture to the GPU and retrieve the handle.
             // TODO: more robust loading and texture pooling.
-            model->texture = Textures::LoadPNG("models/" + model->group + ".png");
+            
+            if(model->group.empty()) {
+                model->texture = Textures::LoadPNG("models/red.png");
+            } else {
+                model->texture = Textures::LoadPNG("models/" + model->group + ".png");
+            }
             
             // Create VBO (upload stuff to the GPU)
             model->upload();
@@ -168,7 +180,8 @@ public:
         _attrColor        = glGetAttribLocation(_programMesh, "color");
         _attrUV           = glGetAttribLocation(_programMesh, "uv");
         _uniformCamera    = glGetUniformLocation(_programMesh, "camera");
-        _uniformTransform = glGetUniformLocation(_programMesh, "transform");
+        _uniformModelTransform  = glGetUniformLocation(_programMesh, "modelTransform");
+        _uniformNormalTransform = glGetUniformLocation(_programMesh, "normalTransform");
         _uniformSampler_1 = glGetUniformLocation(_programMesh, "sampler_1");
         GLError();
 
@@ -271,10 +284,18 @@ public:
         GLError();
         
         // Set the perspective projection, once. This is shared among all models.
-        glUniformMatrix4fv(_uniformTransform,  // Location
-                            1,                 // Amount of matrices
-                            false,             // Require transpose
-                            model.transform.f  // Float array with values
+        glUniformMatrix4fv(_uniformModelTransform,  // Location
+                            1,                      // Amount of matrices
+                            false,                  // Require transpose
+                            model.modelTransform.f  // Float array with values
+        );
+        GLError();
+        
+        // Set the perspective projection, once. This is shared among all models.
+        glUniformMatrix3fv(_uniformNormalTransform,  // Location
+                            1,                       // Amount of matrices
+                            false,                   // Require transpose
+                            model.normalTransform.f  // Float array with values
         );
         GLError();
         
@@ -370,6 +391,8 @@ public:
         
         // Camera position (insert FPS code here).
         Matrix44 transform = camera->transform();
+        
+        transform = Matrix44::CreateLookAt(Vector3(-5, 5, 5), Vector3(0, 0, 0), Vector3(0,1,0));
         
         // Pre-multiply all projection related matrices. These are constant
         // terms.

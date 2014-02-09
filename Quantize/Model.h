@@ -12,6 +12,7 @@
 #include <vector>
 #include "Math/Vector3.h"
 #include "Math/Matrix44.h"
+#include "Math/Matrix33.h"
 
 using namespace Furiosity;
 
@@ -42,7 +43,8 @@ private:
 public:
     GLuint vbo[2];
     
-    Matrix44 transform;
+    Matrix44 modelTransform;
+    Matrix33 normalTransform;
     
     std::vector<unsigned short> indices;
     std::vector<VertexData> vertices;
@@ -54,7 +56,8 @@ public:
     GLuint texture;
 
     Model() : vbo{0}, _isuploaded(false), texture(0) {
-    
+        modelTransform.SetIndentity();
+        normalTransform.SetIdentity();
     }
     
     bool isUpoaded() {

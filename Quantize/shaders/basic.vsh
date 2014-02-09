@@ -11,7 +11,9 @@ attribute vec4 color;
 attribute vec2 uv;
 
 uniform mat4 camera;
-uniform mat4 transform;
+uniform mat4 modelTransform;
+uniform mat3 normalTransform;
+
 
 varying vec4 fragmentColor;
 varying vec2 fragmentUV;
@@ -25,10 +27,9 @@ void main() {
     
     tmp = color;
     
-    vec4 light = vec4(10.0, 15.0, 10.0, 1.0);
-    vec4 normal4 = camera * transform * vec4(normal, 1.0);
+    vec3 light   = vec3(10.0, 15.0, 10.0);
     
-    float intensity = dot(light, normal4);
+    float intensity = dot(light, normalTransform * normal);
 
     intensity = clamp(
         intensity,
@@ -39,5 +40,5 @@ void main() {
     fragmentColor = vec4(intensity, intensity, intensity, 1);
     
     // Project
-    gl_Position = camera * transform * vec4(position, 1);
+    gl_Position = camera * modelTransform * vec4(position, 1);
 }
