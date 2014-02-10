@@ -129,12 +129,13 @@ public:
             3.14159268/2.5f,      // Field of view
             width/height,         // Aspect ratio
             0.01f,                // near
-            1000.0f               // far
+            100000.0f             // far
         );
         
 
         // Load some 3D model
         for(Model* model : Parser::FromFile("models/tiger2.obj")) {
+        //for(Model* model : Parser::FromFile("models/crown_victoria.obj")) {
         //for(Model* model : Parser::FromFile("models/asteroid40k.obj")) {
         //for(Model* model : Parser::FromFile("models/IS.obj")) {
         //for(Model* model : Parser::FromFile("models/cube.obj")) {
@@ -142,7 +143,7 @@ public:
             // TODO: more robust loading and texture pooling.
             
             if(model->group.empty()) {
-                model->texture = Textures::LoadPNG("models/red.png");
+                model->texture = Textures::LoadPNG("models/car.png");
             } else {
                 model->texture = Textures::LoadPNG("models/" + model->group + ".png");
             }
@@ -361,7 +362,7 @@ public:
         glDrawElements(
             GL_TRIANGLES,                     // GL primitive type
             (GLsizei) model.indices.size(),   // How many indices to draw
-            GL_UNSIGNED_SHORT,                // Data type of indices
+            GL_UNSIGNED_INT,                  // Data type of indices
             0                                 // Offset
         );
         GLError();
@@ -392,7 +393,12 @@ public:
         // Camera position (insert FPS code here).
         Matrix44 transform = camera->transform();
         
-        transform = Matrix44::CreateLookAt(Vector3(-5, 5, 5), Vector3(0, 0, 0), Vector3(0,1,0));
+        float distance = 3;
+        transform = Matrix44::CreateLookAt(
+            Vector3(-distance, distance, distance),
+            Vector3(0, 0, 0),
+            Vector3(0, 1, 0)
+        );
         
         // Pre-multiply all projection related matrices. These are constant
         // terms.
@@ -409,6 +415,7 @@ public:
         );
 
         for(Model* model : models) {
+            model->update(dt);
             render(*model);
         }
 

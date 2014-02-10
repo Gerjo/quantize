@@ -43,6 +43,9 @@ struct Parser {
         Model* model = new Model();
         models.push_back(model);
 
+        // Counters for ah-hoc guessing of missing properties.
+        int inferredTriangles = 0;
+        int inferredNormals   = 0;
     
         // Parse per line.
         for(size_t linenumber = 0, run = 1, readOffset = 0; run; ++linenumber) {
@@ -78,13 +81,16 @@ struct Parser {
                     
                     model->group = chunks[1];
 
+                } else if(key == "\r") {
+                    // Ohhhhh, MS-DOS.
+                    
                 } else if(StringStartsWith(key, "#")) {
                     // Sourcecode comment.
                     
                 } else if(key == "s") {
                     // Smooth shading on or off.
                     
-                } else if(key == "mtllib") {
+                } else if(StringStartsWith(key, "mtllib")) {
                     // Material file to use.
                     //model->material = chunks[1];
                     
@@ -109,6 +115,8 @@ struct Parser {
                 } else if(key == "f") {
                     const size_t startSize = model->vertices.size();
                     
+                    bool hasNormals = false;
+                    
                     for(size_t i = 1; i < chunks.size(); ++i) {
                         auto nums = StringExplode(chunks[i], "/");
                         
@@ -128,6 +136,10 @@ struct Parser {
                                 Exit("Face vertex index out-of-bounds.");
                             }
                             
+                            if(normalIndex != 0) {
+                                hasNormals = true;
+                            }
+                            
                             //printf("%f %f\n", uvs[uvIndex - 1].x, uvs[uvIndex - 1].y);
                             
                             VertexData face(
@@ -141,21 +153,35 @@ struct Parser {
                         }
                     }
                     
-                    if(model->vertices.size() - startSize != 3) {
-                        Exit("The face is not a triangle, i.e., does not use 3 coordinates.");
+                    size_t nVertices = model->vertices.size() - startSize;
+                    
+                    // Let's ad-hoc triangulate
+                    if(nVertices == 4) {
+                        size_t count = model->vertices.size();
+                        
+                        model->vertices.push_back(model->vertices[count - 3]);
+                        model->vertices.push_back(model->vertices[count - 1]);
+                        
+                        ++inferredTriangles;
+                    } else if(nVertices != 3) {
+                        Exit("The face is not a triangle, it has %lu vertices.", nVertices);
                     }
                     
-                    // Get two linearly independent directions.
-                    Vector3 directionA = model->vertices[startSize].position - model->vertices[startSize + 1].position;
-                    Vector3 directionB = model->vertices[startSize].position - model->vertices[startSize + 2].position;
+                    if( ! hasNormals) {
                     
-                    Vector3 normal = directionA.Cross(directionB);
-                    normal.Normalize();
-                    
-                    for(size_t i = startSize; i < model->vertices.size(); ++i) {
-                        model->vertices[i].normal = normal;
+                        // Get two linearly independent directions.
+                        Vector3 directionA = model->vertices[startSize].position - model->vertices[startSize + 1].position;
+                        Vector3 directionB = model->vertices[startSize].position - model->vertices[startSize + 2].position;
+                        
+                        Vector3 normal = directionA.Cross(directionB);
+                        normal.Normalize();
+                        
+                        for(size_t i = startSize; i < model->vertices.size(); ++i) {
+                            model->vertices[i].normal = normal;
+                        }
+                        
+                        ++inferredTriangles;
                     }
-                    
                     
                 } else {
                     printf("%s\n", line.c_str());
@@ -167,15 +193,14 @@ struct Parser {
             readOffset = pos + 1;
         }
         
-        printf("Loaded %lu models, total Vertices: %lu and UVs: %lu.\n", models.size(), vertices.size(), uvs.size());
-
+        printf("Loaded %lu models, total Vertices: %lu, total UVs: %lu, ", models.size(), vertices.size(), uvs.size());
+        printf("inferred %d triangles and %d normals.", inferredTriangles, inferredNormals);
         for(Model* model : models) {
             printf("  model: %s with %lu vertices.\n", model->group.c_str(), model->vertices.size());
             
-            std::vector<unsigned short> indices;
         
             for(size_t i = 0, j = 0; i < model->vertices.size(); ++i) {
-                model->indices.push_back((unsigned short)model->indices.size());
+                model->indices.push_back(model->indices.size());
                 
                 // Random-ish color. This is usefull until textures work.
                 model->vertices[i].color[0] = j * 10;

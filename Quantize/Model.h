@@ -40,13 +40,15 @@ class Model {
 private:
     bool _isuploaded;
     
+    float angle;
+    
 public:
     GLuint vbo[2];
     
     Matrix44 modelTransform;
     Matrix33 normalTransform;
     
-    std::vector<unsigned short> indices;
+    std::vector<unsigned int> indices;
     std::vector<VertexData> vertices;
 
     // Identifiers as specified in the obj file.
@@ -55,13 +57,20 @@ public:
 
     GLuint texture;
 
-    Model() : vbo{0}, _isuploaded(false), texture(0) {
+    Model() : _isuploaded(false), angle(0), vbo{0}, texture(0) {
         modelTransform.SetIndentity();
         normalTransform.SetIdentity();
     }
     
     bool isUpoaded() {
         return _isuploaded;
+    }
+    
+    void update(const float dt) {
+        angle += 0.003;
+        
+        modelTransform  = Matrix44::CreateRotate(angle, 0, 1, 0);
+        normalTransform = modelTransform.GetMatrix33();
     }
     
     void upload() {
@@ -83,7 +92,7 @@ public:
         GLError();
         
         // Copy into VBO:
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short) * indices.size(), &indices[0], GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * indices.size(), &indices[0], GL_STATIC_DRAW);
         GLError();
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0); // unbind buffer
         GLError();

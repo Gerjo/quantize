@@ -27,7 +27,8 @@ void main() {
     
     tmp = color;
     
-    vec3 light   = vec3(10.0, 15.0, 10.0);
+    
+    vec3 light   = vec3(45.0, 15.0, 10.0);
     
     float intensity = dot(light, normalTransform * normal);
 
