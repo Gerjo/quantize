@@ -74,7 +74,7 @@ static bool isInitialized = false;
             return;
         if ( [theKey length] == 1 ) {
             keyChar = [theKey characterAtIndex:0];
-            quantize->camera->onKeyDown(keyChar);
+            quantize->camera->onKeyUp(keyChar);
         }
     }
 }
