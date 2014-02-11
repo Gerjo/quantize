@@ -26,7 +26,7 @@ public:
     Vector3 position = Vector3(-2, -2, -10);
     Vector2 mouse;
     float roll;
-    bool control[10];
+    bool control[8];
     
     Camera() {
         
@@ -34,30 +34,30 @@ public:
     
     Matrix44 transform() {
         Matrix44 _translation = Matrix44::CreateTranslation(position.x, position.y, position.z);
-        Matrix44 _rotation = computeRotation(-1, 1, true);
+        Matrix44 _rotation = computeRotation(false);
         return _rotation * _translation;
     }
     
     void update() {
         position += orientedTranslation(Vector3(control[2] - control[3], control[5] - control[4], control[0] - control[1]))
                     * 0.1f; //Control speed.
-        roll += (control[6] - control[7])
-                    * 0.2f; //Control speed.
+        roll += (control[7] - control[6])
+                    * 0.04f; //Control speed.
     }
     
     Vector3 orientedTranslation(const Vector3& translation) {
-        Matrix44 _rotation = computeRotation(1, -1, false);
+        Matrix44 _rotation = computeRotation(true);
         return _rotation * translation;
     }
     
-    Matrix44 computeRotation(int signX, int signY, bool flag) {
-        Matrix44 _rotateX = Matrix44::CreateRotateX(signX * mouse.y / 150.0f);
-        Matrix44 _rotateY = Matrix44::CreateRotateY(signY * mouse.x / 150.0f);
+    Matrix44 computeRotation(bool inverse) {
+        Matrix44 _rotateX = Matrix44::CreateRotateX((inverse?1:-1) * mouse.y / 150.0f);
+        Matrix44 _rotateY = Matrix44::CreateRotateY((inverse?-1:1) * mouse.x / 150.0f);
         Matrix44 _roll = Matrix44::CreateRotateZ(roll);
-        if (flag)
-            return _rotateX * _rotateY * _roll;
+        if (!inverse)
+            return _roll * _rotateX * _rotateY;
         else
-            return _roll * _rotateY * _rotateX;
+            return _rotateY * _rotateX;
     }
     
     void onMove(const Vector2& location) {
@@ -91,7 +91,7 @@ public:
             case 'e':
                 control[7] = true;
                 break;
-            case 0xd: //Return exits.
+            case 0x1b: //Escape exits.
                 exit(0);
                 break;
             default:
