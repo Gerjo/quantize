@@ -340,7 +340,9 @@ struct Collada {
                                                     addedNormal = true;
                                                 } else if(semantics[j] == "TEXCOORD") {
                                                     data.uv.x = entry[0];
-                                                    data.uv.y = entry[1];
+                                                    
+                                                    // Unsure how this "flipping" works with repeated textures.
+                                                    data.uv.y = 1-entry[1];
                                                     addedUV = true;
                                                 }
                                             }
