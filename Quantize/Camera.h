@@ -23,7 +23,8 @@ using std::string;
 
 class Camera {
 public:
-    Vector3 position = Vector3(-2, -2, -10);
+    Vector3 position {-2, -2, -10};
+    Vector2 mouseOffset {350.0f, 250.0f};
     Vector2 mouse;
     float roll;
     bool control[8];
@@ -45,14 +46,14 @@ public:
                     * 0.04f; //Control speed.
     }
     
-    Vector3 orientedTranslation(const Vector3& translation) {
+    Vector3 orientedTranslation(const Vector3 translation) {
         Matrix44 _rotation = computeRotation(true);
         return _rotation * translation;
     }
     
     Matrix44 computeRotation(bool inverse) {
-        Matrix44 _rotateX = Matrix44::CreateRotateX((inverse?1:-1) * mouse.y / 150.0f);
-        Matrix44 _rotateY = Matrix44::CreateRotateY((inverse?-1:1) * mouse.x / 150.0f);
+        Matrix44 _rotateX = Matrix44::CreateRotateX((inverse?1:-1) * mouse.y);
+        Matrix44 _rotateY = Matrix44::CreateRotateY((inverse?-1:1) * mouse.x);
         Matrix44 _roll = Matrix44::CreateRotateZ((inverse?-1:1) * roll);
         if (!inverse)
             return _roll * _rotateX * _rotateY;
@@ -60,9 +61,8 @@ public:
             return _rotateY * _rotateX * _roll;
     }
     
-    void onMove(const Vector2& location) {
-        Vector2 _offset = Vector2(350.0f, 250.0f);
-        mouse = location - _offset;
+    void onMove(const Vector2 location) {
+        mouse = (location - mouseOffset) / 150.0f;
     }
     
     void onKey(char key) {
