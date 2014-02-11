@@ -76,7 +76,8 @@ public:
     void update(const float dt) {
         angle += 0.003;
         
-        modelTransform  = Matrix44::CreateRotate(angle, 0, 1, 0) * baseTransform;
+        //
+        modelTransform  = Matrix44::CreateRotate(angle, 0, 1, 0) * Matrix44::CreateRotate(1.5, 1, 0, 0) * baseTransform;
         
         normalTransform = modelTransform.GetMatrix33();
         

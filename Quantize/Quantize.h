@@ -112,6 +112,8 @@ public:
         // Hide faces not facing us.
         //glEnable(GL_CULL_FACE);
         
+        //glDepthFunc(GL_ALWAYS);
+
         // Enable alpha layers
         glEnable (GL_BLEND);
         
@@ -133,11 +135,10 @@ public:
         _projection = Matrix44::CreatePerspective(
             3.14159268/2.5f,      // Field of view
             width/height,         // Aspect ratio
-            0.01f,                // near
-            100000.0f             // far
+            1.0f,                 // near
+            200.0f                // far
         );
         
-        ;
 
         //for(Model* model : Collada::FromFile("models/AUSFB/ausfb.dae")) {
         for(Model* model : Collada::FromFile("models/P39 AIRACOBRA/p39.dae")) {
@@ -388,12 +389,12 @@ public:
         camera->update();
         Matrix44 transform = camera->transform();
         
-        float distance = 14;
+        /*float distance = 14;
         transform = Matrix44::CreateLookAt(
             Vector3(-distance, distance, distance),
             Vector3(0, 0, 0),
             Vector3(1, 0, 0)
-        );
+        );*/
         
         // Pre-multiply all projection related matrices. These are constant
         // terms.

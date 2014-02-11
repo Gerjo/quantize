@@ -25,7 +25,7 @@ public:
     Vector3 position {-2, -2, -10};
     Vector3 orientation {0, 0, 0};
     
-    float moveSpeed {0.1f};
+    float moveSpeed {0.3f};
     float rollSpeed {0.04f};
     float mouseSpeed {0.007f};
     

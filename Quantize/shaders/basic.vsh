@@ -38,6 +38,7 @@ void main() {
         1.6         // Not too light (maximal light)
     );
     
+    
     fragmentColor = vec4(intensity, intensity, intensity, 1);
     
     // Project
