@@ -19,6 +19,8 @@
 #include "Textures.h"
 #include "Camera.h"
 
+#include "Collada.h"
+
 using namespace Furiosity;
 using std::string;
 
@@ -76,6 +78,9 @@ public:
         , _uniformNormalTransform(0)
         , _uniformSampler_1(0)
         {
+        
+        
+        
     }
     
     ~Quantize() {
@@ -132,9 +137,22 @@ public:
             100000.0f             // far
         );
         
+        ;
 
+        for(Model* model : Collada::Parse("models/ausfb.dae")) {
+  
+            //model->texture = Textures::LoadPNG("models/red.png");
+            model->texture = Textures::LoadPNG("models/Body_1.png");
+            
+            // Create VBO (upload stuff to the GPU)
+            model->upload();
+            
+            // Store internally
+            models.push_back(model);
+        }
+        
         // Load some 3D model
-        for(Model* model : Parser::FromFile("models/tiger2.obj")) {
+        /*for(Model* model : Parser::FromFile("models/tiger2.obj")) {
         //for(Model* model : Parser::FromFile("models/crown_victoria.obj")) {
         //for(Model* model : Parser::FromFile("models/asteroid40k.obj")) {
         //for(Model* model : Parser::FromFile("models/IS.obj")) {
@@ -153,7 +171,7 @@ public:
             
             // Store internally
             models.push_back(model);
-        }
+        }*/
     };
     
     void initializeMeshProgram() {
@@ -393,7 +411,7 @@ public:
         // Camera position (insert FPS code here).
         Matrix44 transform = camera->transform();
         
-        float distance = 3;
+        float distance = 4;
         transform = Matrix44::CreateLookAt(
             Vector3(-distance, distance, distance),
             Vector3(0, 0, 0),

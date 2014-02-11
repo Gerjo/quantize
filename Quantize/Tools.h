@@ -43,7 +43,21 @@ static void Exit(std::string format, ...) {
     exit(1);
 }
 
-
+static std::string StringReplace(const std::string& subject,
+                                const std::string& search,
+                                const std::string& replace)
+{
+    std::string result(subject);
+    size_t pos = 0;
+    
+    while ((pos = subject.find(search, pos)) != std::string::npos)
+    {
+        result.replace(pos, search.length(), replace);
+        pos += std::max(replace.length(), search.length());
+    }
+    
+    return result;
+}
 
 static bool StringEndsWith(const std::string& subject,
                                const std::string& suffix)

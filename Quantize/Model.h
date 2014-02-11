@@ -29,7 +29,7 @@ struct VertexData {
             // codes
     }
     
-    VertexData(float x,float y,float z,float a,float b,float c, float u = 1, float v = 1)
+    VertexData(float x=0,float y=0,float z=0,float a=0,float b=0,float c=0, float u = 1, float v = 1)
         : position(x, y, z)
         , normal(a, b, c)
         , uv(u, v) {
@@ -45,6 +45,8 @@ private:
 public:
     GLuint vbo[2];
     
+    Matrix44 baseTransform;
+    
     Matrix44 modelTransform;
     Matrix33 normalTransform;
     
@@ -54,12 +56,17 @@ public:
     // Identifiers as specified in the obj file.
     std::string material;
     std::string group;
+    
+    // Some name debug associated with this model. Generally taken from
+    // the Collada file.
+    std::string name;
 
     GLuint texture;
 
     Model() : _isuploaded(false), angle(0), vbo{0}, texture(0) {
         modelTransform.SetIndentity();
         normalTransform.SetIdentity();
+        baseTransform.SetIndentity();
     }
     
     bool isUpoaded() {
@@ -69,8 +76,11 @@ public:
     void update(const float dt) {
         angle += 0.003;
         
-        modelTransform  = Matrix44::CreateRotate(angle, 0, 1, 0);
+        modelTransform  = Matrix44::CreateRotate(angle, 0, 1, 0) * baseTransform;
+        
         normalTransform = modelTransform.GetMatrix33();
+        
+        modelTransform = Matrix44::CreateScale(0.03) * modelTransform;
     }
     
     void upload() {

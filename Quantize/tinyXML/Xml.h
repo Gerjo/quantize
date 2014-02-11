@@ -10,10 +10,12 @@
 #include "tinyxml2.h"
 
 /// Loop to iterate over XML elements:
-#define FOREACH_XML_ELEMENT(M_element, M_root) for(XMLNode* M_element = M_root->FirstChild(); M_element != 0; M_element = M_element->NextSibling())
+//#define FOREACH_XML_ELEMENT(M_element, M_root) for(XMLNode* M_element = M_root->FirstChild(); M_element != 0; M_element = M_element->NextSibling())
 
 /// Loop to iterate over XML elements:
 #define FOREACH_XML_ELEMENT_REF(M_element, M_root) for(const XMLElement* M_element = (M_root).FirstChildElement(); M_element != 0; M_element = M_element->NextSiblingElement())
+
+#define FOREACH_XML_ELEMENT(M_element, M_root) for(XMLElement* M_element = (M_root)->FirstChildElement(); M_element != 0; M_element = M_element->NextSiblingElement())
 
 
 /// Loop to iterate over XML elements:
