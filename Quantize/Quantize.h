@@ -139,11 +139,8 @@ public:
         
         ;
 
-        for(Model* model : Collada::Parse("models/ausfb.dae")) {
-  
-            //model->texture = Textures::LoadPNG("models/red.png");
-            model->texture = Textures::LoadPNG("models/Body_1.png");
-            
+        for(Model* model : Collada::FromFile("models/AUSFB/ausfb.dae")) {
+   
             // Create VBO (upload stuff to the GPU)
             model->upload();
             

@@ -49,32 +49,70 @@
 		A6C56C6918A58C4D00DFAA00 /* tinyxml2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C6218A58C4D00DFAA00 /* tinyxml2.cpp */; };
 		A6C56C6F18A5924E00DFAA00 /* postp.vsh in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C6D18A5924E00DFAA00 /* postp.vsh */; };
 		A6C56C7018A5924E00DFAA00 /* postp.fsh in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C6E18A5924E00DFAA00 /* postp.fsh */; };
-		A6C56C7A18A63E3F00DFAA00 /* Body_1.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C7218A63E3F00DFAA00 /* Body_1.png */; };
-		A6C56C7B18A63E3F00DFAA00 /* Body_2.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C7318A63E3F00DFAA00 /* Body_2.png */; };
-		A6C56C7C18A63E3F00DFAA00 /* cube.obj in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C7418A63E3F00DFAA00 /* cube.obj */; };
-		A6C56C7D18A63E3F00DFAA00 /* red.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C7518A63E3F00DFAA00 /* red.png */; };
-		A6C56C7E18A63E3F00DFAA00 /* tiger2.obj in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C7618A63E3F00DFAA00 /* tiger2.obj */; };
-		A6C56C7F18A63E3F00DFAA00 /* Track.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C7718A63E3F00DFAA00 /* Track.png */; };
-		A6C56C8018A63E3F00DFAA00 /* Turret.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C7818A63E3F00DFAA00 /* Turret.png */; };
-		A6C56C8118A63E3F00DFAA00 /* Turret_2.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C7918A63E3F00DFAA00 /* Turret_2.png */; };
-		A6C56C9418A66D5900DFAA00 /* Wheels_Right_Object_2.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C8218A66D5900DFAA00 /* Wheels_Right_Object_2.png */; };
-		A6C56C9518A66D5900DFAA00 /* Wheels_Left_Object_1.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C8318A66D5900DFAA00 /* Wheels_Left_Object_1.png */; };
-		A6C56C9618A66D5900DFAA00 /* Turret_Object_1.002.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C8418A66D5900DFAA00 /* Turret_Object_1.002.png */; };
-		A6C56C9718A66D5900DFAA00 /* Track_Right_Object_4.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C8518A66D5900DFAA00 /* Track_Right_Object_4.png */; };
-		A6C56C9818A66D5900DFAA00 /* Track_Left_Object_3.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C8618A66D5900DFAA00 /* Track_Left_Object_3.png */; };
-		A6C56C9918A66D5900DFAA00 /* IS.obj in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C8718A66D5900DFAA00 /* IS.obj */; };
-		A6C56C9A18A66D5900DFAA00 /* IS.mtl in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C8818A66D5900DFAA00 /* IS.mtl */; };
-		A6C56C9B18A66D5900DFAA00 /* IS.dds in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C8918A66D5900DFAA00 /* IS.dds */; };
-		A6C56C9C18A66D5900DFAA00 /* IS.blend in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C8A18A66D5900DFAA00 /* IS.blend */; };
-		A6C56C9D18A66D5900DFAA00 /* IS.3ds in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C8B18A66D5900DFAA00 /* IS.3ds */; };
-		A6C56C9E18A66D5900DFAA00 /* IS_SM.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C8C18A66D5900DFAA00 /* IS_SM.png */; };
-		A6C56C9F18A66D5900DFAA00 /* IS_SM.dds in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C8D18A66D5900DFAA00 /* IS_SM.dds */; };
-		A6C56CA018A66D5900DFAA00 /* IS_NM.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C8E18A66D5900DFAA00 /* IS_NM.png */; };
-		A6C56CA118A66D5900DFAA00 /* IS_NM.dds in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C8F18A66D5900DFAA00 /* IS_NM.dds */; };
-		A6C56CA218A66D5900DFAA00 /* Hull_Object_1.001.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C9018A66D5900DFAA00 /* Hull_Object_1.001.png */; };
-		A6C56CA318A66D5900DFAA00 /* Gun_Object_1.003.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C9118A66D5900DFAA00 /* Gun_Object_1.003.png */; };
-		A6C56CA418A66D5900DFAA00 /* fur.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C9218A66D5900DFAA00 /* fur.png */; };
-		A6C56CA518A66D5900DFAA00 /* Additional.txt in Resources */ = {isa = PBXBuildFile; fileRef = A6C56C9318A66D5900DFAA00 /* Additional.txt */; };
+		A6C56CEB18AA926A00DFAA00 /* Cockpit.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CA918AA926A00DFAA00 /* Cockpit.png */; };
+		A6C56CEC18AA926A00DFAA00 /* Cockpit.tga in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CAA18AA926A00DFAA00 /* Cockpit.tga */; };
+		A6C56CED18AA926A00DFAA00 /* Glass.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CAB18AA926A00DFAA00 /* Glass.png */; };
+		A6C56CEE18AA926A00DFAA00 /* Glass.tga in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CAC18AA926A00DFAA00 /* Glass.tga */; };
+		A6C56CEF18AA926A00DFAA00 /* Main Body 2.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CAD18AA926A00DFAA00 /* Main Body 2.png */; };
+		A6C56CF018AA926A00DFAA00 /* Main Body 2.tga in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CAE18AA926A00DFAA00 /* Main Body 2.tga */; };
+		A6C56CF118AA926A00DFAA00 /* Main Body.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CAF18AA926A00DFAA00 /* Main Body.png */; };
+		A6C56CF218AA926A00DFAA00 /* Main Body.tga in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CB018AA926A00DFAA00 /* Main Body.tga */; };
+		A6C56CF318AA926A00DFAA00 /* p39.3DS in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CB118AA926A00DFAA00 /* p39.3DS */; };
+		A6C56CF418AA926A00DFAA00 /* p39.c4d in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CB218AA926A00DFAA00 /* p39.c4d */; };
+		A6C56CF518AA926A00DFAA00 /* p39.dae in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CB318AA926A00DFAA00 /* p39.dae */; };
+		A6C56CF618AA926A00DFAA00 /* P39.max in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CB418AA926A00DFAA00 /* P39.max */; };
+		A6C56CF718AA926A00DFAA00 /* p39.obj in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CB518AA926A00DFAA00 /* p39.obj */; };
+		A6C56CF818AA926A00DFAA00 /* P39.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CB618AA926A00DFAA00 /* P39.png */; };
+		A6C56CF918AA926A00DFAA00 /* P39.pz3 in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CB718AA926A00DFAA00 /* P39.pz3 */; };
+		A6C56CFA18AA926A00DFAA00 /* Body Front.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CB918AA926A00DFAA00 /* Body Front.png */; };
+		A6C56CFB18AA926A00DFAA00 /* Body Front.tga in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CBA18AA926A00DFAA00 /* Body Front.tga */; };
+		A6C56CFC18AA926A00DFAA00 /* Body Rear.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CBB18AA926A00DFAA00 /* Body Rear.png */; };
+		A6C56CFD18AA926A00DFAA00 /* Body Rear.tga in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CBC18AA926A00DFAA00 /* Body Rear.tga */; };
+		A6C56CFE18AA926A00DFAA00 /* Dials.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CBD18AA926A00DFAA00 /* Dials.png */; };
+		A6C56CFF18AA926A00DFAA00 /* Dials.tga in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CBE18AA926A00DFAA00 /* Dials.tga */; };
+		A6C56D0018AA926A00DFAA00 /* glass 1.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CBF18AA926A00DFAA00 /* glass 1.png */; };
+		A6C56D0118AA926A00DFAA00 /* glass 1.tga in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CC018AA926A00DFAA00 /* glass 1.tga */; };
+		A6C56D0218AA926A00DFAA00 /* HEINKEL.3DS in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CC118AA926A00DFAA00 /* HEINKEL.3DS */; };
+		A6C56D0318AA926A00DFAA00 /* HEINKEL.c4d in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CC218AA926A00DFAA00 /* HEINKEL.c4d */; };
+		A6C56D0418AA926A00DFAA00 /* HEINKEL.dae in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CC318AA926A00DFAA00 /* HEINKEL.dae */; };
+		A6C56D0518AA926A00DFAA00 /* HEINKEL.obj in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CC418AA926A00DFAA00 /* HEINKEL.obj */; };
+		A6C56D0618AA926A00DFAA00 /* Heinkel.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CC518AA926A00DFAA00 /* Heinkel.png */; };
+		A6C56D0718AA926A00DFAA00 /* Heinkel.pz3 in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CC618AA926A00DFAA00 /* Heinkel.pz3 */; };
+		A6C56D0818AA926A00DFAA00 /* Parts 1.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CC718AA926A00DFAA00 /* Parts 1.png */; };
+		A6C56D0918AA926A00DFAA00 /* Parts 1.tga in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CC818AA926A00DFAA00 /* Parts 1.tga */; };
+		A6C56D0A18AA926A00DFAA00 /* parts 2.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CC918AA926A00DFAA00 /* parts 2.png */; };
+		A6C56D0B18AA926A00DFAA00 /* parts 2.tga in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CCA18AA926A00DFAA00 /* parts 2.tga */; };
+		A6C56D0C18AA926A00DFAA00 /* parts 3.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CCB18AA926A00DFAA00 /* parts 3.png */; };
+		A6C56D0D18AA926A00DFAA00 /* parts 3.tga in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CCC18AA926A00DFAA00 /* parts 3.tga */; };
+		A6C56D0E18AA926A00DFAA00 /* parts 4.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CCD18AA926A00DFAA00 /* parts 4.png */; };
+		A6C56D0F18AA926A00DFAA00 /* parts 4.tga in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CCE18AA926A00DFAA00 /* parts 4.tga */; };
+		A6C56D1018AA926A00DFAA00 /* pilot 2.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CCF18AA926A00DFAA00 /* pilot 2.png */; };
+		A6C56D1118AA926A00DFAA00 /* pilot 2.tga in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CD018AA926A00DFAA00 /* pilot 2.tga */; };
+		A6C56D1218AA926A00DFAA00 /* pilot.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CD118AA926A00DFAA00 /* pilot.png */; };
+		A6C56D1318AA926A00DFAA00 /* pilot.tga in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CD218AA926A00DFAA00 /* pilot.tga */; };
+		A6C56D1418AA926A00DFAA00 /* under.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CD318AA926A00DFAA00 /* under.png */; };
+		A6C56D1518AA926A00DFAA00 /* under.tga in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CD418AA926A00DFAA00 /* under.tga */; };
+		A6C56D1618AA926A00DFAA00 /* Wing Left.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CD518AA926A00DFAA00 /* Wing Left.png */; };
+		A6C56D1718AA926A00DFAA00 /* Wing Left.tga in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CD618AA926A00DFAA00 /* Wing Left.tga */; };
+		A6C56D1818AA926A00DFAA00 /* Wing Right.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CD718AA926A00DFAA00 /* Wing Right.png */; };
+		A6C56D1918AA926A00DFAA00 /* Wing Right.tga in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CD818AA926A00DFAA00 /* Wing Right.tga */; };
+		A6C56D1A18AA926A00DFAA00 /* ausfb.3DS in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CDA18AA926A00DFAA00 /* ausfb.3DS */; };
+		A6C56D1B18AA926A00DFAA00 /* ausfb.c4d in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CDB18AA926A00DFAA00 /* ausfb.c4d */; };
+		A6C56D1C18AA926A00DFAA00 /* ausfb.dae in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CDC18AA926A00DFAA00 /* ausfb.dae */; };
+		A6C56D1D18AA926A00DFAA00 /* ausfb.max in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CDD18AA926A00DFAA00 /* ausfb.max */; };
+		A6C56D1E18AA926A00DFAA00 /* ausfb.obj in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CDE18AA926A00DFAA00 /* ausfb.obj */; };
+		A6C56D1F18AA926A00DFAA00 /* AUSFB.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CDF18AA926A00DFAA00 /* AUSFB.png */; };
+		A6C56D2018AA926A00DFAA00 /* AUSFB.pz3 in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CE018AA926A00DFAA00 /* AUSFB.pz3 */; };
+		A6C56D2118AA926A00DFAA00 /* Body 1.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CE118AA926A00DFAA00 /* Body 1.png */; };
+		A6C56D2218AA926A00DFAA00 /* Body 1.tga in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CE218AA926A00DFAA00 /* Body 1.tga */; };
+		A6C56D2318AA926A00DFAA00 /* Body 2.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CE318AA926A00DFAA00 /* Body 2.png */; };
+		A6C56D2418AA926A00DFAA00 /* Body 2.tga in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CE418AA926A00DFAA00 /* Body 2.tga */; };
+		A6C56D2518AA926A00DFAA00 /* Track.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CE518AA926A00DFAA00 /* Track.png */; };
+		A6C56D2618AA926A00DFAA00 /* Track.tga in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CE618AA926A00DFAA00 /* Track.tga */; };
+		A6C56D2718AA926A00DFAA00 /* Turret 2.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CE718AA926A00DFAA00 /* Turret 2.png */; };
+		A6C56D2818AA926A00DFAA00 /* Turret 2.tga in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CE818AA926A00DFAA00 /* Turret 2.tga */; };
+		A6C56D2918AA926A00DFAA00 /* Turret.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CE918AA926A00DFAA00 /* Turret.png */; };
+		A6C56D2A18AA926A00DFAA00 /* Turret.tga in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CEA18AA926A00DFAA00 /* Turret.tga */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -160,33 +198,71 @@
 		A6C56C6418A58C4D00DFAA00 /* Xml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Xml.h; sourceTree = "<group>"; };
 		A6C56C6D18A5924E00DFAA00 /* postp.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = postp.vsh; sourceTree = "<group>"; };
 		A6C56C6E18A5924E00DFAA00 /* postp.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = postp.fsh; sourceTree = "<group>"; };
-		A6C56C7218A63E3F00DFAA00 /* Body_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Body_1.png; sourceTree = "<group>"; };
-		A6C56C7318A63E3F00DFAA00 /* Body_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Body_2.png; sourceTree = "<group>"; };
-		A6C56C7418A63E3F00DFAA00 /* cube.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cube.obj; sourceTree = "<group>"; };
-		A6C56C7518A63E3F00DFAA00 /* red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = red.png; sourceTree = "<group>"; };
-		A6C56C7618A63E3F00DFAA00 /* tiger2.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tiger2.obj; sourceTree = "<group>"; };
-		A6C56C7718A63E3F00DFAA00 /* Track.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Track.png; sourceTree = "<group>"; };
-		A6C56C7818A63E3F00DFAA00 /* Turret.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Turret.png; sourceTree = "<group>"; };
-		A6C56C7918A63E3F00DFAA00 /* Turret_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Turret_2.png; sourceTree = "<group>"; };
-		A6C56C8218A66D5900DFAA00 /* Wheels_Right_Object_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Wheels_Right_Object_2.png; sourceTree = "<group>"; };
-		A6C56C8318A66D5900DFAA00 /* Wheels_Left_Object_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Wheels_Left_Object_1.png; sourceTree = "<group>"; };
-		A6C56C8418A66D5900DFAA00 /* Turret_Object_1.002.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Turret_Object_1.002.png; sourceTree = "<group>"; };
-		A6C56C8518A66D5900DFAA00 /* Track_Right_Object_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Track_Right_Object_4.png; sourceTree = "<group>"; };
-		A6C56C8618A66D5900DFAA00 /* Track_Left_Object_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Track_Left_Object_3.png; sourceTree = "<group>"; };
-		A6C56C8718A66D5900DFAA00 /* IS.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = IS.obj; sourceTree = "<group>"; };
-		A6C56C8818A66D5900DFAA00 /* IS.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = IS.mtl; sourceTree = "<group>"; };
-		A6C56C8918A66D5900DFAA00 /* IS.dds */ = {isa = PBXFileReference; lastKnownFileType = file; path = IS.dds; sourceTree = "<group>"; };
-		A6C56C8A18A66D5900DFAA00 /* IS.blend */ = {isa = PBXFileReference; lastKnownFileType = file; path = IS.blend; sourceTree = "<group>"; };
-		A6C56C8B18A66D5900DFAA00 /* IS.3ds */ = {isa = PBXFileReference; lastKnownFileType = file; path = IS.3ds; sourceTree = "<group>"; };
-		A6C56C8C18A66D5900DFAA00 /* IS_SM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IS_SM.png; sourceTree = "<group>"; };
-		A6C56C8D18A66D5900DFAA00 /* IS_SM.dds */ = {isa = PBXFileReference; lastKnownFileType = file; path = IS_SM.dds; sourceTree = "<group>"; };
-		A6C56C8E18A66D5900DFAA00 /* IS_NM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IS_NM.png; sourceTree = "<group>"; };
-		A6C56C8F18A66D5900DFAA00 /* IS_NM.dds */ = {isa = PBXFileReference; lastKnownFileType = file; path = IS_NM.dds; sourceTree = "<group>"; };
-		A6C56C9018A66D5900DFAA00 /* Hull_Object_1.001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Hull_Object_1.001.png; sourceTree = "<group>"; };
-		A6C56C9118A66D5900DFAA00 /* Gun_Object_1.003.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gun_Object_1.003.png; sourceTree = "<group>"; };
-		A6C56C9218A66D5900DFAA00 /* fur.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fur.png; sourceTree = "<group>"; };
-		A6C56C9318A66D5900DFAA00 /* Additional.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Additional.txt; sourceTree = "<group>"; };
 		A6C56CA718A8E9FC00DFAA00 /* Collada.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Collada.h; sourceTree = "<group>"; };
+		A6C56CA918AA926A00DFAA00 /* Cockpit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Cockpit.png; sourceTree = "<group>"; };
+		A6C56CAA18AA926A00DFAA00 /* Cockpit.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = Cockpit.tga; sourceTree = "<group>"; };
+		A6C56CAB18AA926A00DFAA00 /* Glass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Glass.png; sourceTree = "<group>"; };
+		A6C56CAC18AA926A00DFAA00 /* Glass.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = Glass.tga; sourceTree = "<group>"; };
+		A6C56CAD18AA926A00DFAA00 /* Main Body 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Main Body 2.png"; sourceTree = "<group>"; };
+		A6C56CAE18AA926A00DFAA00 /* Main Body 2.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Main Body 2.tga"; sourceTree = "<group>"; };
+		A6C56CAF18AA926A00DFAA00 /* Main Body.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Main Body.png"; sourceTree = "<group>"; };
+		A6C56CB018AA926A00DFAA00 /* Main Body.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Main Body.tga"; sourceTree = "<group>"; };
+		A6C56CB118AA926A00DFAA00 /* p39.3DS */ = {isa = PBXFileReference; lastKnownFileType = file; path = p39.3DS; sourceTree = "<group>"; };
+		A6C56CB218AA926A00DFAA00 /* p39.c4d */ = {isa = PBXFileReference; lastKnownFileType = file; path = p39.c4d; sourceTree = "<group>"; };
+		A6C56CB318AA926A00DFAA00 /* p39.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = p39.dae; sourceTree = "<group>"; };
+		A6C56CB418AA926A00DFAA00 /* P39.max */ = {isa = PBXFileReference; lastKnownFileType = file; path = P39.max; sourceTree = "<group>"; };
+		A6C56CB518AA926A00DFAA00 /* p39.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = p39.obj; sourceTree = "<group>"; };
+		A6C56CB618AA926A00DFAA00 /* P39.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = P39.png; sourceTree = "<group>"; };
+		A6C56CB718AA926A00DFAA00 /* P39.pz3 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = P39.pz3; sourceTree = "<group>"; };
+		A6C56CB918AA926A00DFAA00 /* Body Front.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Body Front.png"; sourceTree = "<group>"; };
+		A6C56CBA18AA926A00DFAA00 /* Body Front.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Body Front.tga"; sourceTree = "<group>"; };
+		A6C56CBB18AA926A00DFAA00 /* Body Rear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Body Rear.png"; sourceTree = "<group>"; };
+		A6C56CBC18AA926A00DFAA00 /* Body Rear.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Body Rear.tga"; sourceTree = "<group>"; };
+		A6C56CBD18AA926A00DFAA00 /* Dials.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Dials.png; sourceTree = "<group>"; };
+		A6C56CBE18AA926A00DFAA00 /* Dials.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = Dials.tga; sourceTree = "<group>"; };
+		A6C56CBF18AA926A00DFAA00 /* glass 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "glass 1.png"; sourceTree = "<group>"; };
+		A6C56CC018AA926A00DFAA00 /* glass 1.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = "glass 1.tga"; sourceTree = "<group>"; };
+		A6C56CC118AA926A00DFAA00 /* HEINKEL.3DS */ = {isa = PBXFileReference; lastKnownFileType = file; path = HEINKEL.3DS; sourceTree = "<group>"; };
+		A6C56CC218AA926A00DFAA00 /* HEINKEL.c4d */ = {isa = PBXFileReference; lastKnownFileType = file; path = HEINKEL.c4d; sourceTree = "<group>"; };
+		A6C56CC318AA926A00DFAA00 /* HEINKEL.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = HEINKEL.dae; sourceTree = "<group>"; };
+		A6C56CC418AA926A00DFAA00 /* HEINKEL.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HEINKEL.obj; sourceTree = "<group>"; };
+		A6C56CC518AA926A00DFAA00 /* Heinkel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Heinkel.png; sourceTree = "<group>"; };
+		A6C56CC618AA926A00DFAA00 /* Heinkel.pz3 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Heinkel.pz3; sourceTree = "<group>"; };
+		A6C56CC718AA926A00DFAA00 /* Parts 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Parts 1.png"; sourceTree = "<group>"; };
+		A6C56CC818AA926A00DFAA00 /* Parts 1.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Parts 1.tga"; sourceTree = "<group>"; };
+		A6C56CC918AA926A00DFAA00 /* parts 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "parts 2.png"; sourceTree = "<group>"; };
+		A6C56CCA18AA926A00DFAA00 /* parts 2.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = "parts 2.tga"; sourceTree = "<group>"; };
+		A6C56CCB18AA926A00DFAA00 /* parts 3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "parts 3.png"; sourceTree = "<group>"; };
+		A6C56CCC18AA926A00DFAA00 /* parts 3.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = "parts 3.tga"; sourceTree = "<group>"; };
+		A6C56CCD18AA926A00DFAA00 /* parts 4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "parts 4.png"; sourceTree = "<group>"; };
+		A6C56CCE18AA926A00DFAA00 /* parts 4.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = "parts 4.tga"; sourceTree = "<group>"; };
+		A6C56CCF18AA926A00DFAA00 /* pilot 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pilot 2.png"; sourceTree = "<group>"; };
+		A6C56CD018AA926A00DFAA00 /* pilot 2.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = "pilot 2.tga"; sourceTree = "<group>"; };
+		A6C56CD118AA926A00DFAA00 /* pilot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pilot.png; sourceTree = "<group>"; };
+		A6C56CD218AA926A00DFAA00 /* pilot.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = pilot.tga; sourceTree = "<group>"; };
+		A6C56CD318AA926A00DFAA00 /* under.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = under.png; sourceTree = "<group>"; };
+		A6C56CD418AA926A00DFAA00 /* under.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = under.tga; sourceTree = "<group>"; };
+		A6C56CD518AA926A00DFAA00 /* Wing Left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Wing Left.png"; sourceTree = "<group>"; };
+		A6C56CD618AA926A00DFAA00 /* Wing Left.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Wing Left.tga"; sourceTree = "<group>"; };
+		A6C56CD718AA926A00DFAA00 /* Wing Right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Wing Right.png"; sourceTree = "<group>"; };
+		A6C56CD818AA926A00DFAA00 /* Wing Right.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Wing Right.tga"; sourceTree = "<group>"; };
+		A6C56CDA18AA926A00DFAA00 /* ausfb.3DS */ = {isa = PBXFileReference; lastKnownFileType = file; path = ausfb.3DS; sourceTree = "<group>"; };
+		A6C56CDB18AA926A00DFAA00 /* ausfb.c4d */ = {isa = PBXFileReference; lastKnownFileType = file; path = ausfb.c4d; sourceTree = "<group>"; };
+		A6C56CDC18AA926A00DFAA00 /* ausfb.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = ausfb.dae; sourceTree = "<group>"; };
+		A6C56CDD18AA926A00DFAA00 /* ausfb.max */ = {isa = PBXFileReference; lastKnownFileType = file; path = ausfb.max; sourceTree = "<group>"; };
+		A6C56CDE18AA926A00DFAA00 /* ausfb.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ausfb.obj; sourceTree = "<group>"; };
+		A6C56CDF18AA926A00DFAA00 /* AUSFB.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AUSFB.png; sourceTree = "<group>"; };
+		A6C56CE018AA926A00DFAA00 /* AUSFB.pz3 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AUSFB.pz3; sourceTree = "<group>"; };
+		A6C56CE118AA926A00DFAA00 /* Body 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Body 1.png"; sourceTree = "<group>"; };
+		A6C56CE218AA926A00DFAA00 /* Body 1.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Body 1.tga"; sourceTree = "<group>"; };
+		A6C56CE318AA926A00DFAA00 /* Body 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Body 2.png"; sourceTree = "<group>"; };
+		A6C56CE418AA926A00DFAA00 /* Body 2.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Body 2.tga"; sourceTree = "<group>"; };
+		A6C56CE518AA926A00DFAA00 /* Track.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Track.png; sourceTree = "<group>"; };
+		A6C56CE618AA926A00DFAA00 /* Track.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = Track.tga; sourceTree = "<group>"; };
+		A6C56CE718AA926A00DFAA00 /* Turret 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Turret 2.png"; sourceTree = "<group>"; };
+		A6C56CE818AA926A00DFAA00 /* Turret 2.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Turret 2.tga"; sourceTree = "<group>"; };
+		A6C56CE918AA926A00DFAA00 /* Turret.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Turret.png; sourceTree = "<group>"; };
+		A6C56CEA18AA926A00DFAA00 /* Turret.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = Turret.tga; sourceTree = "<group>"; };
 		CC65799418A6456E0035EB43 /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -386,34 +462,96 @@
 		A6C56C7118A63E3F00DFAA00 /* models */ = {
 			isa = PBXGroup;
 			children = (
-				A6C56C8218A66D5900DFAA00 /* Wheels_Right_Object_2.png */,
-				A6C56C8318A66D5900DFAA00 /* Wheels_Left_Object_1.png */,
-				A6C56C8418A66D5900DFAA00 /* Turret_Object_1.002.png */,
-				A6C56C8518A66D5900DFAA00 /* Track_Right_Object_4.png */,
-				A6C56C8618A66D5900DFAA00 /* Track_Left_Object_3.png */,
-				A6C56C8718A66D5900DFAA00 /* IS.obj */,
-				A6C56C8818A66D5900DFAA00 /* IS.mtl */,
-				A6C56C8918A66D5900DFAA00 /* IS.dds */,
-				A6C56C8A18A66D5900DFAA00 /* IS.blend */,
-				A6C56C8B18A66D5900DFAA00 /* IS.3ds */,
-				A6C56C8C18A66D5900DFAA00 /* IS_SM.png */,
-				A6C56C8D18A66D5900DFAA00 /* IS_SM.dds */,
-				A6C56C8E18A66D5900DFAA00 /* IS_NM.png */,
-				A6C56C8F18A66D5900DFAA00 /* IS_NM.dds */,
-				A6C56C9018A66D5900DFAA00 /* Hull_Object_1.001.png */,
-				A6C56C9118A66D5900DFAA00 /* Gun_Object_1.003.png */,
-				A6C56C9218A66D5900DFAA00 /* fur.png */,
-				A6C56C9318A66D5900DFAA00 /* Additional.txt */,
-				A6C56C7218A63E3F00DFAA00 /* Body_1.png */,
-				A6C56C7318A63E3F00DFAA00 /* Body_2.png */,
-				A6C56C7418A63E3F00DFAA00 /* cube.obj */,
-				A6C56C7518A63E3F00DFAA00 /* red.png */,
-				A6C56C7618A63E3F00DFAA00 /* tiger2.obj */,
-				A6C56C7718A63E3F00DFAA00 /* Track.png */,
-				A6C56C7818A63E3F00DFAA00 /* Turret.png */,
-				A6C56C7918A63E3F00DFAA00 /* Turret_2.png */,
+				A6C56CA818AA926A00DFAA00 /* P39 AIRACOBRA */,
+				A6C56CB818AA926A00DFAA00 /* Heinkel */,
+				A6C56CD918AA926A00DFAA00 /* AUSFB */,
 			);
 			path = models;
+			sourceTree = "<group>";
+		};
+		A6C56CA818AA926A00DFAA00 /* P39 AIRACOBRA */ = {
+			isa = PBXGroup;
+			children = (
+				A6C56CA918AA926A00DFAA00 /* Cockpit.png */,
+				A6C56CAA18AA926A00DFAA00 /* Cockpit.tga */,
+				A6C56CAB18AA926A00DFAA00 /* Glass.png */,
+				A6C56CAC18AA926A00DFAA00 /* Glass.tga */,
+				A6C56CAD18AA926A00DFAA00 /* Main Body 2.png */,
+				A6C56CAE18AA926A00DFAA00 /* Main Body 2.tga */,
+				A6C56CAF18AA926A00DFAA00 /* Main Body.png */,
+				A6C56CB018AA926A00DFAA00 /* Main Body.tga */,
+				A6C56CB118AA926A00DFAA00 /* p39.3DS */,
+				A6C56CB218AA926A00DFAA00 /* p39.c4d */,
+				A6C56CB318AA926A00DFAA00 /* p39.dae */,
+				A6C56CB418AA926A00DFAA00 /* P39.max */,
+				A6C56CB518AA926A00DFAA00 /* p39.obj */,
+				A6C56CB618AA926A00DFAA00 /* P39.png */,
+				A6C56CB718AA926A00DFAA00 /* P39.pz3 */,
+			);
+			path = "P39 AIRACOBRA";
+			sourceTree = "<group>";
+		};
+		A6C56CB818AA926A00DFAA00 /* Heinkel */ = {
+			isa = PBXGroup;
+			children = (
+				A6C56CB918AA926A00DFAA00 /* Body Front.png */,
+				A6C56CBA18AA926A00DFAA00 /* Body Front.tga */,
+				A6C56CBB18AA926A00DFAA00 /* Body Rear.png */,
+				A6C56CBC18AA926A00DFAA00 /* Body Rear.tga */,
+				A6C56CBD18AA926A00DFAA00 /* Dials.png */,
+				A6C56CBE18AA926A00DFAA00 /* Dials.tga */,
+				A6C56CBF18AA926A00DFAA00 /* glass 1.png */,
+				A6C56CC018AA926A00DFAA00 /* glass 1.tga */,
+				A6C56CC118AA926A00DFAA00 /* HEINKEL.3DS */,
+				A6C56CC218AA926A00DFAA00 /* HEINKEL.c4d */,
+				A6C56CC318AA926A00DFAA00 /* HEINKEL.dae */,
+				A6C56CC418AA926A00DFAA00 /* HEINKEL.obj */,
+				A6C56CC518AA926A00DFAA00 /* Heinkel.png */,
+				A6C56CC618AA926A00DFAA00 /* Heinkel.pz3 */,
+				A6C56CC718AA926A00DFAA00 /* Parts 1.png */,
+				A6C56CC818AA926A00DFAA00 /* Parts 1.tga */,
+				A6C56CC918AA926A00DFAA00 /* parts 2.png */,
+				A6C56CCA18AA926A00DFAA00 /* parts 2.tga */,
+				A6C56CCB18AA926A00DFAA00 /* parts 3.png */,
+				A6C56CCC18AA926A00DFAA00 /* parts 3.tga */,
+				A6C56CCD18AA926A00DFAA00 /* parts 4.png */,
+				A6C56CCE18AA926A00DFAA00 /* parts 4.tga */,
+				A6C56CCF18AA926A00DFAA00 /* pilot 2.png */,
+				A6C56CD018AA926A00DFAA00 /* pilot 2.tga */,
+				A6C56CD118AA926A00DFAA00 /* pilot.png */,
+				A6C56CD218AA926A00DFAA00 /* pilot.tga */,
+				A6C56CD318AA926A00DFAA00 /* under.png */,
+				A6C56CD418AA926A00DFAA00 /* under.tga */,
+				A6C56CD518AA926A00DFAA00 /* Wing Left.png */,
+				A6C56CD618AA926A00DFAA00 /* Wing Left.tga */,
+				A6C56CD718AA926A00DFAA00 /* Wing Right.png */,
+				A6C56CD818AA926A00DFAA00 /* Wing Right.tga */,
+			);
+			path = Heinkel;
+			sourceTree = "<group>";
+		};
+		A6C56CD918AA926A00DFAA00 /* AUSFB */ = {
+			isa = PBXGroup;
+			children = (
+				A6C56CDA18AA926A00DFAA00 /* ausfb.3DS */,
+				A6C56CDB18AA926A00DFAA00 /* ausfb.c4d */,
+				A6C56CDC18AA926A00DFAA00 /* ausfb.dae */,
+				A6C56CDD18AA926A00DFAA00 /* ausfb.max */,
+				A6C56CDE18AA926A00DFAA00 /* ausfb.obj */,
+				A6C56CDF18AA926A00DFAA00 /* AUSFB.png */,
+				A6C56CE018AA926A00DFAA00 /* AUSFB.pz3 */,
+				A6C56CE118AA926A00DFAA00 /* Body 1.png */,
+				A6C56CE218AA926A00DFAA00 /* Body 1.tga */,
+				A6C56CE318AA926A00DFAA00 /* Body 2.png */,
+				A6C56CE418AA926A00DFAA00 /* Body 2.tga */,
+				A6C56CE518AA926A00DFAA00 /* Track.png */,
+				A6C56CE618AA926A00DFAA00 /* Track.tga */,
+				A6C56CE718AA926A00DFAA00 /* Turret 2.png */,
+				A6C56CE818AA926A00DFAA00 /* Turret 2.tga */,
+				A6C56CE918AA926A00DFAA00 /* Turret.png */,
+				A6C56CEA18AA926A00DFAA00 /* Turret.tga */,
+			);
+			path = AUSFB;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -492,36 +630,74 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A6C56CA318A66D5900DFAA00 /* Gun_Object_1.003.png in Resources */,
-				A6C56C8018A63E3F00DFAA00 /* Turret.png in Resources */,
-				A6C56C9918A66D5900DFAA00 /* IS.obj in Resources */,
+				A6C56D2118AA926A00DFAA00 /* Body 1.png in Resources */,
+				A6C56D1218AA926A00DFAA00 /* pilot.png in Resources */,
+				A6C56CFA18AA926A00DFAA00 /* Body Front.png in Resources */,
+				A6C56D1818AA926A00DFAA00 /* Wing Right.png in Resources */,
+				A6C56D1F18AA926A00DFAA00 /* AUSFB.png in Resources */,
+				A6C56D1E18AA926A00DFAA00 /* ausfb.obj in Resources */,
+				A6C56D1918AA926A00DFAA00 /* Wing Right.tga in Resources */,
+				A6C56D1B18AA926A00DFAA00 /* ausfb.c4d in Resources */,
+				A6C56D0C18AA926A00DFAA00 /* parts 3.png in Resources */,
+				A6C56D0518AA926A00DFAA00 /* HEINKEL.obj in Resources */,
+				A6C56D1A18AA926A00DFAA00 /* ausfb.3DS in Resources */,
+				A6C56CF518AA926A00DFAA00 /* p39.dae in Resources */,
+				A6C56D1318AA926A00DFAA00 /* pilot.tga in Resources */,
+				A6C56D0818AA926A00DFAA00 /* Parts 1.png in Resources */,
+				A6C56D0718AA926A00DFAA00 /* Heinkel.pz3 in Resources */,
+				A6C56CF018AA926A00DFAA00 /* Main Body 2.tga in Resources */,
+				A6C56D2018AA926A00DFAA00 /* AUSFB.pz3 in Resources */,
+				A6C56D2318AA926A00DFAA00 /* Body 2.png in Resources */,
+				A6C56CEF18AA926A00DFAA00 /* Main Body 2.png in Resources */,
+				A6C56CF218AA926A00DFAA00 /* Main Body.tga in Resources */,
+				A6C56CED18AA926A00DFAA00 /* Glass.png in Resources */,
+				A6C56CEC18AA926A00DFAA00 /* Cockpit.tga in Resources */,
+				A6C56D1518AA926A00DFAA00 /* under.tga in Resources */,
+				A6C56D0018AA926A00DFAA00 /* glass 1.png in Resources */,
+				A6C56D2518AA926A00DFAA00 /* Track.png in Resources */,
+				A6C56CFB18AA926A00DFAA00 /* Body Front.tga in Resources */,
+				A6C56D0418AA926A00DFAA00 /* HEINKEL.dae in Resources */,
+				A6C56D0B18AA926A00DFAA00 /* parts 2.tga in Resources */,
+				A6C56D1C18AA926A00DFAA00 /* ausfb.dae in Resources */,
+				A6C56D2718AA926A00DFAA00 /* Turret 2.png in Resources */,
+				A6C56CF718AA926A00DFAA00 /* p39.obj in Resources */,
+				A6C56CEB18AA926A00DFAA00 /* Cockpit.png in Resources */,
+				A6C56CF618AA926A00DFAA00 /* P39.max in Resources */,
 				A6C56A1F189FC8DF00DFAA00 /* InfoPlist.strings in Resources */,
-				A6C56C9618A66D5900DFAA00 /* Turret_Object_1.002.png in Resources */,
-				A6C56C9818A66D5900DFAA00 /* Track_Left_Object_3.png in Resources */,
 				A6C56A2D189FC8DF00DFAA00 /* Images.xcassets in Resources */,
-				A6C56C9518A66D5900DFAA00 /* Wheels_Left_Object_1.png in Resources */,
-				A6C56C7E18A63E3F00DFAA00 /* tiger2.obj in Resources */,
-				A6C56C9718A66D5900DFAA00 /* Track_Right_Object_4.png in Resources */,
+				A6C56D1418AA926A00DFAA00 /* under.png in Resources */,
+				A6C56CEE18AA926A00DFAA00 /* Glass.tga in Resources */,
+				A6C56CF818AA926A00DFAA00 /* P39.png in Resources */,
 				A6C56A25189FC8DF00DFAA00 /* Credits.rtf in Resources */,
 				A6C56A2B189FC8DF00DFAA00 /* MainMenu.xib in Resources */,
-				A6C56CA418A66D5900DFAA00 /* fur.png in Resources */,
-				A6C56CA218A66D5900DFAA00 /* Hull_Object_1.001.png in Resources */,
-				A6C56C9E18A66D5900DFAA00 /* IS_SM.png in Resources */,
-				A6C56C7B18A63E3F00DFAA00 /* Body_2.png in Resources */,
-				A6C56C9F18A66D5900DFAA00 /* IS_SM.dds in Resources */,
-				A6C56C7D18A63E3F00DFAA00 /* red.png in Resources */,
-				A6C56CA018A66D5900DFAA00 /* IS_NM.png in Resources */,
-				A6C56C9A18A66D5900DFAA00 /* IS.mtl in Resources */,
-				A6C56C7A18A63E3F00DFAA00 /* Body_1.png in Resources */,
-				A6C56CA118A66D5900DFAA00 /* IS_NM.dds in Resources */,
-				A6C56C9B18A66D5900DFAA00 /* IS.dds in Resources */,
-				A6C56C9418A66D5900DFAA00 /* Wheels_Right_Object_2.png in Resources */,
-				A6C56C7C18A63E3F00DFAA00 /* cube.obj in Resources */,
-				A6C56C8118A63E3F00DFAA00 /* Turret_2.png in Resources */,
-				A6C56C9C18A66D5900DFAA00 /* IS.blend in Resources */,
-				A6C56C9D18A66D5900DFAA00 /* IS.3ds in Resources */,
-				A6C56C7F18A63E3F00DFAA00 /* Track.png in Resources */,
-				A6C56CA518A66D5900DFAA00 /* Additional.txt in Resources */,
+				A6C56D0A18AA926A00DFAA00 /* parts 2.png in Resources */,
+				A6C56D2618AA926A00DFAA00 /* Track.tga in Resources */,
+				A6C56CFF18AA926A00DFAA00 /* Dials.tga in Resources */,
+				A6C56D2218AA926A00DFAA00 /* Body 1.tga in Resources */,
+				A6C56D1118AA926A00DFAA00 /* pilot 2.tga in Resources */,
+				A6C56D0218AA926A00DFAA00 /* HEINKEL.3DS in Resources */,
+				A6C56D1618AA926A00DFAA00 /* Wing Left.png in Resources */,
+				A6C56D1718AA926A00DFAA00 /* Wing Left.tga in Resources */,
+				A6C56CFE18AA926A00DFAA00 /* Dials.png in Resources */,
+				A6C56D0E18AA926A00DFAA00 /* parts 4.png in Resources */,
+				A6C56D0F18AA926A00DFAA00 /* parts 4.tga in Resources */,
+				A6C56D1D18AA926A00DFAA00 /* ausfb.max in Resources */,
+				A6C56D1018AA926A00DFAA00 /* pilot 2.png in Resources */,
+				A6C56CF318AA926A00DFAA00 /* p39.3DS in Resources */,
+				A6C56D2A18AA926A00DFAA00 /* Turret.tga in Resources */,
+				A6C56D0318AA926A00DFAA00 /* HEINKEL.c4d in Resources */,
+				A6C56CFC18AA926A00DFAA00 /* Body Rear.png in Resources */,
+				A6C56D2818AA926A00DFAA00 /* Turret 2.tga in Resources */,
+				A6C56D2918AA926A00DFAA00 /* Turret.png in Resources */,
+				A6C56CFD18AA926A00DFAA00 /* Body Rear.tga in Resources */,
+				A6C56D0118AA926A00DFAA00 /* glass 1.tga in Resources */,
+				A6C56CF918AA926A00DFAA00 /* P39.pz3 in Resources */,
+				A6C56D2418AA926A00DFAA00 /* Body 2.tga in Resources */,
+				A6C56D0D18AA926A00DFAA00 /* parts 3.tga in Resources */,
+				A6C56D0918AA926A00DFAA00 /* Parts 1.tga in Resources */,
+				A6C56CF418AA926A00DFAA00 /* p39.c4d in Resources */,
+				A6C56D0618AA926A00DFAA00 /* Heinkel.png in Resources */,
+				A6C56CF118AA926A00DFAA00 /* Main Body.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
