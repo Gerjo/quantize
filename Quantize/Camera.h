@@ -39,7 +39,7 @@ public:
     }
     
     Vector3 orientedTranslation(const Vector3& translation) {
-        Matrix44 _rotation = computeRotation(1, -1);
+        Matrix44 _rotation = computeRotation(-1, -1);
         return _rotation * translation;
     }
     

@@ -89,7 +89,7 @@ static bool isInitialized = false;
                 case 0xd:
                     exit(0);
                 default:
-                    printf("%#0x",keyChar);
+                    printf("Registered KeyDown: %#0x \n",keyChar);
                     break;
             }
         }
