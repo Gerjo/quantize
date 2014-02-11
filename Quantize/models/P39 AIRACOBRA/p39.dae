@@ -11,16 +11,16 @@
     </asset>
     <library_images>
         <image id="ID5">
-            <init_from>Glass.tga</init_from>
+            <init_from>models/P39 AIRACOBRA/Glass.png</init_from>
         </image>
         <image id="ID10">
-            <init_from>Main%20Body.tga</init_from>
+            <init_from>models/P39 AIRACOBRA/Main Body.png</init_from>
         </image>
         <image id="ID15">
-            <init_from>Main%20Body%202.tga</init_from>
+            <init_from>models/P39 AIRACOBRA/Main Body 2.png</init_from>
         </image>
         <image id="ID20">
-            <init_from>Cockpit.tga</init_from>
+            <init_from>models/P39 AIRACOBRA/Cockpit.png</init_from>
         </image>
     </library_images>
     <library_effects>

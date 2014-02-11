@@ -98,7 +98,7 @@ struct Textures {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         
         
-        printf("Uploadeding %lu bytes to the GPU...", row_bytes * height);
+        printf("Uploading %lu bytes to the GPU...", row_bytes * height);
         
         glTexImage2D(GL_TEXTURE_2D,                 // What (target)
                  0,                                 // Mip-map level

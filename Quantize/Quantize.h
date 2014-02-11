@@ -139,7 +139,8 @@ public:
         
         ;
 
-        for(Model* model : Collada::FromFile("models/AUSFB/ausfb.dae")) {
+        //for(Model* model : Collada::FromFile("models/AUSFB/ausfb.dae")) {
+        for(Model* model : Collada::FromFile("models/P39 AIRACOBRA/p39.dae")) {
    
             // Create VBO (upload stuff to the GPU)
             model->upload();
@@ -147,28 +148,6 @@ public:
             // Store internally
             models.push_back(model);
         }
-        
-        // Load some 3D model
-        /*for(Model* model : Parser::FromFile("models/tiger2.obj")) {
-        //for(Model* model : Parser::FromFile("models/crown_victoria.obj")) {
-        //for(Model* model : Parser::FromFile("models/asteroid40k.obj")) {
-        //for(Model* model : Parser::FromFile("models/IS.obj")) {
-        //for(Model* model : Parser::FromFile("models/cube.obj")) {
-            // Upload a texture to the GPU and retrieve the handle.
-            // TODO: more robust loading and texture pooling.
-            
-            if(model->group.empty()) {
-                model->texture = Textures::LoadPNG("models/car.png");
-            } else {
-                model->texture = Textures::LoadPNG("models/" + model->group + ".png");
-            }
-            
-            // Create VBO (upload stuff to the GPU)
-            model->upload();
-            
-            // Store internally
-            models.push_back(model);
-        }*/
     };
     
     void initializeMeshProgram() {
@@ -408,11 +387,11 @@ public:
         // Camera position (insert FPS code here).
         Matrix44 transform = camera->transform();
         
-        float distance = 4;
+        float distance = 14;
         transform = Matrix44::CreateLookAt(
             Vector3(-distance, distance, distance),
             Vector3(0, 0, 0),
-            Vector3(0, 1, 0)
+            Vector3(1, 0, 0)
         );
         
         // Pre-multiply all projection related matrices. These are constant
