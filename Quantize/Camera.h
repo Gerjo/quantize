@@ -19,14 +19,15 @@
 #include "Textures.h"
 
 using namespace Furiosity;
-using std::string;
 
 class Camera {
 public:
-    /// Camera control trackers.
-    Vector2 mouse;
-    Vector3 position = Vector3(-2, -2, -10);
-    float roll;
+    Vector3 position {-2, -2, -10};
+    Vector3 orientation {0, 0, 0};
+    
+    float moveSpeed {0.1f};
+    float rollSpeed {0.04f};
+    float mouseSpeed {0.007f};
     
     Camera() {
         
@@ -34,48 +35,85 @@ public:
     
     Matrix44 transform() {
         Matrix44 _translation = Matrix44::CreateTranslation(position.x, position.y, position.z);
-        Matrix44 _rotation = computeRotation(-1, 1);
+        Matrix44 _rotation = computeRotation();
         return _rotation * _translation;
     }
     
-    Vector3 orientedTranslation(const Vector3& translation) {
-        Matrix44 _rotation = computeRotation(1, -1);
-        return _rotation * translation;
-    }
-    
-    Matrix44 computeRotation(int signX, int signY) {
-        Matrix44 _rotateX = Matrix44::CreateRotateX(signX * mouse.y / 200.0f);
-        Matrix44 _rotateY = _rotateX * Matrix44::CreateRotateY(signY * mouse.x / 200.0f);
-        return _rotateY * _rotateX;
+    void update() {
+        position += orientedTranslation(Vector3(control[LEFT] - control[RIGHT],
+                                                control[DOWN] - control[UP],
+                                                control[FORWARD] - control[BACKWARD])) * moveSpeed;
+        orientation.z += (control[CW] - control[CCW]) * rollSpeed;
     }
     
     void onMove(const Vector2& location) {
-        Vector2 _offset = Vector2(350.0f, 250.0f);
-        mouse = location - _offset;
+        Matrix44 _rollCompensation = Matrix44::CreateRotateZ(-1 * orientation.z);
+        Vector3 _rotation = updateMouse(location);
+        orientation += _rollCompensation * _rotation;
     }
     
-    void onW() { //Move Forward
-        position += orientedTranslation(Vector3(0, 0, 1));
+    void onKey(char key) {
+        switch (key) { //WASD Movement, RF for up/down, QE for roll.
+            case 'w':
+                control[FORWARD] = true;
+                break;
+            case 's':
+                control[BACKWARD] = true;
+                break;
+            case 'a':
+                control[LEFT] = true;
+                break;
+            case 'd':
+                control[RIGHT] = true;
+                break;
+            case 'r':
+                control[UP] = true;
+                break;
+            case 'f':
+                control[DOWN] = true;
+                break;
+            case 'q':
+                control[CCW] = true;
+                break;
+            case 'e':
+                control[CW] = true;
+                break;
+            case 0x1b: //Escape exits.
+                exit(0);
+                break;
+            default:
+                printf("Registered KeyDown hex: %#0x\n",key);
+                break;
+        }
     }
     
-    void onA() { //Move Left
-        position += orientedTranslation(Vector3(1, 0, 0));
-    }
-    
-    void onS() { //Move Right
-        position += orientedTranslation(Vector3(0, 0, -1));
-    }
-    
-    void onD() { //Move Back
-        position += orientedTranslation(Vector3(-1, 0, 0));
-    }
-    
-    void onQ() { //Roll CCW
-        
-    }
-    
-    void onE() { //Roll CW
-        
+    void onKeyUp(char key) {
+        switch (key) { //WASD Movement, RF for up/down, QE for roll.
+            case 'w':
+                control[FORWARD] = false;
+                break;
+            case 's':
+                control[BACKWARD] = false;
+                break;
+            case 'a':
+                control[LEFT] = false;
+                break;
+            case 'd':
+                control[RIGHT] = false;
+                break;
+            case 'r':
+                control[UP] = false;
+                break;
+            case 'f':
+                control[DOWN] = false;
+                break;
+            case 'q':
+                control[CCW] = false;
+                break;
+            case 'e':
+                control[CW] = false;
+                break;
+        }
     }
     
     void onScroll(const Vector2& delta) {
@@ -83,6 +121,39 @@ public:
     }
     
     void onClick() {
-        printf("%.2f %.2f \n", mouse.x, mouse.y);
+        printf("Registered click at: %.2f %.2f\n", mouse.x, mouse.y);
+    }
+    
+private:
+    Vector2 mouse;
+    Vector2 mouseOffset {350.0f, 250.0f};
+    
+    bool control[8];
+    enum controlKey{FORWARD, BACKWARD, LEFT, RIGHT, UP, DOWN, CCW, CW};
+    
+    Vector3 updateMouse(const Vector2& location) {
+        Vector2 _oldMouse = mouse;
+        mouse = (location - mouseOffset) * mouseSpeed;
+        Vector2 _d = mouse - _oldMouse;
+        return Vector3(_d.x, _d.y, 0);
+    }
+    
+    Vector3 orientedTranslation(const Vector3& translation) {
+        Matrix44 _rotation = computeInverseRotation();
+        return _rotation * translation;
+    }
+    
+    Matrix44 computeRotation() {
+        Matrix44 _rotateX = Matrix44::CreateRotateX(-1 * orientation.y);
+        Matrix44 _rotateY = Matrix44::CreateRotateY(orientation.x);
+        Matrix44 _roll = Matrix44::CreateRotateZ(orientation.z);
+        return _roll * _rotateX * _rotateY;
+    }
+    
+    Matrix44 computeInverseRotation() {
+        Matrix44 _rotateX = Matrix44::CreateRotateX(1 * orientation.y);
+        Matrix44 _rotateY = Matrix44::CreateRotateY(-1 * orientation.x);
+        Matrix44 _roll = Matrix44::CreateRotateZ(-1 * orientation.z);
+        return _rotateY * _rotateX * _roll;
     }
 };
