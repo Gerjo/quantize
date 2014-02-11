@@ -53,11 +53,11 @@ public:
     Matrix44 computeRotation(bool inverse) {
         Matrix44 _rotateX = Matrix44::CreateRotateX((inverse?1:-1) * mouse.y / 150.0f);
         Matrix44 _rotateY = Matrix44::CreateRotateY((inverse?-1:1) * mouse.x / 150.0f);
-        Matrix44 _roll = Matrix44::CreateRotateZ(roll);
+        Matrix44 _roll = Matrix44::CreateRotateZ((inverse?-1:1) * roll);
         if (!inverse)
             return _roll * _rotateX * _rotateY;
         else
-            return _rotateY * _rotateX;
+            return _rotateY * _rotateX * _roll;
     }
     
     void onMove(const Vector2& location) {
