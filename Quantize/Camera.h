@@ -24,9 +24,9 @@ using std::string;
 class Camera {
 public:
     Vector3 position {-2, -2, -10};
+    Vector3 orientation {0, 0, 0};
     Vector2 mouseOffset {350.0f, 250.0f};
     Vector2 mouse;
-    float roll;
     bool control[8];
     
     Camera() {
@@ -42,7 +42,7 @@ public:
     void update() {
         position += orientedTranslation(Vector3(control[2] - control[3], control[5] - control[4], control[0] - control[1]))
                     * 0.1f; //Control speed.
-        roll += (control[7] - control[6])
+        orientation.z += (control[7] - control[6])
                     * 0.04f; //Control speed.
     }
     
@@ -52,9 +52,9 @@ public:
     }
     
     Matrix44 computeRotation(bool inverse) {
-        Matrix44 _rotateX = Matrix44::CreateRotateX((inverse?1:-1) * mouse.y);
-        Matrix44 _rotateY = Matrix44::CreateRotateY((inverse?-1:1) * mouse.x);
-        Matrix44 _roll = Matrix44::CreateRotateZ((inverse?-1:1) * roll);
+        Matrix44 _rotateX = Matrix44::CreateRotateX((inverse?1:-1) * orientation.y);
+        Matrix44 _rotateY = Matrix44::CreateRotateY((inverse?-1:1) * orientation.x);
+        Matrix44 _roll = Matrix44::CreateRotateZ((inverse?-1:1) * orientation.z);
         if (!inverse)
             return _roll * _rotateX * _rotateY;
         else
@@ -62,7 +62,12 @@ public:
     }
     
     void onMove(const Vector2 location) {
+        Vector2 _oldMouse = mouse;
         mouse = (location - mouseOffset) / 150.0f;
+        Vector2 _d = mouse - _oldMouse;
+        Matrix44 _rollCompensation = Matrix44::CreateRotateZ(-1 * orientation.z);
+        Vector3 _rotation {_d.x, _d.y, 0};
+        orientation += _rollCompensation * _rotation;
     }
     
     void onKey(char key) {
