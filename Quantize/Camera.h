@@ -19,12 +19,15 @@
 #include "Textures.h"
 
 using namespace Furiosity;
-using std::string;
 
 class Camera {
 public:
     Vector3 position {-2, -2, -10};
     Vector3 orientation {0, 0, 0};
+    
+    float moveSpeed {0.1f};
+    float rollSpeed {0.04f};
+    float mouseSpeed {0.007f};
     
     Camera() {
         
@@ -32,21 +35,18 @@ public:
     
     Matrix44 transform() {
         Matrix44 _translation = Matrix44::CreateTranslation(position.x, position.y, position.z);
-        Matrix44 _rotation = computeRotation(false);
+        Matrix44 _rotation = computeRotation();
         return _rotation * _translation;
     }
     
     void update() {
         position += orientedTranslation(Vector3(control[LEFT] - control[RIGHT],
                                                 control[DOWN] - control[UP],
-                                                control[FORWARD] - control[BACKWARD]))
-        * 0.1f; //Control speed.
-        
-        orientation.z += (control[CW] - control[CCW])
-        * 0.04f; //Control speed.
+                                                control[FORWARD] - control[BACKWARD])) * moveSpeed;
+        orientation.z += (control[CW] - control[CCW]) * rollSpeed;
     }
     
-    void onMove(const Vector2 location) {
+    void onMove(const Vector2& location) {
         Matrix44 _rollCompensation = Matrix44::CreateRotateZ(-1 * orientation.z);
         Vector3 _rotation = updateMouse(location);
         orientation += _rollCompensation * _rotation;
@@ -82,7 +82,7 @@ public:
                 exit(0);
                 break;
             default:
-                printf("Registered KeyDown hex: %#0x \n",key);
+                printf("Registered KeyDown hex: %#0x\n",key);
                 break;
         }
     }
@@ -121,35 +121,39 @@ public:
     }
     
     void onClick() {
-        printf("Registered click at: %.2f %.2f \n", mouse.x, mouse.y);
+        printf("Registered click at: %.2f %.2f\n", mouse.x, mouse.y);
     }
     
 private:
-    Vector2 mouseOffset {350.0f, 250.0f};
     Vector2 mouse;
+    Vector2 mouseOffset {350.0f, 250.0f};
     
     bool control[8];
     enum controlKey{FORWARD, BACKWARD, LEFT, RIGHT, UP, DOWN, CCW, CW};
     
-    Vector3 updateMouse(const Vector2 location) {
+    Vector3 updateMouse(const Vector2& location) {
         Vector2 _oldMouse = mouse;
-        mouse = (location - mouseOffset) / 150.0f;
+        mouse = (location - mouseOffset) * mouseSpeed;
         Vector2 _d = mouse - _oldMouse;
         return Vector3(_d.x, _d.y, 0);
     }
     
-    Vector3 orientedTranslation(const Vector3 translation) {
-        Matrix44 _rotation = computeRotation(true);
+    Vector3 orientedTranslation(const Vector3& translation) {
+        Matrix44 _rotation = computeInverseRotation();
         return _rotation * translation;
     }
     
-    Matrix44 computeRotation(bool inverse) {
-        Matrix44 _rotateX = Matrix44::CreateRotateX((inverse?1:-1) * orientation.y);
-        Matrix44 _rotateY = Matrix44::CreateRotateY((inverse?-1:1) * orientation.x);
-        Matrix44 _roll = Matrix44::CreateRotateZ((inverse?-1:1) * orientation.z);
-        if (!inverse)
-            return _roll * _rotateX * _rotateY;
-        else
-            return _rotateY * _rotateX * _roll;
+    Matrix44 computeRotation() {
+        Matrix44 _rotateX = Matrix44::CreateRotateX(-1 * orientation.y);
+        Matrix44 _rotateY = Matrix44::CreateRotateY(orientation.x);
+        Matrix44 _roll = Matrix44::CreateRotateZ(orientation.z);
+        return _roll * _rotateX * _rotateY;
+    }
+    
+    Matrix44 computeInverseRotation() {
+        Matrix44 _rotateX = Matrix44::CreateRotateX(1 * orientation.y);
+        Matrix44 _rotateY = Matrix44::CreateRotateY(-1 * orientation.x);
+        Matrix44 _roll = Matrix44::CreateRotateZ(-1 * orientation.z);
+        return _rotateY * _rotateX * _roll;
     }
 };
