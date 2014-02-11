@@ -34,20 +34,23 @@ public:
     
     Matrix44 transform() {
         Matrix44 _translation = Matrix44::CreateTranslation(position.x, position.y, position.z);
-        Matrix44 _rotation = computeRotation(-1, 1);
+        Matrix44 _rotation = computeRotation(-1, 1, true);
         return _rotation * _translation;
     }
     
     Vector3 orientedTranslation(const Vector3& translation) {
-        Matrix44 _rotation = computeRotation(1, -1);
+        Matrix44 _rotation = computeRotation(1, -1, false);
         return _rotation * translation;
     }
     
-    Matrix44 computeRotation(int signX, int signY) {
+    Matrix44 computeRotation(int signX, int signY, bool flag) {
         Matrix44 _rotateX = Matrix44::CreateRotateX(signX * mouse.y / 150.0f);
         Matrix44 _rotateY = Matrix44::CreateRotateY(signY * mouse.x / 150.0f);
         Matrix44 _roll = Matrix44::CreateRotateZ(roll / 4.0f);
-        return _rotateX * _rotateY * _roll;
+        if (flag)
+            return _rotateX * _rotateY * _roll;
+        else
+            return _roll * _rotateY * _rotateX;
     }
     
     void onMove(const Vector2& location) {
@@ -56,7 +59,7 @@ public:
     }
     
     void onKey(char key) {
-        switch (key) {
+        switch (key) { //WASD Movement, RF for up/down, QE for roll.
             case 'w':
                 position += orientedTranslation(Vector3(0, 0, 1));
                 break;
@@ -81,11 +84,11 @@ public:
             case 'e':
                 roll++;
                 break;
-            case 0xd:
+            case 0xd: //Return exits.
                 exit(0);
                 break;
             default:
-                printf("Registered KeyDown: %#0x \n",key);
+                printf("Registered KeyDown hex: %#0x \n",key);
                 break;
         }
     }
@@ -95,6 +98,6 @@ public:
     }
     
     void onClick() {
-        printf("%.2f %.2f \n", mouse.x, mouse.y);
+        printf("Registered click at: %.2f %.2f \n", mouse.x, mouse.y);
     }
 };
