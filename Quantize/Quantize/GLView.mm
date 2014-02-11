@@ -61,39 +61,8 @@ static bool isInitialized = false;
             return;
         if ( [theKey length] == 1 ) {
             keyChar = [theKey characterAtIndex:0];
-            switch (keyChar) {
-                case 'w':
-                    quantize->camera->onW();
-                    break;
-                case 'a':
-                    quantize->camera->onA();
-                    break;
-                case 's':
-                    quantize->camera->onS();
-                    break;
-                case 'd':
-                    quantize->camera->onD();
-                    break;
-                case 'r':
-                    quantize->camera->onR();
-                    break;
-                case 'f':
-                    quantize->camera->onF();
-                    break;
-                case 'q':
-                    quantize->camera->onQ();
-                    break;
-                case 'e':
-                    quantize->camera->onE();
-                    break;
-                case 0xd:
-                    exit(0);
-                default:
-                    printf("Registered KeyDown: %#0x \n",keyChar);
-                    break;
-            }
+            quantize->camera->onKey(keyChar);
         }
-        
     }
 }
 

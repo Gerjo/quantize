@@ -39,7 +39,7 @@ public:
     }
     
     Vector3 orientedTranslation(const Vector3& translation) {
-        Matrix44 _rotation = computeRotation(-1, -1);
+        Matrix44 _rotation = computeRotation(1, -1);
         return _rotation * translation;
     }
     
@@ -55,36 +55,39 @@ public:
         mouse = location - _offset;
     }
     
-    void onW() { //Move Forward
-        position += orientedTranslation(Vector3(0, 0, 1));
-    }
-    
-    void onA() { //Move Left
-        position += orientedTranslation(Vector3(1, 0, 0));
-    }
-    
-    void onS() { //Move Right
-        position += orientedTranslation(Vector3(0, 0, -1));
-    }
-    
-    void onD() { //Move Back
-        position += orientedTranslation(Vector3(-1, 0, 0));
-    }
-    
-    void onR() { //Move Up
-        position += orientedTranslation(Vector3(0, -1, 0));
-    }
-    
-    void onF() { //Move Down
-        position += orientedTranslation(Vector3(0, 1, 0));
-    }
-    
-    void onQ() { //Roll CCW
-        roll--;
-    }
-    
-    void onE() { //Roll CW
-        roll++;
+    void onKey(char key) {
+        switch (key) {
+            case 'w':
+                position += orientedTranslation(Vector3(0, 0, 1));
+                break;
+            case 'a':
+                position += orientedTranslation(Vector3(1, 0, 0));
+                break;
+            case 's':
+                position += orientedTranslation(Vector3(0, 0, -1));
+                break;
+            case 'd':
+                position += orientedTranslation(Vector3(-1, 0, 0));
+                break;
+            case 'r':
+                position += orientedTranslation(Vector3(0, -1, 0));
+                break;
+            case 'f':
+                position += orientedTranslation(Vector3(0, 1, 0));
+                break;
+            case 'q':
+                roll--;
+                break;
+            case 'e':
+                roll++;
+                break;
+            case 0xd:
+                exit(0);
+                break;
+            default:
+                printf("Registered KeyDown: %#0x \n",key);
+                break;
+        }
     }
     
     void onScroll(const Vector2& delta) {
