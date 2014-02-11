@@ -369,6 +369,7 @@ public:
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
         // Camera position (insert FPS code here).
+        camera->update();
         Matrix44 transform = camera->transform();
         
         // Pre-multiply all projection related matrices. These are constant

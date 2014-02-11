@@ -66,6 +66,19 @@ static bool isInitialized = false;
     }
 }
 
+- (void)keyUp:(NSEvent *)theEvent {
+    if ([theEvent modifierFlags]) {
+        NSString *theKey = [theEvent charactersIgnoringModifiers];
+        unichar keyChar = 0;
+        if ( [theKey length] == 0 )
+            return;
+        if ( [theKey length] == 1 ) {
+            keyChar = [theKey characterAtIndex:0];
+            quantize->camera->onKeyDown(keyChar);
+        }
+    }
+}
+
 /*- (void)mouseDown:(NSEvent *)theEvent;
 - (void)rightMouseDown:(NSEvent *)theEvent;
 - (void)otherMouseDown:(NSEvent *)theEvent;

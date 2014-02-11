@@ -23,10 +23,10 @@ using std::string;
 
 class Camera {
 public:
-    /// Camera control trackers.
-    Vector2 mouse;
     Vector3 position = Vector3(-2, -2, -10);
+    Vector2 mouse;
     float roll;
+    bool control[10];
     
     Camera() {
         
@@ -38,6 +38,13 @@ public:
         return _rotation * _translation;
     }
     
+    void update() {
+        position += orientedTranslation(Vector3(control[2] - control[3], control[5] - control[4], control[0] - control[1]))
+                    * 0.1f; //Control speed.
+        roll += (control[6] - control[7])
+                    * 0.2f; //Control speed.
+    }
+    
     Vector3 orientedTranslation(const Vector3& translation) {
         Matrix44 _rotation = computeRotation(1, -1, false);
         return _rotation * translation;
@@ -46,7 +53,7 @@ public:
     Matrix44 computeRotation(int signX, int signY, bool flag) {
         Matrix44 _rotateX = Matrix44::CreateRotateX(signX * mouse.y / 150.0f);
         Matrix44 _rotateY = Matrix44::CreateRotateY(signY * mouse.x / 150.0f);
-        Matrix44 _roll = Matrix44::CreateRotateZ(roll / 4.0f);
+        Matrix44 _roll = Matrix44::CreateRotateZ(roll);
         if (flag)
             return _rotateX * _rotateY * _roll;
         else
@@ -61,34 +68,63 @@ public:
     void onKey(char key) {
         switch (key) { //WASD Movement, RF for up/down, QE for roll.
             case 'w':
-                position += orientedTranslation(Vector3(0, 0, 1));
-                break;
-            case 'a':
-                position += orientedTranslation(Vector3(1, 0, 0));
+                control[0] = true;
                 break;
             case 's':
-                position += orientedTranslation(Vector3(0, 0, -1));
+                control[1] = true;
+                break;
+            case 'a':
+                control[2] = true;
                 break;
             case 'd':
-                position += orientedTranslation(Vector3(-1, 0, 0));
+                control[3] = true;
                 break;
             case 'r':
-                position += orientedTranslation(Vector3(0, -1, 0));
+                control[4] = true;
                 break;
             case 'f':
-                position += orientedTranslation(Vector3(0, 1, 0));
+                control[5] = true;
                 break;
             case 'q':
-                roll--;
+                control[6] = true;
                 break;
             case 'e':
-                roll++;
+                control[7] = true;
                 break;
             case 0xd: //Return exits.
                 exit(0);
                 break;
             default:
                 printf("Registered KeyDown hex: %#0x \n",key);
+                break;
+        }
+    }
+    
+    void onKeyDown(char key) {
+        switch (key) { //WASD Movement, RF for up/down, QE for roll.
+            case 'w':
+                control[0] = false;
+                break;
+            case 's':
+                control[1] = false;
+                break;
+            case 'a':
+                control[2] = false;
+                break;
+            case 'd':
+                control[3] = false;
+                break;
+            case 'r':
+                control[4] = false;
+                break;
+            case 'f':
+                control[5] = false;
+                break;
+            case 'q':
+                control[6] = false;
+                break;
+            case 'e':
+                control[7] = false;
                 break;
         }
     }
