@@ -44,9 +44,10 @@ public:
     }
     
     Matrix44 computeRotation(int signX, int signY) {
-        Matrix44 _rotateX = Matrix44::CreateRotateX(signX * mouse.y / 200.0f);
-        Matrix44 _rotateY = _rotateX * Matrix44::CreateRotateY(signY * mouse.x / 200.0f);
-        return _rotateY * _rotateX;
+        Matrix44 _rotateX = Matrix44::CreateRotateX(signX * mouse.y / 150.0f);
+        Matrix44 _rotateY = Matrix44::CreateRotateY(signY * mouse.x / 150.0f);
+        Matrix44 _roll = Matrix44::CreateRotateZ(roll / 4.0f);
+        return _rotateX * _rotateY * _roll;
     }
     
     void onMove(const Vector2& location) {
@@ -70,12 +71,20 @@ public:
         position += orientedTranslation(Vector3(-1, 0, 0));
     }
     
+    void onR() { //Move Up
+        position += orientedTranslation(Vector3(0, -1, 0));
+    }
+    
+    void onF() { //Move Down
+        position += orientedTranslation(Vector3(0, 1, 0));
+    }
+    
     void onQ() { //Roll CCW
-        
+        roll--;
     }
     
     void onE() { //Roll CW
-        
+        roll++;
     }
     
     void onScroll(const Vector2& delta) {

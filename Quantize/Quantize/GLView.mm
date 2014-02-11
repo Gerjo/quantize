@@ -74,8 +74,22 @@ static bool isInitialized = false;
                 case 'd':
                     quantize->camera->onD();
                     break;
+                case 'r':
+                    quantize->camera->onR();
+                    break;
+                case 'f':
+                    quantize->camera->onF();
+                    break;
                 case 'q':
+                    quantize->camera->onQ();
+                    break;
+                case 'e':
+                    quantize->camera->onE();
+                    break;
+                case 0xd:
                     exit(0);
+                default:
+                    printf("%#0x",keyChar);
                     break;
             }
         }
