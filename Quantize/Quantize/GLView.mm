@@ -7,7 +7,7 @@
 static NSTimer *timer = nil;
 
 
-static Quantize* quantize = new Quantize();
+static Quantize* quantize = Quantize::getInstance();
 static bool isInitialized = false;
 
 @implementation GLView

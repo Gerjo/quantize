@@ -65,23 +65,11 @@ public:
     GLuint _uniformFboTexture;
     GLuint _uniformWindowSize;
     GLuint _vboFboVertices;
-
-    Quantize()
-        : _programMesh(0)
-        , width(200)
-        , height(100)
-        , _attrPosition(0)
-        , _attrNormal(0)
-        , _attrColor(0)
-        , _attrUV(0)
-        , _uniformCamera(0)
-        , _uniformModelTransform(0)
-        , _uniformNormalTransform(0)
-        , _uniformSampler_1(0)
-        {
-        
-        
-        
+    
+    static Quantize* getInstance() {
+        if (instance == nullptr)
+            instance = new Quantize();
+        return instance;
     }
     
     ~Quantize() {
@@ -452,6 +440,27 @@ public:
         // Run draw calls.
         //glFlush();
         glSwapAPPLE();
+    }
+    
+private:
+    static Quantize* instance;
+    
+    Quantize()
+    : _programMesh(0)
+    , width(200)
+    , height(100)
+    , _attrPosition(0)
+    , _attrNormal(0)
+    , _attrColor(0)
+    , _attrUV(0)
+    , _uniformCamera(0)
+    , _uniformModelTransform(0)
+    , _uniformNormalTransform(0)
+    , _uniformSampler_1(0)
+    {
+        
+        
+        
     }
 };
 

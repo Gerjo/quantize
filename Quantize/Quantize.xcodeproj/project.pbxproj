@@ -11,7 +11,7 @@
 		A6C56A1F189FC8DF00DFAA00 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A6C56A1D189FC8DF00DFAA00 /* InfoPlist.strings */; };
 		A6C56A21189FC8DF00DFAA00 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C56A20189FC8DF00DFAA00 /* main.m */; };
 		A6C56A25189FC8DF00DFAA00 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = A6C56A23189FC8DF00DFAA00 /* Credits.rtf */; };
-		A6C56A28189FC8DF00DFAA00 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C56A27189FC8DF00DFAA00 /* AppDelegate.m */; };
+		A6C56A28189FC8DF00DFAA00 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = A6C56A27189FC8DF00DFAA00 /* AppDelegate.mm */; };
 		A6C56A2B189FC8DF00DFAA00 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6C56A29189FC8DF00DFAA00 /* MainMenu.xib */; };
 		A6C56A2D189FC8DF00DFAA00 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A6C56A2C189FC8DF00DFAA00 /* Images.xcassets */; };
 		A6C56A34189FC8DF00DFAA00 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C56A33189FC8DF00DFAA00 /* XCTest.framework */; };
@@ -179,7 +179,7 @@
 		A6C56A22189FC8DF00DFAA00 /* Quantize-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Quantize-Prefix.pch"; sourceTree = "<group>"; };
 		A6C56A24189FC8DF00DFAA00 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		A6C56A26189FC8DF00DFAA00 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		A6C56A27189FC8DF00DFAA00 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		A6C56A27189FC8DF00DFAA00 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		A6C56A2A189FC8DF00DFAA00 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		A6C56A2C189FC8DF00DFAA00 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A6C56A32189FC8DF00DFAA00 /* QuantizeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuantizeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -434,7 +434,7 @@
 			isa = PBXGroup;
 			children = (
 				A6C56A26189FC8DF00DFAA00 /* AppDelegate.h */,
-				A6C56A27189FC8DF00DFAA00 /* AppDelegate.m */,
+				A6C56A27189FC8DF00DFAA00 /* AppDelegate.mm */,
 				A6C56A29189FC8DF00DFAA00 /* MainMenu.xib */,
 				A6C56A2C189FC8DF00DFAA00 /* Images.xcassets */,
 				A6C56A1B189FC8DF00DFAA00 /* Supporting Files */,
@@ -911,7 +911,7 @@
 				A6C56C5218A2AA5000DFAA00 /* pngmem.c in Sources */,
 				A6C56AA318A106F000DFAA00 /* basic.vsh in Sources */,
 				A6C56C5718A2AA5000DFAA00 /* pngrutil.c in Sources */,
-				A6C56A28189FC8DF00DFAA00 /* AppDelegate.m in Sources */,
+				A6C56A28189FC8DF00DFAA00 /* AppDelegate.mm in Sources */,
 				A6C56C5B18A2AA5000DFAA00 /* pngwio.c in Sources */,
 				A6C56C2E18A139EB00DFAA00 /* Vector3.cpp in Sources */,
 				A6C56C5818A2AA5000DFAA00 /* pngset.c in Sources */,
