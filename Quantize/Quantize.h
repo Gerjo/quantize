@@ -63,6 +63,7 @@ public:
     GLuint _programPost;
     GLuint _attrUvFBO;
     GLuint _uniformFboTexture;
+    GLuint _uniformWindowSize;
     GLuint _vboFboVertices;
 
     Quantize()
@@ -142,6 +143,7 @@ public:
 
         //for(Model* model : Collada::FromFile("models/AUSFB/ausfb.dae")) {
         for(Model* model : Collada::FromFile("models/P39 AIRACOBRA/p39.dae")) {
+        //for(Model* model : Collada::FromFile("models/Earth/Earth.dae")) {
    
             // Create VBO (upload stuff to the GPU)
             model->upload();
@@ -245,6 +247,7 @@ public:
         // Get a handle to the variables in the shader programs
         _attrUvFBO         = glGetAttribLocation(_programPost, "position");
         _uniformFboTexture = glGetUniformLocation(_programPost, "texture");
+        _uniformWindowSize = glGetUniformLocation(_programPost, "windowSize");
         GLError();
         
         // The rectangle used to render onto, the UVs are derived from this.
@@ -430,6 +433,9 @@ public:
         glUniform1i(_uniformFboTexture, 0);
         glEnableVertexAttribArray(_attrUvFBO);
         GLError();
+        
+        glUniform2f(_uniformWindowSize, width, height);
+        
         
         glBindBuffer(GL_ARRAY_BUFFER, _vboFboVertices);
         glVertexAttribPointer(

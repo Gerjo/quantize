@@ -20,7 +20,33 @@ varying vec2 fragmentUV;
 
 varying vec4 tmp;
 
+
+//attribute vec3 inputPosition;
+//attribute vec2 inputTexCoord;
+//attribute vec3 inputNormal;
+
+//uniform mat4 projection, modelview, normalMat;
+
+varying vec3 normalInterp;
+varying vec3 vertPos;
+
+void main(){
+    tmp = color;
+    fragmentUV = uv;
+
+    gl_Position = camera * modelTransform * vec4(position, 1.0);
+    
+    vec4 vertPos4 = modelTransform * vec4(position, 1.0);
+    
+    vertPos = vec3(vertPos4) / vertPos4.w;
+    
+    normalInterp = vec3(normalTransform * normal);
+}
+
+
+/*
 void main() {
+
     // Pass data onto fragment shader
     fragmentColor = color;
     fragmentUV    = uv;
@@ -43,4 +69,4 @@ void main() {
     
     // Project
     gl_Position = camera * modelTransform * vec4(position, 1);
-}
+}*/

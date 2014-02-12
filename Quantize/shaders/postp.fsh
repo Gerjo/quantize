@@ -6,34 +6,54 @@
 //
 
 uniform sampler2D texture;
+
 varying vec2 uvmapping;
- 
+varying vec2 uvunit;
+
+
+const mat3 identity = mat3( 0.0,  0.0,  0.0,
+                            0.0,  1.0,  0.0,
+                            0.0,  0.0,  0.0);
+
+const mat3 blur1    = mat3( 1.0,  1.0,  1.0,
+                            1.0,  1.0,  1.0,
+                            1.0,  1.0,  1.0);
+
+const mat3 blur2    = mat3( 1.0,  2.0,  1.0,
+                            2.0,  4.0,  2.0,
+                            1.0,  2.0,  1.0);
+
+const mat3 edge1    = mat3( 0.0,  1.0,  0.0,
+                            1.0, -4.0,  1.0,
+                            0.0,  1.0,  0.0);
+
+const mat3 edge2    = mat3( 1.0,  0.0, -1.0,
+                            0.0,  0.0,  0.0,
+                           -1.0,  0.0,  1.0);
+
+const mat3 edge3    = mat3(-1.0, -1.0, -1.0,
+                           -1.0,  8.0, -1.0,
+                           -1.0, -1.0, -1.0);
+
+const mat3 sharpen  = mat3( 0.0, -1.0,  0.0,
+                           -1.0,  5.0, -1.0,
+                            0.0, -1.0,  0.0);
+
+
 void main() {
 
-    const int n = 3;
-    //const mat3 kernel = mat3(1.0, 1.0, 1.0,
-     //                        1.0, 1.0, 1.0,
-     //                        1.0, 1.0, 1.0);
     
-    const mat3 kernel = mat3(0.0, 0.0, 0.0,
-                             0.0, 1.0, 0.0,
-                             0.0, 0.0, 0.0);
+    const mat3 kernel = sharpen;
 
-    vec4 color = vec4(0.0, 0.0, 0.0, 1.0);
-    for(int i = 0; i < n; ++i) {
-        for(int j = 0; j < n; ++j) {
+    vec4 color = vec4(0.0, 0.0, 0.0, 0.0);
+    for(int x = 0; x < 3; ++x) {
+        for(int y = 0; y < 3; ++y) {
             
-            vec4 sam = texture2D(texture, uvmapping);
+            vec4 sam = texture2D(texture, uvmapping + vec2(x-1, y-1) * uvunit);
             
-            color = kernel[i][j] * sam;
-            
-            //for(int k = 0; k < 3; ++k) {
-            //   color[k] = kernel[i][j] * sam[k];
-            //}
+            color += sam * kernel[x][y];
         }
     }
     
-    //color /= float(n * n);
-
-    gl_FragColor = texture2D(texture, uvmapping);
+    gl_FragColor = mix(color, texture2D(texture, uvmapping), 0.7);
 }
