@@ -6,10 +6,10 @@
   </asset>
   <library_images>
     <image id="Image">
-      <init_from>file:///Earth_Clouds_D.tga</init_from>
+      <init_from>models/Earth/Earth_Clouds_D.png</init_from>
     </image>
     <image id="Image1">
-      <init_from>file:///Earth_D.tga</init_from>
+      <init_from>models/Earth/Earth_D.png</init_from>
     </image>
   </library_images>
   <library_materials>
@@ -87,7 +87,7 @@
       </profile_COMMON>
       <extra>
         <technique profile="FCOLLADA">
-          <user_properties>Earth_Clouds_D.tga</user_properties>
+          <user_properties>Earth_Clouds_D.png</user_properties>
         </technique>
       </extra>
     </effect>
@@ -147,7 +147,7 @@
       </profile_COMMON>
       <extra>
         <technique profile="FCOLLADA">
-          <user_properties>Earth_D.tga</user_properties>
+          <user_properties>Earth_D.png</user_properties>
         </technique>
       </extra>
     </effect>

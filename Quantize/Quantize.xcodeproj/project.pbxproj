@@ -113,6 +113,48 @@
 		A6C56D2818AA926A00DFAA00 /* Turret 2.tga in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CE818AA926A00DFAA00 /* Turret 2.tga */; };
 		A6C56D2918AA926A00DFAA00 /* Turret.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CE918AA926A00DFAA00 /* Turret.png */; };
 		A6C56D2A18AA926A00DFAA00 /* Turret.tga in Resources */ = {isa = PBXBuildFile; fileRef = A6C56CEA18AA926A00DFAA00 /* Turret.tga */; };
+		A6C56D5818AAA2BF00DFAA00 /* Gun.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D2C18AAA2BF00DFAA00 /* Gun.png */; };
+		A6C56D5918AAA2BF00DFAA00 /* Main Body 2.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D2D18AAA2BF00DFAA00 /* Main Body 2.png */; };
+		A6C56D5A18AAA2BF00DFAA00 /* Main Body.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D2E18AAA2BF00DFAA00 /* Main Body.png */; };
+		A6C56D5B18AAA2BF00DFAA00 /* T-90.3DS in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D2F18AAA2BF00DFAA00 /* T-90.3DS */; };
+		A6C56D5C18AAA2BF00DFAA00 /* T-90.c4d in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D3018AAA2BF00DFAA00 /* T-90.c4d */; };
+		A6C56D5D18AAA2BF00DFAA00 /* T-90.dae in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D3118AAA2BF00DFAA00 /* T-90.dae */; };
+		A6C56D5E18AAA2BF00DFAA00 /* T-90.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D3218AAA2BF00DFAA00 /* T-90.jpg */; };
+		A6C56D5F18AAA2BF00DFAA00 /* T-90.max in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D3318AAA2BF00DFAA00 /* T-90.max */; };
+		A6C56D6018AAA2BF00DFAA00 /* T-90.obj in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D3418AAA2BF00DFAA00 /* T-90.obj */; };
+		A6C56D6118AAA2BF00DFAA00 /* T-90.pz3 in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D3518AAA2BF00DFAA00 /* T-90.pz3 */; };
+		A6C56D6218AAA2BF00DFAA00 /* Turret.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D3618AAA2BF00DFAA00 /* Turret.png */; };
+		A6C56D6318AAA2BF00DFAA00 /* Earth.dae in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D3818AAA2BF00DFAA00 /* Earth.dae */; };
+		A6C56D6418AAA2BF00DFAA00 /* Earth.mtl in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D3918AAA2BF00DFAA00 /* Earth.mtl */; };
+		A6C56D6518AAA2BF00DFAA00 /* Earth.obj in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D3A18AAA2BF00DFAA00 /* Earth.obj */; };
+		A6C56D6618AAA2BF00DFAA00 /* Earth_Clouds_D.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D3B18AAA2BF00DFAA00 /* Earth_Clouds_D.png */; };
+		A6C56D6718AAA2BF00DFAA00 /* Earth_Clouds_D.tga in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D3C18AAA2BF00DFAA00 /* Earth_Clouds_D.tga */; };
+		A6C56D6818AAA2BF00DFAA00 /* Earth_D.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D3D18AAA2BF00DFAA00 /* Earth_D.png */; };
+		A6C56D6918AAA2BF00DFAA00 /* Earth_D.tga in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D3E18AAA2BF00DFAA00 /* Earth_D.tga */; };
+		A6C56D6A18AAA2BF00DFAA00 /* Earth_N.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D3F18AAA2BF00DFAA00 /* Earth_N.png */; };
+		A6C56D6B18AAA2BF00DFAA00 /* Earth_N.tga in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D4018AAA2BF00DFAA00 /* Earth_N.tga */; };
+		A6C56D6C18AAA2BF00DFAA00 /* Earth_S.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D4118AAA2BF00DFAA00 /* Earth_S.png */; };
+		A6C56D6D18AAA2BF00DFAA00 /* Earth_S.tga in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D4218AAA2BF00DFAA00 /* Earth_S.tga */; };
+		A6C56D6E18AAA2BF00DFAA00 /* Alfa_Romeo.3ds in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D4418AAA2BF00DFAA00 /* Alfa_Romeo.3ds */; };
+		A6C56D6F18AAA2BF00DFAA00 /* Alfa_Romeo.max in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D4518AAA2BF00DFAA00 /* Alfa_Romeo.max */; };
+		A6C56D7018AAA2BF00DFAA00 /* Alfa_Romeo.mtl in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D4618AAA2BF00DFAA00 /* Alfa_Romeo.mtl */; };
+		A6C56D7118AAA2BF00DFAA00 /* Alfa_Romeo.obj in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D4718AAA2BF00DFAA00 /* Alfa_Romeo.obj */; };
+		A6C56D7218AAA2BF00DFAA00 /* backl01.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D4818AAA2BF00DFAA00 /* backl01.jpg */; };
+		A6C56D7318AAA2BF00DFAA00 /* backl01.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D4918AAA2BF00DFAA00 /* backl01.png */; };
+		A6C56D7418AAA2BF00DFAA00 /* grille a.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D4A18AAA2BF00DFAA00 /* grille a.png */; };
+		A6C56D7518AAA2BF00DFAA00 /* GRILLE alpha.bmp in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D4B18AAA2BF00DFAA00 /* GRILLE alpha.bmp */; };
+		A6C56D7618AAA2BF00DFAA00 /* grille alpha.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D4C18AAA2BF00DFAA00 /* grille alpha.png */; };
+		A6C56D7718AAA2BF00DFAA00 /* GRILLE.bmp in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D4D18AAA2BF00DFAA00 /* GRILLE.bmp */; };
+		A6C56D7818AAA2BF00DFAA00 /* grille.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D4E18AAA2BF00DFAA00 /* grille.png */; };
+		A6C56D7918AAA2BF00DFAA00 /* LICENSE.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D4F18AAA2BF00DFAA00 /* LICENSE.png */; };
+		A6C56D7A18AAA2BF00DFAA00 /* LICENSE.tga in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D5018AAA2BF00DFAA00 /* LICENSE.tga */; };
+		A6C56D7B18AAA2BF00DFAA00 /* LOGO.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D5118AAA2BF00DFAA00 /* LOGO.jpg */; };
+		A6C56D7C18AAA2BF00DFAA00 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D5218AAA2BF00DFAA00 /* logo.png */; };
+		A6C56D7D18AAA2BF00DFAA00 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D5318AAA2BF00DFAA00 /* readme.txt */; };
+		A6C56D7E18AAA2BF00DFAA00 /* rs4-tire.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D5418AAA2BF00DFAA00 /* rs4-tire.jpg */; };
+		A6C56D7F18AAA2BF00DFAA00 /* rs4-tire.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D5518AAA2BF00DFAA00 /* rs4-tire.png */; };
+		A6C56D8018AAA2BF00DFAA00 /* sidelg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D5618AAA2BF00DFAA00 /* sidelg.jpg */; };
+		A6C56D8118AAA2BF00DFAA00 /* sidelg.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C56D5718AAA2BF00DFAA00 /* sidelg.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -263,6 +305,48 @@
 		A6C56CE818AA926A00DFAA00 /* Turret 2.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Turret 2.tga"; sourceTree = "<group>"; };
 		A6C56CE918AA926A00DFAA00 /* Turret.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Turret.png; sourceTree = "<group>"; };
 		A6C56CEA18AA926A00DFAA00 /* Turret.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = Turret.tga; sourceTree = "<group>"; };
+		A6C56D2C18AAA2BF00DFAA00 /* Gun.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gun.png; sourceTree = "<group>"; };
+		A6C56D2D18AAA2BF00DFAA00 /* Main Body 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Main Body 2.png"; sourceTree = "<group>"; };
+		A6C56D2E18AAA2BF00DFAA00 /* Main Body.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Main Body.png"; sourceTree = "<group>"; };
+		A6C56D2F18AAA2BF00DFAA00 /* T-90.3DS */ = {isa = PBXFileReference; lastKnownFileType = file; path = "T-90.3DS"; sourceTree = "<group>"; };
+		A6C56D3018AAA2BF00DFAA00 /* T-90.c4d */ = {isa = PBXFileReference; lastKnownFileType = file; path = "T-90.c4d"; sourceTree = "<group>"; };
+		A6C56D3118AAA2BF00DFAA00 /* T-90.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = "T-90.dae"; sourceTree = "<group>"; };
+		A6C56D3218AAA2BF00DFAA00 /* T-90.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "T-90.jpg"; sourceTree = "<group>"; };
+		A6C56D3318AAA2BF00DFAA00 /* T-90.max */ = {isa = PBXFileReference; lastKnownFileType = file; path = "T-90.max"; sourceTree = "<group>"; };
+		A6C56D3418AAA2BF00DFAA00 /* T-90.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "T-90.obj"; sourceTree = "<group>"; };
+		A6C56D3518AAA2BF00DFAA00 /* T-90.pz3 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "T-90.pz3"; sourceTree = "<group>"; };
+		A6C56D3618AAA2BF00DFAA00 /* Turret.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Turret.png; sourceTree = "<group>"; };
+		A6C56D3818AAA2BF00DFAA00 /* Earth.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = Earth.dae; sourceTree = "<group>"; };
+		A6C56D3918AAA2BF00DFAA00 /* Earth.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Earth.mtl; sourceTree = "<group>"; };
+		A6C56D3A18AAA2BF00DFAA00 /* Earth.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Earth.obj; sourceTree = "<group>"; };
+		A6C56D3B18AAA2BF00DFAA00 /* Earth_Clouds_D.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Earth_Clouds_D.png; sourceTree = "<group>"; };
+		A6C56D3C18AAA2BF00DFAA00 /* Earth_Clouds_D.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = Earth_Clouds_D.tga; sourceTree = "<group>"; };
+		A6C56D3D18AAA2BF00DFAA00 /* Earth_D.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Earth_D.png; sourceTree = "<group>"; };
+		A6C56D3E18AAA2BF00DFAA00 /* Earth_D.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = Earth_D.tga; sourceTree = "<group>"; };
+		A6C56D3F18AAA2BF00DFAA00 /* Earth_N.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Earth_N.png; sourceTree = "<group>"; };
+		A6C56D4018AAA2BF00DFAA00 /* Earth_N.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = Earth_N.tga; sourceTree = "<group>"; };
+		A6C56D4118AAA2BF00DFAA00 /* Earth_S.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Earth_S.png; sourceTree = "<group>"; };
+		A6C56D4218AAA2BF00DFAA00 /* Earth_S.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = Earth_S.tga; sourceTree = "<group>"; };
+		A6C56D4418AAA2BF00DFAA00 /* Alfa_Romeo.3ds */ = {isa = PBXFileReference; lastKnownFileType = file; path = Alfa_Romeo.3ds; sourceTree = "<group>"; };
+		A6C56D4518AAA2BF00DFAA00 /* Alfa_Romeo.max */ = {isa = PBXFileReference; lastKnownFileType = file; path = Alfa_Romeo.max; sourceTree = "<group>"; };
+		A6C56D4618AAA2BF00DFAA00 /* Alfa_Romeo.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Alfa_Romeo.mtl; sourceTree = "<group>"; };
+		A6C56D4718AAA2BF00DFAA00 /* Alfa_Romeo.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Alfa_Romeo.obj; sourceTree = "<group>"; };
+		A6C56D4818AAA2BF00DFAA00 /* backl01.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = backl01.jpg; sourceTree = "<group>"; };
+		A6C56D4918AAA2BF00DFAA00 /* backl01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backl01.png; sourceTree = "<group>"; };
+		A6C56D4A18AAA2BF00DFAA00 /* grille a.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grille a.png"; sourceTree = "<group>"; };
+		A6C56D4B18AAA2BF00DFAA00 /* GRILLE alpha.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = "GRILLE alpha.bmp"; sourceTree = "<group>"; };
+		A6C56D4C18AAA2BF00DFAA00 /* grille alpha.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grille alpha.png"; sourceTree = "<group>"; };
+		A6C56D4D18AAA2BF00DFAA00 /* GRILLE.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = GRILLE.bmp; sourceTree = "<group>"; };
+		A6C56D4E18AAA2BF00DFAA00 /* grille.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grille.png; sourceTree = "<group>"; };
+		A6C56D4F18AAA2BF00DFAA00 /* LICENSE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LICENSE.png; sourceTree = "<group>"; };
+		A6C56D5018AAA2BF00DFAA00 /* LICENSE.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = LICENSE.tga; sourceTree = "<group>"; };
+		A6C56D5118AAA2BF00DFAA00 /* LOGO.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = LOGO.jpg; sourceTree = "<group>"; };
+		A6C56D5218AAA2BF00DFAA00 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
+		A6C56D5318AAA2BF00DFAA00 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
+		A6C56D5418AAA2BF00DFAA00 /* rs4-tire.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "rs4-tire.jpg"; sourceTree = "<group>"; };
+		A6C56D5518AAA2BF00DFAA00 /* rs4-tire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rs4-tire.png"; sourceTree = "<group>"; };
+		A6C56D5618AAA2BF00DFAA00 /* sidelg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sidelg.jpg; sourceTree = "<group>"; };
+		A6C56D5718AAA2BF00DFAA00 /* sidelg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sidelg.png; sourceTree = "<group>"; };
 		CC65799418A6456E0035EB43 /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -462,6 +546,9 @@
 		A6C56C7118A63E3F00DFAA00 /* models */ = {
 			isa = PBXGroup;
 			children = (
+				A6C56D2B18AAA2BF00DFAA00 /* T-90 */,
+				A6C56D3718AAA2BF00DFAA00 /* Earth */,
+				A6C56D4318AAA2BF00DFAA00 /* alfa-romeo */,
 				A6C56CA818AA926A00DFAA00 /* P39 AIRACOBRA */,
 				A6C56CB818AA926A00DFAA00 /* Heinkel */,
 				A6C56CD918AA926A00DFAA00 /* AUSFB */,
@@ -554,6 +641,69 @@
 			path = AUSFB;
 			sourceTree = "<group>";
 		};
+		A6C56D2B18AAA2BF00DFAA00 /* T-90 */ = {
+			isa = PBXGroup;
+			children = (
+				A6C56D2C18AAA2BF00DFAA00 /* Gun.png */,
+				A6C56D2D18AAA2BF00DFAA00 /* Main Body 2.png */,
+				A6C56D2E18AAA2BF00DFAA00 /* Main Body.png */,
+				A6C56D2F18AAA2BF00DFAA00 /* T-90.3DS */,
+				A6C56D3018AAA2BF00DFAA00 /* T-90.c4d */,
+				A6C56D3118AAA2BF00DFAA00 /* T-90.dae */,
+				A6C56D3218AAA2BF00DFAA00 /* T-90.jpg */,
+				A6C56D3318AAA2BF00DFAA00 /* T-90.max */,
+				A6C56D3418AAA2BF00DFAA00 /* T-90.obj */,
+				A6C56D3518AAA2BF00DFAA00 /* T-90.pz3 */,
+				A6C56D3618AAA2BF00DFAA00 /* Turret.png */,
+			);
+			path = "T-90";
+			sourceTree = "<group>";
+		};
+		A6C56D3718AAA2BF00DFAA00 /* Earth */ = {
+			isa = PBXGroup;
+			children = (
+				A6C56D3818AAA2BF00DFAA00 /* Earth.dae */,
+				A6C56D3918AAA2BF00DFAA00 /* Earth.mtl */,
+				A6C56D3A18AAA2BF00DFAA00 /* Earth.obj */,
+				A6C56D3B18AAA2BF00DFAA00 /* Earth_Clouds_D.png */,
+				A6C56D3C18AAA2BF00DFAA00 /* Earth_Clouds_D.tga */,
+				A6C56D3D18AAA2BF00DFAA00 /* Earth_D.png */,
+				A6C56D3E18AAA2BF00DFAA00 /* Earth_D.tga */,
+				A6C56D3F18AAA2BF00DFAA00 /* Earth_N.png */,
+				A6C56D4018AAA2BF00DFAA00 /* Earth_N.tga */,
+				A6C56D4118AAA2BF00DFAA00 /* Earth_S.png */,
+				A6C56D4218AAA2BF00DFAA00 /* Earth_S.tga */,
+			);
+			path = Earth;
+			sourceTree = "<group>";
+		};
+		A6C56D4318AAA2BF00DFAA00 /* alfa-romeo */ = {
+			isa = PBXGroup;
+			children = (
+				A6C56D4418AAA2BF00DFAA00 /* Alfa_Romeo.3ds */,
+				A6C56D4518AAA2BF00DFAA00 /* Alfa_Romeo.max */,
+				A6C56D4618AAA2BF00DFAA00 /* Alfa_Romeo.mtl */,
+				A6C56D4718AAA2BF00DFAA00 /* Alfa_Romeo.obj */,
+				A6C56D4818AAA2BF00DFAA00 /* backl01.jpg */,
+				A6C56D4918AAA2BF00DFAA00 /* backl01.png */,
+				A6C56D4A18AAA2BF00DFAA00 /* grille a.png */,
+				A6C56D4B18AAA2BF00DFAA00 /* GRILLE alpha.bmp */,
+				A6C56D4C18AAA2BF00DFAA00 /* grille alpha.png */,
+				A6C56D4D18AAA2BF00DFAA00 /* GRILLE.bmp */,
+				A6C56D4E18AAA2BF00DFAA00 /* grille.png */,
+				A6C56D4F18AAA2BF00DFAA00 /* LICENSE.png */,
+				A6C56D5018AAA2BF00DFAA00 /* LICENSE.tga */,
+				A6C56D5118AAA2BF00DFAA00 /* LOGO.jpg */,
+				A6C56D5218AAA2BF00DFAA00 /* logo.png */,
+				A6C56D5318AAA2BF00DFAA00 /* readme.txt */,
+				A6C56D5418AAA2BF00DFAA00 /* rs4-tire.jpg */,
+				A6C56D5518AAA2BF00DFAA00 /* rs4-tire.png */,
+				A6C56D5618AAA2BF00DFAA00 /* sidelg.jpg */,
+				A6C56D5718AAA2BF00DFAA00 /* sidelg.png */,
+			);
+			path = "alfa-romeo";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -630,42 +780,67 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6C56D7618AAA2BF00DFAA00 /* grille alpha.png in Resources */,
 				A6C56D2118AA926A00DFAA00 /* Body 1.png in Resources */,
+				A6C56D8018AAA2BF00DFAA00 /* sidelg.jpg in Resources */,
 				A6C56D1218AA926A00DFAA00 /* pilot.png in Resources */,
 				A6C56CFA18AA926A00DFAA00 /* Body Front.png in Resources */,
+				A6C56D5A18AAA2BF00DFAA00 /* Main Body.png in Resources */,
+				A6C56D6718AAA2BF00DFAA00 /* Earth_Clouds_D.tga in Resources */,
 				A6C56D1818AA926A00DFAA00 /* Wing Right.png in Resources */,
+				A6C56D6318AAA2BF00DFAA00 /* Earth.dae in Resources */,
 				A6C56D1F18AA926A00DFAA00 /* AUSFB.png in Resources */,
 				A6C56D1E18AA926A00DFAA00 /* ausfb.obj in Resources */,
 				A6C56D1918AA926A00DFAA00 /* Wing Right.tga in Resources */,
+				A6C56D7C18AAA2BF00DFAA00 /* logo.png in Resources */,
 				A6C56D1B18AA926A00DFAA00 /* ausfb.c4d in Resources */,
 				A6C56D0C18AA926A00DFAA00 /* parts 3.png in Resources */,
 				A6C56D0518AA926A00DFAA00 /* HEINKEL.obj in Resources */,
 				A6C56D1A18AA926A00DFAA00 /* ausfb.3DS in Resources */,
 				A6C56CF518AA926A00DFAA00 /* p39.dae in Resources */,
+				A6C56D7B18AAA2BF00DFAA00 /* LOGO.jpg in Resources */,
+				A6C56D7818AAA2BF00DFAA00 /* grille.png in Resources */,
 				A6C56D1318AA926A00DFAA00 /* pilot.tga in Resources */,
+				A6C56D7A18AAA2BF00DFAA00 /* LICENSE.tga in Resources */,
+				A6C56D6218AAA2BF00DFAA00 /* Turret.png in Resources */,
 				A6C56D0818AA926A00DFAA00 /* Parts 1.png in Resources */,
+				A6C56D6E18AAA2BF00DFAA00 /* Alfa_Romeo.3ds in Resources */,
 				A6C56D0718AA926A00DFAA00 /* Heinkel.pz3 in Resources */,
+				A6C56D6C18AAA2BF00DFAA00 /* Earth_S.png in Resources */,
 				A6C56CF018AA926A00DFAA00 /* Main Body 2.tga in Resources */,
+				A6C56D7518AAA2BF00DFAA00 /* GRILLE alpha.bmp in Resources */,
 				A6C56D2018AA926A00DFAA00 /* AUSFB.pz3 in Resources */,
+				A6C56D5B18AAA2BF00DFAA00 /* T-90.3DS in Resources */,
+				A6C56D6418AAA2BF00DFAA00 /* Earth.mtl in Resources */,
 				A6C56D2318AA926A00DFAA00 /* Body 2.png in Resources */,
 				A6C56CEF18AA926A00DFAA00 /* Main Body 2.png in Resources */,
 				A6C56CF218AA926A00DFAA00 /* Main Body.tga in Resources */,
+				A6C56D5F18AAA2BF00DFAA00 /* T-90.max in Resources */,
 				A6C56CED18AA926A00DFAA00 /* Glass.png in Resources */,
 				A6C56CEC18AA926A00DFAA00 /* Cockpit.tga in Resources */,
 				A6C56D1518AA926A00DFAA00 /* under.tga in Resources */,
+				A6C56D7718AAA2BF00DFAA00 /* GRILLE.bmp in Resources */,
 				A6C56D0018AA926A00DFAA00 /* glass 1.png in Resources */,
 				A6C56D2518AA926A00DFAA00 /* Track.png in Resources */,
 				A6C56CFB18AA926A00DFAA00 /* Body Front.tga in Resources */,
 				A6C56D0418AA926A00DFAA00 /* HEINKEL.dae in Resources */,
+				A6C56D6818AAA2BF00DFAA00 /* Earth_D.png in Resources */,
+				A6C56D6A18AAA2BF00DFAA00 /* Earth_N.png in Resources */,
 				A6C56D0B18AA926A00DFAA00 /* parts 2.tga in Resources */,
 				A6C56D1C18AA926A00DFAA00 /* ausfb.dae in Resources */,
 				A6C56D2718AA926A00DFAA00 /* Turret 2.png in Resources */,
+				A6C56D8118AAA2BF00DFAA00 /* sidelg.png in Resources */,
+				A6C56D6618AAA2BF00DFAA00 /* Earth_Clouds_D.png in Resources */,
 				A6C56CF718AA926A00DFAA00 /* p39.obj in Resources */,
+				A6C56D6F18AAA2BF00DFAA00 /* Alfa_Romeo.max in Resources */,
 				A6C56CEB18AA926A00DFAA00 /* Cockpit.png in Resources */,
 				A6C56CF618AA926A00DFAA00 /* P39.max in Resources */,
+				A6C56D7118AAA2BF00DFAA00 /* Alfa_Romeo.obj in Resources */,
 				A6C56A1F189FC8DF00DFAA00 /* InfoPlist.strings in Resources */,
 				A6C56A2D189FC8DF00DFAA00 /* Images.xcassets in Resources */,
+				A6C56D7218AAA2BF00DFAA00 /* backl01.jpg in Resources */,
 				A6C56D1418AA926A00DFAA00 /* under.png in Resources */,
+				A6C56D6B18AAA2BF00DFAA00 /* Earth_N.tga in Resources */,
 				A6C56CEE18AA926A00DFAA00 /* Glass.tga in Resources */,
 				A6C56CF818AA926A00DFAA00 /* P39.png in Resources */,
 				A6C56A25189FC8DF00DFAA00 /* Credits.rtf in Resources */,
@@ -674,29 +849,46 @@
 				A6C56D2618AA926A00DFAA00 /* Track.tga in Resources */,
 				A6C56CFF18AA926A00DFAA00 /* Dials.tga in Resources */,
 				A6C56D2218AA926A00DFAA00 /* Body 1.tga in Resources */,
+				A6C56D7318AAA2BF00DFAA00 /* backl01.png in Resources */,
 				A6C56D1118AA926A00DFAA00 /* pilot 2.tga in Resources */,
+				A6C56D5818AAA2BF00DFAA00 /* Gun.png in Resources */,
 				A6C56D0218AA926A00DFAA00 /* HEINKEL.3DS in Resources */,
 				A6C56D1618AA926A00DFAA00 /* Wing Left.png in Resources */,
+				A6C56D7918AAA2BF00DFAA00 /* LICENSE.png in Resources */,
 				A6C56D1718AA926A00DFAA00 /* Wing Left.tga in Resources */,
+				A6C56D7418AAA2BF00DFAA00 /* grille a.png in Resources */,
 				A6C56CFE18AA926A00DFAA00 /* Dials.png in Resources */,
+				A6C56D5D18AAA2BF00DFAA00 /* T-90.dae in Resources */,
 				A6C56D0E18AA926A00DFAA00 /* parts 4.png in Resources */,
 				A6C56D0F18AA926A00DFAA00 /* parts 4.tga in Resources */,
+				A6C56D7E18AAA2BF00DFAA00 /* rs4-tire.jpg in Resources */,
 				A6C56D1D18AA926A00DFAA00 /* ausfb.max in Resources */,
 				A6C56D1018AA926A00DFAA00 /* pilot 2.png in Resources */,
 				A6C56CF318AA926A00DFAA00 /* p39.3DS in Resources */,
 				A6C56D2A18AA926A00DFAA00 /* Turret.tga in Resources */,
 				A6C56D0318AA926A00DFAA00 /* HEINKEL.c4d in Resources */,
+				A6C56D7F18AAA2BF00DFAA00 /* rs4-tire.png in Resources */,
 				A6C56CFC18AA926A00DFAA00 /* Body Rear.png in Resources */,
 				A6C56D2818AA926A00DFAA00 /* Turret 2.tga in Resources */,
+				A6C56D5E18AAA2BF00DFAA00 /* T-90.jpg in Resources */,
 				A6C56D2918AA926A00DFAA00 /* Turret.png in Resources */,
 				A6C56CFD18AA926A00DFAA00 /* Body Rear.tga in Resources */,
+				A6C56D5918AAA2BF00DFAA00 /* Main Body 2.png in Resources */,
+				A6C56D7D18AAA2BF00DFAA00 /* readme.txt in Resources */,
+				A6C56D7018AAA2BF00DFAA00 /* Alfa_Romeo.mtl in Resources */,
+				A6C56D6518AAA2BF00DFAA00 /* Earth.obj in Resources */,
+				A6C56D6918AAA2BF00DFAA00 /* Earth_D.tga in Resources */,
+				A6C56D6118AAA2BF00DFAA00 /* T-90.pz3 in Resources */,
+				A6C56D5C18AAA2BF00DFAA00 /* T-90.c4d in Resources */,
 				A6C56D0118AA926A00DFAA00 /* glass 1.tga in Resources */,
 				A6C56CF918AA926A00DFAA00 /* P39.pz3 in Resources */,
 				A6C56D2418AA926A00DFAA00 /* Body 2.tga in Resources */,
+				A6C56D6D18AAA2BF00DFAA00 /* Earth_S.tga in Resources */,
 				A6C56D0D18AA926A00DFAA00 /* parts 3.tga in Resources */,
 				A6C56D0918AA926A00DFAA00 /* Parts 1.tga in Resources */,
 				A6C56CF418AA926A00DFAA00 /* p39.c4d in Resources */,
 				A6C56D0618AA926A00DFAA00 /* Heinkel.png in Resources */,
+				A6C56D6018AAA2BF00DFAA00 /* T-90.obj in Resources */,
 				A6C56CF118AA926A00DFAA00 /* Main Body.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
