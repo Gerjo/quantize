@@ -39,22 +39,38 @@ struct VertexData {
 
 class Model {
 private:
+    /// Flag to indicate if this texture has been uploaded already, i.e. are the
+    /// vbo's ready.
     bool _isuploaded;
     
+    /// Will be removed. soon.
     float angle;
     
 public:
+    /// Pointer to vertex buffer objects.
+    ///  0: the vertex data
+    ///  1: the order of drawing indices
     GLuint vbo[2];
     
+    /// Transform as specified in the collada file. This is shared among all
+    /// meshes. Generally this normalizes the mesh somewhat.
     Matrix44 baseTransform;
     
+    /// Transformation of this model.
     Matrix44 modelTransform;
+    
+    /// Transform for the normals. These are direction only, so require no
+    /// translation.
     Matrix33 normalTransform;
     
-    std::vector<unsigned int> indices;
+    /// The vertexdata (as per vbo[0]
     std::vector<VertexData> vertices;
+    
+    /// The drawing indices (as per vbo[1]
+    std::vector<unsigned int> indices;
 
-    // Identifiers as specified in the obj file.
+    /// Identifiers as specified in the obj file. These are here for legacy
+    /// support of the old model loader.
     std::string material;
     std::string group;
     
@@ -62,7 +78,13 @@ public:
     // the Collada file.
     std::string name;
 
+    /// A handle to the texture. Smart pointers are used to manage the resource
+    /// reuse.
     std::shared_ptr<GLuint> texture;
+    
+    /// Models nested within this model. Transforms are inherited, this is used
+    /// for Collada's nested nodes.
+    std::vector<Model*> submodels;
 
     Model() : _isuploaded(false), angle(0), vbo{0}, texture(0) {
         modelTransform.SetIndentity();

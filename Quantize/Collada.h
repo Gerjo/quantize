@@ -469,8 +469,7 @@ struct Collada {
                                     model->indices.push_back((int) i);
                                 }
                                 
-                                //if(model->name == "Turret_2")
-                                    models.push_back(model);
+                                models.push_back(model);
                             }
                             
                             // TODO: might have to change the order of multiplication.
