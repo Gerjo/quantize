@@ -17,10 +17,11 @@
 struct Textures {
     static std::shared_ptr<GLuint> LoadPNG(const std::string& filename) {
     
-        static std::map<std::string, std::weak_ptr<GLuint>> cache;
+        static std::map<const std::string, std::weak_ptr<GLuint>> cache;
     
         if(cache.find(filename) != cache.end()) {
             if( ! cache[filename].expired()) {
+                printf("Texture loaded from cache.\n");
                 // Promote the weak reference to a shared reference and return it.
                 return cache[filename].lock();
             }
