@@ -9,11 +9,22 @@
 #pragma once
 
 #include "Tools.h"
+#include <memory>
+#include <map>
 
 #include "libPNG/png.h"
 
 struct Textures {
-    static GLuint LoadPNG(const std::string& filename) {
+    static std::shared_ptr<GLuint> LoadPNG(const std::string& filename) {
+    
+        static std::map<std::string, std::weak_ptr<GLuint>> cache;
+    
+        if(cache.find(filename) != cache.end()) {
+            if( ! cache[filename].expired()) {
+                // Promote the weak reference to a shared reference and return it.
+                return cache[filename].lock();
+            }
+        }
     
         if( ! FileExists(filename)) {
             Exit("Cannot open png: %s.", filename.c_str());
@@ -129,6 +140,22 @@ struct Textures {
         // Data is on the GPU's RAM, release it from the CPU's RAM.
         ::free(data);
     
-        return texture;
+        // Create smart pointer to handle life-cycle, a custom deleter is provided.
+        std::shared_ptr<GLuint> ptr = std::shared_ptr<GLuint>(new GLuint(texture), [] (GLuint* texture) {
+        
+            // Remove from GPU
+            glDeleteTextures(1, texture);
+            
+            // Remove from RAM.
+            delete texture;
+        });
+    
+        // Insert into cache.
+        cache.insert(make_pair(
+            filename,
+            ptr
+        ));
+    
+        return ptr;
     }
 };

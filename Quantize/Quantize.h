@@ -336,9 +336,9 @@ public:
     void render(Model& model) {
         
         // Texture enabling
-        glActiveTexture(GL_TEXTURE0);                   // Use texture 0
-        glBindTexture(GL_TEXTURE_2D, model.texture);    // Work with this texture
-        glUniform1i(_uniformSampler_1, 0);              // Set the sampler to tex 0
+        glActiveTexture(GL_TEXTURE0);                    // Use texture 0
+        glBindTexture(GL_TEXTURE_2D, *(model.texture.get()));    // Work with this texture
+        glUniform1i(_uniformSampler_1, 0);               // Set the sampler to tex 0
         GLError();
         
         // Set the perspective projection, once. This is shared among all models.

@@ -10,6 +10,7 @@
 
 #include "Tools.h"
 #include <vector>
+#include <memory>
 #include "Math/Vector3.h"
 #include "Math/Matrix44.h"
 #include "Math/Matrix33.h"
@@ -61,7 +62,7 @@ public:
     // the Collada file.
     std::string name;
 
-    GLuint texture;
+    std::shared_ptr<GLuint> texture;
 
     Model() : _isuploaded(false), angle(0), vbo{0}, texture(0) {
         modelTransform.SetIndentity();
