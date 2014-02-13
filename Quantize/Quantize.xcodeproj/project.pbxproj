@@ -168,6 +168,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A6403D9418ACB9FA009116CF /* Light.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Light.h; sourceTree = "<group>"; };
 		A6C56A11189FC8DF00DFAA00 /* Quantize.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Quantize.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6C56A14189FC8DF00DFAA00 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		A6C56A17189FC8DF00DFAA00 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -377,6 +378,7 @@
 		A6C56A08189FC8DF00DFAA00 = {
 			isa = PBXGroup;
 			children = (
+				A6403D9418ACB9FA009116CF /* Light.h */,
 				A6C56CA718A8E9FC00DFAA00 /* Collada.h */,
 				A6C56C7118A63E3F00DFAA00 /* models */,
 				A6C56C6118A58C4D00DFAA00 /* tinyXML */,

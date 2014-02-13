@@ -18,6 +18,7 @@
 #include "Model.h"
 #include "Textures.h"
 #include "Camera.h"
+#include "Light.h"
 
 #include "Collada.h"
 
@@ -25,7 +26,6 @@ using namespace Furiosity;
 using std::string;
 
 class Quantize {
-public:
     /// Main shader program.
     GLuint _programMesh;
     
@@ -40,19 +40,21 @@ public:
     GLuint _uniformModelTransform;
     GLuint _uniformNormalTransform;
     GLuint _uniformSampler_1;
-
-    /// Width width and height.
+    
+    /// Light uniforms
+    GLuint _lightCount;
+    GLuint _lightsPosition;
+    GLuint _lightsDiffuse;
+    GLuint _lightsSpecular;
+    GLuint _lightsAmbiant;
+    
+    
     float width;
     float height;
     
     /// Perspective projection.
     Matrix44 _projection;
     
-    /// Camera
-    Camera* camera = new Camera;
-
-    /// Collection of models to render.
-    std::vector<Model*> models;
 
     /// Framebuffer
     GLuint _fbo;
@@ -65,6 +67,17 @@ public:
     GLuint _uniformFboTexture;
     GLuint _uniformWindowSize;
     GLuint _vboFboVertices;
+    
+
+    /// Collection of models to render.
+    std::vector<Model*> models;
+    
+    /// Collection of light sources. Value semantics are used
+    /// for better memory alignment. Array of structs idiom.
+    std::vector<Light> lights;
+public:
+    /// Camera
+    Camera* camera;
 
     Quantize()
         : _programMesh(0)
@@ -78,10 +91,28 @@ public:
         , _uniformModelTransform(0)
         , _uniformNormalTransform(0)
         , _uniformSampler_1(0)
+        , camera(new Camera())
         {
         
+        Light light;
+        light.position.x = 45.0f;
+        light.position.y = 25.0f;
+        light.position.z = -10.0f;
+        
+        for(size_t i = 0; i < 4; ++i) {
+            light.ambient.v[i]  = 0.2f;
+            light.diffuse.v[i]  = 0.5f;
+            light.specular.v[i] = 0.0f;
+        }
+      
+        light.diffuse.b = 3;
+      
+        lights.push_back(light);
         
         
+        light.position.y *= -1;
+        light.diffuse.r = 3;
+        lights.push_back(light);
     }
     
     ~Quantize() {
@@ -181,6 +212,13 @@ public:
         _uniformModelTransform  = glGetUniformLocation(_programMesh, "modelTransform");
         _uniformNormalTransform = glGetUniformLocation(_programMesh, "normalTransform");
         _uniformSampler_1 = glGetUniformLocation(_programMesh, "sampler_1");
+        GLError();
+    
+        _lightCount     = glGetUniformLocation(_programMesh, "lightCount");
+        _lightsPosition = glGetUniformLocation(_programMesh, "lightsPosition");
+        _lightsDiffuse  = glGetUniformLocation(_programMesh, "lightsDiffuse");
+        _lightsSpecular = glGetUniformLocation(_programMesh, "lightsSpecular");
+        _lightsAmbiant  = glGetUniformLocation(_programMesh, "lightsAmbiant");
         GLError();
 
         // Remove the shaders, they are compiled and no longer required.
@@ -413,6 +451,33 @@ public:
                             projection.f   // Float array with values
         );
 
+
+        std::vector<Vector3> position;
+        std::vector<Color> diffuse;
+        std::vector<Color> specular;
+        std::vector<Color> ambient;
+
+        for(const Light& light : lights) {
+            position.push_back(light.position);
+            diffuse.push_back(light.diffuse);
+            specular.push_back(light.specular);
+            ambient.push_back(light.ambient);
+        }
+
+        // Amount of lights
+        int nLights = (int) lights.size();
+        
+        glUniform1i(_lightCount, nLights);
+        GLError();
+        
+        glUniform3fv(_lightsPosition, nLights, position[0].v);
+        glUniform4fv(_lightsAmbiant, nLights, ambient[0].v);
+        glUniform4fv(_lightsSpecular, nLights, specular[0].v);
+        glUniform4fv(_lightsDiffuse, nLights, diffuse[0].v);
+        GLError();
+
+
+        // Render/Update loop
         for(Model* model : models) {
             model->update(dt);
             render(*model);

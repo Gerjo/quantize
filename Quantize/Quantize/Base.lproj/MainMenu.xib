@@ -655,7 +655,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="655" height="467"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <openGLView fixedFrame="YES" depthSize="32bit" stencilSize="8bit" rendererType="accelerated" numberOfAuxiliaryBuffers="1" useAuxiliaryDepthBufferStencil="NO" allowOffline="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rWz-pO-4bY" userLabel="GLView" customClass="GLView">
+                    <openGLView fixedFrame="YES" depthSize="32bit" stencilSize="8bit" antiAliasingType="supersample" rendererType="accelerated" numberOfAuxiliaryBuffers="1" useAuxiliaryDepthBufferStencil="NO" allowOffline="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rWz-pO-4bY" userLabel="GLView" customClass="GLView">
                         <rect key="frame" x="-11" y="-27" width="666" height="494"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </openGLView>

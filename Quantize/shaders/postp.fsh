@@ -55,5 +55,5 @@ void main() {
         }
     }
     
-    gl_FragColor = mix(color, texture2D(texture, uvmapping), 0.7);
+    gl_FragColor = mix(color, texture2D(texture, uvmapping), 0.3);
 }
