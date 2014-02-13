@@ -7,3 +7,5 @@
 //
 
 #include "Quantize.h"
+
+//Quantize* Quantize::instance = nullptr;

@@ -78,7 +78,17 @@ class Quantize {
 public:
     /// Camera
     Camera* camera;
+    
+    
+    static Quantize* getInstance() {
+        // This works, read the manual ;)
+        static Quantize* hack = new Quantize();
+        
+        return hack;
+    }
+    
 
+private:
     Quantize()
         : _programMesh(0)
         , width(200)
@@ -115,6 +125,7 @@ public:
         lights.push_back(light);
     }
     
+public:
     ~Quantize() {
         glDeleteRenderbuffers(1, &_renderBuffer);
         glDeleteTextures(1, &_fboTexture);
