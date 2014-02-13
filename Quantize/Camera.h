@@ -29,14 +29,19 @@ public:
     float mouseSpeed {0.007f};
     float rollSpeed {0.04f};
     
+    bool locked {true};
+    
     Camera() {
         
     }
     
     Matrix44 transform() {
+        if (!locked) {
         Matrix44 _translation = Matrix44::CreateTranslation(position.x, position.y, position.z);
         Matrix44 _rotation = computeRotation();
         return _rotation * _translation;
+        }
+        else return defaultLookat();
     }
     
     void update() {
@@ -130,6 +135,15 @@ private:
     
     bool control[8];
     enum controlKey{FORWARD, BACKWARD, LEFT, RIGHT, UP, DOWN, CCW, CW};
+    
+    Matrix44 defaultLookat() {
+        float _distance = 14;
+        return Matrix44::CreateLookAt(
+                                      Vector3(-_distance, _distance, _distance),
+                                      Vector3(0, 0, 0),
+                                      Vector3(0, 1, 0)
+                                      );
+    }
     
     Vector3 updateMouse(const Vector2& location) {
         Vector2 _oldMouse = mouse;

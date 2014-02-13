@@ -479,12 +479,13 @@ struct Collada {
                             
                             transform.SetIndentity();
                             
+                            transform = transform * Matrix44::CreateScale(scale);
+                            
                             for(auto& r : rotate) {
                                 transform = transform * Matrix44::CreateRotate(r.second, r.first.x, r.first.y, r.first.y);
                             }
                             
                             transform = transform * Matrix44::CreateTranslation(translate.x, translate.y, translate.z);
-                            transform = transform * Matrix44::CreateScale(scale);
                             
                             model->baseTransform = transform;
                             

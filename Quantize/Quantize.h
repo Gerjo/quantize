@@ -72,13 +72,14 @@ class Quantize {
     /// Collection of models to render.
     std::vector<Model*> models;
     
-    /// Collection of light sources. Value semantics are used
-    /// for better memory alignment. Array of structs idiom.
-    std::vector<Light> lights;
+    
 public:
     /// Camera
     Camera* camera;
     
+    /// Collection of light sources. Value semantics are used
+    /// for better memory alignment. Array of structs idiom.
+    std::vector<Light> lights;
     
     static Quantize* getInstance() {
         // This works, read the manual ;)
@@ -112,7 +113,7 @@ private:
         for(size_t i = 0; i < 4; ++i) {
             light.ambient.v[i]  = 0.2f;
             light.diffuse.v[i]  = 0.5f;
-            light.specular.v[i] = 0.0f;
+            light.specular.v[i] = 0.8f;
         }
       
         light.diffuse.b = 3;
@@ -187,6 +188,16 @@ public:
         for(Model* model : Collada::FromFile("models/P39 AIRACOBRA/p39.dae")) {
         //for(Model* model : Collada::FromFile("models/Earth/Earth.dae")) {
    
+            // Create VBO (upload stuff to the GPU)
+            model->upload();
+            
+            // Store internally
+            models.push_back(model);
+        }
+        
+        for(Model* model : Collada::FromFile("models/Plane/plane.dae")) {
+            //for(Model* model : Collada::FromFile("models/Earth/Earth.dae")) {
+            
             // Create VBO (upload stuff to the GPU)
             model->upload();
             
@@ -441,12 +452,7 @@ public:
         camera->update();
         Matrix44 transform = camera->transform();
         
-        /*float distance = 14;
-        transform = Matrix44::CreateLookAt(
-            Vector3(-distance, distance, distance),
-            Vector3(0, 0, 0),
-            Vector3(1, 0, 0)
-        );*/
+        
         
         // Pre-multiply all projection related matrices. These are constant
         // terms.

@@ -683,7 +683,7 @@
                         <font key="font" metaFont="system"/>
                         <tabViewItems>
                             <tabViewItem label="Camera" identifier="1" id="NZQ-za-m5K">
-                                <view key="view" ambiguous="YES" id="IYN-Y9-ded">
+                                <view key="view" id="IYN-Y9-ded">
                                     <rect key="frame" x="10" y="33" width="286" height="316"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -738,13 +738,58 @@
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
+                                        <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="itf-qz-lPv">
+                                            <rect key="frame" x="17" y="222" width="104" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Lock Camera" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="0qD-tk-UUY">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="cameraLockCheckBoxAction:" target="494" id="Xkf-zE-fwn"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                 </view>
                             </tabViewItem>
-                            <tabViewItem label="View" identifier="2" id="Y3T-xe-4yG">
-                                <view key="view" id="MAy-sx-JBv">
+                            <tabViewItem label="Lights" identifier="2" id="Y3T-xe-4yG">
+                                <view key="view" ambiguous="YES" id="MAy-sx-JBv">
                                     <rect key="frame" x="10" y="33" width="286" height="316"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <slider identifier="Lights1XSlider" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N47-GP-Agv">
+                                            <rect key="frame" x="15" y="294" width="256" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="4rk-RP-A3q"/>
+                                            <connections>
+                                                <action selector="lights1XSliderAction:" target="494" id="JfT-4t-8ze"/>
+                                            </connections>
+                                        </slider>
+                                        <slider identifier="Lights1YSlider" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bhX-AW-mN8">
+                                            <rect key="frame" x="15" y="269" width="256" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="Ksl-dl-D6O"/>
+                                            <connections>
+                                                <action selector="lights1YSliderAction:" target="494" id="0BQ-40-MDa"/>
+                                            </connections>
+                                        </slider>
+                                        <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gpG-dz-0Kt">
+                                            <rect key="frame" x="15" y="244" width="256" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="C4o-fU-O4p"/>
+                                            <connections>
+                                                <action selector="lights1ZSliderAction:" target="494" id="W85-Vl-3FH"/>
+                                            </connections>
+                                        </slider>
+                                        <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xa2-Rp-WkJ">
+                                            <rect key="frame" x="52" y="215" width="44" height="23"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <connections>
+                                                <action selector="lights1ColorWellAction:" target="494" id="AUx-Kk-tJo"/>
+                                            </connections>
+                                        </colorWell>
+                                    </subviews>
                                 </view>
                             </tabViewItem>
                         </tabViewItems>
@@ -752,5 +797,13 @@
                 </subviews>
             </view>
         </window>
+        <button id="I6u-Lo-ac2">
+            <rect key="frame" x="0.0" y="0.0" width="61" height="18"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <buttonCell key="cell" type="check" title="Check" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="EcC-Hv-nq6">
+                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                <font key="font" metaFont="system"/>
+            </buttonCell>
+        </button>
     </objects>
 </document>

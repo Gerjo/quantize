@@ -346,7 +346,7 @@
             <node id="ID24" name="cockpit">
                 <translate sid="translate">-0.105687 64.9013 45.9929</translate>
                 <rotate sid="rotateY">0 1 0 -0</rotate>
-                <rotate sid="rotateX">1 0 0 0.631893</rotate>
+                <rotate sid="rotateX">1 0 0 0</rotate>
                 <rotate sid="rotateZ">0 0 1 -0</rotate>
                 <scale sid="scale">1 1 1</scale>
                 <instance_geometry url="#ID25">
@@ -362,7 +362,7 @@
             <node id="ID33" name="main_body_2.1">
                 <translate sid="translate">0.0979722 181.185 132.104</translate>
                 <rotate sid="rotateY">0 1 0 -0</rotate>
-                <rotate sid="rotateX">1 0 0 0.631893</rotate>
+                <rotate sid="rotateX">1 0 0 0</rotate>
                 <rotate sid="rotateZ">0 0 1 -0</rotate>
                 <scale sid="scale">1 1 1</scale>
                 <instance_geometry url="#ID34">
@@ -378,7 +378,7 @@
             <node id="ID42" name="main_body">
                 <translate sid="translate">0.0978708 106.342 225.265</translate>
                 <rotate sid="rotateY">0 1 0 -0</rotate>
-                <rotate sid="rotateX">1 0 0 0.631893</rotate>
+                <rotate sid="rotateX">1 0 0 0</rotate>
                 <rotate sid="rotateZ">0 0 1 -0</rotate>
                 <scale sid="scale">1 1 1</scale>
                 <instance_geometry url="#ID43">
@@ -394,7 +394,7 @@
             <node id="ID51" name="glass">
                 <translate sid="translate">30.2266 254.437 34.6643</translate>
                 <rotate sid="rotateY">0 1 0 -0</rotate>
-                <rotate sid="rotateX">1 0 0 0.631893</rotate>
+                <rotate sid="rotateX">1 0 0 0</rotate>
                 <rotate sid="rotateZ">0 0 1 -0</rotate>
                 <scale sid="scale">1 1 1</scale>
                 <instance_geometry url="#ID52">
