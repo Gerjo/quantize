@@ -782,11 +782,43 @@
                                             </connections>
                                         </slider>
                                         <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xa2-Rp-WkJ">
-                                            <rect key="frame" x="52" y="215" width="44" height="23"/>
+                                            <rect key="frame" x="121" y="215" width="44" height="23"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <connections>
                                                 <action selector="lights1ColorWellAction:" target="494" id="AUx-Kk-tJo"/>
+                                            </connections>
+                                        </colorWell>
+                                        <slider identifier="Lights1XSlider" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uYS-Rr-Xaf">
+                                            <rect key="frame" x="15" y="188" width="256" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="ApV-JC-MZB"/>
+                                            <connections>
+                                                <action selector="lights2XSliderAction:" target="494" id="fXy-bg-NHA"/>
+                                            </connections>
+                                        </slider>
+                                        <slider identifier="Lights1YSlider" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jli-vy-Qgh">
+                                            <rect key="frame" x="15" y="163" width="256" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="Eun-zs-s4K"/>
+                                            <connections>
+                                                <action selector="lights2YSliderAction:" target="494" id="V5h-0m-sU9"/>
+                                            </connections>
+                                        </slider>
+                                        <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NFo-Nn-NU4">
+                                            <rect key="frame" x="15" y="138" width="256" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="nYc-1Y-JRU"/>
+                                            <connections>
+                                                <action selector="lights2ZSliderAction:" target="494" id="EO6-7b-rlf"/>
+                                            </connections>
+                                        </slider>
+                                        <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Jt-TK-BbA">
+                                            <rect key="frame" x="121" y="109" width="44" height="23"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <connections>
+                                                <action selector="lights2ColorWellAction:" target="494" id="YhG-sD-FiA"/>
                                             </connections>
                                         </colorWell>
                                     </subviews>

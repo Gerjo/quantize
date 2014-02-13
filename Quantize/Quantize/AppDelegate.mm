@@ -56,7 +56,7 @@ static Quantize* quantize = Quantize::getInstance();
 
 - (IBAction)lights1ColorWellAction:(id)sender {
     NSColor *color = [sender color];
-    float multiplier = 4.0f;
+    float multiplier = 2.5f;
     float r = [color redComponent] * multiplier;
     float g = [color greenComponent] * multiplier;
     float b = [color blueComponent] * multiplier;
@@ -65,6 +65,34 @@ static Quantize* quantize = Quantize::getInstance();
     quantize->lights[0].diffuse.g = g;
     quantize->lights[0].diffuse.b = b;
     quantize->lights[0].diffuse.a = a;
+}
+
+- (IBAction)lights2XSliderAction:(id)sender {
+    float value = [sender floatValue] - 50.0f;
+    quantize->lights[1].position.x = value;
+}
+
+- (IBAction)lights2YSliderAction:(id)sender {
+    float value = [sender floatValue] - 50.0f;
+    quantize->lights[1].position.y = value;
+}
+
+- (IBAction)lights2ZSliderAction:(id)sender {
+    float value = [sender floatValue] - 50.0f;
+    quantize->lights[1].position.z = value;
+}
+
+- (IBAction)lights2ColorWellAction:(id)sender {
+    NSColor *color = [sender color];
+    float multiplier = 2.5f;
+    float r = [color redComponent] * multiplier;
+    float g = [color greenComponent] * multiplier;
+    float b = [color blueComponent] * multiplier;
+    float a = [color alphaComponent];
+    quantize->lights[1].diffuse.r = r;
+    quantize->lights[1].diffuse.g = g;
+    quantize->lights[1].diffuse.b = b;
+    quantize->lights[1].diffuse.a = a;
 }
 
 @end
