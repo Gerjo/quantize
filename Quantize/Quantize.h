@@ -184,8 +184,8 @@ public:
         );
         
 
-        //for(Model* model : Collada::FromFile("models/AUSFB/ausfb.dae")) {
-        for(Model* model : Collada::FromFile("models/P39 AIRACOBRA/p39.dae")) {
+        for(Model* model : Collada::FromFile("models/AUSFB/ausfb.dae")) {
+        //for(Model* model : Collada::FromFile("models/P39 AIRACOBRA/p39.dae")) {
         //for(Model* model : Collada::FromFile("models/Earth/Earth.dae")) {
    
             // Create VBO (upload stuff to the GPU)
@@ -196,7 +196,6 @@ public:
         }
         
         for(Model* model : Collada::FromFile("models/Plane/plane.dae")) {
-            //for(Model* model : Collada::FromFile("models/Earth/Earth.dae")) {
             
             // Create VBO (upload stuff to the GPU)
             model->upload();

@@ -56,9 +56,10 @@ static Quantize* quantize = Quantize::getInstance();
 
 - (IBAction)lights1ColorWellAction:(id)sender {
     NSColor *color = [sender color];
-    float r = [color redComponent] * 10.0f;
-    float g = [color greenComponent] * 10.0f;
-    float b = [color blueComponent] * 10.0f;
+    float multiplier = 4.0f;
+    float r = [color redComponent] * multiplier;
+    float g = [color greenComponent] * multiplier;
+    float b = [color blueComponent] * multiplier;
     float a = [color alphaComponent];
     quantize->lights[0].diffuse.r = r;
     quantize->lights[0].diffuse.g = g;
