@@ -8,8 +8,9 @@
 
 varying vec3 fragmentNormal;
 varying vec3 vertexPosition;
-uniform sampler2D sampler_1;
 varying vec2 fragmentUV;
+
+uniform sampler2D sampler_1;
 
 uniform int lightCount;
 uniform vec3 lightsPosition[10];
@@ -32,7 +33,7 @@ void main() {
         vec4 diffuseColor = lightsDiffuse[i];
         vec4 specColor    = lightsSpecular[i];
         
-        
+        // Direction
         vec3 lightDir = normalize(lightPos - vertexPosition);
 
         float lambertian = max(dot(lightDir, normal), 0.0);
@@ -41,12 +42,15 @@ void main() {
         if(lambertian > 0.0) {
             vec3 viewDir = normalize(-vertexPosition);
 
-            // Blinn-phong
+            // Blinn-Phong
             vec3 halfDir = normalize(lightDir + viewDir);
             float specAngle = max(dot(halfDir, normal), 0.0);
             specular = pow(specAngle, 16.0);
+            
         }
         
+        // I'm guessing colors can be added. This seems intuitive, more lights
+        // equals more light.
         blend = blend + (ambientColor + lambertian * diffuseColor + specular * specColor);
     }
    

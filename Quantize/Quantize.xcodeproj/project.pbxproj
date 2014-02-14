@@ -7,6 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A6403D9918AD9160009116CF /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6403D9818AD9160009116CF /* Model.cpp */; };
+		A6403D9D18ADA041009116CF /* plane.dae in Resources */ = {isa = PBXBuildFile; fileRef = A6403D9B18ADA041009116CF /* plane.dae */; };
+		A6403D9E18ADA041009116CF /* Soil.png in Resources */ = {isa = PBXBuildFile; fileRef = A6403D9C18ADA041009116CF /* Soil.png */; };
+		A6403DCE18AE79C6009116CF /* Render1.png in Resources */ = {isa = PBXBuildFile; fileRef = A6403DC318AE79C6009116CF /* Render1.png */; };
+		A6403DCF18AE79C6009116CF /* Render2.png in Resources */ = {isa = PBXBuildFile; fileRef = A6403DC418AE79C6009116CF /* Render2.png */; };
+		A6403DD018AE79C6009116CF /* Rock-Texture-Surface.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A6403DC518AE79C6009116CF /* Rock-Texture-Surface.jpg */; };
+		A6403DD118AE79C6009116CF /* Rock1.3ds in Resources */ = {isa = PBXBuildFile; fileRef = A6403DC618AE79C6009116CF /* Rock1.3ds */; };
+		A6403DD218AE79C6009116CF /* Rock1.blend in Resources */ = {isa = PBXBuildFile; fileRef = A6403DC718AE79C6009116CF /* Rock1.blend */; };
+		A6403DD318AE79C6009116CF /* Rock1.blend1 in Resources */ = {isa = PBXBuildFile; fileRef = A6403DC818AE79C6009116CF /* Rock1.blend1 */; };
+		A6403DD418AE79C6009116CF /* Rock1.blend2 in Resources */ = {isa = PBXBuildFile; fileRef = A6403DC918AE79C6009116CF /* Rock1.blend2 */; };
+		A6403DD518AE79C6009116CF /* Rock1.dae in Resources */ = {isa = PBXBuildFile; fileRef = A6403DCA18AE79C6009116CF /* Rock1.dae */; };
+		A6403DD618AE79C6009116CF /* Rock1.fbx in Resources */ = {isa = PBXBuildFile; fileRef = A6403DCB18AE79C6009116CF /* Rock1.fbx */; };
+		A6403DD718AE79C6009116CF /* Rock1.mtl in Resources */ = {isa = PBXBuildFile; fileRef = A6403DCC18AE79C6009116CF /* Rock1.mtl */; };
+		A6403DD818AE79C6009116CF /* Rock1.obj in Resources */ = {isa = PBXBuildFile; fileRef = A6403DCD18AE79C6009116CF /* Rock1.obj */; };
+		A6403DDB18AE7E78009116CF /* transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = A6403DD918AE7E78009116CF /* transparent.png */; };
+		A6403DDC18AE7E78009116CF /* cube.dae in Resources */ = {isa = PBXBuildFile; fileRef = A6403DDA18AE7E78009116CF /* cube.dae */; };
 		A6C56A15189FC8DF00DFAA00 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C56A14189FC8DF00DFAA00 /* Cocoa.framework */; };
 		A6C56A1F189FC8DF00DFAA00 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A6C56A1D189FC8DF00DFAA00 /* InfoPlist.strings */; };
 		A6C56A21189FC8DF00DFAA00 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C56A20189FC8DF00DFAA00 /* main.m */; };
@@ -23,7 +39,6 @@
 		A6C56AA218A106F000DFAA00 /* basic.fsh in Sources */ = {isa = PBXBuildFile; fileRef = A6C56AA018A106F000DFAA00 /* basic.fsh */; };
 		A6C56AA318A106F000DFAA00 /* basic.vsh in Sources */ = {isa = PBXBuildFile; fileRef = A6C56AA118A106F000DFAA00 /* basic.vsh */; };
 		A6C56C2718A139EB00DFAA00 /* Frmath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C1418A139EB00DFAA00 /* Frmath.cpp */; };
-		A6C56C2818A139EB00DFAA00 /* Intersections.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C1618A139EB00DFAA00 /* Intersections.cpp */; };
 		A6C56C2918A139EB00DFAA00 /* Matrix33.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C1818A139EB00DFAA00 /* Matrix33.cpp */; };
 		A6C56C2A18A139EB00DFAA00 /* Matrix44.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C1A18A139EB00DFAA00 /* Matrix44.cpp */; };
 		A6C56C2D18A139EB00DFAA00 /* Vector2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C2118A139EB00DFAA00 /* Vector2.cpp */; };
@@ -169,6 +184,23 @@
 
 /* Begin PBXFileReference section */
 		A6403D9418ACB9FA009116CF /* Light.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Light.h; sourceTree = "<group>"; };
+		A6403D9718AD8B05009116CF /* Entity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
+		A6403D9818AD9160009116CF /* Model.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Model.cpp; sourceTree = "<group>"; };
+		A6403D9B18ADA041009116CF /* plane.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = plane.dae; sourceTree = "<group>"; };
+		A6403D9C18ADA041009116CF /* Soil.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Soil.png; sourceTree = "<group>"; };
+		A6403DC318AE79C6009116CF /* Render1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Render1.png; sourceTree = "<group>"; };
+		A6403DC418AE79C6009116CF /* Render2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Render2.png; sourceTree = "<group>"; };
+		A6403DC518AE79C6009116CF /* Rock-Texture-Surface.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Rock-Texture-Surface.jpg"; sourceTree = "<group>"; };
+		A6403DC618AE79C6009116CF /* Rock1.3ds */ = {isa = PBXFileReference; lastKnownFileType = file; path = Rock1.3ds; sourceTree = "<group>"; };
+		A6403DC718AE79C6009116CF /* Rock1.blend */ = {isa = PBXFileReference; lastKnownFileType = file; path = Rock1.blend; sourceTree = "<group>"; };
+		A6403DC818AE79C6009116CF /* Rock1.blend1 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Rock1.blend1; sourceTree = "<group>"; };
+		A6403DC918AE79C6009116CF /* Rock1.blend2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Rock1.blend2; sourceTree = "<group>"; };
+		A6403DCA18AE79C6009116CF /* Rock1.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = Rock1.dae; sourceTree = "<group>"; };
+		A6403DCB18AE79C6009116CF /* Rock1.fbx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Rock1.fbx; sourceTree = "<group>"; };
+		A6403DCC18AE79C6009116CF /* Rock1.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Rock1.mtl; sourceTree = "<group>"; };
+		A6403DCD18AE79C6009116CF /* Rock1.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Rock1.obj; sourceTree = "<group>"; };
+		A6403DD918AE7E78009116CF /* transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = transparent.png; sourceTree = "<group>"; };
+		A6403DDA18AE7E78009116CF /* cube.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = cube.dae; sourceTree = "<group>"; };
 		A6C56A11189FC8DF00DFAA00 /* Quantize.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Quantize.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6C56A14189FC8DF00DFAA00 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		A6C56A17189FC8DF00DFAA00 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -196,8 +228,6 @@
 		A6C56AA518A1092A00DFAA00 /* Tools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tools.h; sourceTree = "<group>"; };
 		A6C56C1418A139EB00DFAA00 /* Frmath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Frmath.cpp; sourceTree = "<group>"; };
 		A6C56C1518A139EB00DFAA00 /* Frmath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Frmath.h; sourceTree = "<group>"; };
-		A6C56C1618A139EB00DFAA00 /* Intersections.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Intersections.cpp; sourceTree = "<group>"; };
-		A6C56C1718A139EB00DFAA00 /* Intersections.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Intersections.h; sourceTree = "<group>"; };
 		A6C56C1818A139EB00DFAA00 /* Matrix33.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Matrix33.cpp; sourceTree = "<group>"; };
 		A6C56C1918A139EB00DFAA00 /* Matrix33.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Matrix33.h; sourceTree = "<group>"; };
 		A6C56C1A18A139EB00DFAA00 /* Matrix44.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Matrix44.cpp; sourceTree = "<group>"; };
@@ -375,22 +405,51 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A6403D9A18ADA041009116CF /* Plane */ = {
+			isa = PBXGroup;
+			children = (
+				A6403D9B18ADA041009116CF /* plane.dae */,
+				A6403D9C18ADA041009116CF /* Soil.png */,
+			);
+			path = Plane;
+			sourceTree = "<group>";
+		};
+		A6403DC218AE79C6009116CF /* Rock1 */ = {
+			isa = PBXGroup;
+			children = (
+				A6403DC318AE79C6009116CF /* Render1.png */,
+				A6403DC418AE79C6009116CF /* Render2.png */,
+				A6403DC518AE79C6009116CF /* Rock-Texture-Surface.jpg */,
+				A6403DC618AE79C6009116CF /* Rock1.3ds */,
+				A6403DC718AE79C6009116CF /* Rock1.blend */,
+				A6403DC818AE79C6009116CF /* Rock1.blend1 */,
+				A6403DC918AE79C6009116CF /* Rock1.blend2 */,
+				A6403DCA18AE79C6009116CF /* Rock1.dae */,
+				A6403DCB18AE79C6009116CF /* Rock1.fbx */,
+				A6403DCC18AE79C6009116CF /* Rock1.mtl */,
+				A6403DCD18AE79C6009116CF /* Rock1.obj */,
+			);
+			path = Rock1;
+			sourceTree = "<group>";
+		};
 		A6C56A08189FC8DF00DFAA00 = {
 			isa = PBXGroup;
 			children = (
-				A6403D9418ACB9FA009116CF /* Light.h */,
-				A6C56CA718A8E9FC00DFAA00 /* Collada.h */,
 				A6C56C7118A63E3F00DFAA00 /* models */,
 				A6C56C6118A58C4D00DFAA00 /* tinyXML */,
 				A6C56C3518A2AA5000DFAA00 /* libPNG */,
 				A6C56C1318A139EB00DFAA00 /* Math */,
 				A6C56C3418A2A88900DFAA00 /* Textures.h */,
+				A6403D9718AD8B05009116CF /* Entity.h */,
 				A6C56C3018A1480200DFAA00 /* Model.h */,
+				A6403D9818AD9160009116CF /* Model.cpp */,
+				A6403D9418ACB9FA009116CF /* Light.h */,
 				A6C56AA518A1092A00DFAA00 /* Tools.h */,
+				A6C56CA718A8E9FC00DFAA00 /* Collada.h */,
 				A6C56A5118A102DD00DFAA00 /* Quantize.h */,
+				A6C56A5018A102DD00DFAA00 /* Quantize.cpp */,
 				CC65799418A6456E0035EB43 /* Camera.h */,
 				A6C56C3318A287E300DFAA00 /* Parser.h */,
-				A6C56A5018A102DD00DFAA00 /* Quantize.cpp */,
 				A6C56A48189FC9E300DFAA00 /* GLView.h */,
 				A6C56A49189FCA0E00DFAA00 /* GLView.mm */,
 				A6C56A9F18A106F000DFAA00 /* shaders */,
@@ -480,8 +539,6 @@
 			children = (
 				A6C56C1418A139EB00DFAA00 /* Frmath.cpp */,
 				A6C56C1518A139EB00DFAA00 /* Frmath.h */,
-				A6C56C1618A139EB00DFAA00 /* Intersections.cpp */,
-				A6C56C1718A139EB00DFAA00 /* Intersections.h */,
 				A6C56C1818A139EB00DFAA00 /* Matrix33.cpp */,
 				A6C56C1918A139EB00DFAA00 /* Matrix33.h */,
 				A6C56C1A18A139EB00DFAA00 /* Matrix44.cpp */,
@@ -548,6 +605,10 @@
 		A6C56C7118A63E3F00DFAA00 /* models */ = {
 			isa = PBXGroup;
 			children = (
+				A6403DD918AE7E78009116CF /* transparent.png */,
+				A6403DDA18AE7E78009116CF /* cube.dae */,
+				A6403DC218AE79C6009116CF /* Rock1 */,
+				A6403D9A18ADA041009116CF /* Plane */,
 				A6C56D2B18AAA2BF00DFAA00 /* T-90 */,
 				A6C56D3718AAA2BF00DFAA00 /* Earth */,
 				A6C56D4318AAA2BF00DFAA00 /* alfa-romeo */,
@@ -796,6 +857,7 @@
 				A6C56D1918AA926A00DFAA00 /* Wing Right.tga in Resources */,
 				A6C56D7C18AAA2BF00DFAA00 /* logo.png in Resources */,
 				A6C56D1B18AA926A00DFAA00 /* ausfb.c4d in Resources */,
+				A6403DCE18AE79C6009116CF /* Render1.png in Resources */,
 				A6C56D0C18AA926A00DFAA00 /* parts 3.png in Resources */,
 				A6C56D0518AA926A00DFAA00 /* HEINKEL.obj in Resources */,
 				A6C56D1A18AA926A00DFAA00 /* ausfb.3DS in Resources */,
@@ -806,6 +868,7 @@
 				A6C56D7A18AAA2BF00DFAA00 /* LICENSE.tga in Resources */,
 				A6C56D6218AAA2BF00DFAA00 /* Turret.png in Resources */,
 				A6C56D0818AA926A00DFAA00 /* Parts 1.png in Resources */,
+				A6403DD318AE79C6009116CF /* Rock1.blend1 in Resources */,
 				A6C56D6E18AAA2BF00DFAA00 /* Alfa_Romeo.3ds in Resources */,
 				A6C56D0718AA926A00DFAA00 /* Heinkel.pz3 in Resources */,
 				A6C56D6C18AAA2BF00DFAA00 /* Earth_S.png in Resources */,
@@ -832,14 +895,19 @@
 				A6C56D1C18AA926A00DFAA00 /* ausfb.dae in Resources */,
 				A6C56D2718AA926A00DFAA00 /* Turret 2.png in Resources */,
 				A6C56D8118AAA2BF00DFAA00 /* sidelg.png in Resources */,
+				A6403D9E18ADA041009116CF /* Soil.png in Resources */,
 				A6C56D6618AAA2BF00DFAA00 /* Earth_Clouds_D.png in Resources */,
 				A6C56CF718AA926A00DFAA00 /* p39.obj in Resources */,
 				A6C56D6F18AAA2BF00DFAA00 /* Alfa_Romeo.max in Resources */,
 				A6C56CEB18AA926A00DFAA00 /* Cockpit.png in Resources */,
 				A6C56CF618AA926A00DFAA00 /* P39.max in Resources */,
 				A6C56D7118AAA2BF00DFAA00 /* Alfa_Romeo.obj in Resources */,
+				A6403D9D18ADA041009116CF /* plane.dae in Resources */,
+				A6403DD818AE79C6009116CF /* Rock1.obj in Resources */,
 				A6C56A1F189FC8DF00DFAA00 /* InfoPlist.strings in Resources */,
+				A6403DD218AE79C6009116CF /* Rock1.blend in Resources */,
 				A6C56A2D189FC8DF00DFAA00 /* Images.xcassets in Resources */,
+				A6403DD518AE79C6009116CF /* Rock1.dae in Resources */,
 				A6C56D7218AAA2BF00DFAA00 /* backl01.jpg in Resources */,
 				A6C56D1418AA926A00DFAA00 /* under.png in Resources */,
 				A6C56D6B18AAA2BF00DFAA00 /* Earth_N.tga in Resources */,
@@ -851,18 +919,25 @@
 				A6C56D2618AA926A00DFAA00 /* Track.tga in Resources */,
 				A6C56CFF18AA926A00DFAA00 /* Dials.tga in Resources */,
 				A6C56D2218AA926A00DFAA00 /* Body 1.tga in Resources */,
+				A6403DDB18AE7E78009116CF /* transparent.png in Resources */,
 				A6C56D7318AAA2BF00DFAA00 /* backl01.png in Resources */,
+				A6403DD018AE79C6009116CF /* Rock-Texture-Surface.jpg in Resources */,
 				A6C56D1118AA926A00DFAA00 /* pilot 2.tga in Resources */,
+				A6403DD718AE79C6009116CF /* Rock1.mtl in Resources */,
 				A6C56D5818AAA2BF00DFAA00 /* Gun.png in Resources */,
 				A6C56D0218AA926A00DFAA00 /* HEINKEL.3DS in Resources */,
 				A6C56D1618AA926A00DFAA00 /* Wing Left.png in Resources */,
 				A6C56D7918AAA2BF00DFAA00 /* LICENSE.png in Resources */,
+				A6403DD118AE79C6009116CF /* Rock1.3ds in Resources */,
 				A6C56D1718AA926A00DFAA00 /* Wing Left.tga in Resources */,
 				A6C56D7418AAA2BF00DFAA00 /* grille a.png in Resources */,
 				A6C56CFE18AA926A00DFAA00 /* Dials.png in Resources */,
 				A6C56D5D18AAA2BF00DFAA00 /* T-90.dae in Resources */,
 				A6C56D0E18AA926A00DFAA00 /* parts 4.png in Resources */,
 				A6C56D0F18AA926A00DFAA00 /* parts 4.tga in Resources */,
+				A6403DCF18AE79C6009116CF /* Render2.png in Resources */,
+				A6403DD618AE79C6009116CF /* Rock1.fbx in Resources */,
+				A6403DDC18AE7E78009116CF /* cube.dae in Resources */,
 				A6C56D7E18AAA2BF00DFAA00 /* rs4-tire.jpg in Resources */,
 				A6C56D1D18AA926A00DFAA00 /* ausfb.max in Resources */,
 				A6C56D1018AA926A00DFAA00 /* pilot 2.png in Resources */,
@@ -872,6 +947,7 @@
 				A6C56D7F18AAA2BF00DFAA00 /* rs4-tire.png in Resources */,
 				A6C56CFC18AA926A00DFAA00 /* Body Rear.png in Resources */,
 				A6C56D2818AA926A00DFAA00 /* Turret 2.tga in Resources */,
+				A6403DD418AE79C6009116CF /* Rock1.blend2 in Resources */,
 				A6C56D5E18AAA2BF00DFAA00 /* T-90.jpg in Resources */,
 				A6C56D2918AA926A00DFAA00 /* Turret.png in Resources */,
 				A6C56CFD18AA926A00DFAA00 /* Body Rear.tga in Resources */,
@@ -920,6 +996,7 @@
 				A6C56C5318A2AA5000DFAA00 /* pngpread.c in Sources */,
 				A6C56C5018A2AA5000DFAA00 /* pngerror.c in Sources */,
 				A6C56C2A18A139EB00DFAA00 /* Matrix44.cpp in Sources */,
+				A6403D9918AD9160009116CF /* Model.cpp in Sources */,
 				A6C56C5E18A2AA5000DFAA00 /* pngwutil.c in Sources */,
 				A6C56C2D18A139EB00DFAA00 /* Vector2.cpp in Sources */,
 				A6C56C6F18A5924E00DFAA00 /* postp.vsh in Sources */,
@@ -936,7 +1013,6 @@
 				A6C56C5A18A2AA5000DFAA00 /* pngvalid.c in Sources */,
 				A6C56C5418A2AA5000DFAA00 /* pngread.c in Sources */,
 				A6C56C6918A58C4D00DFAA00 /* tinyxml2.cpp in Sources */,
-				A6C56C2818A139EB00DFAA00 /* Intersections.cpp in Sources */,
 				A6C56A4A189FCA0E00DFAA00 /* GLView.mm in Sources */,
 				A6C56C2718A139EB00DFAA00 /* Frmath.cpp in Sources */,
 				A6C56C5118A2AA5000DFAA00 /* pngget.c in Sources */,

@@ -424,7 +424,7 @@
                 <rotate sid="rotateY">0 1 0 -0</rotate>
                 <rotate sid="rotateX">1 0 0 0</rotate>
                 <rotate sid="rotateZ">0 0 1 -360</rotate>
-                <scale sid="scale">3 3 3</scale>
+                <scale sid="scale">0.022 0.022 0.022</scale>
                 <instance_geometry url="#ID30">
                     <bind_material>
                         <technique_common>
@@ -440,7 +440,7 @@
                 <rotate sid="rotateY">0 1 0 -0</rotate>
                 <rotate sid="rotateX">1 0 0 0</rotate>
                 <rotate sid="rotateZ">0 0 1 -360</rotate>
-                <scale sid="scale">3 3 3</scale>
+                <scale sid="scale">0.022 0.022 0.022</scale>
                 <instance_geometry url="#ID39">
                     <bind_material>
                         <technique_common>
@@ -456,7 +456,7 @@
                 <rotate sid="rotateY">0 1 0 -0</rotate>
                 <rotate sid="rotateX">1 0 0 0</rotate>
                 <rotate sid="rotateZ">0 0 1 -360</rotate>
-                <scale sid="scale">3 3 3</scale>
+                <scale sid="scale">0.022 0.022 0.022</scale>
                 <instance_geometry url="#ID48">
                     <bind_material>
                         <technique_common>
@@ -472,7 +472,7 @@
                 <rotate sid="rotateY">0 1 0 -0</rotate>
                 <rotate sid="rotateX">1 0 0 0</rotate>
                 <rotate sid="rotateZ">0 0 1 -360</rotate>
-                <scale sid="scale">3 3 3</scale>
+                <scale sid="scale">0.022 0.022 0.022</scale>
                 <instance_geometry url="#ID57">
                     <bind_material>
                         <technique_common>
@@ -488,7 +488,7 @@
                 <rotate sid="rotateY">0 1 0 -0</rotate>
                 <rotate sid="rotateX">1 0 0 0</rotate>
                 <rotate sid="rotateZ">0 0 1 -360</rotate>
-                <scale sid="scale">3 3 3</scale>
+                <scale sid="scale">0.022 0.022 0.022</scale>
                 <instance_geometry url="#ID66">
                     <bind_material>
                         <technique_common>

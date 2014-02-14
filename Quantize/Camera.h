@@ -29,7 +29,7 @@ public:
     float mouseSpeed {0.007f};
     float rollSpeed {0.04f};
     
-    bool locked {true};
+    bool locked {false};
     
     Camera() {
         

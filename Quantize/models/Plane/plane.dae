@@ -192,7 +192,7 @@
             </technique_common>
           </bind_material>
         </instance_geometry>
-		<scale sid="scale">200 200 200</scale>
+		<scale sid="scale">1 1 1</scale>
       </node>
       <node id="Point" name="Point" type="NODE">
         <matrix sid="transform">1 0 0 -0.5192795 0 1 0 -5.326583 0 0 1 1.264998 0 0 0 1</matrix>

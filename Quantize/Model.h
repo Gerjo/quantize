@@ -14,6 +14,9 @@
 #include "Math/Vector3.h"
 #include "Math/Matrix44.h"
 #include "Math/Matrix33.h"
+#include "Entity.h"
+
+class Quantize;
 
 using namespace Furiosity;
 
@@ -37,31 +40,19 @@ struct VertexData {
             // codes
     }};
 
-class Model {
+class Model : public Entity {
 private:
     /// Flag to indicate if this texture has been uploaded already, i.e. are the
     /// vbo's ready.
     bool _isuploaded;
-    
-    /// Will be removed. soon.
-    float angle;
-    
+
 public:
+
+
     /// Pointer to vertex buffer objects.
     ///  0: the vertex data
     ///  1: the order of drawing indices
     GLuint vbo[2];
-    
-    /// Transform as specified in the collada file. This is shared among all
-    /// meshes. Generally this normalizes the mesh somewhat.
-    Matrix44 baseTransform;
-    
-    /// Transformation of this model.
-    Matrix44 modelTransform;
-    
-    /// Transform for the normals. These are direction only, so require no
-    /// translation.
-    Matrix33 normalTransform;
     
     /// The vertexdata (as per vbo[0]
     std::vector<VertexData> vertices;
@@ -81,56 +72,13 @@ public:
     /// A handle to the texture. Smart pointers are used to manage the resource
     /// reuse.
     std::shared_ptr<GLuint> texture;
+ 
+    /// Construct a
+    Model();
     
-    /// Models nested within this model. Transforms are inherited, this is used
-    /// for Collada's nested nodes.
-    std::vector<Model*> submodels;
-
-    Model() : _isuploaded(false), angle(0), vbo{0}, texture(0) {
-        modelTransform.SetIndentity();
-        normalTransform.SetIdentity();
-        baseTransform.SetIndentity();
-    }
+    /// Determine if the vbo's are uplaoded.
+    bool isUpoaded();
+    virtual void update(Quantize* q, const Matrix44& parent, const float dt) override;
     
-    bool isUpoaded() {
-        return _isuploaded;
-    }
-    
-    void update(const float dt) {
-        angle += 0.006;
-        
-        //
-        modelTransform  = Matrix44::CreateRotate(angle, 0, 1, 0) * baseTransform;
-        
-        normalTransform = modelTransform.GetMatrix33();
-        
-        modelTransform = Matrix44::CreateScale(0.03) * modelTransform;
-    }
-    
-    void upload() {
-        glGenBuffers(2, &vbo[0]);
-        GLError();
-        
-        // Activate
-        glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
-        GLError();
-        
-        // Copy into VBO:
-        glBufferData(GL_ARRAY_BUFFER, sizeof(VertexData) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
-        GLError();
-        glBindBuffer(GL_ARRAY_BUFFER, 0); // unbind buffer
-        GLError();
-        
-        // Activate
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[1]);
-        GLError();
-        
-        // Copy into VBO:
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * indices.size(), &indices[0], GL_STATIC_DRAW);
-        GLError();
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0); // unbind buffer
-        GLError();
-        
-        _isuploaded = true;
-    }
+    void upload();
 };

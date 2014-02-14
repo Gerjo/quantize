@@ -1,13 +1,3 @@
-//
-//  Quantize.cpp
-//  Quantize
-//
-//  Created by Gerard Meier on 04/02/14.
-//  Copyright (c) 2014 Quantize. All rights reserved.
-//
-
-#include "Quantize.h"
-
 ////
 //  Quantize.h
 //  Quantize
@@ -17,6 +7,8 @@
 //
 
 #include "Quantize.h"
+#include "Entity.h"
+
 
 Quantize::Quantize()
     : _programMesh(0)
@@ -31,26 +23,27 @@ Quantize::Quantize()
     , _uniformNormalTransform(0)
     , _uniformSampler_1(0)
     , camera(new Camera())
+    , foo(0)
     {
     
     Light light;
-    light.position.x = 45.0f;
-    light.position.y = 25.0f;
-    light.position.z = -10.0f;
+    light.position.x = 15.0f;
+    light.position.y = 5.0f;
+    light.position.z = -20.0f;
     
     for(size_t i = 0; i < 4; ++i) {
         light.ambient.v[i]  = 0.2f;
-        light.diffuse.v[i]  = 0.5f;
-        light.specular.v[i] = 0.8f;
+        light.diffuse.v[i]  = 0.2f;
+        light.specular.v[i] = 0.0f;
     }
   
-    light.diffuse.b = 3;
-  
+    light.diffuse.b = 2;
     lights.push_back(light);
-    
-    
-    light.position.y *= -1;
-    light.diffuse.r = 3;
+  
+        
+    light.diffuse.r = 2;
+    light.diffuse.b = 0;
+    light.position.z = 40.0f;
     lights.push_back(light);
 }
 
@@ -64,6 +57,55 @@ Quantize::~Quantize() {
     
     glDeleteBuffers(1, &_vboFboVertices);
 }
+
+void Quantize::loadDemoScene() {
+
+    cube = Collada::FromFile("models/cube.dae");
+
+    for(int i = 0; i < 4; ++i) {
+        Entity* e = new Entity();
+    
+        e->sub.push_back(Collada::FromFile("models/P39 AIRACOBRA/p39.dae"));
+        e->transform.SetTranslation(1000 * i, 0, 0);
+
+
+        entities.push_back(std::shared_ptr<Entity>(e));
+    }
+    
+    /*for(int i = 0; i < 4; ++i) {
+        Entity* e = new Entity();
+    
+        e->sub.push_back(Collada::FromFile("models/cube.dae"));
+        e->transform.SetTranslation(1000 * i, 0, 0);
+
+        entities.push_back(std::shared_ptr<Entity>(e));
+    }
+    */
+    for(int i = 0, s = 6, n = 20; i < n; ++i) {
+        for(int j = 0; j < n; ++j) {
+
+            Entity* e = new Entity();
+        
+            e->sub.push_back(Collada::FromFile("models/Plane/plane.dae"));
+
+            e->transform.SetTranslation(s * (n*0.5 - i), 0, s * (n*0.5 - j));
+            
+            entities.push_back(std::shared_ptr<Entity>(e));
+        }
+    }
+    
+    for(int i = 0; i < 4; ++i) {
+        Entity* e = new Entity();
+    
+        e->sub.push_back(Collada::FromFile("models/AUSFB/ausfb.dae"));
+        e->transform.SetTranslation(1000 * i, 0, 3000);
+        
+        entities.push_back(std::shared_ptr<Entity>(e));
+    }
+    
+    //entities.push_back(std::shared_ptr<Entity>(Collada::FromFile("models/Plane/plane.dae")));
+}
+
 
 void Quantize::initialize(float width, float height) {
     if(_programMesh != 0) {
@@ -91,12 +133,7 @@ void Quantize::initialize(float width, float height) {
     // Premultiplied alpha. (I think? I always confuse the two)
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
-    // Setup the mesh rendering shader programs
-    initializeMeshProgram();
-    
-    // Setup the FBO, RBO and related shaders.
-    initializePostProgram();
-    
+      
     // Affine coordinate transformation. We can do some scaling here,
     // e.g., map [-1,1] to [0, screensize] - though it makes more sense
     // to use a matrix (_projection) for that.
@@ -107,29 +144,17 @@ void Quantize::initialize(float width, float height) {
         3.14159268/2.5f,      // Field of view
         width/height,         // Aspect ratio
         1.0f,                 // near
-        200.0f                // far
+        700.0f                // far
     );
     
-
-    for(Model* model : Collada::FromFile("models/AUSFB/ausfb.dae")) {
-    //for(Model* model : Collada::FromFile("models/P39 AIRACOBRA/p39.dae")) {
-    //for(Model* model : Collada::FromFile("models/Earth/Earth.dae")) {
-
-        // Create VBO (upload stuff to the GPU)
-        model->upload();
-        
-        // Store internally
-        models.push_back(model);
-    }
     
-    for(Model* model : Collada::FromFile("models/Plane/plane.dae")) {
-        
-        // Create VBO (upload stuff to the GPU)
-        model->upload();
-        
-        // Store internally
-        models.push_back(model);
-    }
+    // Setup the mesh rendering shader programs
+    initializeMeshProgram();
+    
+    // Setup the FBO, RBO and related shaders.
+    initializePostProgram();
+    
+    loadDemoScene();
 };
 
 void Quantize::initializeMeshProgram() {
@@ -214,7 +239,6 @@ void Quantize::initializePostProgram() {
     GLuint postfsh = CompileShader("shaders/postp.fsh");
     
     GLint link_ok = 0;
-    GLint validate_ok = 0;
     
     _programPost = glCreateProgram();
     glAttachShader(_programPost, postvsh);
@@ -226,8 +250,6 @@ void Quantize::initializePostProgram() {
         Exit("Linking failed.");
     }
     
-    glValidateProgram(_programPost);
-    glGetProgramiv(_programPost, GL_VALIDATE_STATUS, &validate_ok);
     GLValidateProgram(_programPost);
 
     // Get a handle to the variables in the shader programs
@@ -260,19 +282,23 @@ void Quantize::initializePostProgram() {
 /// Render a model.
 ///
 /// @param A model to render.
-void Quantize::render(Model& model) {
+void Quantize::render(Model& model, const Matrix44& transform) {
     
-    // Texture enabling
-    glActiveTexture(GL_TEXTURE0);                    // Use texture 0
-    glBindTexture(GL_TEXTURE_2D, *(model.texture.get()));    // Work with this texture
-    glUniform1i(_uniformSampler_1, 0);               // Set the sampler to tex 0
-    GLError();
+    Matrix44 t = model.transform * transform;
+    
+    if(model.texture != 0) {
+        // Texture enabling
+        glActiveTexture(GL_TEXTURE0);                    // Use texture 0
+        glBindTexture(GL_TEXTURE_2D, *(model.texture.get()));    // Work with this texture
+        glUniform1i(_uniformSampler_1, 0);               // Set the sampler to tex 0
+        GLError();
+    }
     
     // Set the perspective projection, once. This is shared among all models.
     glUniformMatrix4fv(_uniformModelTransform,  // Location
                         1,                      // Amount of matrices
                         false,                  // Require transpose
-                        model.modelTransform.f  // Float array with values
+                        t.f                     // Float array with values
     );
     GLError();
     
@@ -280,7 +306,7 @@ void Quantize::render(Model& model) {
     glUniformMatrix3fv(_uniformNormalTransform,  // Location
                         1,                       // Amount of matrices
                         false,                   // Require transpose
-                        model.normalTransform.f  // Float array with values
+                        t.GetMatrix33().Invert().f        // Float array with values
     );
     GLError();
     
@@ -419,11 +445,17 @@ void Quantize::update(float dt) {
     glUniform4fv(_lightsDiffuse, nLights, diffuse[0].v);
     GLError();
 
-
     // Render/Update loop
-    for(Model* model : models) {
-        model->update(dt);
-        render(*model);
+    for(auto model : entities) {
+        model->update(this, Matrix44::CreateIdentity(), dt);
+    }
+
+
+    // Visualise the physical location of lights
+    for(Light& light : lights) {
+        Matrix44 transform = Matrix44::CreateTranslation(light.position.x, light.position.y, light.position.z);
+        
+        cube->update(this, transform, dt);
     }
 
     // Stop rendering to buffer.

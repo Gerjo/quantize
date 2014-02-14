@@ -13,6 +13,7 @@
 #include <vector>
 #include <istream>
 #include <sstream>
+#include <memory>
 
 #include "Model.h"
 #include "Tools.h"
@@ -26,26 +27,38 @@ using std::string;
 using namespace tinyxml2;
 using namespace Furiosity;
 
-struct Effect {
-    Vector4 diffuse;
-    Vector4 specular;
-    float shininess;
-    unsigned texture;
-    
-    std::string surface;
-    std::string sampler2D;
-    
-    Effect() : texture(0), shininess(1) {
-    
-    }
-};
-
-// A typedef to make the situation more obvious.
-using Material = Effect;
-
 struct Collada {
-    static std::vector<Model*> FromFile(const std::string& filename) {
+
+    /// Helper struct to store some grouped data.
+    struct Effect {
+        Vector4 diffuse;
+        Vector4 specular;
+        float shininess;
+        unsigned texture;
+        
+        std::string surface;
+        std::string sampler2D;
+        
+        Effect() : texture(0), shininess(1) {
+        
+        }
+    };
+
+    // A typedef to make the situation more obvious.
+    using Material = Effect;
     
+    static std::shared_ptr<Model> FromFile(const std::string& filename) {
+    
+        static std::map<string, std::weak_ptr<Model>> cache;
+        
+        if(cache.find(filename) != cache.end()) {
+            if( ! cache[filename].expired()) {
+                printf("Model vbo loaded from cache.\n");
+                // Promote the weak reference to a shared reference and return it.
+                return cache[filename].lock();
+            }
+        }
+        
         if( ! FileExists(filename)) {
             Exit("File does not exist: %s.", filename.c_str());
         }
@@ -66,7 +79,8 @@ struct Collada {
         std::map<string, Material> materials;
 
         
-        std::vector<Model*> models;
+        //std::vector<Model*> models;
+        Model* root = new Model();
     
         XMLDocument doc;
         doc.Parse(data.c_str());
@@ -293,7 +307,7 @@ struct Collada {
                                         
                                         std::vector<VertexData> vertices;
                                         
-                                        int actualCount = indices.size();
+                                        int actualCount = (int)indices.size();
                                         
                                         //if(actualCount / 3 != count) {
                                         //    Exit("wut? %d %d %d", actualCount, count, actualCount / 3);
@@ -309,8 +323,16 @@ struct Collada {
                                             for(int j = 0; j < inputs.size() && i < actualCount; ++j, ++i) {
                                                 string sourceid = inputs[j];
                                                 
+                                                if(inputs[j].empty()) {
+                                                    //printf("      Skipping index %d, it's empty.\n", j);
+                                                    
+                                                    // There's probably no UV coordinate.
+                                                    --i;
+                                                    continue;
+                                                }
+                                                
                                                 if(floatSources.find(sourceid) == floatSources.end()) {
-                                                    Exit("Polygon requested source id %s but was not found.", sourceid.c_str());
+                                                    Exit("polylist requested source id [%s] but was not found.", sourceid.c_str());
                                                 }
                                                 
                                                 auto& lookup = floatSources[sourceid];
@@ -347,8 +369,8 @@ struct Collada {
                                                 }
                                             }
                                             
-                                            if(!addedVertex || !addedNormal || !addedUV) {
-                                                Exit("Not all 3 components are added. vertex: %d, normal: %d and uv: %d", (int)addedVertex, (int)addedNormal, (int)addedUV);
+                                            if(!addedVertex || !addedNormal) {
+                                                Exit("Not all 2 components are added. vertex: %d, normal: %d.", (int)addedVertex, (int)addedNormal);
                                             }
                                             
                                             vertices.push_back(data);
@@ -452,24 +474,29 @@ struct Collada {
                                 
                                 Material m = materials[material];
                                 
-                                if(imageFiles.find(m.surface) == imageFiles.end()) {
-                                    Exit("Node[%s] requested material[%s] which requested texture[%s] which is not found.",  nodeid.c_str(), material.c_str(), m.surface.c_str());
+                                // To keep the shader and other logic simple, we
+                                // load a transparent texture if no texture is used.
+                                string textureFile = "models/transparent.png";
+                                
+                                if(imageFiles.find(m.surface) != imageFiles.end()) {
+                                    textureFile = imageFiles[m.surface];
+                                    //Exit("Node[%s] requested material[%s] which requested texture[%s] which is not found.",  nodeid.c_str(), material.c_str(), m.surface.c_str());
                                 }
                                 
-                                string textureFile = imageFiles[m.surface];
+                                printf("      ");
+                                model->texture = Textures::LoadPNG(textureFile);
+                                
                                 
                                 printf("      using geometry[%s] and %lu vertices with material[%s].\n", url.c_str(), vertices.size(), material.c_str());
                                 
                                 model->vertices = vertices;
                                 
-                                printf("      ");
-                                model->texture = Textures::LoadPNG(textureFile);
-                                
+                                // Generate some indices
                                 for(size_t i = 0; i < vertices.size(); ++i) {
                                     model->indices.push_back((int) i);
                                 }
                                 
-                                models.push_back(model);
+                                root->sub.push_back(std::shared_ptr<Model>(model));
                             }
                             
                             // TODO: might have to change the order of multiplication.
@@ -486,7 +513,8 @@ struct Collada {
                             
                             transform = transform * Matrix44::CreateTranslation(translate.x, translate.y, translate.z);
                             
-                            model->baseTransform = transform;
+                            model->transform = transform;
+                            model->upload();
                             
                         }
                     }
@@ -497,10 +525,15 @@ struct Collada {
         }
     
     
-        printf("Collada done\n");
-        //exit(0);
+        // Create smart pointer to handle life-cycle, a custom deleter is provided.
+        auto ptr = std::shared_ptr<Model>(root, [] (Model* model) {
+            // Remove from RAM.
+            delete model;
+        });
         
-        return models;
+        cache.insert(make_pair(filename, ptr));
+        
+        return ptr;
     }
 
 };

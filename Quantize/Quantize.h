@@ -22,6 +22,8 @@
 
 #include "Collada.h"
 
+#include "Model.h"
+
 using namespace Furiosity;
 using std::string;
 
@@ -70,8 +72,12 @@ class Quantize {
     
 
     /// Collection of models to render.
-    std::vector<Model*> models;
+    std::vector<std::shared_ptr<Entity>> entities;
     
+    /// Handle to a debug cube. Used to visualise physical light sources.
+    std::shared_ptr<Model> cube;
+    
+    float foo;
     
 public:
     /// Camera
@@ -98,6 +104,9 @@ public:
     /// Destructor
     ~Quantize();
     
+    /// Load some decent looking models!
+    void loadDemoScene();
+    
     /// Initialize OpenGL and width/height dependent variables.
     void initialize(float width, float height);
     
@@ -110,9 +119,10 @@ public:
     /// Render a model.
     ///
     /// @param A model to render.
-    void render(Model& model);
-    
+    void render(Model& model, const Matrix44& transform = Matrix44());
+   
     /// Entry point for the update and draw loops.
     /// @param Time elapsed since previous call to update.
-    void update(float dt);};
+    void update(float dt);
+};
 
