@@ -65,7 +65,11 @@ void Quantize::loadDemoScene() {
     for(int i = 0; i < 4; ++i) {
         Entity* e = new Entity();
     
-        e->sub.push_back(Collada::FromFile("models/P39 AIRACOBRA/p39.dae"));
+        //e->sub.push_back(Collada::FromFile("models/P39 AIRACOBRA/p39.dae"));
+        //e->sub.push_back(Collada::FromFile("models/T-90/T-90.dae"));
+        //e->sub.push_back(Collada::FromFile("models/FW 190/FW190.dae"));
+        //e->sub.push_back(Collada::FromFile("models/FV510 Warrior/fv510.dae"));
+        e->sub.push_back(Collada::FromFile("models/A10/A10.dae"));
         e->transform.SetTranslation(1000 * i, 0, 0);
 
 
