@@ -23,7 +23,6 @@ Quantize::Quantize()
     , _uniformNormalTransform(0)
     , _uniformSampler_1(0)
     , camera(new Camera())
-    , foo(0)
     , kernelLerp(0.7f)
     , kernelType(6)
     {

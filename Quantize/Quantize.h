@@ -79,12 +79,21 @@ class Quantize {
     /// Handle to a debug cube. Used to visualise physical light sources.
     std::shared_ptr<Model> cube;
     
-    float kernelLerp;
+public:
+    /// Type of convolution kernel.
+    /// 0:        kernel = identity;
+    /// 1:        kernel = blur1;
+    /// 2:        kernel = blur2;
+    /// 3:        kernel = edge1;
+    /// 4:        kernel = edge2;
+    /// 5:        kernel = edge3;
+    /// 6:        kernel = sharpen;
     int kernelType;
     
-    float foo;
+    /// Blend value of the convolution kernel. 0 = kernel only, 1 = original only.
+    float kernelLerp;
     
-public:
+
     /// Camera
     Camera* camera;
     
