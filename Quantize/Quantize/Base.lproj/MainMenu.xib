@@ -843,7 +843,7 @@
                                         <slider identifier="Lights1XSlider" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="94v-a7-hUf" userLabel="Lights 3 X Slider">
                                             <rect key="frame" x="82" y="204" width="189" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="65" tickMarkPosition="above" sliderType="linear" id="23V-pM-9hb"/>
+                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="90" tickMarkPosition="above" sliderType="linear" id="23V-pM-9hb"/>
                                             <connections>
                                                 <action selector="lights3XSliderAction:" target="494" id="gsN-U7-WK2"/>
                                             </connections>
@@ -859,7 +859,7 @@
                                         <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uV8-WD-dQf" userLabel="Lights 3 Z Slider">
                                             <rect key="frame" x="82" y="154" width="189" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="30" tickMarkPosition="above" sliderType="linear" id="KsG-sE-VpJ"/>
+                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="65" tickMarkPosition="above" sliderType="linear" id="KsG-sE-VpJ"/>
                                             <connections>
                                                 <action selector="lights3ZSliderAction:" target="494" id="gLy-sz-n4c"/>
                                             </connections>
@@ -867,7 +867,7 @@
                                         <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qoq-t6-Et7" userLabel="Lights 3 Color Well">
                                             <rect key="frame" x="121" y="125" width="44" height="23"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <color key="color" red="0.098039215690000001" green="0.098039215690000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="color" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <connections>
                                                 <action selector="lights3ColorWellAction:" target="494" id="Lwm-rN-Dz7"/>
                                             </connections>
@@ -875,7 +875,7 @@
                                         <slider identifier="Lights1XSlider" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TsY-8N-CEH" userLabel="Lights 4 X Slider">
                                             <rect key="frame" x="82" y="98" width="189" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="65" tickMarkPosition="above" sliderType="linear" id="Jmi-Kc-U21"/>
+                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="20" tickMarkPosition="above" sliderType="linear" id="Jmi-Kc-U21"/>
                                             <connections>
                                                 <action selector="lights4XSliderAction:" target="494" id="Ey1-v5-0IY"/>
                                             </connections>
@@ -891,7 +891,7 @@
                                         <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e7K-lq-UPr" userLabel="Lights 4 Z Slider">
                                             <rect key="frame" x="82" y="48" width="189" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="90" tickMarkPosition="above" sliderType="linear" id="36R-2o-tWN"/>
+                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="65" tickMarkPosition="above" sliderType="linear" id="36R-2o-tWN"/>
                                             <connections>
                                                 <action selector="lights4ZSliderAction:" target="494" id="cuy-AX-TaT"/>
                                             </connections>
@@ -899,7 +899,7 @@
                                         <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="arb-8e-EWz" userLabel="Lights 4 Color Well">
                                             <rect key="frame" x="121" y="19" width="44" height="23"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <color key="color" red="1" green="0.098039215690000001" blue="0.019607843140000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="color" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <connections>
                                                 <action selector="lights4ColorWellAction:" target="494" id="x92-83-ME9"/>
                                             </connections>

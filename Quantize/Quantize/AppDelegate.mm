@@ -54,7 +54,7 @@ static Quantize* quantize = Quantize::getInstance();
 
 - (IBAction)lights1ColorWellAction:(id)sender {
     NSColor *color = [sender color];
-    float multiplier = 2.5f;
+    float multiplier = 1.0f;
     float r = [color redComponent] * multiplier;
     float g = [color greenComponent] * multiplier;
     float b = [color blueComponent] * multiplier;
@@ -82,7 +82,7 @@ static Quantize* quantize = Quantize::getInstance();
 
 - (IBAction)lights2ColorWellAction:(id)sender {
     NSColor *color = [sender color];
-    float multiplier = 2.5f;
+    float multiplier = 1.0f;
     float r = [color redComponent] * multiplier;
     float g = [color greenComponent] * multiplier;
     float b = [color blueComponent] * multiplier;
@@ -94,21 +94,51 @@ static Quantize* quantize = Quantize::getInstance();
 }
 - (IBAction)lights3XSliderAction:(id)sender {
     float value = [sender floatValue] - 50.0f;
-    quantize->lights[0].position.x = value;
+    quantize->lights[2].position.x = value;
 }
 - (IBAction)lights3YSliderAction:(id)sender {
+    float value = [sender floatValue] - 50.0f;
+    quantize->lights[2].position.y = value;
 }
 - (IBAction)lights3ZSliderAction:(id)sender {
+    float value = [sender floatValue] - 50.0f;
+    quantize->lights[2].position.z = value;
 }
 - (IBAction)lights3ColorWellAction:(id)sender {
+    NSColor *color = [sender color];
+    float multiplier = 1.0f;
+    float r = [color redComponent] * multiplier;
+    float g = [color greenComponent] * multiplier;
+    float b = [color blueComponent] * multiplier;
+    float a = [color alphaComponent];
+    quantize->lights[2].diffuse.r = r;
+    quantize->lights[2].diffuse.g = g;
+    quantize->lights[2].diffuse.b = b;
+    quantize->lights[2].diffuse.a = a;
 }
 - (IBAction)lights4XSliderAction:(id)sender {
+    float value = [sender floatValue] - 50.0f;
+    quantize->lights[3].position.x = value;
 }
 - (IBAction)lights4YSliderAction:(id)sender {
+    float value = [sender floatValue] - 50.0f;
+    quantize->lights[3].position.y = value;
 }
 - (IBAction)lights4ZSliderAction:(id)sender {
+    float value = [sender floatValue] - 50.0f;
+    quantize->lights[3].position.z = value;
 }
 - (IBAction)lights4ColorWellAction:(id)sender {
+    NSColor *color = [sender color];
+    float multiplier = 1.0f;
+    float r = [color redComponent] * multiplier;
+    float g = [color greenComponent] * multiplier;
+    float b = [color blueComponent] * multiplier;
+    float a = [color alphaComponent];
+    quantize->lights[3].diffuse.r = r;
+    quantize->lights[3].diffuse.g = g;
+    quantize->lights[3].diffuse.b = b;
+    quantize->lights[3].diffuse.a = a;
 }
 
 - (IBAction)lerpSliderAction:(id)sender {
