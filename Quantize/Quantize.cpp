@@ -38,13 +38,30 @@ Quantize::Quantize()
         light.specular.v[i] = 0.0f;
     }
   
+    light.diffuse.r = 0;
+    light.diffuse.g = 0;
     light.diffuse.b = 2;
     lights.push_back(light);
   
         
-    light.diffuse.r = 2;
+    light.diffuse.r = 1;
+    light.diffuse.g = 0;
     light.diffuse.b = 0;
     light.position.z = 40.0f;
+    lights.push_back(light);
+    
+    light.diffuse.r = 0;
+    light.diffuse.g = 1;
+    light.diffuse.b = 0;
+    light.position.z = 15.0f;
+    light.position.x = 40.0f;
+    lights.push_back(light);
+    
+    light.diffuse.r = 0;
+    light.diffuse.g = 1;
+    light.diffuse.b = 1;
+    light.position.z = 15.0f;
+    light.position.x = -30.0f;
     lights.push_back(light);
 }
 
