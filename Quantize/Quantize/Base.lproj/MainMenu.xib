@@ -684,7 +684,7 @@
                         <font key="font" metaFont="system"/>
                         <tabViewItems>
                             <tabViewItem label="Camera" identifier="1" id="NZQ-za-m5K">
-                                <view key="view" ambiguous="YES" id="IYN-Y9-ded">
+                                <view key="view" id="IYN-Y9-ded">
                                     <rect key="frame" x="10" y="33" width="286" height="316"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -907,6 +907,73 @@
                                             <rect key="frame" x="15" y="115" width="39" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Color" id="rAn-bZ-gH4">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </subviews>
+                                </view>
+                            </tabViewItem>
+                            <tabViewItem label="Render" identifier="" id="L6B-cl-N6j">
+                                <view key="view" ambiguous="YES" id="mlZ-P3-Ja4">
+                                    <rect key="frame" x="10" y="33" width="286" height="316"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KVy-29-ZRd">
+                                            <rect key="frame" x="15" y="296" width="32" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Lerp" id="A7W-1h-WxV">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eNr-WG-YL9">
+                                            <rect key="frame" x="66" y="294" width="205" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="VgA-zR-9Sq"/>
+                                            <connections>
+                                                <action selector="lerpSliderAction:" target="494" id="LCD-lV-LAr"/>
+                                            </connections>
+                                        </slider>
+                                        <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LI3-qg-f6U">
+                                            <rect key="frame" x="66" y="264" width="206" height="26"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <popUpButtonCell key="cell" type="push" title="Blur 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="JIg-qr-Bnv" id="H9k-X1-cVW">
+                                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                                <menu key="menu" title="OtherViews" id="t3j-Wp-AsP">
+                                                    <items>
+                                                        <menuItem title="Blur 1" keyEquivalent="A" id="Nnx-zG-fXA">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem title="Blur 2" state="on" keyEquivalent="S" id="aAf-Lu-0CU">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem title="Edge 1" state="on" keyEquivalent="D" id="Vm1-rK-iy4">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem title="Edge 2" state="on" keyEquivalent="F" id="Ptz-t1-ZwA">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem title="Edge 3" keyEquivalent="G" id="CCm-cX-Wct">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem title="Sharpen" keyEquivalent="H" id="JIg-qr-Bnv">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                    </items>
+                                                </menu>
+                                            </popUpButtonCell>
+                                            <connections>
+                                                <action selector="kernelPopupAction:" target="494" id="roZ-XR-eKw"/>
+                                            </connections>
+                                        </popUpButton>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uYf-KE-goh">
+                                            <rect key="frame" x="17" y="271" width="45" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Kernel" id="JE4-AC-tTl">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
