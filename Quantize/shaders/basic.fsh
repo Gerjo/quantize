@@ -54,8 +54,8 @@ void main() {
         blend = blend + (ambientColor + lambertian * diffuseColor + specular * specColor);
     }
    
-    // todo: use 3 channel colors and neglect alpha.
-    blend.a = 1.0;
+    // todo: use 3 channel colors and neglect alpha?
+    blend.a = texturecolor.a;
     
     gl_FragColor = texturecolor * blend;
  }
