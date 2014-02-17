@@ -688,7 +688,7 @@
                                     <rect key="frame" x="10" y="33" width="286" height="316"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <slider identifier="CameraSpeedSlider" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="67t-eF-iq5">
+                                        <slider identifier="CameraSpeedSlider" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="67t-eF-iq5" userLabel="Speed Slider">
                                             <rect key="frame" x="133" y="293" width="138" height="26"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="30" tickMarkPosition="above" numberOfTickMarks="11" sliderType="linear" id="avP-yd-QxF"/>
@@ -696,7 +696,7 @@
                                                 <action selector="cameraSpeedSliderAction:" target="494" id="aNr-9r-n0j"/>
                                             </connections>
                                         </slider>
-                                        <slider identifier="CameraMouseSlider" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ccX-di-C3P">
+                                        <slider identifier="CameraMouseSlider" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ccX-di-C3P" userLabel="Mouse Slider">
                                             <rect key="frame" x="133" y="269" width="138" height="26"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="70" tickMarkPosition="above" numberOfTickMarks="11" sliderType="linear" id="KCQ-iM-OHA"/>
@@ -704,7 +704,7 @@
                                                 <action selector="cameraMouseSliderAction:" target="494" id="maJ-Hj-Hn0"/>
                                             </connections>
                                         </slider>
-                                        <slider identifier="CameraRollSlider" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bld-5a-tZX">
+                                        <slider identifier="CameraRollSlider" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bld-5a-tZX" userLabel="Roll Slider">
                                             <rect key="frame" x="133" y="244" width="138" height="26"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="40" tickMarkPosition="above" numberOfTickMarks="11" sliderType="linear" id="c9v-mu-vs2"/>
@@ -739,7 +739,7 @@
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <scrollView fixedFrame="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mwd-6q-lHO">
+                                        <scrollView fixedFrame="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mwd-6q-lHO" userLabel="Controls View">
                                             <rect key="frame" x="17" y="17" width="252" height="199"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <clipView key="contentView" ambiguous="YES" misplaced="YES" id="cMo-PG-cMZ">
@@ -776,7 +776,7 @@
                                     <rect key="frame" x="10" y="33" width="286" height="316"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <slider identifier="Lights1XSlider" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N47-GP-Agv">
+                                        <slider identifier="Lights1XSlider" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N47-GP-Agv" userLabel="Lights 1 X Slider">
                                             <rect key="frame" x="82" y="294" width="189" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="65" tickMarkPosition="above" sliderType="linear" id="4rk-RP-A3q"/>
@@ -784,7 +784,7 @@
                                                 <action selector="lights1XSliderAction:" target="494" id="JfT-4t-8ze"/>
                                             </connections>
                                         </slider>
-                                        <slider identifier="Lights1YSlider" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bhX-AW-mN8">
+                                        <slider identifier="Lights1YSlider" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bhX-AW-mN8" userLabel="Lights 1 Y Slider">
                                             <rect key="frame" x="82" y="269" width="189" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="55" tickMarkPosition="above" sliderType="linear" id="Ksl-dl-D6O"/>
@@ -792,7 +792,7 @@
                                                 <action selector="lights1YSliderAction:" target="494" id="0BQ-40-MDa"/>
                                             </connections>
                                         </slider>
-                                        <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gpG-dz-0Kt">
+                                        <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gpG-dz-0Kt" userLabel="Lights 1 Z Slider">
                                             <rect key="frame" x="82" y="244" width="189" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="30" tickMarkPosition="above" sliderType="linear" id="C4o-fU-O4p"/>
@@ -800,7 +800,7 @@
                                                 <action selector="lights1ZSliderAction:" target="494" id="W85-Vl-3FH"/>
                                             </connections>
                                         </slider>
-                                        <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xa2-Rp-WkJ">
+                                        <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xa2-Rp-WkJ" userLabel="Lights 1 Color Well">
                                             <rect key="frame" x="121" y="215" width="44" height="23"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <color key="color" red="0.098039215686274508" green="0.098039215686274508" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -808,7 +808,7 @@
                                                 <action selector="lights1ColorWellAction:" target="494" id="AUx-Kk-tJo"/>
                                             </connections>
                                         </colorWell>
-                                        <slider identifier="Lights1XSlider" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uYS-Rr-Xaf">
+                                        <slider identifier="Lights1XSlider" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uYS-Rr-Xaf" userLabel="Lights 2 X Slider">
                                             <rect key="frame" x="82" y="188" width="189" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="65" tickMarkPosition="above" sliderType="linear" id="ApV-JC-MZB"/>
@@ -816,7 +816,7 @@
                                                 <action selector="lights2XSliderAction:" target="494" id="fXy-bg-NHA"/>
                                             </connections>
                                         </slider>
-                                        <slider identifier="Lights1YSlider" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jli-vy-Qgh">
+                                        <slider identifier="Lights1YSlider" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jli-vy-Qgh" userLabel="Lights 2 Y Slider">
                                             <rect key="frame" x="82" y="163" width="189" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="55" tickMarkPosition="above" sliderType="linear" id="Eun-zs-s4K"/>
@@ -824,7 +824,7 @@
                                                 <action selector="lights2YSliderAction:" target="494" id="V5h-0m-sU9"/>
                                             </connections>
                                         </slider>
-                                        <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NFo-Nn-NU4">
+                                        <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NFo-Nn-NU4" userLabel="Lights 2 Z Slider">
                                             <rect key="frame" x="82" y="138" width="189" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="90" tickMarkPosition="above" sliderType="linear" id="nYc-1Y-JRU"/>
@@ -832,7 +832,7 @@
                                                 <action selector="lights2ZSliderAction:" target="494" id="EO6-7b-rlf"/>
                                             </connections>
                                         </slider>
-                                        <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Jt-TK-BbA">
+                                        <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Jt-TK-BbA" userLabel="Lights 2 Color Well">
                                             <rect key="frame" x="121" y="109" width="44" height="23"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <color key="color" red="1" green="0.098039215686274508" blue="0.019607843137254902" alpha="1" colorSpace="calibratedRGB"/>
@@ -920,16 +920,7 @@
                                     <rect key="frame" x="10" y="33" width="286" height="316"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KVy-29-ZRd">
-                                            <rect key="frame" x="15" y="296" width="32" height="17"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Lerp" id="A7W-1h-WxV">
-                                                <font key="font" metaFont="system"/>
-                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                            </textFieldCell>
-                                        </textField>
-                                        <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eNr-WG-YL9">
+                                        <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eNr-WG-YL9" userLabel="Lerp Slider">
                                             <rect key="frame" x="66" y="294" width="205" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="VgA-zR-9Sq"/>
@@ -937,7 +928,7 @@
                                                 <action selector="lerpSliderAction:" target="494" id="LCD-lV-LAr"/>
                                             </connections>
                                         </slider>
-                                        <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LI3-qg-f6U">
+                                        <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LI3-qg-f6U" userLabel="Kernel Popup">
                                             <rect key="frame" x="66" y="264" width="206" height="26"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <popUpButtonCell key="cell" type="push" title="Original" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Prc-ag-MOp" id="H9k-X1-cVW">
@@ -973,6 +964,15 @@
                                                 <action selector="kernelPopupAction:" target="494" id="roZ-XR-eKw"/>
                                             </connections>
                                         </popUpButton>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KVy-29-ZRd">
+                                            <rect key="frame" x="15" y="296" width="32" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Lerp" id="A7W-1h-WxV">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uYf-KE-goh">
                                             <rect key="frame" x="17" y="271" width="45" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
