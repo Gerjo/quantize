@@ -24,6 +24,8 @@ Quantize::Quantize()
     , _uniformSampler_1(0)
     , camera(new Camera())
     , foo(0)
+    , kernelLerp(0.7f)
+    , kernelType(6)
     {
     
     Light light;
@@ -269,6 +271,10 @@ void Quantize::initializePostProgram() {
     _attrUvFBO         = glGetAttribLocation(_programPost, "position");
     _uniformFboTexture = glGetUniformLocation(_programPost, "texture");
     _uniformWindowSize = glGetUniformLocation(_programPost, "windowSize");
+    
+    _uniformKernelType =  glGetUniformLocation(_programPost, "kernelType");
+    _uniformKernelLerp =  glGetUniformLocation(_programPost, "kernelLerp");
+    
     GLError();
     
     // The rectangle used to render onto, the UVs are derived from this.
@@ -481,6 +487,9 @@ void Quantize::update(float dt) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glUseProgram(_programPost);
+    
+    glUniform1f(_uniformKernelLerp, kernelLerp);
+    glUniform1i(_uniformKernelType, kernelType);
     
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, _fboTexture);
