@@ -92,6 +92,24 @@ static Quantize* quantize = Quantize::getInstance();
     quantize->lights[1].diffuse.b = b;
     quantize->lights[1].diffuse.a = a;
 }
+- (IBAction)lights3XSliderAction:(id)sender {
+    float value = [sender floatValue] - 50.0f;
+    quantize->lights[0].position.x = value;
+}
+- (IBAction)lights3YSliderAction:(id)sender {
+}
+- (IBAction)lights3ZSliderAction:(id)sender {
+}
+- (IBAction)lights3ColorWellAction:(id)sender {
+}
+- (IBAction)lights4XSliderAction:(id)sender {
+}
+- (IBAction)lights4YSliderAction:(id)sender {
+}
+- (IBAction)lights4ZSliderAction:(id)sender {
+}
+- (IBAction)lights4ColorWellAction:(id)sender {
+}
 
 - (IBAction)lerpSliderAction:(id)sender {
     float value = [sender floatValue] / 100.0f;
@@ -99,7 +117,7 @@ static Quantize* quantize = Quantize::getInstance();
 }
 
 - (IBAction)kernelPopupAction:(id)sender {
-    int value = [sender indexOfSelectedItem];
+    int value = (int)[sender indexOfSelectedItem];
     quantize->kernelType = value;
 }
 
