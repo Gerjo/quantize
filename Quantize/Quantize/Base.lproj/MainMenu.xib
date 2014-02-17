@@ -1078,13 +1078,13 @@
                                                         <menuItem title="Blur 1" keyEquivalent="2" id="Nnx-zG-fXA">
                                                             <modifierMask key="keyEquivalentModifierMask"/>
                                                         </menuItem>
-                                                        <menuItem title="Blur 2" state="on" keyEquivalent="3" id="aAf-Lu-0CU">
+                                                        <menuItem title="Blur 2" keyEquivalent="3" id="aAf-Lu-0CU">
                                                             <modifierMask key="keyEquivalentModifierMask"/>
                                                         </menuItem>
-                                                        <menuItem title="Edge 1" state="on" keyEquivalent="4" id="Vm1-rK-iy4">
+                                                        <menuItem title="Edge 1" keyEquivalent="4" id="Vm1-rK-iy4">
                                                             <modifierMask key="keyEquivalentModifierMask"/>
                                                         </menuItem>
-                                                        <menuItem title="Edge 2" state="on" keyEquivalent="5" id="Ptz-t1-ZwA">
+                                                        <menuItem title="Edge 2" keyEquivalent="5" id="Ptz-t1-ZwA">
                                                             <modifierMask key="keyEquivalentModifierMask"/>
                                                         </menuItem>
                                                         <menuItem title="Edge 3" keyEquivalent="6" id="CCm-cX-Wct">
