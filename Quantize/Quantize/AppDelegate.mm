@@ -40,12 +40,6 @@ static Quantize* quantize = Quantize::getInstance();
     quantize->camera->rollSpeed = value;
 }
 
-- (IBAction)cameraLockCheckBoxAction:(id)sender {
-    bool value = [sender state] == NSOnState;
-    //printf("%d", (int)value);
-    quantize->camera->locked = value;
-}
-
 - (IBAction)lights1XSliderAction:(id)sender {
     float value = [sender floatValue] - 50.0f;
     quantize->lights[0].position.x = value;
