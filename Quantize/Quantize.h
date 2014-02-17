@@ -69,6 +69,8 @@ class Quantize {
     GLuint _uniformFboTexture;
     GLuint _uniformWindowSize;
     GLuint _vboFboVertices;
+    GLuint _uniformKernelType;
+    GLuint _uniformKernelLerp;
     
 
     /// Collection of models to render.
@@ -76,6 +78,9 @@ class Quantize {
     
     /// Handle to a debug cube. Used to visualise physical light sources.
     std::shared_ptr<Model> cube;
+    
+    float kernelLerp;
+    int kernelType;
     
     float foo;
     
