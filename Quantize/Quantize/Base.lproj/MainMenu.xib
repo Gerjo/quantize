@@ -932,7 +932,7 @@
                                         <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eNr-WG-YL9">
                                             <rect key="frame" x="66" y="294" width="205" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="VgA-zR-9Sq"/>
+                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="VgA-zR-9Sq"/>
                                             <connections>
                                                 <action selector="lerpSliderAction:" target="494" id="LCD-lV-LAr"/>
                                             </connections>
