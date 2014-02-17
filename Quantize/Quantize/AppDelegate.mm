@@ -21,8 +21,7 @@ static Quantize* quantize = Quantize::getInstance();
     
     //Give content to the controls text view.
     NSTextView *tV = [cameraControlsView documentView];
-    bool success = [tV readRTFDFromFile:@"Quantize/Camera Controls.rtf"];
-    printf("%d", (int)success);
+    [tV readRTFDFromFile:@"Quantize/Camera Controls.rtf"];
 }
 
 - (IBAction)cameraSpeedSliderAction:(id)sender {
