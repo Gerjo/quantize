@@ -69,7 +69,7 @@ void Quantize::loadDemoScene() {
         //e->sub.push_back(Collada::FromFile("models/T-90/T-90.dae"));
         //e->sub.push_back(Collada::FromFile("models/FW 190/FW190.dae"));
         //e->sub.push_back(Collada::FromFile("models/FV510 Warrior/fv510.dae"));
-        e->sub.push_back(Collada::FromFile("models/A10/A10.dae"));
+        e->sub.push_back(Collada::FromFile("models/P39 AIRACOBRA/P39.dae"));
         e->transform.SetTranslation(1000 * i, 0, 0);
 
 
@@ -457,7 +457,8 @@ void Quantize::update(float dt) {
 
     // Visualise the physical location of lights
     for(Light& light : lights) {
-        Matrix44 transform = Matrix44::CreateTranslation(light.position.x, light.position.y, light.position.z);
+        Matrix44 transform = Matrix44::CreateTranslation(light.position.x, light.position.y, light.position.z)
+        * Matrix44::CreateScale(0.3f);
         
         cube->update(this, transform, dt);
     }

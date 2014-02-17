@@ -22,7 +22,7 @@ using namespace Furiosity;
 
 class Camera {
 public:
-    Vector3 position {-2, -2, -10};
+    Vector3 position {-2, -10, -10};
     Vector3 orientation {0, 0, 0};
     
     float moveSpeed {0.3f};
@@ -36,12 +36,12 @@ public:
     }
     
     Matrix44 transform() {
-        if (!locked) {
+        //if (!locked) {
         Matrix44 _translation = Matrix44::CreateTranslation(position.x, position.y, position.z);
         Matrix44 _rotation = computeRotation();
         return _rotation * _translation;
-        }
-        else return defaultLookat();
+        //}
+        //else return defaultLookat();
     }
     
     void update() {
@@ -52,9 +52,11 @@ public:
     }
     
     void onMove(const Vector2& location) {
+        if (!locked) {
         Matrix44 _rollCompensation = Matrix44::CreateRotateZ(-1 * orientation.z);
         Vector3 _rotation = updateMouse(location);
         orientation += _rollCompensation * _rotation;
+        }
     }
     
     void onKey(char key) {
@@ -82,6 +84,9 @@ public:
                 break;
             case 'e':
                 control[CW] = true;
+                break;
+            case 'l':
+                locked = !locked;
                 break;
             case 0x1b: //Escape exits.
                 exit(0);

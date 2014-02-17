@@ -13,11 +13,16 @@ static NSTimer *timer = nil;
 static Quantize* quantize = Quantize::getInstance();
 
 @implementation AppDelegate
+@synthesize cameraControlsView;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     printf("applicationDidFinishLaunching\n");
-
+    
+    //Give content to the controls text view.
+    NSTextView *tV = [cameraControlsView documentView];
+    NSString *text = @"Camera Controls:\n\nMouse - Aim\nWASD - Movement\nQE - Roll\nL - Lock Camera\nEscape - Quit";
+    [tV setString:text];
 }
 
 - (IBAction)cameraSpeedSliderAction:(id)sender {
