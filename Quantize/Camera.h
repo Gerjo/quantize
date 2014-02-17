@@ -127,7 +127,7 @@ public:
     }
     
     void onScroll(const Vector2& delta) {
-        position += orientedTranslation(Vector3(0, 0, delta.y));
+        position += orientedTranslation(Vector3(delta.x, 0, delta.y));
     }
     
     void onClick() {

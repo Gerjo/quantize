@@ -55,5 +55,14 @@ void main() {
         }
     }
     
-    gl_FragColor = mix(color, texture2D(texture, uvmapping), 0.3);
+    
+    
+    // Normalize term for blur shading
+    //color /= 9.0;
+    
+    // Restore the alpha channel.
+    color.a = texture2D(texture, uvmapping).a;
+    
+    //
+    gl_FragColor = mix(color, texture2D(texture, uvmapping), 0.7);
 }

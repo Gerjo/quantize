@@ -65,11 +65,20 @@ void Quantize::loadDemoScene() {
     for(int i = 0; i < 4; ++i) {
         Entity* e = new Entity();
     
-        //e->sub.push_back(Collada::FromFile("models/P39 AIRACOBRA/p39.dae"));
-        //e->sub.push_back(Collada::FromFile("models/T-90/T-90.dae"));
-        //e->sub.push_back(Collada::FromFile("models/FW 190/FW190.dae"));
-        //e->sub.push_back(Collada::FromFile("models/FV510 Warrior/fv510.dae"));
-        e->sub.push_back(Collada::FromFile("models/P39 AIRACOBRA/P39.dae"));
+
+        if(i == 0)
+            e->sub.push_back(Collada::FromFile("models/P39 AIRACOBRA/p39.dae"));
+        
+        if(i == 1)
+            e->sub.push_back(Collada::FromFile("models/T-90/T-90.dae"));
+        
+        if(i == 2)
+            e->sub.push_back(Collada::FromFile("models/FW 190/FW190.dae"));
+        
+        if(i == 3)
+            e->sub.push_back(Collada::FromFile("models/FV510 Warrior/fv510.dae"));
+        
+        //e->sub.push_back(Collada::FromFile("models/A10/A10.dae"));
         e->transform.SetTranslation(1000 * i, 0, 0);
 
 
@@ -147,8 +156,8 @@ void Quantize::initialize(float width, float height) {
     _projection = Matrix44::CreatePerspective(
         3.14159268/2.5f,      // Field of view
         width/height,         // Aspect ratio
-        1.0f,                 // near
-        700.0f                // far
+        0.5f,                 // near
+        200.0f                // far
     );
     
     
