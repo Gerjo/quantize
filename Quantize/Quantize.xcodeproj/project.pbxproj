@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		A6403D9918AD9160009116CF /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6403D9818AD9160009116CF /* Model.cpp */; };
 		A69FD3E018B4BD96002FB76E /* Textures.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A69FD3DF18B4BD96002FB76E /* Textures.cpp */; };
+		A69FD3E318B54FFE002FB76E /* raytracer.vsh in Sources */ = {isa = PBXBuildFile; fileRef = A69FD3E118B54FFE002FB76E /* raytracer.vsh */; };
+		A69FD3E418B54FFE002FB76E /* raytracer.fsh in Sources */ = {isa = PBXBuildFile; fileRef = A69FD3E218B54FFE002FB76E /* raytracer.fsh */; };
 		A6C56A15189FC8DF00DFAA00 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C56A14189FC8DF00DFAA00 /* Cocoa.framework */; };
 		A6C56A1F189FC8DF00DFAA00 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A6C56A1D189FC8DF00DFAA00 /* InfoPlist.strings */; };
 		A6C56A21189FC8DF00DFAA00 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C56A20189FC8DF00DFAA00 /* main.m */; };
@@ -68,6 +70,8 @@
 		A6403D9718AD8B05009116CF /* Entity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
 		A6403D9818AD9160009116CF /* Model.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Model.cpp; sourceTree = "<group>"; };
 		A69FD3DF18B4BD96002FB76E /* Textures.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Textures.cpp; sourceTree = "<group>"; };
+		A69FD3E118B54FFE002FB76E /* raytracer.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = raytracer.vsh; sourceTree = "<group>"; };
+		A69FD3E218B54FFE002FB76E /* raytracer.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = raytracer.fsh; sourceTree = "<group>"; };
 		A6C56A11189FC8DF00DFAA00 /* Quantize.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Quantize.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6C56A14189FC8DF00DFAA00 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		A6C56A17189FC8DF00DFAA00 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -263,6 +267,8 @@
 		A6C56A9F18A106F000DFAA00 /* shaders */ = {
 			isa = PBXGroup;
 			children = (
+				A69FD3E118B54FFE002FB76E /* raytracer.vsh */,
+				A69FD3E218B54FFE002FB76E /* raytracer.fsh */,
 				A6C56C6D18A5924E00DFAA00 /* postp.vsh */,
 				A6C56C6E18A5924E00DFAA00 /* postp.fsh */,
 				A6C56AA018A106F000DFAA00 /* basic.fsh */,
@@ -469,8 +475,10 @@
 				A6C56C4F18A2AA5000DFAA00 /* png.c in Sources */,
 				A6C56A5218A102DD00DFAA00 /* Quantize.cpp in Sources */,
 				A6C56C5C18A2AA5000DFAA00 /* pngwrite.c in Sources */,
+				A69FD3E318B54FFE002FB76E /* raytracer.vsh in Sources */,
 				A6C56C2F18A139EB00DFAA00 /* Vector4.cpp in Sources */,
 				A6C56C5A18A2AA5000DFAA00 /* pngvalid.c in Sources */,
+				A69FD3E418B54FFE002FB76E /* raytracer.fsh in Sources */,
 				A6C56C5418A2AA5000DFAA00 /* pngread.c in Sources */,
 				A6C56C6918A58C4D00DFAA00 /* tinyxml2.cpp in Sources */,
 				A6C56A4A189FCA0E00DFAA00 /* GLView.mm in Sources */,

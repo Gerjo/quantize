@@ -67,13 +67,18 @@ class Quantize {
 
     /// Post processing shader
     GLuint _programPost;
-    GLuint _attrUvFBO;
-    GLuint _uniformFboTexture;
-    GLuint _uniformWindowSize;
+    GLint  _attrUvFBO;
+    GLint  _uniformFboTexture;
+    GLint  _uniformWindowSize;
     GLuint _vboFboVertices;
-    GLuint _uniformKernelType;
-    GLuint _uniformKernelLerp;
+    GLint  _uniformKernelType;
+    GLint  _uniformKernelLerp;
     
+    /// Ray tracer shader
+    GLint  _programRaytracer;
+    GLuint _vboRtVertices;
+    GLint  _attrRtPosition;
+    GLint  _uniformRtWindowSize;
 
     /// Collection of models to render.
     std::vector<std::shared_ptr<Entity>> entities;
@@ -131,6 +136,11 @@ public:
     
     /// Load the post processing shader program.
     void initializePostProgram();
+    
+    /// Load the raytracer shader program.
+    void initializeRaytraceProgram();
+    
+    
     
     /// Render a model.
     ///

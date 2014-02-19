@@ -81,6 +81,10 @@ void Quantize::loadDemoScene() {
 
     cube = Collada::FromFile("models/cube.dae");
 
+    entities.push_back(Collada::FromFile("models/cube.dae"));
+
+    //return;
+
     /*for(int i = 0; i < 4; ++i) {
         Entity* e = new Entity();
     
@@ -196,6 +200,9 @@ void Quantize::initialize(float width, float height) {
     // Setup the FBO, RBO and related shaders.
     initializePostProgram();
     
+    // Experimental raytacer
+    initializeRaytraceProgram();
+    
     loadDemoScene();
 };
 
@@ -227,7 +234,6 @@ void Quantize::initializeMeshProgram() {
     _uniformCamera    = glGetUniformLocation(_programMesh, "camera");
     _uniformModelTransform  = glGetUniformLocation(_programMesh, "modelTransform");
     _uniformNormalTransform = glGetUniformLocation(_programMesh, "normalTransform");
-    //_uniformSampler_1 = glGetUniformLocation(_programMesh, "sampler_1");
     GLError();
 
     for(int i = 0; i < 15; ++i) {
@@ -333,6 +339,46 @@ void Quantize::initializePostProgram() {
     glDeleteShader(postfsh);
 }
 
+
+void Quantize::initializeRaytraceProgram() {
+    // Prepare all shaders. These will exit on failure.
+    GLuint vsh = CompileShader("shaders/raytracer.vsh");
+    GLuint fsh = CompileShader("shaders/raytracer.fsh");
+    
+    // Create shader program
+    _programRaytracer = glCreateProgram();
+    glAttachShader(_programRaytracer, vsh); GLError();
+    glAttachShader(_programRaytracer, fsh); GLError();
+    glLinkProgram(_programRaytracer);
+    GLValidateProgram(_programRaytracer);
+    GLError();
+
+    _uniformRtWindowSize = glGetUniformLocation(_programRaytracer, "windowSize");
+    _attrRtPosition = glGetAttribLocation(_programRaytracer, "vertexPosition");
+    GLError();
+    
+    // The rectangle used as canvas where ray are shot from.
+    GLfloat vertices[] = {
+        -1, -1,
+         1, -1,
+        -1,  1,
+         1,  1,
+    };
+    
+    glGenBuffers(1, &_vboRtVertices);
+    glBindBuffer(GL_ARRAY_BUFFER, _vboRtVertices);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    GLError();
+
+
+    // Cleanup
+    glDetachShader(_programRaytracer, vsh);     GLError();
+    glDeleteShader(vsh);                        GLError();
+    glDetachShader(_programRaytracer, fsh);     GLError();
+    glDeleteShader(fsh);                        GLError();
+
+}
 
 /// Render a model.
 ///
@@ -450,6 +496,7 @@ void Quantize::render(Model& model, const Matrix44& transform) {
     // doesn't leak into the next set of gl calls.
     glDisableVertexAttribArray(_attrPosition);
     glDisableVertexAttribArray(_attrColor);
+    // todo: disable them all.
     GLError();
 
     // Unbind buffers.
@@ -541,7 +588,9 @@ void Quantize::update(float dt) {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     GLFBError();
 
-
+////////////////////////////////////////////////////////////////////////////////
+//// POST PROCESSING
+////////////////////////////////////////////////////////////////////////////////
     glClearColor(0.541, 0.361, 0.361, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -570,6 +619,35 @@ void Quantize::update(float dt) {
     );
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     glDisableVertexAttribArray(_attrUvFBO);
+   
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+ 
+////////////////////////////////////////////////////////////////////////////////
+//// RAYTRACER
+////////////////////////////////////////////////////////////////////////////////
+    glUseProgram(_programRaytracer);
+    GLError();
+    
+    glUniform2f(_uniformRtWindowSize, width, height);
+    GLError();
+    
+    glEnableVertexAttribArray(_attrRtPosition);
+    GLError();
+    
+    glBindBuffer(GL_ARRAY_BUFFER, _vboRtVertices);
+    glVertexAttribPointer(
+            _attrRtPosition,             // attribute
+            2,                           // number of elements per vertex, here (x,y)
+            GL_FLOAT,                    // the type of each element
+            GL_FALSE,                    // take our values as-is
+            0,                           // no extra data between each position
+            0                            // offset of first element
+    );
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    glDisableVertexAttribArray(_vboRtVertices);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    GLError();
 
     // Run draw calls.
     //glFlush();
