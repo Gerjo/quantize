@@ -672,14 +672,14 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" animationBehavior="default" id="LD2-HY-dPS" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" utility="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="132" width="332" height="378"/>
+            <rect key="contentRect" x="196" y="132" width="332" height="500"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
             <view key="contentView" id="BXO-Af-2Qd">
-                <rect key="frame" x="0.0" y="0.0" width="332" height="378"/>
+                <rect key="frame" x="0.0" y="0.0" width="332" height="500"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <tabView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cvu-q8-RPa">
-                        <rect key="frame" x="13" y="10" width="306" height="362"/>
+                        <rect key="frame" x="13" y="10" width="306" height="484"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <font key="font" metaFont="system"/>
                         <tabViewItems>
@@ -772,12 +772,12 @@
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Lights" identifier="2" id="Y3T-xe-4yG">
-                                <view key="view" id="MAy-sx-JBv">
-                                    <rect key="frame" x="10" y="33" width="286" height="316"/>
+                                <view key="view" ambiguous="YES" id="MAy-sx-JBv">
+                                    <rect key="frame" x="10" y="33" width="286" height="438"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <slider identifier="Lights1XSlider" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N47-GP-Agv" userLabel="Lights 1 X Slider">
-                                            <rect key="frame" x="82" y="294" width="189" height="21"/>
+                                            <rect key="frame" x="82" y="416" width="189" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="65" tickMarkPosition="above" sliderType="linear" id="4rk-RP-A3q"/>
                                             <connections>
@@ -785,7 +785,7 @@
                                             </connections>
                                         </slider>
                                         <slider identifier="Lights1YSlider" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bhX-AW-mN8" userLabel="Lights 1 Y Slider">
-                                            <rect key="frame" x="82" y="269" width="189" height="21"/>
+                                            <rect key="frame" x="82" y="391" width="189" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="55" tickMarkPosition="above" sliderType="linear" id="Ksl-dl-D6O"/>
                                             <connections>
@@ -793,7 +793,7 @@
                                             </connections>
                                         </slider>
                                         <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gpG-dz-0Kt" userLabel="Lights 1 Z Slider">
-                                            <rect key="frame" x="82" y="244" width="189" height="21"/>
+                                            <rect key="frame" x="82" y="366" width="189" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="30" tickMarkPosition="above" sliderType="linear" id="C4o-fU-O4p"/>
                                             <connections>
@@ -801,7 +801,7 @@
                                             </connections>
                                         </slider>
                                         <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xa2-Rp-WkJ" userLabel="Lights 1 Color Well">
-                                            <rect key="frame" x="121" y="215" width="44" height="23"/>
+                                            <rect key="frame" x="121" y="337" width="44" height="23"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <color key="color" red="0.098039215686274508" green="0.098039215686274508" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <connections>
@@ -809,7 +809,7 @@
                                             </connections>
                                         </colorWell>
                                         <slider identifier="Lights1XSlider" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uYS-Rr-Xaf" userLabel="Lights 2 X Slider">
-                                            <rect key="frame" x="82" y="188" width="189" height="21"/>
+                                            <rect key="frame" x="82" y="310" width="189" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="65" tickMarkPosition="above" sliderType="linear" id="ApV-JC-MZB"/>
                                             <connections>
@@ -817,7 +817,7 @@
                                             </connections>
                                         </slider>
                                         <slider identifier="Lights1YSlider" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jli-vy-Qgh" userLabel="Lights 2 Y Slider">
-                                            <rect key="frame" x="82" y="163" width="189" height="21"/>
+                                            <rect key="frame" x="82" y="285" width="189" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="55" tickMarkPosition="above" sliderType="linear" id="Eun-zs-s4K"/>
                                             <connections>
@@ -825,7 +825,7 @@
                                             </connections>
                                         </slider>
                                         <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NFo-Nn-NU4" userLabel="Lights 2 Z Slider">
-                                            <rect key="frame" x="82" y="138" width="189" height="21"/>
+                                            <rect key="frame" x="82" y="260" width="189" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="90" tickMarkPosition="above" sliderType="linear" id="nYc-1Y-JRU"/>
                                             <connections>
@@ -833,15 +833,79 @@
                                             </connections>
                                         </slider>
                                         <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Jt-TK-BbA" userLabel="Lights 2 Color Well">
-                                            <rect key="frame" x="121" y="109" width="44" height="23"/>
+                                            <rect key="frame" x="121" y="231" width="44" height="23"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <color key="color" red="1" green="0.098039215686274508" blue="0.019607843137254902" alpha="1" colorSpace="calibratedRGB"/>
                                             <connections>
                                                 <action selector="lights2ColorWellAction:" target="494" id="YhG-sD-FiA"/>
                                             </connections>
                                         </colorWell>
+                                        <slider identifier="Lights1XSlider" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="94v-a7-hUf" userLabel="Lights 3 X Slider">
+                                            <rect key="frame" x="82" y="204" width="189" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="90" tickMarkPosition="above" sliderType="linear" id="23V-pM-9hb"/>
+                                            <connections>
+                                                <action selector="lights3XSliderAction:" target="494" id="gsN-U7-WK2"/>
+                                            </connections>
+                                        </slider>
+                                        <slider identifier="Lights1YSlider" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oea-i6-EcS" userLabel="Lights 3 Y Slider">
+                                            <rect key="frame" x="82" y="179" width="189" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="55" tickMarkPosition="above" sliderType="linear" id="n27-oK-e51"/>
+                                            <connections>
+                                                <action selector="lights3YSliderAction:" target="494" id="kWV-Jz-dHZ"/>
+                                            </connections>
+                                        </slider>
+                                        <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uV8-WD-dQf" userLabel="Lights 3 Z Slider">
+                                            <rect key="frame" x="82" y="154" width="189" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="65" tickMarkPosition="above" sliderType="linear" id="KsG-sE-VpJ"/>
+                                            <connections>
+                                                <action selector="lights3ZSliderAction:" target="494" id="gLy-sz-n4c"/>
+                                            </connections>
+                                        </slider>
+                                        <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qoq-t6-Et7" userLabel="Lights 3 Color Well">
+                                            <rect key="frame" x="121" y="125" width="44" height="23"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <color key="color" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <connections>
+                                                <action selector="lights3ColorWellAction:" target="494" id="Lwm-rN-Dz7"/>
+                                            </connections>
+                                        </colorWell>
+                                        <slider identifier="Lights1XSlider" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TsY-8N-CEH" userLabel="Lights 4 X Slider">
+                                            <rect key="frame" x="82" y="98" width="189" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="20" tickMarkPosition="above" sliderType="linear" id="Jmi-Kc-U21"/>
+                                            <connections>
+                                                <action selector="lights4XSliderAction:" target="494" id="Ey1-v5-0IY"/>
+                                            </connections>
+                                        </slider>
+                                        <slider identifier="Lights1YSlider" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sGu-T4-UNI" userLabel="Lights 4 Y Slider">
+                                            <rect key="frame" x="82" y="73" width="189" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="55" tickMarkPosition="above" sliderType="linear" id="q4q-4I-yxo"/>
+                                            <connections>
+                                                <action selector="lights4YSliderAction:" target="494" id="twX-iK-mH8"/>
+                                            </connections>
+                                        </slider>
+                                        <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e7K-lq-UPr" userLabel="Lights 4 Z Slider">
+                                            <rect key="frame" x="82" y="48" width="189" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="65" tickMarkPosition="above" sliderType="linear" id="36R-2o-tWN"/>
+                                            <connections>
+                                                <action selector="lights4ZSliderAction:" target="494" id="cuy-AX-TaT"/>
+                                            </connections>
+                                        </slider>
+                                        <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="arb-8e-EWz" userLabel="Lights 4 Color Well">
+                                            <rect key="frame" x="121" y="19" width="44" height="23"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <color key="color" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <connections>
+                                                <action selector="lights4ColorWellAction:" target="494" id="x92-83-ME9"/>
+                                            </connections>
+                                        </colorWell>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1ao-T3-RQD">
-                                            <rect key="frame" x="17" y="296" width="61" height="17"/>
+                                            <rect key="frame" x="17" y="418" width="61" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Light 1 X" id="fKc-JK-g5J">
                                                 <font key="font" metaFont="system"/>
@@ -850,7 +914,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x2u-vg-e0P">
-                                            <rect key="frame" x="17" y="271" width="13" height="17"/>
+                                            <rect key="frame" x="17" y="393" width="13" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Y" id="nXj-RU-Hor">
                                                 <font key="font" metaFont="system"/>
@@ -859,7 +923,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ewn-B3-ldp">
-                                            <rect key="frame" x="17" y="246" width="12" height="17"/>
+                                            <rect key="frame" x="17" y="368" width="12" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Z" id="RaL-4T-Hph">
                                                 <font key="font" metaFont="system"/>
@@ -868,7 +932,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="M0a-dw-dId">
-                                            <rect key="frame" x="17" y="190" width="61" height="17"/>
+                                            <rect key="frame" x="17" y="312" width="61" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Light 2 X" id="yhR-Zq-hfD">
                                                 <font key="font" metaFont="system"/>
@@ -877,7 +941,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vvZ-ch-3dz">
-                                            <rect key="frame" x="17" y="165" width="13" height="17"/>
+                                            <rect key="frame" x="17" y="287" width="13" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Y" id="pnO-On-eKV">
                                                 <font key="font" metaFont="system"/>
@@ -886,7 +950,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dQr-pg-cEI">
-                                            <rect key="frame" x="15" y="140" width="12" height="17"/>
+                                            <rect key="frame" x="15" y="262" width="12" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Z" id="n2c-c6-WuZ">
                                                 <font key="font" metaFont="system"/>
@@ -895,7 +959,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mXu-oh-RR6">
-                                            <rect key="frame" x="17" y="221" width="39" height="17"/>
+                                            <rect key="frame" x="17" y="343" width="39" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Color" id="AOF-9G-fMj">
                                                 <font key="font" metaFont="system"/>
@@ -904,9 +968,81 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pk4-yh-zCc">
-                                            <rect key="frame" x="15" y="115" width="39" height="17"/>
+                                            <rect key="frame" x="15" y="237" width="39" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Color" id="rAn-bZ-gH4">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Hk-Hf-N97">
+                                            <rect key="frame" x="17" y="100" width="61" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Light 4 X" id="DVs-Do-P19">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XEs-jV-zo7">
+                                            <rect key="frame" x="17" y="181" width="13" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Y" id="Wty-x3-N9Q">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zm0-hi-2To">
+                                            <rect key="frame" x="17" y="75" width="13" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Y" id="TwF-bx-cFj">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NVb-f7-5i8">
+                                            <rect key="frame" x="15" y="50" width="12" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Z" id="kQa-rt-e5G">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="601-B0-SyM">
+                                            <rect key="frame" x="15" y="25" width="39" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Color" id="uSQ-aJ-1c5">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mfY-Ev-9dI">
+                                            <rect key="frame" x="17" y="156" width="12" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Z" id="6Vt-JG-uJf">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a0P-Dg-6Ee">
+                                            <rect key="frame" x="17" y="206" width="61" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Light 3 X" id="jCZ-S8-p50">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3IC-Dr-hsi">
+                                            <rect key="frame" x="17" y="131" width="39" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Color" id="mSt-0z-gyO">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -916,12 +1052,12 @@
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Render" identifier="" id="L6B-cl-N6j">
-                                <view key="view" ambiguous="YES" id="mlZ-P3-Ja4">
-                                    <rect key="frame" x="10" y="33" width="286" height="316"/>
+                                <view key="view" id="mlZ-P3-Ja4">
+                                    <rect key="frame" x="10" y="33" width="286" height="438"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eNr-WG-YL9" userLabel="Lerp Slider">
-                                            <rect key="frame" x="66" y="294" width="205" height="21"/>
+                                            <rect key="frame" x="66" y="416" width="205" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="VgA-zR-9Sq"/>
                                             <connections>
@@ -929,7 +1065,7 @@
                                             </connections>
                                         </slider>
                                         <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LI3-qg-f6U" userLabel="Kernel Popup">
-                                            <rect key="frame" x="66" y="264" width="206" height="26"/>
+                                            <rect key="frame" x="66" y="386" width="206" height="26"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <popUpButtonCell key="cell" type="push" title="Original" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Prc-ag-MOp" id="H9k-X1-cVW">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -942,13 +1078,13 @@
                                                         <menuItem title="Blur 1" keyEquivalent="2" id="Nnx-zG-fXA">
                                                             <modifierMask key="keyEquivalentModifierMask"/>
                                                         </menuItem>
-                                                        <menuItem title="Blur 2" state="on" keyEquivalent="3" id="aAf-Lu-0CU">
+                                                        <menuItem title="Blur 2" keyEquivalent="3" id="aAf-Lu-0CU">
                                                             <modifierMask key="keyEquivalentModifierMask"/>
                                                         </menuItem>
-                                                        <menuItem title="Edge 1" state="on" keyEquivalent="4" id="Vm1-rK-iy4">
+                                                        <menuItem title="Edge 1" keyEquivalent="4" id="Vm1-rK-iy4">
                                                             <modifierMask key="keyEquivalentModifierMask"/>
                                                         </menuItem>
-                                                        <menuItem title="Edge 2" state="on" keyEquivalent="5" id="Ptz-t1-ZwA">
+                                                        <menuItem title="Edge 2" keyEquivalent="5" id="Ptz-t1-ZwA">
                                                             <modifierMask key="keyEquivalentModifierMask"/>
                                                         </menuItem>
                                                         <menuItem title="Edge 3" keyEquivalent="6" id="CCm-cX-Wct">
@@ -965,7 +1101,7 @@
                                             </connections>
                                         </popUpButton>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KVy-29-ZRd">
-                                            <rect key="frame" x="15" y="296" width="32" height="17"/>
+                                            <rect key="frame" x="15" y="418" width="32" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Lerp" id="A7W-1h-WxV">
                                                 <font key="font" metaFont="system"/>
@@ -974,7 +1110,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uYf-KE-goh">
-                                            <rect key="frame" x="17" y="271" width="45" height="17"/>
+                                            <rect key="frame" x="17" y="393" width="45" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Kernel" id="JE4-AC-tTl">
                                                 <font key="font" metaFont="system"/>
