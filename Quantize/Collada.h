@@ -491,9 +491,23 @@ struct Collada {
                                 
                                 model->vertices = vertices;
                                 
+                                // Lookup the texture sampler index.
+                                const GLuint sampler = (GLuint) std::distance(
+                                    Textures::samplers.begin(),
+                                    std::find(
+                                        Textures::samplers.begin(),
+                                        Textures::samplers.end(),
+                                        * model->texture)
+                                    );
+                                
+                                printf("------\nSampler: %u\n", sampler);
+                                
                                 // Generate some indices
                                 for(size_t i = 0; i < vertices.size(); ++i) {
                                     model->indices.push_back((int) i);
+                                    
+                                    model->vertices[i].sampler = sampler;
+                                    
                                 }
                                 
                                 root->sub.push_back(std::shared_ptr<Model>(model));

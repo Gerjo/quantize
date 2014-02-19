@@ -21,15 +21,27 @@ class Quantize;
 using namespace Furiosity;
 
 struct VertexData {
+
+    /// Position in the world
     Vector3 position;
+    
+    /// Normal per vertex
     Vector3 normal;
+    
+    /// UV coordinates with UV repeat enabled.
     Vector2 uv;
+    
+    /// RGBA blend color per vertex. Not used atm.
     unsigned char color[4] = {(unsigned char)0, 255, 0, 0};
+    
+    /// Texture sampler index.
+    GLuint sampler;
     
     VertexData(Vector3 position,  Vector3 normal = Vector3(0, 0, 0), Vector2 uv = Vector2(1, 1))
         : position(position)
         , normal(normal)
-        , uv(uv) {
+        , uv(uv)
+        , sampler(198707891) {
             // codes
     }
     

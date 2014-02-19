@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A6403D9918AD9160009116CF /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6403D9818AD9160009116CF /* Model.cpp */; };
+		A69FD3E018B4BD96002FB76E /* Textures.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A69FD3DF18B4BD96002FB76E /* Textures.cpp */; };
 		A6C56A15189FC8DF00DFAA00 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C56A14189FC8DF00DFAA00 /* Cocoa.framework */; };
 		A6C56A1F189FC8DF00DFAA00 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A6C56A1D189FC8DF00DFAA00 /* InfoPlist.strings */; };
 		A6C56A21189FC8DF00DFAA00 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C56A20189FC8DF00DFAA00 /* main.m */; };
@@ -66,6 +67,7 @@
 		A6403D9418ACB9FA009116CF /* Light.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Light.h; sourceTree = "<group>"; };
 		A6403D9718AD8B05009116CF /* Entity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
 		A6403D9818AD9160009116CF /* Model.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Model.cpp; sourceTree = "<group>"; };
+		A69FD3DF18B4BD96002FB76E /* Textures.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Textures.cpp; sourceTree = "<group>"; };
 		A6C56A11189FC8DF00DFAA00 /* Quantize.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Quantize.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6C56A14189FC8DF00DFAA00 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		A6C56A17189FC8DF00DFAA00 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -173,6 +175,7 @@
 				A6C56C3518A2AA5000DFAA00 /* libPNG */,
 				A6C56C1318A139EB00DFAA00 /* Math */,
 				A6C56C3418A2A88900DFAA00 /* Textures.h */,
+				A69FD3DF18B4BD96002FB76E /* Textures.cpp */,
 				A6403D9718AD8B05009116CF /* Entity.h */,
 				A6C56C3018A1480200DFAA00 /* Model.h */,
 				A6403D9818AD9160009116CF /* Model.cpp */,
@@ -445,6 +448,7 @@
 				A6C56C5218A2AA5000DFAA00 /* pngmem.c in Sources */,
 				A6C56AA318A106F000DFAA00 /* basic.vsh in Sources */,
 				A6C56C5718A2AA5000DFAA00 /* pngrutil.c in Sources */,
+				A69FD3E018B4BD96002FB76E /* Textures.cpp in Sources */,
 				A6C56A28189FC8DF00DFAA00 /* AppDelegate.mm in Sources */,
 				A6C56C5B18A2AA5000DFAA00 /* pngwio.c in Sources */,
 				A6C56C2E18A139EB00DFAA00 /* Vector3.cpp in Sources */,

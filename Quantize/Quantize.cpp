@@ -8,7 +8,7 @@
 
 #include "Quantize.h"
 #include "Entity.h"
-
+#include "Textures.h"
 
 Quantize::Quantize()
     : _programMesh(0)
@@ -21,7 +21,8 @@ Quantize::Quantize()
     , _uniformCamera(0)
     , _uniformModelTransform(0)
     , _uniformNormalTransform(0)
-    , _uniformSampler_1(0)
+    //, _uniformSampler_1(0)
+    , _uniformSamplers{0}
     , camera(new Camera())
     , kernelLerp(0.7f)
     , kernelType(6)
@@ -80,7 +81,7 @@ void Quantize::loadDemoScene() {
 
     cube = Collada::FromFile("models/cube.dae");
 
-    for(int i = 0; i < 4; ++i) {
+    /*for(int i = 0; i < 4; ++i) {
         Entity* e = new Entity();
     
 
@@ -101,7 +102,7 @@ void Quantize::loadDemoScene() {
 
 
         entities.push_back(std::shared_ptr<Entity>(e));
-    }
+    }*/
     
     /*for(int i = 0; i < 4; ++i) {
         Entity* e = new Entity();
@@ -146,9 +147,19 @@ void Quantize::initialize(float width, float height) {
     this->width  = width;
     this->height = height;
     
-    const GLubyte* version = glGetString(GL_SHADING_LANGUAGE_VERSION);
+    int result = 0;
+    printf("Supported shader model: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
     
-    printf("Supported shader model: %s\n", version);
+    glGetIntegerv(GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS, &result);
+    printf("Maximum vertex texture samplers: %d\n", result);
+    
+    glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &result);
+    printf("Maximum fragment texture samplers: %d\n", result);
+    
+    glGetIntegerv(GL_MAX_TEXTURE_SIZE, &result);
+    printf("Maximum texture size: %dx%dpx\n", result, result);
+
+    printf("\n\n");
     
     // Let open GL deal with the z-index and order of rendering.
     glEnable(GL_DEPTH_TEST);
@@ -212,11 +223,20 @@ void Quantize::initializeMeshProgram() {
     _attrNormal       = glGetAttribLocation(_programMesh, "normal");
     _attrColor        = glGetAttribLocation(_programMesh, "color");
     _attrUV           = glGetAttribLocation(_programMesh, "uv");
+    _attrSamplerIndex = glGetAttribLocation(_programMesh, "samplerIndex");
     _uniformCamera    = glGetUniformLocation(_programMesh, "camera");
     _uniformModelTransform  = glGetUniformLocation(_programMesh, "modelTransform");
     _uniformNormalTransform = glGetUniformLocation(_programMesh, "normalTransform");
-    _uniformSampler_1 = glGetUniformLocation(_programMesh, "sampler_1");
+    //_uniformSampler_1 = glGetUniformLocation(_programMesh, "sampler_1");
     GLError();
+
+    for(int i = 0; i < 15; ++i) {
+        const string address = "samplers[" + std::to_string(i) + "]";
+        _uniformSamplers[i] = glGetUniformLocation(_programMesh, address.c_str());
+        
+        printf("%s = %i\n", address.c_str(), _uniformSamplers[i]);
+
+    }
 
     _lightCount     = glGetUniformLocation(_programMesh, "lightCount");
     _lightsPosition = glGetUniformLocation(_programMesh, "lightsPosition");
@@ -321,13 +341,13 @@ void Quantize::render(Model& model, const Matrix44& transform) {
     
     Matrix44 t = model.transform * transform;
     
-    if(model.texture != 0) {
+    /*if(false && model.texture != 0) {
         // Texture enabling
         glActiveTexture(GL_TEXTURE0);                    // Use texture 0
         glBindTexture(GL_TEXTURE_2D, *(model.texture.get()));    // Work with this texture
         glUniform1i(_uniformSampler_1, 0);               // Set the sampler to tex 0
         GLError();
-    }
+    }*/
     
     // Set the perspective projection, once. This is shared among all models.
     glUniformMatrix4fv(_uniformModelTransform,  // Location
@@ -371,6 +391,20 @@ void Quantize::render(Model& model, const Matrix44& transform) {
     GLError();
     
     glEnableVertexAttribArray(_attrNormal);
+    GLError();
+    
+    
+    
+    glVertexAttribPointer(_attrSamplerIndex,                  // The attribute in the shader.
+                        1,                                    // Number of "fields", in this case 1: the index.
+                        GL_UNSIGNED_INT,                      // Data type
+                        GL_FALSE,                             // Must these values be normalized? No thanks.
+                        sizeof(VertexData),                   // Size of each structure
+                        (void*) offsetof(VertexData, sampler) // Offset
+    );
+    GLError();
+    
+    glEnableVertexAttribArray(_attrSamplerIndex);
     GLError();
     
     
@@ -479,6 +513,15 @@ void Quantize::update(float dt) {
     glUniform4fv(_lightsSpecular, nLights, specular[0].v);
     glUniform4fv(_lightsDiffuse, nLights, diffuse[0].v);
     GLError();
+
+
+    for(int i = 0, c = Textures::samplers.size(); i < c; ++i) {
+        // Texture enabling
+        glActiveTexture(GL_TEXTURE0 + i);                       // Use texture n
+        glBindTexture(GL_TEXTURE_2D, Textures::samplers[i]);    // Bind handle to n
+        glUniform1i(_uniformSamplers[i], i);                    // Set the sampler to tex n
+        GLError();
+    }
 
     // Render/Update loop
     for(auto model : entities) {

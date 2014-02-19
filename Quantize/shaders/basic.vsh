@@ -9,6 +9,7 @@ attribute vec3 position;
 attribute vec3 normal;
 attribute vec4 color;
 attribute vec2 uv;
+attribute float samplerIndex;
 
 uniform mat4 camera;
 uniform mat4 modelTransform;
@@ -19,20 +20,24 @@ varying vec4 fragmentColor;
 varying vec2 fragmentUV;
 varying vec3 fragmentNormal;
 varying vec3 vertexPosition;
-
+varying float fragmentSamplerIndex;
 
 varying vec4 tmp;
+
 
 
 void main(){
     // The variable needs to be used, else it won't compile.
     tmp = color;
     
+    fragmentSamplerIndex = samplerIndex;
+    
     vec4 vertPos4 = modelTransform * vec4(position, 1.0);
     
     vertexPosition = vec3(vertPos4) / vertPos4.w;
     fragmentNormal = vec3(normalTransform * normal);
     fragmentUV     = uv;
+    fragmentSamplerIndex = samplerIndex;
     
     gl_Position = camera * modelTransform * vec4(position, 1.0);
 }

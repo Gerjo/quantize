@@ -15,9 +15,16 @@
 #include "libPNG/png.h"
 
 struct Textures {
+
+    /// Filename to texture handle mapping.
+    static std::map<const std::string, std::weak_ptr<GLuint>> cache;
+    
+    /// Texture handle to sampler mapping.
+    static std::vector<GLuint> samplers;
+
+    /// Load a PNG, and be smart about it - textures are only loaded once.
     static std::shared_ptr<GLuint> LoadPNG(const std::string& filename) {
     
-        static std::map<const std::string, std::weak_ptr<GLuint>> cache;
     
         if(cache.find(filename) != cache.end()) {
             if( ! cache[filename].expired()) {
@@ -156,6 +163,13 @@ struct Textures {
             filename,
             ptr
         ));
+        
+        // Work in progress.
+        samplers.push_back(texture);
+        
+        if(samplers.size() > 16) {
+            Exit("Does your hardware really support 16 simultaneous texture samplers? Gerard's macbook doesn't.");
+        }
     
         return ptr;
     }

@@ -36,12 +36,14 @@ class Quantize {
     GLuint _attrNormal;
     GLuint _attrColor;
     GLuint _attrUV;
-
+    GLuint _attrSamplerIndex;
+    
     /// Shader uniforms.
-    GLuint _uniformCamera;
-    GLuint _uniformModelTransform;
-    GLuint _uniformNormalTransform;
-    GLuint _uniformSampler_1;
+    GLint _uniformCamera;
+    GLint _uniformModelTransform;
+    GLint _uniformNormalTransform;
+    //GLuint _uniformSampler_1;
+    GLint _uniformSamplers[15];
     
     /// Light uniforms
     GLuint _lightCount;

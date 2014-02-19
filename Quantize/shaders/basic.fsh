@@ -9,8 +9,11 @@
 varying vec3 fragmentNormal;
 varying vec3 vertexPosition;
 varying vec2 fragmentUV;
+varying float fragmentSamplerIndex;
 
-uniform sampler2D sampler_1;
+
+// TODO: use 16 once the above declared "sampler_1" sampler is gone.
+uniform sampler2D samplers[16];
 
 uniform int lightCount;
 uniform vec3 lightsPosition[10];
@@ -19,8 +22,14 @@ uniform vec4 lightsSpecular[10];
 uniform vec4 lightsAmbiant[10];
 
 void main() {
+
+    //uniform sampler2D sampler_1 = samplers[0];
+
+    int index = int(fragmentSamplerIndex);
+
+
     // Query the texture.
-    vec4 texturecolor = texture2D(sampler_1, fragmentUV);
+    vec4 texturecolor = texture2D(samplers[index], fragmentUV);
     
     
     vec3 normal = normalize(fragmentNormal);
