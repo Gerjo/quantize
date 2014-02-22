@@ -16,7 +16,7 @@ uniform vec2 windowSize;        // Size of the viewport
 varying vec2 position;          // Normalize position on screen
 
 
-const int MAX_TRIANGLES = 250;
+const int MAX_TRIANGLES = 50;
 
 uniform int numTriangles;       // Number of triangles
 
@@ -44,7 +44,7 @@ struct Ray {
 };
 
 
-int rayIntersetsTriangle(vec3 p, vec3 d, vec3 v0, vec3 v1, vec3 v2) {
+int rayIntersetsTriangle(vec3 p, vec3 d, vec3 v0, vec3 v1, vec3 v2, inout vec3 where) {
 
     vec3 a = v1 - v0;
     vec3 b = v2 - v0;
@@ -67,6 +67,8 @@ int rayIntersetsTriangle(vec3 p, vec3 d, vec3 v0, vec3 v1, vec3 v2) {
     }
     
     vec3 P = p + t * d;
+    
+    where = P;
     
     vec3 perp; // vector perpendicular to triangle's plane
  
@@ -117,6 +119,26 @@ vec3 rot(vec3 v) {
     return (rotation * vec4(v, 1.0)).xyz;
 }
 
+vec2 barrycentric(
+    vec3 f,
+    vec3 p1, vec3 p2, vec3 p3,
+    vec2 uv1, vec2 uv2, vec2 uv3
+    ) {
+    // calculate vectors from point f to vertices p1, p2 and p3:
+    vec3 f1 = p1 - f;
+    vec3 f2 = p2 - f;
+    vec3 f3 = p3 - f;
+    
+    // calculate the areas and factors (order of parameters doesn't matter):
+    float a  = length(cross(p1-p2, p1-p3)); // main triangle area a
+    float a1 = length(cross(f2, f3)) / a; // p1's triangle area / a
+    float a2 = length(cross(f3, f1)) / a; // p2's triangle area / a
+    float a3 = length(cross(f1, f2)) / a; // p3's triangle area / a
+    
+    // find the uv corresponding to point f (uv1/uv2/uv3 are associated to p1/p2/p3):
+    return uv1 * a1 + uv2 * a2 + uv3 * a3;
+}
+
 void main() {
 
     // Debug colors.
@@ -147,19 +169,32 @@ void main() {
 
     // A glsl 4.0 style loop
     for(int i = 0, j = 0; i < numTriangles; ++i) {
+        vec3 A = derp(verticesA[i]);
+        vec3 B = derp(verticesB[i]);
+        vec3 C = derp(verticesC[i]);
+    
+        vec3 where;
     
         // Ray collision test
         int res = rayIntersetsTriangle(
                     ray.place,
                     ray.direction,
-                    derp(verticesA[i]),
-                    derp(verticesB[i]),
-                    derp(verticesC[i])
+                    A,
+                    B,
+                    C,
+                    where
         );
 
         // TODO: Fancy z-test and alpha blending.
         if(res != 0) {
-            color += colors[mod(i, 6)] / 3.0;
+        
+            vec2 uv = barrycentric(
+                where,
+                A, B, C,
+                uvA[i], uvB[i], uvC[i]
+            );
+        
+            color = texture2D(textures[0], uv);//colors[mod(i, 6)] / 3.0;
             
             //zBuffer[j] = somecolor;
         }

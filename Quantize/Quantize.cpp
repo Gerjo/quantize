@@ -77,7 +77,8 @@ Quantize::~Quantize() {
 }
 
 void Quantize::loadDemoScene() {
-
+    //Textures::LoadPNG("models/tmp/red.png");
+    
     cube      = Collada::FromFile("models/cube.dae");
     rectangle = Collada::FromFile("models/Plane/plane.dae");
     triangle  = Collada::FromFile("models/Plane/triangle.dae");
@@ -141,6 +142,13 @@ void Quantize::loadDemoScene() {
     }
     
     //entities.push_back(std::shared_ptr<Entity>(Collada::FromFile("models/Plane/plane.dae")));
+    
+    int i = 0;
+    for(auto pair : Textures::cache) {
+        printf("[sampler: %d] texture: %s\n", Textures::samplers[i], pair.first.c_str());
+        
+        ++i;
+    }
 }
 
 
@@ -652,7 +660,7 @@ void Quantize::update(float dt) {
     GLError();
     
     
-    auto subject = cube;
+    auto subject = rectangle;
     
     // Some group of faces
     std::vector<VertexData>& vertices = ((Model*)subject->sub[0].get())->vertices;
@@ -714,6 +722,9 @@ void Quantize::update(float dt) {
     
     // All must be equal in size.
     assert(a.size() == b.size() && b.size() == c.size());
+    assert(uvA.size() == uvB.size() && uvB.size() == uvC.size());
+    assert(uvA.size() == a.size());
+    assert(sampler.size() == a.size());
     
     // Upload the vertices
     glUniform3fv(_uniformVerticesA, (int) a.size(), a[0].v);
