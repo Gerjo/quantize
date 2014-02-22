@@ -224,12 +224,12 @@ static GLuint CompileShader(const std::string& filename) {
         glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logLength);
         
         if (logLength > 0) {
+            printf("There were shader compile errors in %s.", source.c_str());
+
             GLchar* log = new GLchar[logLength];
             glGetShaderInfoLog(shader, logLength, &logLength, log);
-            printf("Shader compile log:\n%s\n", log);
+            Exit("Shader compile log:\n%s\n", log);
             delete[] log;
-            
-            Exit("There were shader compile errors in %s.", source.c_str());
         }
         
         GLint status = 0;
@@ -251,21 +251,22 @@ static GLuint CompileShader(const std::string& filename) {
 
 static void GLValidateProgram(const GLuint program) {
 
-    GLint logLength, status;
+    GLint logLength = 0;
+    GLint status = GL_TRUE;
     
     glValidateProgram(program);
     glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logLength);
     if (logLength > 0) {
         GLchar *log = new GLchar[logLength];
         glGetProgramInfoLog(program, logLength, &logLength, log);
-        printf("Program validate log:\n%s\n", log);
+        printf("----------Program validate log----------\n%s----------------------------------------\n", log);
         delete[] log;
     }
     
     glGetProgramiv(program, GL_VALIDATE_STATUS, &status);
     
     
-    if (status == 0) {
-        Exit("Much break. Such not valid. many kapot.");
+    if (status == GL_FALSE) {
+        Exit("Much break. Such not valid. many kapot. Log size: %d", logLength);
     }
 }

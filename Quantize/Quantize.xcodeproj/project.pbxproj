@@ -8,6 +8,150 @@
 
 /* Begin PBXBuildFile section */
 		A6403D9918AD9160009116CF /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6403D9818AD9160009116CF /* Model.cpp */; };
+		A66A07BB18B66DC200F2CD15 /* A10.dae in Resources */ = {isa = PBXBuildFile; fileRef = A66A072118B66DC100F2CD15 /* A10.dae */; };
+		A66A07BC18B66DC200F2CD15 /* A10.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A072218B66DC100F2CD15 /* A10.png */; };
+		A66A07BD18B66DC200F2CD15 /* body front.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A072318B66DC100F2CD15 /* body front.png */; };
+		A66A07BE18B66DC200F2CD15 /* body rear.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A072418B66DC100F2CD15 /* body rear.png */; };
+		A66A07BF18B66DC200F2CD15 /* cockpit 2.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A072518B66DC100F2CD15 /* cockpit 2.png */; };
+		A66A07C018B66DC200F2CD15 /* cockpit 3.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A072618B66DC100F2CD15 /* cockpit 3.png */; };
+		A66A07C118B66DC200F2CD15 /* cockpit 4.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A072718B66DC100F2CD15 /* cockpit 4.png */; };
+		A66A07C218B66DC200F2CD15 /* cockpit.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A072818B66DC100F2CD15 /* cockpit.png */; };
+		A66A07C318B66DC200F2CD15 /* Decal.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A072918B66DC100F2CD15 /* Decal.png */; };
+		A66A07C418B66DC200F2CD15 /* engines.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A072A18B66DC100F2CD15 /* engines.png */; };
+		A66A07C518B66DC200F2CD15 /* Glass.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A072B18B66DC100F2CD15 /* Glass.png */; };
+		A66A07C618B66DC200F2CD15 /* Goggles.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A072C18B66DC100F2CD15 /* Goggles.png */; };
+		A66A07C718B66DC200F2CD15 /* Left wing.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A072D18B66DC100F2CD15 /* Left wing.png */; };
+		A66A07C818B66DC200F2CD15 /* missiles.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A072E18B66DC100F2CD15 /* missiles.png */; };
+		A66A07C918B66DC200F2CD15 /* parts.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A072F18B66DC100F2CD15 /* parts.png */; };
+		A66A07CA18B66DC200F2CD15 /* Right Wing.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A073018B66DC100F2CD15 /* Right Wing.png */; };
+		A66A07CB18B66DC200F2CD15 /* scope.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A073118B66DC100F2CD15 /* scope.png */; };
+		A66A07CC18B66DC200F2CD15 /* seat.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A073218B66DC100F2CD15 /* seat.png */; };
+		A66A07CD18B66DC200F2CD15 /* ausfb.dae in Resources */ = {isa = PBXBuildFile; fileRef = A66A073418B66DC100F2CD15 /* ausfb.dae */; };
+		A66A07CE18B66DC200F2CD15 /* AUSFB.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A073518B66DC100F2CD15 /* AUSFB.png */; };
+		A66A07CF18B66DC200F2CD15 /* Body 1.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A073618B66DC100F2CD15 /* Body 1.png */; };
+		A66A07D018B66DC200F2CD15 /* Body 2.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A073718B66DC100F2CD15 /* Body 2.png */; };
+		A66A07D118B66DC200F2CD15 /* Track.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A073818B66DC100F2CD15 /* Track.png */; };
+		A66A07D218B66DC200F2CD15 /* Turret 2.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A073918B66DC100F2CD15 /* Turret 2.png */; };
+		A66A07D318B66DC200F2CD15 /* Turret.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A073A18B66DC100F2CD15 /* Turret.png */; };
+		A66A07D418B66DC200F2CD15 /* cube.dae in Resources */ = {isa = PBXBuildFile; fileRef = A66A073B18B66DC100F2CD15 /* cube.dae */; };
+		A66A07D518B66DC200F2CD15 /* Earth.dae in Resources */ = {isa = PBXBuildFile; fileRef = A66A073D18B66DC100F2CD15 /* Earth.dae */; };
+		A66A07D618B66DC200F2CD15 /* Earth.mtl in Resources */ = {isa = PBXBuildFile; fileRef = A66A073E18B66DC100F2CD15 /* Earth.mtl */; };
+		A66A07D718B66DC200F2CD15 /* Earth.obj in Resources */ = {isa = PBXBuildFile; fileRef = A66A073F18B66DC100F2CD15 /* Earth.obj */; };
+		A66A07D818B66DC200F2CD15 /* Earth_Clouds_D.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A074018B66DC100F2CD15 /* Earth_Clouds_D.png */; };
+		A66A07D918B66DC200F2CD15 /* Earth_Clouds_D.tga in Resources */ = {isa = PBXBuildFile; fileRef = A66A074118B66DC100F2CD15 /* Earth_Clouds_D.tga */; };
+		A66A07DA18B66DC200F2CD15 /* Earth_D.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A074218B66DC100F2CD15 /* Earth_D.png */; };
+		A66A07DB18B66DC200F2CD15 /* Earth_D.tga in Resources */ = {isa = PBXBuildFile; fileRef = A66A074318B66DC100F2CD15 /* Earth_D.tga */; };
+		A66A07DC18B66DC200F2CD15 /* Earth_N.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A074418B66DC100F2CD15 /* Earth_N.png */; };
+		A66A07DD18B66DC200F2CD15 /* Earth_N.tga in Resources */ = {isa = PBXBuildFile; fileRef = A66A074518B66DC100F2CD15 /* Earth_N.tga */; };
+		A66A07DE18B66DC200F2CD15 /* Earth_S.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A074618B66DC100F2CD15 /* Earth_S.png */; };
+		A66A07DF18B66DC200F2CD15 /* Earth_S.tga in Resources */ = {isa = PBXBuildFile; fileRef = A66A074718B66DC100F2CD15 /* Earth_S.tga */; };
+		A66A07E018B66DC200F2CD15 /* fv510.dae in Resources */ = {isa = PBXBuildFile; fileRef = A66A074918B66DC100F2CD15 /* fv510.dae */; };
+		A66A07E118B66DC200F2CD15 /* FV510.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A074A18B66DC100F2CD15 /* FV510.png */; };
+		A66A07E218B66DC200F2CD15 /* Main Body.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A074B18B66DC100F2CD15 /* Main Body.png */; };
+		A66A07E318B66DC200F2CD15 /* Track.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A074C18B66DC100F2CD15 /* Track.png */; };
+		A66A07E418B66DC200F2CD15 /* bomb 1.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A074E18B66DC100F2CD15 /* bomb 1.png */; };
+		A66A07E518B66DC200F2CD15 /* bombs 2.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A074F18B66DC100F2CD15 /* bombs 2.png */; };
+		A66A07E618B66DC200F2CD15 /* controls.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A075018B66DC100F2CD15 /* controls.png */; };
+		A66A07E718B66DC200F2CD15 /* FW 190.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A075118B66DC100F2CD15 /* FW 190.png */; };
+		A66A07E818B66DC200F2CD15 /* FW190.dae in Resources */ = {isa = PBXBuildFile; fileRef = A66A075218B66DC100F2CD15 /* FW190.dae */; };
+		A66A07E918B66DC200F2CD15 /* Glass.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A075318B66DC100F2CD15 /* Glass.png */; };
+		A66A07EA18B66DC200F2CD15 /* Main Body.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A075418B66DC100F2CD15 /* Main Body.png */; };
+		A66A07EB18B66DC200F2CD15 /* body middle.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A075618B66DC200F2CD15 /* body middle.png */; };
+		A66A07EC18B66DC200F2CD15 /* body rear.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A075718B66DC200F2CD15 /* body rear.png */; };
+		A66A07ED18B66DC200F2CD15 /* body top profile.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A075818B66DC200F2CD15 /* body top profile.png */; };
+		A66A07EE18B66DC200F2CD15 /* body top.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A075918B66DC200F2CD15 /* body top.png */; };
+		A66A07EF18B66DC200F2CD15 /* Engines.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A075A18B66DC200F2CD15 /* Engines.png */; };
+		A66A07F018B66DC200F2CD15 /* fin blades.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A075B18B66DC200F2CD15 /* fin blades.png */; };
+		A66A07F118B66DC200F2CD15 /* front.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A075C18B66DC200F2CD15 /* front.png */; };
+		A66A07F218B66DC200F2CD15 /* galaxy.dae in Resources */ = {isa = PBXBuildFile; fileRef = A66A075D18B66DC200F2CD15 /* galaxy.dae */; };
+		A66A07F318B66DC200F2CD15 /* glass.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A075E18B66DC200F2CD15 /* glass.png */; };
+		A66A07F418B66DC200F2CD15 /* interior 2.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A075F18B66DC200F2CD15 /* interior 2.png */; };
+		A66A07F518B66DC200F2CD15 /* interior 3.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A076018B66DC200F2CD15 /* interior 3.png */; };
+		A66A07F618B66DC200F2CD15 /* interior1.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A076118B66DC200F2CD15 /* interior1.png */; };
+		A66A07F718B66DC200F2CD15 /* landing gear.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A076218B66DC200F2CD15 /* landing gear.png */; };
+		A66A07F818B66DC200F2CD15 /* rear grill.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A076318B66DC200F2CD15 /* rear grill.png */; };
+		A66A07F918B66DC200F2CD15 /* tail fin.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A076418B66DC200F2CD15 /* tail fin.png */; };
+		A66A07FA18B66DC200F2CD15 /* white.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A076518B66DC200F2CD15 /* white.png */; };
+		A66A07FB18B66DC200F2CD15 /* wing left Bottom.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A076618B66DC200F2CD15 /* wing left Bottom.png */; };
+		A66A07FC18B66DC200F2CD15 /* Wing Left.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A076718B66DC200F2CD15 /* Wing Left.png */; };
+		A66A07FD18B66DC200F2CD15 /* wing right top.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A076818B66DC200F2CD15 /* wing right top.png */; };
+		A66A07FE18B66DC200F2CD15 /* Wing Right.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A076918B66DC200F2CD15 /* Wing Right.png */; };
+		A66A07FF18B66DC200F2CD15 /* Body Front.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A076B18B66DC200F2CD15 /* Body Front.png */; };
+		A66A080018B66DC200F2CD15 /* Body Rear.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A076C18B66DC200F2CD15 /* Body Rear.png */; };
+		A66A080118B66DC200F2CD15 /* Dials.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A076D18B66DC200F2CD15 /* Dials.png */; };
+		A66A080218B66DC200F2CD15 /* glass 1.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A076E18B66DC200F2CD15 /* glass 1.png */; };
+		A66A080318B66DC200F2CD15 /* HEINKEL.dae in Resources */ = {isa = PBXBuildFile; fileRef = A66A076F18B66DC200F2CD15 /* HEINKEL.dae */; };
+		A66A080418B66DC200F2CD15 /* Heinkel.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A077018B66DC200F2CD15 /* Heinkel.png */; };
+		A66A080518B66DC200F2CD15 /* Parts 1.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A077118B66DC200F2CD15 /* Parts 1.png */; };
+		A66A080618B66DC200F2CD15 /* parts 2.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A077218B66DC200F2CD15 /* parts 2.png */; };
+		A66A080718B66DC200F2CD15 /* parts 3.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A077318B66DC200F2CD15 /* parts 3.png */; };
+		A66A080818B66DC200F2CD15 /* parts 4.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A077418B66DC200F2CD15 /* parts 4.png */; };
+		A66A080918B66DC200F2CD15 /* pilot 2.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A077518B66DC200F2CD15 /* pilot 2.png */; };
+		A66A080A18B66DC200F2CD15 /* pilot.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A077618B66DC200F2CD15 /* pilot.png */; };
+		A66A080B18B66DC200F2CD15 /* under.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A077718B66DC200F2CD15 /* under.png */; };
+		A66A080C18B66DC200F2CD15 /* Wing Left.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A077818B66DC200F2CD15 /* Wing Left.png */; };
+		A66A080D18B66DC200F2CD15 /* Wing Right.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A077918B66DC200F2CD15 /* Wing Right.png */; };
+		A66A080E18B66DC200F2CD15 /* Cockpit.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A077B18B66DC200F2CD15 /* Cockpit.png */; };
+		A66A080F18B66DC200F2CD15 /* Glass.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A077C18B66DC200F2CD15 /* Glass.png */; };
+		A66A081018B66DC200F2CD15 /* Main Body 2.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A077D18B66DC200F2CD15 /* Main Body 2.png */; };
+		A66A081118B66DC200F2CD15 /* Main Body.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A077E18B66DC200F2CD15 /* Main Body.png */; };
+		A66A081218B66DC200F2CD15 /* p39.dae in Resources */ = {isa = PBXBuildFile; fileRef = A66A077F18B66DC200F2CD15 /* p39.dae */; };
+		A66A081318B66DC200F2CD15 /* P39.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A078018B66DC200F2CD15 /* P39.png */; };
+		A66A081418B66DC200F2CD15 /* plane.dae in Resources */ = {isa = PBXBuildFile; fileRef = A66A078218B66DC200F2CD15 /* plane.dae */; };
+		A66A081518B66DC200F2CD15 /* Soil.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A078318B66DC200F2CD15 /* Soil.png */; };
+		A66A081618B66DC200F2CD15 /* Rock-Texture-Surface.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A66A078518B66DC200F2CD15 /* Rock-Texture-Surface.jpg */; };
+		A66A081718B66DC200F2CD15 /* Rock1.dae in Resources */ = {isa = PBXBuildFile; fileRef = A66A078618B66DC200F2CD15 /* Rock1.dae */; };
+		A66A081818B66DC200F2CD15 /* Gun.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A078818B66DC200F2CD15 /* Gun.png */; };
+		A66A081918B66DC200F2CD15 /* Main Body 2.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A078918B66DC200F2CD15 /* Main Body 2.png */; };
+		A66A081A18B66DC200F2CD15 /* Main Body.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A078A18B66DC200F2CD15 /* Main Body.png */; };
+		A66A081B18B66DC200F2CD15 /* T-90.dae in Resources */ = {isa = PBXBuildFile; fileRef = A66A078B18B66DC200F2CD15 /* T-90.dae */; };
+		A66A081C18B66DC200F2CD15 /* Turret.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A078C18B66DC200F2CD15 /* Turret.png */; };
+		A66A081D18B66DC200F2CD15 /* Abrams_BF3.obj in Resources */ = {isa = PBXBuildFile; fileRef = A66A078E18B66DC200F2CD15 /* Abrams_BF3.obj */; };
+		A66A081E18B66DC200F2CD15 /* Additional.txt in Resources */ = {isa = PBXBuildFile; fileRef = A66A078F18B66DC200F2CD15 /* Additional.txt */; };
+		A66A081F18B66DC200F2CD15 /* ausfb.dae in Resources */ = {isa = PBXBuildFile; fileRef = A66A079018B66DC200F2CD15 /* ausfb.dae */; };
+		A66A082018B66DC200F2CD15 /* Avent.mtl in Resources */ = {isa = PBXBuildFile; fileRef = A66A079118B66DC200F2CD15 /* Avent.mtl */; };
+		A66A082118B66DC200F2CD15 /* Avent.obj in Resources */ = {isa = PBXBuildFile; fileRef = A66A079218B66DC200F2CD15 /* Avent.obj */; };
+		A66A082218B66DC200F2CD15 /* Body_1.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A079318B66DC200F2CD15 /* Body_1.png */; };
+		A66A082318B66DC200F2CD15 /* Body_2.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A079418B66DC200F2CD15 /* Body_2.png */; };
+		A66A082418B66DC200F2CD15 /* car.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A079518B66DC200F2CD15 /* car.png */; };
+		A66A082518B66DC200F2CD15 /* crown_victoria.obj in Resources */ = {isa = PBXBuildFile; fileRef = A66A079618B66DC200F2CD15 /* crown_victoria.obj */; };
+		A66A082618B66DC200F2CD15 /* cube.dae in Resources */ = {isa = PBXBuildFile; fileRef = A66A079718B66DC200F2CD15 /* cube.dae */; };
+		A66A082718B66DC200F2CD15 /* cube.obj in Resources */ = {isa = PBXBuildFile; fileRef = A66A079818B66DC200F2CD15 /* cube.obj */; };
+		A66A082818B66DC200F2CD15 /* ford.obj in Resources */ = {isa = PBXBuildFile; fileRef = A66A079918B66DC200F2CD15 /* ford.obj */; };
+		A66A082918B66DC200F2CD15 /* fur.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A079A18B66DC200F2CD15 /* fur.png */; };
+		A66A082A18B66DC200F2CD15 /* Gun_Object_1.003.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A079B18B66DC200F2CD15 /* Gun_Object_1.003.png */; };
+		A66A082B18B66DC200F2CD15 /* Hull_Object_1.001.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A079C18B66DC200F2CD15 /* Hull_Object_1.001.png */; };
+		A66A082C18B66DC200F2CD15 /* interior_lod0.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A079D18B66DC200F2CD15 /* interior_lod0.png */; };
+		A66A082D18B66DC200F2CD15 /* IS.3ds in Resources */ = {isa = PBXBuildFile; fileRef = A66A079E18B66DC200F2CD15 /* IS.3ds */; };
+		A66A082E18B66DC200F2CD15 /* IS.blend in Resources */ = {isa = PBXBuildFile; fileRef = A66A079F18B66DC200F2CD15 /* IS.blend */; };
+		A66A082F18B66DC200F2CD15 /* IS.dds in Resources */ = {isa = PBXBuildFile; fileRef = A66A07A018B66DC200F2CD15 /* IS.dds */; };
+		A66A083018B66DC200F2CD15 /* IS.mtl in Resources */ = {isa = PBXBuildFile; fileRef = A66A07A118B66DC200F2CD15 /* IS.mtl */; };
+		A66A083118B66DC200F2CD15 /* IS.obj in Resources */ = {isa = PBXBuildFile; fileRef = A66A07A218B66DC200F2CD15 /* IS.obj */; };
+		A66A083218B66DC200F2CD15 /* IS_NM.dds in Resources */ = {isa = PBXBuildFile; fileRef = A66A07A318B66DC200F2CD15 /* IS_NM.dds */; };
+		A66A083318B66DC200F2CD15 /* IS_NM.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A07A418B66DC200F2CD15 /* IS_NM.png */; };
+		A66A083418B66DC200F2CD15 /* IS_SM.dds in Resources */ = {isa = PBXBuildFile; fileRef = A66A07A518B66DC200F2CD15 /* IS_SM.dds */; };
+		A66A083518B66DC200F2CD15 /* IS_SM.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A07A618B66DC200F2CD15 /* IS_SM.png */; };
+		A66A083618B66DC200F2CD15 /* lights.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A07A718B66DC200F2CD15 /* lights.png */; };
+		A66A083718B66DC200F2CD15 /* lights_lod0.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A07A818B66DC200F2CD15 /* lights_lod0.png */; };
+		A66A083818B66DC200F2CD15 /* msmunchen.obj in Resources */ = {isa = PBXBuildFile; fileRef = A66A07A918B66DC200F2CD15 /* msmunchen.obj */; };
+		A66A083918B66DC200F2CD15 /* nodamage.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A07AA18B66DC200F2CD15 /* nodamage.png */; };
+		A66A083A18B66DC200F2CD15 /* nodamage_lod0.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A07AB18B66DC200F2CD15 /* nodamage_lod0.png */; };
+		A66A083B18B66DC200F2CD15 /* palm.obj in Resources */ = {isa = PBXBuildFile; fileRef = A66A07AC18B66DC200F2CD15 /* palm.obj */; };
+		A66A083C18B66DC200F2CD15 /* plastic3_nrm.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A07AD18B66DC200F2CD15 /* plastic3_nrm.png */; };
+		A66A083D18B66DC200F2CD15 /* red.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A07AE18B66DC200F2CD15 /* red.png */; };
+		A66A083E18B66DC200F2CD15 /* ship.obj in Resources */ = {isa = PBXBuildFile; fileRef = A66A07AF18B66DC200F2CD15 /* ship.obj */; };
+		A66A083F18B66DC200F2CD15 /* tiger2.obj in Resources */ = {isa = PBXBuildFile; fileRef = A66A07B018B66DC200F2CD15 /* tiger2.obj */; };
+		A66A084018B66DC200F2CD15 /* Track.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A07B118B66DC200F2CD15 /* Track.png */; };
+		A66A084118B66DC200F2CD15 /* Track_Left_Object_3.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A07B218B66DC200F2CD15 /* Track_Left_Object_3.png */; };
+		A66A084218B66DC200F2CD15 /* Track_Right_Object_4.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A07B318B66DC200F2CD15 /* Track_Right_Object_4.png */; };
+		A66A084318B66DC200F2CD15 /* Turret.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A07B418B66DC200F2CD15 /* Turret.png */; };
+		A66A084418B66DC200F2CD15 /* Turret_2.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A07B518B66DC200F2CD15 /* Turret_2.png */; };
+		A66A084518B66DC200F2CD15 /* Turret_Object_1.002.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A07B618B66DC200F2CD15 /* Turret_Object_1.002.png */; };
+		A66A084618B66DC200F2CD15 /* Wheels_Left_Object_1.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A07B718B66DC200F2CD15 /* Wheels_Left_Object_1.png */; };
+		A66A084718B66DC200F2CD15 /* Wheels_Right_Object_2.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A07B818B66DC200F2CD15 /* Wheels_Right_Object_2.png */; };
+		A66A084818B66DC200F2CD15 /* transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A07B918B66DC200F2CD15 /* transparent.png */; };
+		A66A084918B66DC200F2CD15 /* untitled.dae in Resources */ = {isa = PBXBuildFile; fileRef = A66A07BA18B66DC200F2CD15 /* untitled.dae */; };
+		A66A084B18B6701600F2CD15 /* triangle.dae in Resources */ = {isa = PBXBuildFile; fileRef = A66A084A18B6701600F2CD15 /* triangle.dae */; };
 		A69FD3E018B4BD96002FB76E /* Textures.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A69FD3DF18B4BD96002FB76E /* Textures.cpp */; };
 		A69FD3E318B54FFE002FB76E /* raytracer.vsh in Sources */ = {isa = PBXBuildFile; fileRef = A69FD3E118B54FFE002FB76E /* raytracer.vsh */; };
 		A69FD3E418B54FFE002FB76E /* raytracer.fsh in Sources */ = {isa = PBXBuildFile; fileRef = A69FD3E218B54FFE002FB76E /* raytracer.fsh */; };
@@ -69,6 +213,150 @@
 		A6403D9418ACB9FA009116CF /* Light.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Light.h; sourceTree = "<group>"; };
 		A6403D9718AD8B05009116CF /* Entity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
 		A6403D9818AD9160009116CF /* Model.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Model.cpp; sourceTree = "<group>"; };
+		A66A072118B66DC100F2CD15 /* A10.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = A10.dae; sourceTree = "<group>"; };
+		A66A072218B66DC100F2CD15 /* A10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = A10.png; sourceTree = "<group>"; };
+		A66A072318B66DC100F2CD15 /* body front.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "body front.png"; sourceTree = "<group>"; };
+		A66A072418B66DC100F2CD15 /* body rear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "body rear.png"; sourceTree = "<group>"; };
+		A66A072518B66DC100F2CD15 /* cockpit 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cockpit 2.png"; sourceTree = "<group>"; };
+		A66A072618B66DC100F2CD15 /* cockpit 3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cockpit 3.png"; sourceTree = "<group>"; };
+		A66A072718B66DC100F2CD15 /* cockpit 4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cockpit 4.png"; sourceTree = "<group>"; };
+		A66A072818B66DC100F2CD15 /* cockpit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cockpit.png; sourceTree = "<group>"; };
+		A66A072918B66DC100F2CD15 /* Decal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Decal.png; sourceTree = "<group>"; };
+		A66A072A18B66DC100F2CD15 /* engines.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = engines.png; sourceTree = "<group>"; };
+		A66A072B18B66DC100F2CD15 /* Glass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Glass.png; sourceTree = "<group>"; };
+		A66A072C18B66DC100F2CD15 /* Goggles.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Goggles.png; sourceTree = "<group>"; };
+		A66A072D18B66DC100F2CD15 /* Left wing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Left wing.png"; sourceTree = "<group>"; };
+		A66A072E18B66DC100F2CD15 /* missiles.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = missiles.png; sourceTree = "<group>"; };
+		A66A072F18B66DC100F2CD15 /* parts.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = parts.png; sourceTree = "<group>"; };
+		A66A073018B66DC100F2CD15 /* Right Wing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Right Wing.png"; sourceTree = "<group>"; };
+		A66A073118B66DC100F2CD15 /* scope.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scope.png; sourceTree = "<group>"; };
+		A66A073218B66DC100F2CD15 /* seat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = seat.png; sourceTree = "<group>"; };
+		A66A073418B66DC100F2CD15 /* ausfb.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = ausfb.dae; sourceTree = "<group>"; };
+		A66A073518B66DC100F2CD15 /* AUSFB.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AUSFB.png; sourceTree = "<group>"; };
+		A66A073618B66DC100F2CD15 /* Body 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Body 1.png"; sourceTree = "<group>"; };
+		A66A073718B66DC100F2CD15 /* Body 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Body 2.png"; sourceTree = "<group>"; };
+		A66A073818B66DC100F2CD15 /* Track.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Track.png; sourceTree = "<group>"; };
+		A66A073918B66DC100F2CD15 /* Turret 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Turret 2.png"; sourceTree = "<group>"; };
+		A66A073A18B66DC100F2CD15 /* Turret.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Turret.png; sourceTree = "<group>"; };
+		A66A073B18B66DC100F2CD15 /* cube.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = cube.dae; sourceTree = "<group>"; };
+		A66A073D18B66DC100F2CD15 /* Earth.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = Earth.dae; sourceTree = "<group>"; };
+		A66A073E18B66DC100F2CD15 /* Earth.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Earth.mtl; sourceTree = "<group>"; };
+		A66A073F18B66DC100F2CD15 /* Earth.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Earth.obj; sourceTree = "<group>"; };
+		A66A074018B66DC100F2CD15 /* Earth_Clouds_D.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Earth_Clouds_D.png; sourceTree = "<group>"; };
+		A66A074118B66DC100F2CD15 /* Earth_Clouds_D.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = Earth_Clouds_D.tga; sourceTree = "<group>"; };
+		A66A074218B66DC100F2CD15 /* Earth_D.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Earth_D.png; sourceTree = "<group>"; };
+		A66A074318B66DC100F2CD15 /* Earth_D.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = Earth_D.tga; sourceTree = "<group>"; };
+		A66A074418B66DC100F2CD15 /* Earth_N.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Earth_N.png; sourceTree = "<group>"; };
+		A66A074518B66DC100F2CD15 /* Earth_N.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = Earth_N.tga; sourceTree = "<group>"; };
+		A66A074618B66DC100F2CD15 /* Earth_S.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Earth_S.png; sourceTree = "<group>"; };
+		A66A074718B66DC100F2CD15 /* Earth_S.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = Earth_S.tga; sourceTree = "<group>"; };
+		A66A074918B66DC100F2CD15 /* fv510.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = fv510.dae; sourceTree = "<group>"; };
+		A66A074A18B66DC100F2CD15 /* FV510.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FV510.png; sourceTree = "<group>"; };
+		A66A074B18B66DC100F2CD15 /* Main Body.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Main Body.png"; sourceTree = "<group>"; };
+		A66A074C18B66DC100F2CD15 /* Track.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Track.png; sourceTree = "<group>"; };
+		A66A074E18B66DC100F2CD15 /* bomb 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bomb 1.png"; sourceTree = "<group>"; };
+		A66A074F18B66DC100F2CD15 /* bombs 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bombs 2.png"; sourceTree = "<group>"; };
+		A66A075018B66DC100F2CD15 /* controls.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controls.png; sourceTree = "<group>"; };
+		A66A075118B66DC100F2CD15 /* FW 190.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FW 190.png"; sourceTree = "<group>"; };
+		A66A075218B66DC100F2CD15 /* FW190.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = FW190.dae; sourceTree = "<group>"; };
+		A66A075318B66DC100F2CD15 /* Glass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Glass.png; sourceTree = "<group>"; };
+		A66A075418B66DC100F2CD15 /* Main Body.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Main Body.png"; sourceTree = "<group>"; };
+		A66A075618B66DC200F2CD15 /* body middle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "body middle.png"; sourceTree = "<group>"; };
+		A66A075718B66DC200F2CD15 /* body rear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "body rear.png"; sourceTree = "<group>"; };
+		A66A075818B66DC200F2CD15 /* body top profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "body top profile.png"; sourceTree = "<group>"; };
+		A66A075918B66DC200F2CD15 /* body top.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "body top.png"; sourceTree = "<group>"; };
+		A66A075A18B66DC200F2CD15 /* Engines.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Engines.png; sourceTree = "<group>"; };
+		A66A075B18B66DC200F2CD15 /* fin blades.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fin blades.png"; sourceTree = "<group>"; };
+		A66A075C18B66DC200F2CD15 /* front.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = front.png; sourceTree = "<group>"; };
+		A66A075D18B66DC200F2CD15 /* galaxy.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = galaxy.dae; sourceTree = "<group>"; };
+		A66A075E18B66DC200F2CD15 /* glass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = glass.png; sourceTree = "<group>"; };
+		A66A075F18B66DC200F2CD15 /* interior 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "interior 2.png"; sourceTree = "<group>"; };
+		A66A076018B66DC200F2CD15 /* interior 3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "interior 3.png"; sourceTree = "<group>"; };
+		A66A076118B66DC200F2CD15 /* interior1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = interior1.png; sourceTree = "<group>"; };
+		A66A076218B66DC200F2CD15 /* landing gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "landing gear.png"; sourceTree = "<group>"; };
+		A66A076318B66DC200F2CD15 /* rear grill.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rear grill.png"; sourceTree = "<group>"; };
+		A66A076418B66DC200F2CD15 /* tail fin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tail fin.png"; sourceTree = "<group>"; };
+		A66A076518B66DC200F2CD15 /* white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = white.png; sourceTree = "<group>"; };
+		A66A076618B66DC200F2CD15 /* wing left Bottom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wing left Bottom.png"; sourceTree = "<group>"; };
+		A66A076718B66DC200F2CD15 /* Wing Left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Wing Left.png"; sourceTree = "<group>"; };
+		A66A076818B66DC200F2CD15 /* wing right top.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wing right top.png"; sourceTree = "<group>"; };
+		A66A076918B66DC200F2CD15 /* Wing Right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Wing Right.png"; sourceTree = "<group>"; };
+		A66A076B18B66DC200F2CD15 /* Body Front.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Body Front.png"; sourceTree = "<group>"; };
+		A66A076C18B66DC200F2CD15 /* Body Rear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Body Rear.png"; sourceTree = "<group>"; };
+		A66A076D18B66DC200F2CD15 /* Dials.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Dials.png; sourceTree = "<group>"; };
+		A66A076E18B66DC200F2CD15 /* glass 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "glass 1.png"; sourceTree = "<group>"; };
+		A66A076F18B66DC200F2CD15 /* HEINKEL.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = HEINKEL.dae; sourceTree = "<group>"; };
+		A66A077018B66DC200F2CD15 /* Heinkel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Heinkel.png; sourceTree = "<group>"; };
+		A66A077118B66DC200F2CD15 /* Parts 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Parts 1.png"; sourceTree = "<group>"; };
+		A66A077218B66DC200F2CD15 /* parts 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "parts 2.png"; sourceTree = "<group>"; };
+		A66A077318B66DC200F2CD15 /* parts 3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "parts 3.png"; sourceTree = "<group>"; };
+		A66A077418B66DC200F2CD15 /* parts 4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "parts 4.png"; sourceTree = "<group>"; };
+		A66A077518B66DC200F2CD15 /* pilot 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pilot 2.png"; sourceTree = "<group>"; };
+		A66A077618B66DC200F2CD15 /* pilot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pilot.png; sourceTree = "<group>"; };
+		A66A077718B66DC200F2CD15 /* under.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = under.png; sourceTree = "<group>"; };
+		A66A077818B66DC200F2CD15 /* Wing Left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Wing Left.png"; sourceTree = "<group>"; };
+		A66A077918B66DC200F2CD15 /* Wing Right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Wing Right.png"; sourceTree = "<group>"; };
+		A66A077B18B66DC200F2CD15 /* Cockpit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Cockpit.png; sourceTree = "<group>"; };
+		A66A077C18B66DC200F2CD15 /* Glass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Glass.png; sourceTree = "<group>"; };
+		A66A077D18B66DC200F2CD15 /* Main Body 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Main Body 2.png"; sourceTree = "<group>"; };
+		A66A077E18B66DC200F2CD15 /* Main Body.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Main Body.png"; sourceTree = "<group>"; };
+		A66A077F18B66DC200F2CD15 /* p39.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = p39.dae; sourceTree = "<group>"; };
+		A66A078018B66DC200F2CD15 /* P39.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = P39.png; sourceTree = "<group>"; };
+		A66A078218B66DC200F2CD15 /* plane.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = plane.dae; sourceTree = "<group>"; };
+		A66A078318B66DC200F2CD15 /* Soil.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Soil.png; sourceTree = "<group>"; };
+		A66A078518B66DC200F2CD15 /* Rock-Texture-Surface.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Rock-Texture-Surface.jpg"; sourceTree = "<group>"; };
+		A66A078618B66DC200F2CD15 /* Rock1.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = Rock1.dae; sourceTree = "<group>"; };
+		A66A078818B66DC200F2CD15 /* Gun.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gun.png; sourceTree = "<group>"; };
+		A66A078918B66DC200F2CD15 /* Main Body 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Main Body 2.png"; sourceTree = "<group>"; };
+		A66A078A18B66DC200F2CD15 /* Main Body.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Main Body.png"; sourceTree = "<group>"; };
+		A66A078B18B66DC200F2CD15 /* T-90.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = "T-90.dae"; sourceTree = "<group>"; };
+		A66A078C18B66DC200F2CD15 /* Turret.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Turret.png; sourceTree = "<group>"; };
+		A66A078E18B66DC200F2CD15 /* Abrams_BF3.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Abrams_BF3.obj; sourceTree = "<group>"; };
+		A66A078F18B66DC200F2CD15 /* Additional.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Additional.txt; sourceTree = "<group>"; };
+		A66A079018B66DC200F2CD15 /* ausfb.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = ausfb.dae; sourceTree = "<group>"; };
+		A66A079118B66DC200F2CD15 /* Avent.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Avent.mtl; sourceTree = "<group>"; };
+		A66A079218B66DC200F2CD15 /* Avent.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Avent.obj; sourceTree = "<group>"; };
+		A66A079318B66DC200F2CD15 /* Body_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Body_1.png; sourceTree = "<group>"; };
+		A66A079418B66DC200F2CD15 /* Body_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Body_2.png; sourceTree = "<group>"; };
+		A66A079518B66DC200F2CD15 /* car.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = car.png; sourceTree = "<group>"; };
+		A66A079618B66DC200F2CD15 /* crown_victoria.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = crown_victoria.obj; sourceTree = "<group>"; };
+		A66A079718B66DC200F2CD15 /* cube.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = cube.dae; sourceTree = "<group>"; };
+		A66A079818B66DC200F2CD15 /* cube.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cube.obj; sourceTree = "<group>"; };
+		A66A079918B66DC200F2CD15 /* ford.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ford.obj; sourceTree = "<group>"; };
+		A66A079A18B66DC200F2CD15 /* fur.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fur.png; sourceTree = "<group>"; };
+		A66A079B18B66DC200F2CD15 /* Gun_Object_1.003.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gun_Object_1.003.png; sourceTree = "<group>"; };
+		A66A079C18B66DC200F2CD15 /* Hull_Object_1.001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Hull_Object_1.001.png; sourceTree = "<group>"; };
+		A66A079D18B66DC200F2CD15 /* interior_lod0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = interior_lod0.png; sourceTree = "<group>"; };
+		A66A079E18B66DC200F2CD15 /* IS.3ds */ = {isa = PBXFileReference; lastKnownFileType = file; path = IS.3ds; sourceTree = "<group>"; };
+		A66A079F18B66DC200F2CD15 /* IS.blend */ = {isa = PBXFileReference; lastKnownFileType = file; path = IS.blend; sourceTree = "<group>"; };
+		A66A07A018B66DC200F2CD15 /* IS.dds */ = {isa = PBXFileReference; lastKnownFileType = file; path = IS.dds; sourceTree = "<group>"; };
+		A66A07A118B66DC200F2CD15 /* IS.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = IS.mtl; sourceTree = "<group>"; };
+		A66A07A218B66DC200F2CD15 /* IS.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = IS.obj; sourceTree = "<group>"; };
+		A66A07A318B66DC200F2CD15 /* IS_NM.dds */ = {isa = PBXFileReference; lastKnownFileType = file; path = IS_NM.dds; sourceTree = "<group>"; };
+		A66A07A418B66DC200F2CD15 /* IS_NM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IS_NM.png; sourceTree = "<group>"; };
+		A66A07A518B66DC200F2CD15 /* IS_SM.dds */ = {isa = PBXFileReference; lastKnownFileType = file; path = IS_SM.dds; sourceTree = "<group>"; };
+		A66A07A618B66DC200F2CD15 /* IS_SM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IS_SM.png; sourceTree = "<group>"; };
+		A66A07A718B66DC200F2CD15 /* lights.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lights.png; sourceTree = "<group>"; };
+		A66A07A818B66DC200F2CD15 /* lights_lod0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lights_lod0.png; sourceTree = "<group>"; };
+		A66A07A918B66DC200F2CD15 /* msmunchen.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = msmunchen.obj; sourceTree = "<group>"; };
+		A66A07AA18B66DC200F2CD15 /* nodamage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nodamage.png; sourceTree = "<group>"; };
+		A66A07AB18B66DC200F2CD15 /* nodamage_lod0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nodamage_lod0.png; sourceTree = "<group>"; };
+		A66A07AC18B66DC200F2CD15 /* palm.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = palm.obj; sourceTree = "<group>"; };
+		A66A07AD18B66DC200F2CD15 /* plastic3_nrm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plastic3_nrm.png; sourceTree = "<group>"; };
+		A66A07AE18B66DC200F2CD15 /* red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = red.png; sourceTree = "<group>"; };
+		A66A07AF18B66DC200F2CD15 /* ship.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ship.obj; sourceTree = "<group>"; };
+		A66A07B018B66DC200F2CD15 /* tiger2.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tiger2.obj; sourceTree = "<group>"; };
+		A66A07B118B66DC200F2CD15 /* Track.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Track.png; sourceTree = "<group>"; };
+		A66A07B218B66DC200F2CD15 /* Track_Left_Object_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Track_Left_Object_3.png; sourceTree = "<group>"; };
+		A66A07B318B66DC200F2CD15 /* Track_Right_Object_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Track_Right_Object_4.png; sourceTree = "<group>"; };
+		A66A07B418B66DC200F2CD15 /* Turret.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Turret.png; sourceTree = "<group>"; };
+		A66A07B518B66DC200F2CD15 /* Turret_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Turret_2.png; sourceTree = "<group>"; };
+		A66A07B618B66DC200F2CD15 /* Turret_Object_1.002.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Turret_Object_1.002.png; sourceTree = "<group>"; };
+		A66A07B718B66DC200F2CD15 /* Wheels_Left_Object_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Wheels_Left_Object_1.png; sourceTree = "<group>"; };
+		A66A07B818B66DC200F2CD15 /* Wheels_Right_Object_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Wheels_Right_Object_2.png; sourceTree = "<group>"; };
+		A66A07B918B66DC200F2CD15 /* transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = transparent.png; sourceTree = "<group>"; };
+		A66A07BA18B66DC200F2CD15 /* untitled.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = untitled.dae; sourceTree = "<group>"; };
+		A66A084A18B6701600F2CD15 /* triangle.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = triangle.dae; sourceTree = "<group>"; };
 		A69FD3DF18B4BD96002FB76E /* Textures.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Textures.cpp; sourceTree = "<group>"; };
 		A69FD3E118B54FFE002FB76E /* raytracer.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = raytracer.vsh; sourceTree = "<group>"; };
 		A69FD3E218B54FFE002FB76E /* raytracer.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = raytracer.fsh; sourceTree = "<group>"; };
@@ -171,10 +459,257 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A66A071F18B66DC100F2CD15 /* models */ = {
+			isa = PBXGroup;
+			children = (
+				A66A072018B66DC100F2CD15 /* A10 */,
+				A66A073318B66DC100F2CD15 /* AUSFB */,
+				A66A073B18B66DC100F2CD15 /* cube.dae */,
+				A66A073C18B66DC100F2CD15 /* Earth */,
+				A66A074818B66DC100F2CD15 /* FV510 Warrior */,
+				A66A074D18B66DC100F2CD15 /* FW 190 */,
+				A66A075518B66DC100F2CD15 /* Galaxy */,
+				A66A076A18B66DC200F2CD15 /* Heinkel */,
+				A66A077A18B66DC200F2CD15 /* P39 AIRACOBRA */,
+				A66A078118B66DC200F2CD15 /* Plane */,
+				A66A078418B66DC200F2CD15 /* Rock1 */,
+				A66A078718B66DC200F2CD15 /* T-90 */,
+				A66A078D18B66DC200F2CD15 /* tmp */,
+				A66A07B918B66DC200F2CD15 /* transparent.png */,
+				A66A07BA18B66DC200F2CD15 /* untitled.dae */,
+			);
+			path = models;
+			sourceTree = "<group>";
+		};
+		A66A072018B66DC100F2CD15 /* A10 */ = {
+			isa = PBXGroup;
+			children = (
+				A66A072118B66DC100F2CD15 /* A10.dae */,
+				A66A072218B66DC100F2CD15 /* A10.png */,
+				A66A072318B66DC100F2CD15 /* body front.png */,
+				A66A072418B66DC100F2CD15 /* body rear.png */,
+				A66A072518B66DC100F2CD15 /* cockpit 2.png */,
+				A66A072618B66DC100F2CD15 /* cockpit 3.png */,
+				A66A072718B66DC100F2CD15 /* cockpit 4.png */,
+				A66A072818B66DC100F2CD15 /* cockpit.png */,
+				A66A072918B66DC100F2CD15 /* Decal.png */,
+				A66A072A18B66DC100F2CD15 /* engines.png */,
+				A66A072B18B66DC100F2CD15 /* Glass.png */,
+				A66A072C18B66DC100F2CD15 /* Goggles.png */,
+				A66A072D18B66DC100F2CD15 /* Left wing.png */,
+				A66A072E18B66DC100F2CD15 /* missiles.png */,
+				A66A072F18B66DC100F2CD15 /* parts.png */,
+				A66A073018B66DC100F2CD15 /* Right Wing.png */,
+				A66A073118B66DC100F2CD15 /* scope.png */,
+				A66A073218B66DC100F2CD15 /* seat.png */,
+			);
+			path = A10;
+			sourceTree = "<group>";
+		};
+		A66A073318B66DC100F2CD15 /* AUSFB */ = {
+			isa = PBXGroup;
+			children = (
+				A66A073418B66DC100F2CD15 /* ausfb.dae */,
+				A66A073518B66DC100F2CD15 /* AUSFB.png */,
+				A66A073618B66DC100F2CD15 /* Body 1.png */,
+				A66A073718B66DC100F2CD15 /* Body 2.png */,
+				A66A073818B66DC100F2CD15 /* Track.png */,
+				A66A073918B66DC100F2CD15 /* Turret 2.png */,
+				A66A073A18B66DC100F2CD15 /* Turret.png */,
+			);
+			path = AUSFB;
+			sourceTree = "<group>";
+		};
+		A66A073C18B66DC100F2CD15 /* Earth */ = {
+			isa = PBXGroup;
+			children = (
+				A66A073D18B66DC100F2CD15 /* Earth.dae */,
+				A66A073E18B66DC100F2CD15 /* Earth.mtl */,
+				A66A073F18B66DC100F2CD15 /* Earth.obj */,
+				A66A074018B66DC100F2CD15 /* Earth_Clouds_D.png */,
+				A66A074118B66DC100F2CD15 /* Earth_Clouds_D.tga */,
+				A66A074218B66DC100F2CD15 /* Earth_D.png */,
+				A66A074318B66DC100F2CD15 /* Earth_D.tga */,
+				A66A074418B66DC100F2CD15 /* Earth_N.png */,
+				A66A074518B66DC100F2CD15 /* Earth_N.tga */,
+				A66A074618B66DC100F2CD15 /* Earth_S.png */,
+				A66A074718B66DC100F2CD15 /* Earth_S.tga */,
+			);
+			path = Earth;
+			sourceTree = "<group>";
+		};
+		A66A074818B66DC100F2CD15 /* FV510 Warrior */ = {
+			isa = PBXGroup;
+			children = (
+				A66A074918B66DC100F2CD15 /* fv510.dae */,
+				A66A074A18B66DC100F2CD15 /* FV510.png */,
+				A66A074B18B66DC100F2CD15 /* Main Body.png */,
+				A66A074C18B66DC100F2CD15 /* Track.png */,
+			);
+			path = "FV510 Warrior";
+			sourceTree = "<group>";
+		};
+		A66A074D18B66DC100F2CD15 /* FW 190 */ = {
+			isa = PBXGroup;
+			children = (
+				A66A074E18B66DC100F2CD15 /* bomb 1.png */,
+				A66A074F18B66DC100F2CD15 /* bombs 2.png */,
+				A66A075018B66DC100F2CD15 /* controls.png */,
+				A66A075118B66DC100F2CD15 /* FW 190.png */,
+				A66A075218B66DC100F2CD15 /* FW190.dae */,
+				A66A075318B66DC100F2CD15 /* Glass.png */,
+				A66A075418B66DC100F2CD15 /* Main Body.png */,
+			);
+			path = "FW 190";
+			sourceTree = "<group>";
+		};
+		A66A075518B66DC100F2CD15 /* Galaxy */ = {
+			isa = PBXGroup;
+			children = (
+				A66A075618B66DC200F2CD15 /* body middle.png */,
+				A66A075718B66DC200F2CD15 /* body rear.png */,
+				A66A075818B66DC200F2CD15 /* body top profile.png */,
+				A66A075918B66DC200F2CD15 /* body top.png */,
+				A66A075A18B66DC200F2CD15 /* Engines.png */,
+				A66A075B18B66DC200F2CD15 /* fin blades.png */,
+				A66A075C18B66DC200F2CD15 /* front.png */,
+				A66A075D18B66DC200F2CD15 /* galaxy.dae */,
+				A66A075E18B66DC200F2CD15 /* glass.png */,
+				A66A075F18B66DC200F2CD15 /* interior 2.png */,
+				A66A076018B66DC200F2CD15 /* interior 3.png */,
+				A66A076118B66DC200F2CD15 /* interior1.png */,
+				A66A076218B66DC200F2CD15 /* landing gear.png */,
+				A66A076318B66DC200F2CD15 /* rear grill.png */,
+				A66A076418B66DC200F2CD15 /* tail fin.png */,
+				A66A076518B66DC200F2CD15 /* white.png */,
+				A66A076618B66DC200F2CD15 /* wing left Bottom.png */,
+				A66A076718B66DC200F2CD15 /* Wing Left.png */,
+				A66A076818B66DC200F2CD15 /* wing right top.png */,
+				A66A076918B66DC200F2CD15 /* Wing Right.png */,
+			);
+			path = Galaxy;
+			sourceTree = "<group>";
+		};
+		A66A076A18B66DC200F2CD15 /* Heinkel */ = {
+			isa = PBXGroup;
+			children = (
+				A66A076B18B66DC200F2CD15 /* Body Front.png */,
+				A66A076C18B66DC200F2CD15 /* Body Rear.png */,
+				A66A076D18B66DC200F2CD15 /* Dials.png */,
+				A66A076E18B66DC200F2CD15 /* glass 1.png */,
+				A66A076F18B66DC200F2CD15 /* HEINKEL.dae */,
+				A66A077018B66DC200F2CD15 /* Heinkel.png */,
+				A66A077118B66DC200F2CD15 /* Parts 1.png */,
+				A66A077218B66DC200F2CD15 /* parts 2.png */,
+				A66A077318B66DC200F2CD15 /* parts 3.png */,
+				A66A077418B66DC200F2CD15 /* parts 4.png */,
+				A66A077518B66DC200F2CD15 /* pilot 2.png */,
+				A66A077618B66DC200F2CD15 /* pilot.png */,
+				A66A077718B66DC200F2CD15 /* under.png */,
+				A66A077818B66DC200F2CD15 /* Wing Left.png */,
+				A66A077918B66DC200F2CD15 /* Wing Right.png */,
+			);
+			path = Heinkel;
+			sourceTree = "<group>";
+		};
+		A66A077A18B66DC200F2CD15 /* P39 AIRACOBRA */ = {
+			isa = PBXGroup;
+			children = (
+				A66A077B18B66DC200F2CD15 /* Cockpit.png */,
+				A66A077C18B66DC200F2CD15 /* Glass.png */,
+				A66A077D18B66DC200F2CD15 /* Main Body 2.png */,
+				A66A077E18B66DC200F2CD15 /* Main Body.png */,
+				A66A077F18B66DC200F2CD15 /* p39.dae */,
+				A66A078018B66DC200F2CD15 /* P39.png */,
+			);
+			path = "P39 AIRACOBRA";
+			sourceTree = "<group>";
+		};
+		A66A078118B66DC200F2CD15 /* Plane */ = {
+			isa = PBXGroup;
+			children = (
+				A66A084A18B6701600F2CD15 /* triangle.dae */,
+				A66A078218B66DC200F2CD15 /* plane.dae */,
+				A66A078318B66DC200F2CD15 /* Soil.png */,
+			);
+			path = Plane;
+			sourceTree = "<group>";
+		};
+		A66A078418B66DC200F2CD15 /* Rock1 */ = {
+			isa = PBXGroup;
+			children = (
+				A66A078518B66DC200F2CD15 /* Rock-Texture-Surface.jpg */,
+				A66A078618B66DC200F2CD15 /* Rock1.dae */,
+			);
+			path = Rock1;
+			sourceTree = "<group>";
+		};
+		A66A078718B66DC200F2CD15 /* T-90 */ = {
+			isa = PBXGroup;
+			children = (
+				A66A078818B66DC200F2CD15 /* Gun.png */,
+				A66A078918B66DC200F2CD15 /* Main Body 2.png */,
+				A66A078A18B66DC200F2CD15 /* Main Body.png */,
+				A66A078B18B66DC200F2CD15 /* T-90.dae */,
+				A66A078C18B66DC200F2CD15 /* Turret.png */,
+			);
+			path = "T-90";
+			sourceTree = "<group>";
+		};
+		A66A078D18B66DC200F2CD15 /* tmp */ = {
+			isa = PBXGroup;
+			children = (
+				A66A078E18B66DC200F2CD15 /* Abrams_BF3.obj */,
+				A66A078F18B66DC200F2CD15 /* Additional.txt */,
+				A66A079018B66DC200F2CD15 /* ausfb.dae */,
+				A66A079118B66DC200F2CD15 /* Avent.mtl */,
+				A66A079218B66DC200F2CD15 /* Avent.obj */,
+				A66A079318B66DC200F2CD15 /* Body_1.png */,
+				A66A079418B66DC200F2CD15 /* Body_2.png */,
+				A66A079518B66DC200F2CD15 /* car.png */,
+				A66A079618B66DC200F2CD15 /* crown_victoria.obj */,
+				A66A079718B66DC200F2CD15 /* cube.dae */,
+				A66A079818B66DC200F2CD15 /* cube.obj */,
+				A66A079918B66DC200F2CD15 /* ford.obj */,
+				A66A079A18B66DC200F2CD15 /* fur.png */,
+				A66A079B18B66DC200F2CD15 /* Gun_Object_1.003.png */,
+				A66A079C18B66DC200F2CD15 /* Hull_Object_1.001.png */,
+				A66A079D18B66DC200F2CD15 /* interior_lod0.png */,
+				A66A079E18B66DC200F2CD15 /* IS.3ds */,
+				A66A079F18B66DC200F2CD15 /* IS.blend */,
+				A66A07A018B66DC200F2CD15 /* IS.dds */,
+				A66A07A118B66DC200F2CD15 /* IS.mtl */,
+				A66A07A218B66DC200F2CD15 /* IS.obj */,
+				A66A07A318B66DC200F2CD15 /* IS_NM.dds */,
+				A66A07A418B66DC200F2CD15 /* IS_NM.png */,
+				A66A07A518B66DC200F2CD15 /* IS_SM.dds */,
+				A66A07A618B66DC200F2CD15 /* IS_SM.png */,
+				A66A07A718B66DC200F2CD15 /* lights.png */,
+				A66A07A818B66DC200F2CD15 /* lights_lod0.png */,
+				A66A07A918B66DC200F2CD15 /* msmunchen.obj */,
+				A66A07AA18B66DC200F2CD15 /* nodamage.png */,
+				A66A07AB18B66DC200F2CD15 /* nodamage_lod0.png */,
+				A66A07AC18B66DC200F2CD15 /* palm.obj */,
+				A66A07AD18B66DC200F2CD15 /* plastic3_nrm.png */,
+				A66A07AE18B66DC200F2CD15 /* red.png */,
+				A66A07AF18B66DC200F2CD15 /* ship.obj */,
+				A66A07B018B66DC200F2CD15 /* tiger2.obj */,
+				A66A07B118B66DC200F2CD15 /* Track.png */,
+				A66A07B218B66DC200F2CD15 /* Track_Left_Object_3.png */,
+				A66A07B318B66DC200F2CD15 /* Track_Right_Object_4.png */,
+				A66A07B418B66DC200F2CD15 /* Turret.png */,
+				A66A07B518B66DC200F2CD15 /* Turret_2.png */,
+				A66A07B618B66DC200F2CD15 /* Turret_Object_1.002.png */,
+				A66A07B718B66DC200F2CD15 /* Wheels_Left_Object_1.png */,
+				A66A07B818B66DC200F2CD15 /* Wheels_Right_Object_2.png */,
+			);
+			path = tmp;
+			sourceTree = "<group>";
+		};
 		A6C56A08189FC8DF00DFAA00 = {
 			isa = PBXGroup;
 			children = (
-				A6C56C7118A63E3F00DFAA00 /* models */,
+				A66A071F18B66DC100F2CD15 /* models */,
 				A6C56C6118A58C4D00DFAA00 /* tinyXML */,
 				A6C56C3518A2AA5000DFAA00 /* libPNG */,
 				A6C56C1318A139EB00DFAA00 /* Math */,
@@ -345,13 +880,6 @@
 			path = tinyXML;
 			sourceTree = "<group>";
 		};
-		A6C56C7118A63E3F00DFAA00 /* models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = models;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -428,11 +956,155 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A66A07F518B66DC200F2CD15 /* interior 3.png in Resources */,
+				A66A081718B66DC200F2CD15 /* Rock1.dae in Resources */,
+				A66A083E18B66DC200F2CD15 /* ship.obj in Resources */,
+				A66A07F318B66DC200F2CD15 /* glass.png in Resources */,
+				A66A080A18B66DC200F2CD15 /* pilot.png in Resources */,
+				A66A083418B66DC200F2CD15 /* IS_SM.dds in Resources */,
+				A66A07E718B66DC200F2CD15 /* FW 190.png in Resources */,
+				A66A080D18B66DC200F2CD15 /* Wing Right.png in Resources */,
+				A66A082A18B66DC200F2CD15 /* Gun_Object_1.003.png in Resources */,
+				A66A080318B66DC200F2CD15 /* HEINKEL.dae in Resources */,
+				A66A083B18B66DC200F2CD15 /* palm.obj in Resources */,
+				A66A07DE18B66DC200F2CD15 /* Earth_S.png in Resources */,
+				A66A07CC18B66DC200F2CD15 /* seat.png in Resources */,
+				A66A07BD18B66DC200F2CD15 /* body front.png in Resources */,
+				A66A080C18B66DC200F2CD15 /* Wing Left.png in Resources */,
+				A66A081318B66DC200F2CD15 /* P39.png in Resources */,
+				A66A07BF18B66DC200F2CD15 /* cockpit 2.png in Resources */,
+				A66A07D218B66DC200F2CD15 /* Turret 2.png in Resources */,
+				A66A081C18B66DC200F2CD15 /* Turret.png in Resources */,
+				A66A07C218B66DC200F2CD15 /* cockpit.png in Resources */,
+				A66A083218B66DC200F2CD15 /* IS_NM.dds in Resources */,
+				A66A07E418B66DC200F2CD15 /* bomb 1.png in Resources */,
+				A66A083D18B66DC200F2CD15 /* red.png in Resources */,
+				A66A07FB18B66DC200F2CD15 /* wing left Bottom.png in Resources */,
+				A66A083718B66DC200F2CD15 /* lights_lod0.png in Resources */,
+				A66A082418B66DC200F2CD15 /* car.png in Resources */,
+				A66A080218B66DC200F2CD15 /* glass 1.png in Resources */,
+				A66A083518B66DC200F2CD15 /* IS_SM.png in Resources */,
+				A66A07D818B66DC200F2CD15 /* Earth_Clouds_D.png in Resources */,
+				A66A081518B66DC200F2CD15 /* Soil.png in Resources */,
+				A66A080018B66DC200F2CD15 /* Body Rear.png in Resources */,
+				A66A07D318B66DC200F2CD15 /* Turret.png in Resources */,
+				A66A07C318B66DC200F2CD15 /* Decal.png in Resources */,
 				A6C56A1F189FC8DF00DFAA00 /* InfoPlist.strings in Resources */,
+				A66A07C618B66DC200F2CD15 /* Goggles.png in Resources */,
+				A66A07EE18B66DC200F2CD15 /* body top.png in Resources */,
+				A66A07EB18B66DC200F2CD15 /* body middle.png in Resources */,
+				A66A07DF18B66DC200F2CD15 /* Earth_S.tga in Resources */,
+				A66A07CB18B66DC200F2CD15 /* scope.png in Resources */,
+				A66A07DC18B66DC200F2CD15 /* Earth_N.png in Resources */,
+				A66A080418B66DC200F2CD15 /* Heinkel.png in Resources */,
+				A66A07EA18B66DC200F2CD15 /* Main Body.png in Resources */,
+				A66A07C718B66DC200F2CD15 /* Left wing.png in Resources */,
+				A66A07DB18B66DC200F2CD15 /* Earth_D.tga in Resources */,
+				A66A084B18B6701600F2CD15 /* triangle.dae in Resources */,
+				A66A080818B66DC200F2CD15 /* parts 4.png in Resources */,
+				A66A07BC18B66DC200F2CD15 /* A10.png in Resources */,
+				A66A083318B66DC200F2CD15 /* IS_NM.png in Resources */,
+				A66A082618B66DC200F2CD15 /* cube.dae in Resources */,
+				A66A07D618B66DC200F2CD15 /* Earth.mtl in Resources */,
+				A66A07E518B66DC200F2CD15 /* bombs 2.png in Resources */,
+				A66A07CD18B66DC200F2CD15 /* ausfb.dae in Resources */,
+				A66A07E618B66DC200F2CD15 /* controls.png in Resources */,
+				A66A080E18B66DC200F2CD15 /* Cockpit.png in Resources */,
+				A66A07C518B66DC200F2CD15 /* Glass.png in Resources */,
+				A66A07EF18B66DC200F2CD15 /* Engines.png in Resources */,
+				A66A07E218B66DC200F2CD15 /* Main Body.png in Resources */,
+				A66A07F218B66DC200F2CD15 /* galaxy.dae in Resources */,
+				A66A081818B66DC200F2CD15 /* Gun.png in Resources */,
+				A66A07EC18B66DC200F2CD15 /* body rear.png in Resources */,
+				A66A084318B66DC200F2CD15 /* Turret.png in Resources */,
+				A66A07FF18B66DC200F2CD15 /* Body Front.png in Resources */,
+				A66A07CA18B66DC200F2CD15 /* Right Wing.png in Resources */,
+				A66A084718B66DC200F2CD15 /* Wheels_Right_Object_2.png in Resources */,
+				A66A084218B66DC200F2CD15 /* Track_Right_Object_4.png in Resources */,
+				A66A07FC18B66DC200F2CD15 /* Wing Left.png in Resources */,
+				A66A083A18B66DC200F2CD15 /* nodamage_lod0.png in Resources */,
+				A66A07D718B66DC200F2CD15 /* Earth.obj in Resources */,
 				A6C56A2D189FC8DF00DFAA00 /* Images.xcassets in Resources */,
+				A66A07C118B66DC200F2CD15 /* cockpit 4.png in Resources */,
 				A6C56A25189FC8DF00DFAA00 /* Credits.rtf in Resources */,
+				A66A07F818B66DC200F2CD15 /* rear grill.png in Resources */,
+				A66A07E918B66DC200F2CD15 /* Glass.png in Resources */,
+				A66A07BB18B66DC200F2CD15 /* A10.dae in Resources */,
+				A66A083018B66DC200F2CD15 /* IS.mtl in Resources */,
+				A66A07F018B66DC200F2CD15 /* fin blades.png in Resources */,
+				A66A081018B66DC200F2CD15 /* Main Body 2.png in Resources */,
+				A66A083818B66DC200F2CD15 /* msmunchen.obj in Resources */,
+				A66A07E118B66DC200F2CD15 /* FV510.png in Resources */,
+				A66A082218B66DC200F2CD15 /* Body_1.png in Resources */,
+				A66A082C18B66DC200F2CD15 /* interior_lod0.png in Resources */,
+				A66A07D118B66DC200F2CD15 /* Track.png in Resources */,
+				A66A082F18B66DC200F2CD15 /* IS.dds in Resources */,
+				A66A07F718B66DC200F2CD15 /* landing gear.png in Resources */,
+				A66A082318B66DC200F2CD15 /* Body_2.png in Resources */,
+				A66A07FE18B66DC200F2CD15 /* Wing Right.png in Resources */,
+				A66A07BE18B66DC200F2CD15 /* body rear.png in Resources */,
+				A66A082518B66DC200F2CD15 /* crown_victoria.obj in Resources */,
+				A66A084518B66DC200F2CD15 /* Turret_Object_1.002.png in Resources */,
+				A66A082E18B66DC200F2CD15 /* IS.blend in Resources */,
+				A66A084418B66DC200F2CD15 /* Turret_2.png in Resources */,
+				A66A07DA18B66DC200F2CD15 /* Earth_D.png in Resources */,
+				A66A07E318B66DC200F2CD15 /* Track.png in Resources */,
+				A66A080118B66DC200F2CD15 /* Dials.png in Resources */,
+				A66A080518B66DC200F2CD15 /* Parts 1.png in Resources */,
+				A66A080618B66DC200F2CD15 /* parts 2.png in Resources */,
+				A66A084018B66DC200F2CD15 /* Track.png in Resources */,
+				A66A080F18B66DC200F2CD15 /* Glass.png in Resources */,
+				A66A07D518B66DC200F2CD15 /* Earth.dae in Resources */,
+				A66A081A18B66DC200F2CD15 /* Main Body.png in Resources */,
+				A66A081918B66DC200F2CD15 /* Main Body 2.png in Resources */,
+				A66A081E18B66DC200F2CD15 /* Additional.txt in Resources */,
+				A66A07CF18B66DC200F2CD15 /* Body 1.png in Resources */,
+				A66A084618B66DC200F2CD15 /* Wheels_Left_Object_1.png in Resources */,
+				A66A07C918B66DC200F2CD15 /* parts.png in Resources */,
+				A66A07C018B66DC200F2CD15 /* cockpit 3.png in Resources */,
+				A66A084918B66DC200F2CD15 /* untitled.dae in Resources */,
+				A66A07E818B66DC200F2CD15 /* FW190.dae in Resources */,
+				A66A082718B66DC200F2CD15 /* cube.obj in Resources */,
+				A66A07D918B66DC200F2CD15 /* Earth_Clouds_D.tga in Resources */,
+				A66A081218B66DC200F2CD15 /* p39.dae in Resources */,
+				A66A080718B66DC200F2CD15 /* parts 3.png in Resources */,
+				A66A082D18B66DC200F2CD15 /* IS.3ds in Resources */,
 				CCD8E8DB18B212BB0097323A /* Camera Controls.rtf in Resources */,
+				A66A07C418B66DC200F2CD15 /* engines.png in Resources */,
+				A66A07CE18B66DC200F2CD15 /* AUSFB.png in Resources */,
+				A66A07FD18B66DC200F2CD15 /* wing right top.png in Resources */,
+				A66A07ED18B66DC200F2CD15 /* body top profile.png in Resources */,
+				A66A080918B66DC200F2CD15 /* pilot 2.png in Resources */,
+				A66A081D18B66DC200F2CD15 /* Abrams_BF3.obj in Resources */,
+				A66A07F118B66DC200F2CD15 /* front.png in Resources */,
+				A66A082018B66DC200F2CD15 /* Avent.mtl in Resources */,
+				A66A081F18B66DC200F2CD15 /* ausfb.dae in Resources */,
+				A66A082118B66DC200F2CD15 /* Avent.obj in Resources */,
+				A66A082918B66DC200F2CD15 /* fur.png in Resources */,
+				A66A07C818B66DC200F2CD15 /* missiles.png in Resources */,
+				A66A081B18B66DC200F2CD15 /* T-90.dae in Resources */,
+				A66A07D018B66DC200F2CD15 /* Body 2.png in Resources */,
+				A66A07F618B66DC200F2CD15 /* interior1.png in Resources */,
+				A66A080B18B66DC200F2CD15 /* under.png in Resources */,
+				A66A07F918B66DC200F2CD15 /* tail fin.png in Resources */,
+				A66A07D418B66DC200F2CD15 /* cube.dae in Resources */,
+				A66A082B18B66DC200F2CD15 /* Hull_Object_1.001.png in Resources */,
+				A66A084118B66DC200F2CD15 /* Track_Left_Object_3.png in Resources */,
+				A66A07DD18B66DC200F2CD15 /* Earth_N.tga in Resources */,
+				A66A083118B66DC200F2CD15 /* IS.obj in Resources */,
+				A66A081418B66DC200F2CD15 /* plane.dae in Resources */,
+				A66A084818B66DC200F2CD15 /* transparent.png in Resources */,
+				A66A07FA18B66DC200F2CD15 /* white.png in Resources */,
 				A6C56A2B189FC8DF00DFAA00 /* MainMenu.xib in Resources */,
+				A66A07F418B66DC200F2CD15 /* interior 2.png in Resources */,
+				A66A082818B66DC200F2CD15 /* ford.obj in Resources */,
+				A66A083918B66DC200F2CD15 /* nodamage.png in Resources */,
+				A66A083618B66DC200F2CD15 /* lights.png in Resources */,
+				A66A07E018B66DC200F2CD15 /* fv510.dae in Resources */,
+				A66A083F18B66DC200F2CD15 /* tiger2.obj in Resources */,
+				A66A083C18B66DC200F2CD15 /* plastic3_nrm.png in Resources */,
+				A66A081618B66DC200F2CD15 /* Rock-Texture-Surface.jpg in Resources */,
+				A66A081118B66DC200F2CD15 /* Main Body.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

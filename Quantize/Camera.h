@@ -35,6 +35,14 @@ public:
         
     }
     
+    Matrix44 rotation() {
+        return computeRotation();
+    }
+    
+    Matrix44 translation() {
+        return Matrix44::CreateTranslation(position.x, position.y, position.z);
+    }
+    
     Matrix44 transform() {
         //if (!locked) {
         Matrix44 _translation = Matrix44::CreateTranslation(position.x, position.y, position.z);

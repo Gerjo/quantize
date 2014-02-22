@@ -74,17 +74,25 @@ class Quantize {
     GLint  _uniformKernelType;
     GLint  _uniformKernelLerp;
     
-    /// Ray tracer shader
+    /// Ray tracer shader (todo: zero initialize)
     GLint  _programRaytracer;
     GLuint _vboRtVertices;
     GLint  _attrRtPosition;
     GLint  _uniformRtWindowSize;
-
+    GLint  _uniformEdgeA;
+    GLint  _uniformEdgeB;
+    GLint  _uniformRtRotation;
+    GLint  _uniformRtTranslation;
+    GLint  _uniformEdgeC;
+    GLint  _uniformNumTriangles;
+    
     /// Collection of models to render.
     std::vector<std::shared_ptr<Entity>> entities;
     
     /// Handle to a debug cube. Used to visualise physical light sources.
     std::shared_ptr<Model> cube;
+    std::shared_ptr<Model> rectangle;
+    std::shared_ptr<Model> triangle;
     
 public:
     /// Type of convolution kernel.
@@ -140,14 +148,14 @@ public:
     /// Load the raytracer shader program.
     void initializeRaytraceProgram();
     
-    
-    
     /// Render a model.
     ///
     /// @param A model to render.
+    /// @param An additional transform.
     void render(Model& model, const Matrix44& transform = Matrix44());
    
     /// Entry point for the update and draw loops.
+    ///
     /// @param Time elapsed since previous call to update.
     void update(float dt);
 };

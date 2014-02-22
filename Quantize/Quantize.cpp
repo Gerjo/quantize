@@ -79,8 +79,10 @@ Quantize::~Quantize() {
 
 void Quantize::loadDemoScene() {
 
-    cube = Collada::FromFile("models/cube.dae");
-
+    cube      = Collada::FromFile("models/cube.dae");
+    rectangle = Collada::FromFile("models/Plane/plane.dae");
+    triangle  = Collada::FromFile("models/Plane/triangle.dae");
+    
     entities.push_back(Collada::FromFile("models/cube.dae"));
 
     //return;
@@ -240,8 +242,7 @@ void Quantize::initializeMeshProgram() {
         const string address = "samplers[" + std::to_string(i) + "]";
         _uniformSamplers[i] = glGetUniformLocation(_programMesh, address.c_str());
         
-        printf("%s = %i\n", address.c_str(), _uniformSamplers[i]);
-
+        //printf("%s = %i\n", address.c_str(), _uniformSamplers[i]);
     }
 
     _lightCount     = glGetUniformLocation(_programMesh, "lightCount");
@@ -348,13 +349,24 @@ void Quantize::initializeRaytraceProgram() {
     // Create shader program
     _programRaytracer = glCreateProgram();
     glAttachShader(_programRaytracer, vsh); GLError();
+    printf("Raytrace vertex - compiled.\n");
+    
     glAttachShader(_programRaytracer, fsh); GLError();
+    printf("Raytrace fragment - compiled.\n");
+    
     glLinkProgram(_programRaytracer);
     GLValidateProgram(_programRaytracer);
     GLError();
 
     _uniformRtWindowSize = glGetUniformLocation(_programRaytracer, "windowSize");
     _attrRtPosition = glGetAttribLocation(_programRaytracer, "vertexPosition");
+    
+    _uniformEdgeA = glGetUniformLocation(_programRaytracer, "a");
+    _uniformEdgeB = glGetUniformLocation(_programRaytracer, "b");
+    _uniformEdgeC = glGetUniformLocation(_programRaytracer, "c");
+    _uniformNumTriangles  = glGetUniformLocation(_programRaytracer, "numTriangles");
+    _uniformRtRotation    = glGetUniformLocation(_programRaytracer, "rotation");
+    _uniformRtTranslation = glGetUniformLocation(_programRaytracer, "translation");
     GLError();
     
     // The rectangle used as canvas where ray are shot from.
@@ -632,6 +644,58 @@ void Quantize::update(float dt) {
     glUniform2f(_uniformRtWindowSize, width, height);
     GLError();
     
+    
+    auto subject = cube;
+    
+    // Some group of faces
+    std::vector<VertexData>& vertices = ((Model*)subject->sub[0].get())->vertices;
+    
+    
+    static float foo = 10;
+    
+    foo -= 0.01;
+    
+    //Matrix44 t = Matrix44::CreateTranslation(0, 0, sinf(foo) * 100);
+    
+    Matrix44 cam = camera->transform();// cam.Invert();
+    Matrix44 t   = camera->translation();//*((Model*)subject->sub[0].get())->transform;
+    
+   // t.Invert();
+    
+    //Matrix44 t;// =  Matrix44::CreateTranslation(0.5, 0, 0);// * (camera->rotation() * Matrix44::CreateRotateX(foo) * Matrix44::CreateRotateY(foo));
+    
+    // Build a huge list of edges. TODO: use a quadtree embedded into a texture
+    std::vector<Vector3> a; a.reserve(vertices.size() / 3);
+    std::vector<Vector3> b; b.reserve(vertices.size() / 3);
+    std::vector<Vector3> c; c.reserve(vertices.size() / 3);
+   
+    // We must have triplets
+    assert(vertices.size() % 3 == 0);
+   
+    Vector3 o(0, 0, 0);
+   
+    glUniformMatrix4fv(_uniformRtRotation, 1, GL_FALSE, camera->rotation().f);
+    glUniformMatrix4fv(_uniformRtTranslation, 1, GL_FALSE, camera->translation().f);
+
+    // Collect edges and transform them. The idea is to transform on the CPU once
+    // instead of per fragment.
+    for(size_t i = 0; i < vertices.size(); ++i) {
+        a.push_back(vertices[i].position + o);
+        b.push_back(vertices[++i].position + o);
+        c.push_back(vertices[++i].position + o);
+    }
+    
+    // All must be equal in size.
+    assert(a.size() == b.size() && b.size() == c.size());
+    
+    // Upload the edges
+    glUniform3fv(_uniformEdgeA, (int) a.size(), a[0].v);
+    glUniform3fv(_uniformEdgeB, (int) b.size(), b[0].v);
+    glUniform3fv(_uniformEdgeC, (int) c.size(), c[0].v);
+    glUniform1i(_uniformNumTriangles, (int) a.size());
+    
+    // From this point onward we render a rectangle, this rectangle serves as a
+    // raytrace canvas.
     glEnableVertexAttribArray(_attrRtPosition);
     GLError();
     
