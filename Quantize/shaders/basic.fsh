@@ -12,7 +12,6 @@ varying vec2 fragmentUV;
 varying float fragmentSamplerIndex;
 
 
-// TODO: use 16 once the above declared "sampler_1" sampler is gone.
 uniform sampler2D samplers[16];
 
 uniform int lightCount;

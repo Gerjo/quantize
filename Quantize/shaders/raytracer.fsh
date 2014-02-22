@@ -15,14 +15,25 @@ const float INFINITY = 1e+4;
 uniform vec2 windowSize;        // Size of the viewport
 varying vec2 position;          // Normalize position on screen
 
+
+const int MAX_TRIANGLES = 250;
+
 uniform int numTriangles;       // Number of triangles
-uniform vec3 a[250];  // Triangle edge #1
-uniform vec3 b[250];  // Triangle edge #2
-uniform vec3 c[250];  // Triangle edge #3
+
+// An ad-hoc array of structs
+uniform vec3 vertexA[MAX_TRIANGLES];  // Triangle edge #1
+uniform vec3 vertexB[MAX_TRIANGLES];  // Triangle edge #2
+uniform vec3 vertexC[MAX_TRIANGLES];  // Triangle edge #3
+
+// Per triangle, texture sampler index.
+uniform int samplers[MAX_TRIANGLES];
 
 uniform mat4 translation;
 uniform mat4 rotation;
 
+// My Intel onboard chip only supports 16 textures. If this becomes a limit,
+// we can make an atlas - textures up to 16k resolution are supported.
+uniform sampler2D textures[16];
 
 struct Ray {
     vec3 place;
@@ -138,9 +149,9 @@ void main() {
         int res = rayIntersetsTriangle(
                     ray.place,
                     ray.direction,
-                    derp(a[i]),
-                    derp(b[i]),
-                    derp(c[i])
+                    derp(vertexA[i]),
+                    derp(vertexB[i]),
+                    derp(vertexC[i])
         );
 
         // TODO: Fancy z-test and alpha blending.
