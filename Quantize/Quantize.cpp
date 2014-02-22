@@ -361,12 +361,18 @@ void Quantize::initializeRaytraceProgram() {
     _uniformRtWindowSize = glGetUniformLocation(_programRaytracer, "windowSize");
     _attrRtPosition = glGetAttribLocation(_programRaytracer, "vertexPosition");
     
-    _uniformEdgeA = glGetUniformLocation(_programRaytracer, "a");
-    _uniformEdgeB = glGetUniformLocation(_programRaytracer, "b");
-    _uniformEdgeC = glGetUniformLocation(_programRaytracer, "c");
+    _uniformVerticesA = glGetUniformLocation(_programRaytracer, "verticesA");
+    _uniformVerticesB = glGetUniformLocation(_programRaytracer, "verticesB");
+    _uniformVerticesC = glGetUniformLocation(_programRaytracer, "verticesC");
     _uniformNumTriangles  = glGetUniformLocation(_programRaytracer, "numTriangles");
     _uniformRtRotation    = glGetUniformLocation(_programRaytracer, "rotation");
     _uniformRtTranslation = glGetUniformLocation(_programRaytracer, "translation");
+    
+    _uniformUvA = glGetUniformLocation(_programRaytracer, "uvA");
+    _uniformUvB = glGetUniformLocation(_programRaytracer, "uvB");
+    _uniformUvC = glGetUniformLocation(_programRaytracer, "uvC");
+    _uniformSampler = glGetUniformLocation(_programRaytracer, "samplers");
+    
     GLError();
     
     // The rectangle used as canvas where ray are shot from.
@@ -665,33 +671,70 @@ void Quantize::update(float dt) {
     //Matrix44 t;// =  Matrix44::CreateTranslation(0.5, 0, 0);// * (camera->rotation() * Matrix44::CreateRotateX(foo) * Matrix44::CreateRotateY(foo));
     
     // Build a huge list of edges. TODO: use a quadtree embedded into a texture
-    std::vector<Vector3> a; a.reserve(vertices.size() / 3);
-    std::vector<Vector3> b; b.reserve(vertices.size() / 3);
-    std::vector<Vector3> c; c.reserve(vertices.size() / 3);
+    
+    const size_t qty = vertices.size() / 3;
+    std::vector<Vector3> a; a.reserve(qty);
+    std::vector<Vector3> b; b.reserve(qty);
+    std::vector<Vector3> c; c.reserve(qty);
+
+    std::vector<Vector2> uvA; uvA.reserve(qty);
+    std::vector<Vector2> uvB; uvB.reserve(qty);
+    std::vector<Vector2> uvC; uvC.reserve(qty);
+
+    std::vector<int> sampler; sampler.reserve(qty);
+   
+   _uniformUvA = glGetUniformLocation(_programRaytracer, "uvA");
+    _uniformUvB = glGetUniformLocation(_programRaytracer, "uvB");
+    _uniformUvC = glGetUniformLocation(_programRaytracer, "uvC");
+    _uniformSampler = glGetUniformLocation(_programRaytracer, "samplers");
+
+   
    
     // We must have triplets
     assert(vertices.size() % 3 == 0);
    
-    Vector3 o(0, 0, 0);
    
     glUniformMatrix4fv(_uniformRtRotation, 1, GL_FALSE, camera->rotation().f);
     glUniformMatrix4fv(_uniformRtTranslation, 1, GL_FALSE, camera->translation().f);
 
-    // Collect edges and transform them. The idea is to transform on the CPU once
-    // instead of per fragment.
+    // Collect vertices and transform them. The idea is to transform on the CPU once
+    // instead of per fragment. We also collect UV etc.
     for(size_t i = 0; i < vertices.size(); ++i) {
-        a.push_back(vertices[i].position + o);
-        b.push_back(vertices[++i].position + o);
-        c.push_back(vertices[++i].position + o);
+        a.push_back(vertices[i].position);
+        uvA.push_back(vertices[i].uv);
+        
+        ++i; // Next vertex
+        
+        b.push_back(vertices[i].position);
+        uvB.push_back(vertices[i].uv);
+
+        ++i; // Next vertex
+
+        c.push_back(vertices[i].position);
+        uvC.push_back(vertices[i].uv);
+
+        // Making the assumption that each triplet has the same texture. This
+        // seems sensible.
+        sampler.push_back(vertices[i].sampler);
     }
     
     // All must be equal in size.
     assert(a.size() == b.size() && b.size() == c.size());
     
-    // Upload the edges
-    glUniform3fv(_uniformEdgeA, (int) a.size(), a[0].v);
-    glUniform3fv(_uniformEdgeB, (int) b.size(), b[0].v);
-    glUniform3fv(_uniformEdgeC, (int) c.size(), c[0].v);
+    // Upload the vertices
+    glUniform3fv(_uniformVerticesA, (int) a.size(), a[0].v);
+    glUniform3fv(_uniformVerticesB, (int) b.size(), b[0].v);
+    glUniform3fv(_uniformVerticesC, (int) c.size(), c[0].v);
+    
+    // Upload the texture coordinates
+    glUniform2fv(_uniformUvA, (int) uvA.size(), uvA[0].v);
+    glUniform2fv(_uniformUvB, (int) uvB.size(), uvB[0].v);
+    glUniform2fv(_uniformUvC, (int) uvC.size(), uvC[0].v);
+    
+    // Texture sampler indices
+    glUniform1iv(_uniformSampler, (int) sampler.size(), &sampler[0]);
+    
+    // Amount of triangles
     glUniform1i(_uniformNumTriangles, (int) a.size());
     
     // From this point onward we render a rectangle, this rectangle serves as a

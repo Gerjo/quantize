@@ -21,9 +21,12 @@ const int MAX_TRIANGLES = 250;
 uniform int numTriangles;       // Number of triangles
 
 // An ad-hoc array of structs
-uniform vec3 vertexA[MAX_TRIANGLES];  // Triangle edge #1
-uniform vec3 vertexB[MAX_TRIANGLES];  // Triangle edge #2
-uniform vec3 vertexC[MAX_TRIANGLES];  // Triangle edge #3
+uniform vec3 verticesA[MAX_TRIANGLES];  // Triangle vertex #1
+uniform vec3 verticesB[MAX_TRIANGLES];  // Triangle vertex #2
+uniform vec3 verticesC[MAX_TRIANGLES];  // Triangle vertex #3
+uniform vec2 uvA[MAX_TRIANGLES];        // UV vertex edge #1
+uniform vec2 uvB[MAX_TRIANGLES];        // UV vertex edge #2
+uniform vec2 uvC[MAX_TRIANGLES];        // UV vertex edge #3
 
 // Per triangle, texture sampler index.
 uniform int samplers[MAX_TRIANGLES];
@@ -149,9 +152,9 @@ void main() {
         int res = rayIntersetsTriangle(
                     ray.place,
                     ray.direction,
-                    derp(vertexA[i]),
-                    derp(vertexB[i]),
-                    derp(vertexC[i])
+                    derp(verticesA[i]),
+                    derp(verticesB[i]),
+                    derp(verticesC[i])
         );
 
         // TODO: Fancy z-test and alpha blending.

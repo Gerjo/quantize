@@ -79,12 +79,19 @@ class Quantize {
     GLuint _vboRtVertices;
     GLint  _attrRtPosition;
     GLint  _uniformRtWindowSize;
-    GLint  _uniformEdgeA;
-    GLint  _uniformEdgeB;
     GLint  _uniformRtRotation;
     GLint  _uniformRtTranslation;
-    GLint  _uniformEdgeC;
     GLint  _uniformNumTriangles;
+    
+    GLint  _uniformVerticesA;
+    GLint  _uniformVerticesB;
+    GLint  _uniformVerticesC;
+    GLint  _uniformUvA;
+    GLint  _uniformUvB;
+    GLint  _uniformUvC;
+    GLint  _uniformSampler;
+    
+
     
     /// Collection of models to render.
     std::vector<std::shared_ptr<Entity>> entities;
