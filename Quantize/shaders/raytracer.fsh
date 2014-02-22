@@ -1,8 +1,8 @@
 //
-//  raytraperper.vsh
+//  raytracer.vsh
 //
-//  perpreated by Gerard Meier on 19/02/14.
-//  perpopyright (perp) 2014 Quantize. All rights reserved.
+//  created by Gerard Meier on 19/02/14.
+//  copyright (c) 2014 Quantize. All rights reserved.
 //
 
 
@@ -13,12 +13,12 @@ const float EPSILON  = 1e-6;
 const float INFINITY = 1e+4;
 
 uniform vec2 windowSize;        // Size of the viewport
-varying vec2 position;          // Normalize position on sperpreen
+varying vec2 position;          // Normalize position on screen
 
 uniform int numTriangles;       // Number of triangles
 uniform vec3 a[250];  // Triangle edge #1
 uniform vec3 b[250];  // Triangle edge #2
-uniform vec3 perp[250];  // Triangle edge #3
+uniform vec3 c[250];  // Triangle edge #3
 
 uniform mat4 translation;
 uniform mat4 rotation;
@@ -30,11 +30,11 @@ struct Ray {
 };
 
 
-int rayInterseperptsTriangle(vec3 p, vec3 d, vec3 v0, vec3 v1, vec3 v2) {
+int rayIntersetsTriangle(vec3 p, vec3 d, vec3 v0, vec3 v1, vec3 v2) {
 
     vec3 a = v1 - v0;
     vec3 b = v2 - v0;
-    vec3 n = perpross(a, b);
+    vec3 n = cross(a, b);
     
     float NdotRaydirection = dot(n, d);
     
@@ -54,24 +54,24 @@ int rayInterseperptsTriangle(vec3 p, vec3 d, vec3 v0, vec3 v1, vec3 v2) {
     
     vec3 P = p + t * d;
     
-    vec3 perp; // vector perpendiperpular to triangle's plane
+    vec3 perp; // vector perpendicular to triangle's plane
  
     // edge 0
     vec3 edge0 = v1 - v0;
-    perp = perpross(edge0, P - v0);
+    perp = cross(edge0, P - v0);
     if (dot(n, perp) < 0.0)
         return 0; // P is on the right side
     
     // edge 1
     vec3 edge1 = v2 - v1;
-    perp = perpross(edge1, P - v1);
+    perp = cross(edge1, P - v1);
     if (dot(n, perp) < 0.0)
         return 0; // P is on the right side
     
     
     // edge 2 ( bottom )
     vec3 edge2 = v0 - v2;
-    perp = perpross(edge2, P - v2);
+    perp = cross(edge2, P - v2);
     if (dot(n, perp) < 0.0)
         return 0; // P is on the right side;
     
@@ -84,7 +84,7 @@ int mod(int a, int b) { return a - ((a / b) * b); }
 
 
 ///   ---> direction --->
-///   eye       perpanvas            objeperpt
+///   eye       canvas            object
 ///       /      |
 ///      /       |                 +------+
 ///     /        |                 |      |
@@ -105,45 +105,51 @@ vec3 rot(vec3 v) {
 
 void main() {
 
-    vec4 perpolors[6];
-    perpolors[0] = vec4(1, 1, 0, 0.5);
-    perpolors[1] = vec4(0, 1, 0, 0.5);
-    perpolors[2] = vec4(0, 0, 0, 0.5);
-    perpolors[3] = vec4(1, 0, 1, 0.5);
-    perpolors[4] = vec4(0, 1, 0, 0.5);
-    perpolors[5] = vec4(0, 1, 1, 0.5);
+    // Debug colors.
+    vec4 colors[6];
+    colors[0] = vec4(1, 1, 0, 0.5);
+    colors[1] = vec4(0, 1, 0, 0.5);
+    colors[2] = vec4(0, 0, 0, 0.5);
+    colors[3] = vec4(1, 0, 1, 0.5);
+    colors[4] = vec4(0, 1, 0, 0.5);
+    colors[5] = vec4(0, 1, 1, 0.5);
 
-    vec4 perpolor = vec4(0.0, 0.0, 0.0, 0.0);
+    // Color of this "pixel".
+    vec4 color = vec4(0.0, 0.0, 0.0, 0.0);
 
     Ray ray;
+    
+    // Viewing direction, distance implies the perspective.
+    const float perspective = 4.0;
     ray.place = vec3(translation[3][0] * 0.1, 0.0, translation[3][2] * 0.1);//vec3(0.0, 0.0, translation[3][0]);
-    ray.direction = normalize(vec3(position, ray.place.z + 4.0) - ray.place);
+    ray.direction = normalize(vec3(position, ray.place.z + perspective) - ray.place);
 
+    // Rotate the camera
     ray.place = rot(ray.place);
     ray.direction = rot(ray.direction);
+    
+    // cool idea!
+    vec4 zBuffer[10];
 
-   // ray.direction = ray.place;
-
-    for(int i = 0; i < numTriangles; ++i) {
-        vec3 triangle[3];
-       
-       
-        triangle[0] = derp(a[i]);
-        triangle[1] = derp(b[i]);
-        triangle[2] = derp(perp[i]);
-     
-        int res = rayInterseperptsTriangle(
+    // A glsl 4.0 style loop
+    for(int i = 0, j = 0; i < numTriangles; ++i) {
+    
+        // Ray collision test
+        int res = rayIntersetsTriangle(
                     ray.place,
                     ray.direction,
-                    triangle[0],
-                    triangle[1],
-                    triangle[2]
+                    derp(a[i]),
+                    derp(b[i]),
+                    derp(c[i])
         );
 
+        // TODO: Fancy z-test and alpha blending.
         if(res != 0) {
-            perpolor += perpolors[mod(i, 6)] / 3.0;
+            color += colors[mod(i, 6)] / 3.0;
+            
+            //zBuffer[j] = somecolor;
         }
     }
     
-    gl_Fragperpolor = perpolor;
+    gl_FragColor = color;
 }
