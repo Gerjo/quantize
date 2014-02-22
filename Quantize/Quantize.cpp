@@ -21,7 +21,6 @@ Quantize::Quantize()
     , _uniformCamera(0)
     , _uniformModelTransform(0)
     , _uniformNormalTransform(0)
-    //, _uniformSampler_1(0)
     , _uniformSamplers{0}
     , camera(new Camera())
     , kernelLerp(0.7f)
@@ -373,6 +372,8 @@ void Quantize::initializeRaytraceProgram() {
     _uniformUvC = glGetUniformLocation(_programRaytracer, "uvC");
     _uniformSampler = glGetUniformLocation(_programRaytracer, "samplers");
     
+    _uniformTextures = glGetUniformLocation(_programRaytracer, "textures");
+    
     GLError();
     
     // The rectangle used as canvas where ray are shot from.
@@ -683,13 +684,6 @@ void Quantize::update(float dt) {
 
     std::vector<int> sampler; sampler.reserve(qty);
    
-   _uniformUvA = glGetUniformLocation(_programRaytracer, "uvA");
-    _uniformUvB = glGetUniformLocation(_programRaytracer, "uvB");
-    _uniformUvC = glGetUniformLocation(_programRaytracer, "uvC");
-    _uniformSampler = glGetUniformLocation(_programRaytracer, "samplers");
-
-   
-   
     // We must have triplets
     assert(vertices.size() % 3 == 0);
    
@@ -736,6 +730,19 @@ void Quantize::update(float dt) {
     
     // Amount of triangles
     glUniform1i(_uniformNumTriangles, (int) a.size());
+    GLError();
+    
+    std::vector<int> textureSamplers; textureSamplers.reserve(Textures::samplers.size());
+    for(int i = 0; i < Textures::samplers.size(); ++i) {
+        // Texture enabling
+        glActiveTexture(GL_TEXTURE0 + i);                       // Use texture n
+        glBindTexture(GL_TEXTURE_2D, Textures::samplers[i]);    // Bind handle to n
+        GLError();
+    }
+    
+    // Inform the shader which sampler indices to use
+    glUniform1iv(_uniformTextures, (int) textureSamplers.size(), & textureSamplers[0]);
+    GLError();
     
     // From this point onward we render a rectangle, this rectangle serves as a
     // raytrace canvas.

@@ -82,7 +82,7 @@ class Quantize {
     GLint  _uniformRtRotation;
     GLint  _uniformRtTranslation;
     GLint  _uniformNumTriangles;
-    
+    GLint  _uniformTextures;
     GLint  _uniformVerticesA;
     GLint  _uniformVerticesB;
     GLint  _uniformVerticesC;
