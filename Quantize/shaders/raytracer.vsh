@@ -15,19 +15,18 @@ uniform mat4 rotation;
 
 
 varying vec2 position;
-varying float aspect;
 
 
 void main() {
     
-    
-    // Expand to 3D - should make math easier.
     position    = vertexPosition;
     
-    //aspect = windowSize.y / windowSize.x;
+    float aspect = windowSize.x / windowSize.y;
     
-    //position.x *= aspect;
+    // We only fix the varying for aspect ratio, not the "gl_Position".
+    position.x *= aspect;
     
+    // Expand to 3rd dimension (because... 3d)
     // Expand to 4th dimension (for depth buffer purposes)
     gl_Position = vec4(vertexPosition, -1.0, 1.0);
 }
