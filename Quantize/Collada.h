@@ -484,7 +484,7 @@ struct Collada {
                                 }
                                 
                                 printf("      ");
-                                model->texture = Textures::LoadPNG("models/Plane/Soil.png");
+                                model->texture = Textures::LoadPNG("models/checkerboard.png");
                                 
                                 
                                 printf("      using geometry[%s] and %lu vertices with material[%s].\n", url.c_str(), vertices.size(), material.c_str());

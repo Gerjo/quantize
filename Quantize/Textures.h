@@ -106,11 +106,17 @@ struct Textures {
         // Find the index to global state
         glBindTexture(GL_TEXTURE_2D, texture);
         GLError();
+        
+        const bool mipmaps = false;
 
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+        if(mipmaps) {
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        } else {
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        }
+        
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
         
         // uv are not in [0,1] for some models, they assume uvs are repeated.
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -138,12 +144,12 @@ struct Textures {
             Exit("Error uploading PNG texture %s to GPU. glError: 0x%04X\n", filename.c_str(), error);
         }
         
-          
-        // Main reason why we use PNG for this demo. Random models from the
-        // internet come with random formats, and generating mipmaps may be
-        // non-trivial. This will always work :)
-        glGenerateMipmap(GL_TEXTURE_2D);
-        
+        if(mipmaps) {
+            // Main reason why we use PNG for this demo. Random models from the
+            // internet come with random formats, and generating mipmaps may be
+            // non-trivial. This will always work :)
+            glGenerateMipmap(GL_TEXTURE_2D);
+        }
         
         // Data is on the GPU's RAM, release it from the CPU's RAM.
         ::free(data);
