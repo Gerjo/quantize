@@ -12,6 +12,21 @@ static bool isInitialized = false;
 
 @implementation GLView
 
+
+- (void) awakeFromNib {
+    //printf("awakeFromNib- nibnibnibnibnooob\n");
+    
+     NSOpenGLPixelFormatAttribute attr[] = {
+        NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersionLegacy,
+        0
+    };
+    
+    NSOpenGLPixelFormat *glPixForm = [[NSOpenGLPixelFormat alloc] initWithAttributes:attr];
+    
+    [self setPixelFormat: glPixForm];
+    
+}
+
 -(void) drawRect: (NSRect) bounds
 {
     //[self setNeedsDisplay:YES];
