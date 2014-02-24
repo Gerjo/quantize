@@ -308,7 +308,7 @@ void Quantize::initializePostProgram() {
     _programPost = glCreateProgram();
     glAttachShader(_programPost, postvsh);
     glAttachShader(_programPost, postfsh);
-    glLinkProgram(_programPost);    
+    glLinkProgram(_programPost);
     GLValidateProgram(_programPost);
 
     // Get a handle to the variables in the shader programs
@@ -585,9 +585,9 @@ void Quantize::update(float dt) {
 
     for(int i = 0, c = Textures::samplers.size(); i < c; ++i) {
         // Texture enabling
-        glActiveTexture(GL_TEXTURE0 + i);                       // Use texture n
+        glActiveTexture(GL_TEXTURE1 + i);                       // Use texture n
         glBindTexture(GL_TEXTURE_2D, Textures::samplers[i]);    // Bind handle to n
-        glUniform1i(_uniformSamplers[i], i);                    // Set the sampler to tex n
+        glUniform1i(_uniformSamplers[i], i + 1);                    // Set the sampler to tex n
         GLError();
     }
 
@@ -740,7 +740,7 @@ void Quantize::update(float dt) {
     std::vector<int> textureSamplers; textureSamplers.reserve(Textures::samplers.size());
     for(int i = 0; i < Textures::samplers.size(); ++i) {
         // Texture enabling
-        glActiveTexture(GL_TEXTURE0 + i);                       // Use texture n
+        glActiveTexture(GL_TEXTURE1 + i);                       // Use texture n
         glBindTexture(GL_TEXTURE_2D, Textures::samplers[i]);    // Bind handle to n
         GLError();
     }

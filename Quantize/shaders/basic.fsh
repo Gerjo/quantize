@@ -12,7 +12,7 @@ varying vec2 fragmentUV;
 varying float fragmentSamplerIndex;
 
 
-uniform sampler2D samplers[16];
+uniform sampler2D samplers[15];
 
 uniform int lightCount;
 uniform vec3 lightsPosition[10];

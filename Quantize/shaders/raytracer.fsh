@@ -34,7 +34,7 @@ uniform mat4 rotation;
 
 // My Intel onboard chip only supports 16 textures. If this becomes a limit,
 // we can make an atlas - textures up to 16k resolution are supported.
-uniform sampler2D textures[16];
+uniform sampler2D textures[15];
 
 struct Ray {
     vec3 place;
