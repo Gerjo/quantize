@@ -308,13 +308,7 @@ void Quantize::initializePostProgram() {
     _programPost = glCreateProgram();
     glAttachShader(_programPost, postvsh);
     glAttachShader(_programPost, postfsh);
-    glLinkProgram(_programPost);
-    glGetProgramiv(_programPost, GL_LINK_STATUS, &link_ok);
-    
-    if ( ! link_ok) {
-        Exit("Linking failed.");
-    }
-    
+    glLinkProgram(_programPost);    
     GLValidateProgram(_programPost);
 
     // Get a handle to the variables in the shader programs
