@@ -42,7 +42,7 @@ struct Ray {
 };
 
 
-int rayIntersetsTriangle(Ray ray, vec3 v0, vec3 v1, vec3 v2, inout vec3 where) {
+int rayIntersetsTriangle(Ray ray, vec3 v0, vec3 v1, vec3 v2, inout vec3 where, inout float depth) {
 
     vec3 a = v1 - v0;
     vec3 b = v2 - v0;
@@ -62,12 +62,13 @@ int rayIntersetsTriangle(Ray ray, vec3 v0, vec3 v1, vec3 v2, inout vec3 where) {
     // Poor backface culling, this only solves for planes, not "pixels".
     if (t < 0.0) {
         res += 1;
-        //return 0; // the triangle is behind
+        return 0; // the triangle is behind
     }
     
     // Solve for intersection point. Using this point we determine if it's inside
     // the intersection of each edge.
     where = ray.place + t * ray.direction;
+    depth = t;
     
     
     vec3 perp; // vector perpendicular to triangle's plane
@@ -174,32 +175,59 @@ void main() {
     ray.direction = transformCamera(ray.direction);
     
     // cool idea!
-    vec4 zBuffer[10];
+    vec4 zBufferColor[10];
+    float zBufferDepth[10];
 
     // A glsl 4.0 style loop
-    for(int i = 0, j = 0; i < numTriangles; ++i) {
+    int j = 0;
+    for(int i = 0; i < numTriangles; ++i) {
         vec3 A = transformTriangle(verticesA[i]);
         vec3 B = transformTriangle(verticesB[i]);
         vec3 C = transformTriangle(verticesC[i]);
     
         vec3 where;
+        float depth;
     
         // Ray collision test; "where" is an output: the point of intersection.
-        int res = rayIntersetsTriangle(ray, A, B, C, where);
+        int res = rayIntersetsTriangle(ray, A, B, C, where, depth);
 
         // TODO: Fancy z-test and alpha blending.
         if(res != 0) {
         
             vec2 uv = barycentric(where, A, B, C, uvA[i], uvB[i], uvC[i]);
         
-            color = texture2D(textures[0], uv);
+            //color = texture2D(textures[0], uv);
             
             // Debug colors:
             //color += colors[mod(i, 6)] / 3.0;
             
-            //zBuffer[j] = somecolor;
+            zBufferDepth[j] = depth;
+            zBufferColor[j++] = colors[mod(i, 6)] / 3.0;
         }
     }
+    
+    //color = vec4(0.0, 0.0, 0.0, 0.0);
+    vec4 swapV;
+    float swapF;
+    if (j > 0) {
+        while (j > 1) {
+            for (int k = 0; k < j - 1; ++k) {
+                if (zBufferDepth[k] > zBufferDepth[k+1]) {
+                    swapV = zBufferColor[k];
+                    zBufferColor[k] = zBufferColor[k+1];
+                    zBufferColor[k+1] = swapV;
+                    
+                    swapF = zBufferDepth[k];
+                    zBufferDepth[k] = zBufferDepth[k+1];
+                    zBufferDepth[k+1] = swapF;
+                }
+            }
+            j--;
+        }
+        color = zBufferColor[0];
+    }
+    else
+        color = vec4(0.0, 0.0, 0.0, 0.0);
     
     gl_FragColor = color;
 }

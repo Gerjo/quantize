@@ -660,7 +660,7 @@ void Quantize::update(float dt) {
     GLError();
     
     
-    auto subject = rectangle;
+    auto subject = cube;
     
     // Some group of faces
     std::vector<VertexData>& vertices = ((Model*)subject->sub[0].get())->vertices;
