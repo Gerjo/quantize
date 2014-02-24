@@ -28,7 +28,7 @@ struct Textures {
     
         if(cache.find(filename) != cache.end()) {
             if( ! cache[filename].expired()) {
-                printf("Texture loaded from cache.\n");
+                //printf("Texture loaded from cache.\n");
                 // Promote the weak reference to a shared reference and return it.
                 return cache[filename].lock();
             }

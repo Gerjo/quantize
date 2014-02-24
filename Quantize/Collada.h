@@ -27,6 +27,9 @@ using std::string;
 using namespace tinyxml2;
 using namespace Furiosity;
 
+//#define COLLADALOG(...) printf(__VA_ARGS__)
+#define COLLADALOG(...) (void) 0
+
 struct Collada {
 
     /// Helper struct to store some grouped data.
@@ -53,7 +56,7 @@ struct Collada {
         
         if(cache.find(filename) != cache.end()) {
             if( ! cache[filename].expired()) {
-                printf("Model vbo loaded from cache.\n");
+                COLLADALOG("Model vbo loaded from cache.\n");
                 // Promote the weak reference to a shared reference and return it.
                 return cache[filename].lock();
             }
@@ -89,7 +92,7 @@ struct Collada {
         FOREACH_XML_ELEMENT(element, doc.FirstChildElement()) {
             string category(element->Value());
             
-            printf("Parsing Category: %s\n", element->Value());
+            COLLADALOG("Parsing Category: %s\n", element->Value());
 
             if(category == "library_images") {
                 FOREACH_XML_ELEMENT(key, element) {
@@ -102,7 +105,7 @@ struct Collada {
                     
                         imageFiles.insert(make_pair(id, file));
                         
-                        printf("  %s -> %s\n", id.c_str(), file.c_str());
+                        COLLADALOG("  %s -> %s\n", id.c_str(), file.c_str());
                     }
                 }
                 
@@ -116,7 +119,7 @@ struct Collada {
                     FOREACH_XML_ELEMENT(property, effect->FirstChildElement()) {
                     
                         if(strcmp("newparam", property->Name()) == 0) {
-                            //printf("param: %s\n",  property->FirstChildElement()->Name());
+                            //COLLADALOG("param: %s\n",  property->FirstChildElement()->Name());
                         
                             if(strcmp("surface", property->FirstChildElement()->Name()) == 0) {
                                 e.surface = string("#") + property->FirstChildElement()->FirstChildElement()->GetText();
@@ -134,7 +137,7 @@ struct Collada {
                         e
                     ));
                     
-                    printf("  Making effect[%s] with texture [%s]\n", effectid.c_str(), e.surface.c_str());
+                    COLLADALOG("  Making effect[%s] with texture [%s]\n", effectid.c_str(), e.surface.c_str());
                 }
             
             
@@ -155,7 +158,7 @@ struct Collada {
                             effects[source]
                         ));
                         
-                        printf("  Making material[%s] using effect[%s]\n", materialid.c_str(), source.c_str());
+                        COLLADALOG("  Making material[%s] using effect[%s]\n", materialid.c_str(), source.c_str());
 
                     } else {
                         Exit("Non material? %s", material->Name());
@@ -168,7 +171,7 @@ struct Collada {
                     if(type == "geometry") {
                         string geometryid(string("#") + geometry->Attribute("id"));
                         
-                        printf("  Parsing geometry: %s\n", geometryid.c_str());
+                        COLLADALOG("  Parsing geometry: %s\n", geometryid.c_str());
 
                         FOREACH_XML_ELEMENT(mesh, geometry) {
                         
@@ -196,7 +199,7 @@ struct Collada {
                                             } else if(propName == "technique_common") {
                                                 stride = property->FirstChildElement()->IntAttribute("stride");
                                             }
-                                            //printf("        %s\n", propName.c_str());
+                                            //COLLADALOG("        %s\n", propName.c_str());
                                         }
                                         
                                         if(stride <= 0) {
@@ -223,7 +226,7 @@ struct Collada {
                                             }
                                         }
                                         
-                                        printf("    Storing float array[%lu] with id %s\n", vertices.size(), sourceid.c_str());
+                                        COLLADALOG("    Storing float array[%lu] with id %s\n", vertices.size(), sourceid.c_str());
 
                                         
                                         // Create a lookup table entry
@@ -248,13 +251,13 @@ struct Collada {
                                             floatSources[original]
                                         ));
                                         
-                                        printf("    %s uses alias %s\n", original.c_str(), alias.c_str());
+                                        COLLADALOG("    %s uses alias %s\n", original.c_str(), alias.c_str());
                                         
                                     } else if(type == "polylist") {
                                         int count = source->IntAttribute("count");
                                         string material = source->Attribute("material");
                                         
-                                        printf("    Creating a polylist with %d entries [%s] \n", count, material.c_str());
+                                        COLLADALOG("    Creating a polylist with %d entries [%s] \n", count, material.c_str());
 
                                     
                                         // offset to sourceid mapping
@@ -270,7 +273,7 @@ struct Collada {
                                                 string semantic(attribute->Attribute("semantic"));
                                                 string source(attribute->Attribute("source"));
                                                 
-                                                printf("      Offset %d with id %s [%s]\n", offset, source.c_str(), semantic.c_str());
+                                                COLLADALOG("      Offset %d with id %s [%s]\n", offset, source.c_str(), semantic.c_str());
                                                 inputs[offset]    = source;
                                                 semantics[offset] = semantic;
                                                 if(offset > 3 || offset < 0) {
@@ -295,11 +298,11 @@ struct Collada {
                                                     indices.push_back(d);
                                                 }
                                                 
-                                                printf("      Read %lu indices\n", indices.size());
+                                                COLLADALOG("      Read %lu indices\n", indices.size());
                                             }
                                         }
                                     
-                                        //printf("%lu indices, %lu vcount\n", indices.size(), vcount.size());
+                                        //COLLADALOG("%lu indices, %lu vcount\n", indices.size(), vcount.size());
                                     
                                         //for(const int v : vcount) {
                                             
@@ -324,7 +327,7 @@ struct Collada {
                                                 string sourceid = inputs[j];
                                                 
                                                 if(inputs[j].empty()) {
-                                                    //printf("      Skipping index %d, it's empty.\n", j);
+                                                    //COLLADALOG("      Skipping index %d, it's empty.\n", j);
                                                     
                                                     // There's probably no UV coordinate.
                                                     --i;
@@ -376,7 +379,7 @@ struct Collada {
                                             vertices.push_back(data);
                                         }
                                         
-                                        printf("   Adding vertexData[%lu] with id %s\n", vertices.size(), geometryid.c_str());
+                                        COLLADALOG("   Adding vertexData[%lu] with id %s\n", vertices.size(), geometryid.c_str());
                                         
                                         vertexData.insert(make_pair(
                                             geometryid,
@@ -394,14 +397,14 @@ struct Collada {
                 FOREACH_XML_ELEMENT(scene, element) {
                     string type(scene->Value());
                 
-                    printf("  %s\n", type.c_str());
+                    COLLADALOG("  %s\n", type.c_str());
 
                 
                     FOREACH_XML_ELEMENT(node, scene) {
                         string nodeid(string("#") + node->Attribute("id"));
                         string name(node->Attribute("name"));
                         
-                        printf("    node with id: %s and name %s \n", nodeid.c_str(), name.c_str());
+                        COLLADALOG("    node with id: %s and name %s \n", nodeid.c_str(), name.c_str());
                         
                         Model* model = new Model();
                         
@@ -416,7 +419,7 @@ struct Collada {
                         FOREACH_XML_ELEMENT(property, node) {
                             string propName(property->Value());
                             
-                            //printf("      %s\n", property->Value());
+                            //COLLADALOG("      %s\n", property->Value());
                             
                             if(propName == "translate") {
                                 auto chunks = StringExplode(property->GetText(), " ");
@@ -483,11 +486,11 @@ struct Collada {
                                     //Exit("Node[%s] requested material[%s] which requested texture[%s] which is not found.",  nodeid.c_str(), material.c_str(), m.surface.c_str());
                                 }
                                 
-                                printf("      ");
+                                COLLADALOG("      ");
                                 model->texture = Textures::LoadPNG("models/checkerboard.png");
                                 
                                 
-                                printf("      using geometry[%s] and %lu vertices with material[%s].\n", url.c_str(), vertices.size(), material.c_str());
+                                COLLADALOG("      using geometry[%s] and %lu vertices with material[%s].\n", url.c_str(), vertices.size(), material.c_str());
                                 
                                 model->vertices = vertices;
                                 
@@ -500,7 +503,7 @@ struct Collada {
                                         * model->texture)
                                     );
                                 
-                                printf("------\nSampler: %u\n", sampler);
+                                COLLADALOG("------\nSampler: %u\n", sampler);
                                 
                                 // Generate some indices
                                 for(size_t i = 0; i < vertices.size(); ++i) {
