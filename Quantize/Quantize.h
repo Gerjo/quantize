@@ -28,6 +28,7 @@ using namespace Furiosity;
 using std::string;
 
 class Quantize {
+public:
     /// Main shader program.
     GLuint _programMesh;
     

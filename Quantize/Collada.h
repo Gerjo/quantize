@@ -531,7 +531,7 @@ struct Collada {
                             transform = transform * Matrix44::CreateTranslation(translate.x, translate.y, translate.z);
                             
                             model->transform = transform;
-                            model->upload();
+                            //model->upload();
                             
                         }
                     }

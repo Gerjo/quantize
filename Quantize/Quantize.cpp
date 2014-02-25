@@ -73,7 +73,7 @@ Quantize::~Quantize() {
     glDeleteProgram(_programPost);
     glDeleteProgram(_programMesh);
     
-    glDeleteBuffers(1, &_vboFboVertices);
+    glDeleteBuffers(1, &_vboFboVertices);    
 }
 
 void Quantize::loadDemoScene() {
@@ -404,19 +404,11 @@ void Quantize::initializeRaytraceProgram() {
 /// Render a model.
 ///
 /// @param A model to render.
+/// @param An optional extra model transform.
 void Quantize::render(Model& model, const Matrix44& transform) {
-    
     Matrix44 t = model.transform * transform;
     
-    /*if(false && model.texture != 0) {
-        // Texture enabling
-        glActiveTexture(GL_TEXTURE0);                    // Use texture 0
-        glBindTexture(GL_TEXTURE_2D, *(model.texture.get()));    // Work with this texture
-        glUniform1i(_uniformSampler_1, 0);               // Set the sampler to tex 0
-        GLError();
-    }*/
-    
-    // Set the perspective projection, once. This is shared among all models.
+    // Upload a model transform
     glUniformMatrix4fv(_uniformModelTransform,  // Location
                         1,                      // Amount of matrices
                         false,                  // Require transpose
@@ -424,88 +416,24 @@ void Quantize::render(Model& model, const Matrix44& transform) {
     );
     GLError();
     
-    // Set the perspective projection, once. This is shared among all models.
-    glUniformMatrix3fv(_uniformNormalTransform,  // Location
-                        1,                       // Amount of matrices
-                        false,                   // Require transpose
-                        t.GetMatrix33().Invert().f        // Float array with values
+    // Upload the normal matrix (transform without translation)
+    glUniformMatrix3fv(_uniformNormalTransform,    // Location
+                        1,                         // Amount of matrices
+                        false,                     // Require transpose
+                        t.GetMatrix33().Invert().f // Float array with values
     );
-    GLError();
-    
-    // Load the vbo in global array buffer state
-    glBindBuffer(GL_ARRAY_BUFFER, model.vbo[0]);
     GLError();
     
 
-    glVertexAttribPointer(_attrPosition,                       // The attribute in the shader.
-                        3,                                     // Number of "fields", in this case 3 floats X, Y & Z.
-                        GL_FLOAT,                              // Data type
-                        GL_FALSE,                              // Must these values be normalized? No thanks.
-                        sizeof(VertexData),                    // Size of each structure
-                        (void*) offsetof(VertexData, position) // Offset
-    );
-    GLError();
-     
-    glEnableVertexAttribArray(_attrPosition);
-    GLError();   
-    
-    glVertexAttribPointer(_attrNormal,                       // The attribute in the shader.
-                        3,                                   // Number of "fields", in this case 3 floats X, Y & Z.
-                        GL_FLOAT,                            // Data type
-                        GL_FALSE,                            // Must these values be normalized? No thanks.
-                        sizeof(VertexData),                  // Size of each structure
-                        (void*) offsetof(VertexData, normal) // Offset
-    );
-    GLError();
-    
-    glEnableVertexAttribArray(_attrNormal);
-    GLError();
-    
-    
-    
-    glVertexAttribPointer(_attrSamplerIndex,                  // The attribute in the shader.
-                        1,                                    // Number of "fields", in this case 1: the index.
-                        GL_UNSIGNED_INT,                      // Data type
-                        GL_FALSE,                             // Must these values be normalized? No thanks.
-                        sizeof(VertexData),                   // Size of each structure
-                        (void*) offsetof(VertexData, sampler) // Offset
-    );
-    GLError();
-    
-    glEnableVertexAttribArray(_attrSamplerIndex);
-    GLError();
-    
-    
-    
-    glVertexAttribPointer(_attrColor,                      // The attribute in the shader.
-                        4,                                  // Number of "fields", in this case 4: RGBA
-                        GL_UNSIGNED_BYTE,                   // Data type
-                        GL_TRUE,                            // Must these values be normalized? ja bitte
-                        sizeof(VertexData),                 // Size of each structure
-                        (void*) offsetof(VertexData, color) // Offset
-    );
-    GLError();
-    
-    glEnableVertexAttribArray(_attrColor);
-    GLError();
-    
-    glVertexAttribPointer(_attrUV,                          // The attribute in the shader.
-                        2,                                  // Number of "fields", in this case 2: U & V
-                        GL_FLOAT,                           // Data type
-                        GL_FALSE,                           // Must these values be normalized? nein
-                        sizeof(VertexData),                 // Size of each structure
-                        (void*) offsetof(VertexData, uv)    // Offset
-    );
-    GLError();
-    
-    glEnableVertexAttribArray(_attrUV);
+    // Enable the VAO, implicitly enables the VBO and attribute arrays.
+    glBindVertexArray(model.vao);
     GLError();
 
-    // Bind vertex index buffer.
+    // Indices are not stored in the VAO.
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model.vbo[1]);
     GLError();
     
-    //
+    // Draw call. (similar to glDrawArray, but with indices)
     glDrawElements(
         GL_TRIANGLES,                     // GL primitive type
         (GLsizei) model.indices.size(),   // How many indices to draw
@@ -513,17 +441,10 @@ void Quantize::render(Model& model, const Matrix44& transform) {
         0                                 // Offset
     );
     GLError();
-    
-    // Disable attributes. Doing this makes sure some global state
-    // doesn't leak into the next set of gl calls.
-    glDisableVertexAttribArray(_attrPosition);
-    glDisableVertexAttribArray(_attrColor);
-    // todo: disable them all.
-    GLError();
 
     // Unbind buffers.
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glDisableVertexAttribArray(model.vao);
     GLError();
 }
 
@@ -538,10 +459,9 @@ void Quantize::update(float dt) {
     glClearColor(0, 0, 0, 0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    // Camera position (insert FPS code here).
+    // Camera position
     camera->update();
     Matrix44 transform = camera->transform();
-    
     
     
     // Pre-multiply all projection related matrices. These are constant
@@ -550,15 +470,18 @@ void Quantize::update(float dt) {
     
     // Shader activate!
     glUseProgram(_programMesh);
-
+    GLError();
+    
     // Update the uniform.
     glUniformMatrix4fv(_uniformCamera,  // Location
                         1,              // Amount of matrices
                         false,          // Require transpose
                         projection.f   // Float array with values
     );
+    GLError();
 
 
+    // Build Structure of arrays (SOA) from Array of structures (AOS)
     std::vector<Vector3> position;
     std::vector<Color> diffuse;
     std::vector<Color> specular;
@@ -584,7 +507,7 @@ void Quantize::update(float dt) {
     GLError();
 
 
-    for(int i = 0, c = Textures::samplers.size(); i < c; ++i) {
+    for(int i = 0; i < Textures::samplers.size(); ++i) {
         // Texture enabling
         glActiveTexture(GL_TEXTURE1 + i);                       // Use texture n
         glBindTexture(GL_TEXTURE_2D, Textures::samplers[i]);    // Bind handle to n

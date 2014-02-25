@@ -59,12 +59,12 @@ private:
     bool _isuploaded;
 
 public:
-
-
     /// Pointer to vertex buffer objects.
     ///  0: the vertex data
     ///  1: the order of drawing indices
     GLuint vbo[2];
+    
+    GLuint vao;
     
     /// The vertexdata (as per vbo[0]
     std::vector<VertexData> vertices;
@@ -87,10 +87,11 @@ public:
  
     /// Construct a
     Model();
+    ~Model();
     
     /// Determine if the vbo's are uplaoded.
     bool isUpoaded();
     virtual void update(Quantize* q, const Matrix44& parent, const float dt) override;
     
-    void upload();
+    void upload(Quantize* quantize);
 };
