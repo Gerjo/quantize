@@ -27,8 +27,8 @@ using std::string;
 using namespace tinyxml2;
 using namespace Furiosity;
 
-//#define COLLADALOG(...) printf(__VA_ARGS__)
-#define COLLADALOG(...) (void) 0
+#define COLLADALOG(...) printf(__VA_ARGS__)
+//#define COLLADALOG(...) (void) 0
 
 struct Collada {
 
@@ -479,7 +479,7 @@ struct Collada {
                                 
                                 // To keep the shader and other logic simple, we
                                 // load a transparent texture if no texture is used.
-                                string textureFile = "models/transparent.png";
+                                string textureFile = "models/tmp/red.png";
                                 
                                 if(imageFiles.find(m.surface) != imageFiles.end()) {
                                     textureFile = imageFiles[m.surface];

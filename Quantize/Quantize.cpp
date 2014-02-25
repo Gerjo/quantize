@@ -429,9 +429,14 @@ void Quantize::render(Model& model, const Matrix44& transform) {
     glBindVertexArray(model.vao);
     GLError();
 
+    GLValidateProgram(_programMesh);
+
+    glDrawArrays(GL_TRIANGLES, 0, (GLsizei) model.vertices.size());
+    
     // Indices are not stored in the VAO.
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model.vbo[1]);
+    /*glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model.vbo[1]);
     GLError();
+    
     
     // Draw call. (similar to glDrawArray, but with indices)
     glDrawElements(
@@ -443,9 +448,7 @@ void Quantize::render(Model& model, const Matrix44& transform) {
     GLError();
 
     // Unbind buffers.
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    glDisableVertexAttribArray(model.vao);
-    GLError();
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);*/
 }
 
 /// Entry point for the update and draw loops.
@@ -453,8 +456,8 @@ void Quantize::render(Model& model, const Matrix44& transform) {
 void Quantize::update(float dt) {
 
     // Enable framebuffer render target
-    //glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
-    //GLFBError();
+    glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
+    GLFBError();
     
     glClearColor(0, 0, 0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -532,8 +535,8 @@ void Quantize::update(float dt) {
     // Stop rendering to buffer.
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     GLFBError();
-    glSwapAPPLE();
-    return;
+    //glSwapAPPLE();
+    //return;
 
 ////////////////////////////////////////////////////////////////////////////////
 //// POST PROCESSING
@@ -549,11 +552,10 @@ void Quantize::update(float dt) {
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, _fboTexture);
     glUniform1i(_uniformFboTexture, 0);
-    glEnableVertexAttribArray(_attrUvFBO);
-    GLError();
-    
     glUniform2f(_uniformWindowSize, width, height);
-    
+    GLError();
+
+
     
     glBindBuffer(GL_ARRAY_BUFFER, _vboFboVertices);
     glVertexAttribPointer(
@@ -564,11 +566,13 @@ void Quantize::update(float dt) {
             0,                           // no extra data between each position
             0                            // offset of first element
     );
+    glEnableVertexAttribArray(_attrUvFBO);
+    GLError();
+    
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     glDisableVertexAttribArray(_attrUvFBO);
    
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     
     glSwapAPPLE();
     return;

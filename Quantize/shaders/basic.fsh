@@ -66,6 +66,6 @@ void main() {
     // todo: use 3 channel colors and neglect alpha?
     blend.a = texturecolor.a;
     
-    //gl_FragColor = texturecolor * blend;
     finalColor = texturecolor * blend;
+    //finalColor = vec4(1.0,1.0,1.0,1.0) * blend;
  }

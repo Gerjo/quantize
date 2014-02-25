@@ -28,18 +28,24 @@
     
     void Model::update(Quantize* q, const Matrix44& parent, const float dt) {
         
-        if(!vertices.empty()) {
+        if( ! vertices.empty()) {
             if( ! isUpoaded()) {
                 upload(q);
             }
         
-            q->render(*this, parent);
+            //if(name == "Track") {
+            if(isUpoaded()){
+                q->render(*this, parent);
+            }
+            //}
         }
         
         Entity::update(q, parent * transform, dt);
     }
     
     void Model::upload(Quantize* quantize) {
+        printf("uploading %s [vertices: %lu, indices: %lu]\n", name.c_str(), vertices.size(), indices.size());
+        
         glGenVertexArrays(1, &vao);
         GLError();
         
@@ -60,8 +66,7 @@
 /////////////////////////////////////////////////////////////////////////////////
 
          
-        glEnableVertexAttribArray(quantize->_attrPosition);
-        GLError();
+        
         glVertexAttribPointer(quantize->_attrPosition,             // The attribute in the shader.
                             3,                                     // Number of "fields", in this case 3 floats X, Y & Z.
                             GL_FLOAT,                              // Data type
@@ -70,9 +75,10 @@
                             (void*) offsetof(VertexData, position) // Offset
         );
         GLError();
-
-        glEnableVertexAttribArray(quantize->_attrNormal);
+        glEnableVertexAttribArray(quantize->_attrPosition);
         GLError();
+        
+        
         glVertexAttribPointer(quantize->_attrNormal,             // The attribute in the shader.
                             3,                                   // Number of "fields", in this case 3 floats X, Y & Z.
                             GL_FLOAT,                            // Data type
@@ -81,10 +87,10 @@
                             (void*) offsetof(VertexData, normal) // Offset
         );
         GLError();
-        
-         
-        glEnableVertexAttribArray(quantize->_attrSamplerIndex);
+        glEnableVertexAttribArray(quantize->_attrNormal);
         GLError();
+         
+        
         glVertexAttribPointer(quantize->_attrSamplerIndex,        // The attribute in the shader.
                             1,                                    // Number of "fields", in this case 1: the index.
                             GL_UNSIGNED_INT,                      // Data type
@@ -93,11 +99,11 @@
                             (void*) offsetof(VertexData, sampler) // Offset
         );
         GLError();
-       
+        glEnableVertexAttribArray(quantize->_attrSamplerIndex);
+        GLError();
         
          
-        glEnableVertexAttribArray(quantize->_attrColor);
-        GLError();
+        
         glVertexAttribPointer(quantize->_attrColor,             // The attribute in the shader.
                             4,                                  // Number of "fields", in this case 4: RGBA
                             GL_UNSIGNED_BYTE,                   // Data type
@@ -106,10 +112,10 @@
                             (void*) offsetof(VertexData, color) // Offset
         );
         GLError();
-       
-        
-        glEnableVertexAttribArray(quantize->_attrUV);
+        glEnableVertexAttribArray(quantize->_attrColor);
         GLError();
+        
+        
         glVertexAttribPointer(quantize->_attrUV,                // The attribute in the shader.
                             2,                                  // Number of "fields", in this case 2: U & V
                             GL_FLOAT,                           // Data type
@@ -118,7 +124,8 @@
                             (void*) offsetof(VertexData, uv)    // Offset
         );
         GLError();
-    
+        glEnableVertexAttribArray(quantize->_attrUV);
+        GLError();
     
 /////////////////////////////////////////////////////////////////////////////////
         
@@ -136,6 +143,4 @@
         GLError();
         
         _isuploaded = true;
-        
-        glDisableVertexAttribArray(vao);
     }
