@@ -204,8 +204,8 @@ void main() {
             //color += colors[mod(i, 6)] / 3.0;
             
             zBufferDepth[j] = depth;
-            zBufferColor[j++] = colors[mod(i, 6)] / 3.0;
-            //zBufferColor[j++] = texture(textures[1], uv);
+            //zBufferColor[j++] = colors[mod(i, 6)] / 3.0;
+            zBufferColor[j++] = texture(textures[1], uv);
         }
     }
     
