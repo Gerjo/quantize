@@ -16,9 +16,20 @@ static bool isInitialized = false;
 - (void) awakeFromNib {
     //printf("awakeFromNib- nibnibnibnibnooob\n");
     
-     NSOpenGLPixelFormatAttribute attr[] = {
+    NSOpenGLPixelFormatAttribute attr[] = {
         NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
-        0
+        
+        NSOpenGLPFAAccelerated,
+        //NSOpenGLPFANoRecovery,
+        NSOpenGLPFABackingStore,
+        NSOpenGLPFADoubleBuffer,
+        
+        NSOpenGLPFAColorSize, 32, // color buffer
+        NSOpenGLPFADepthSize, 24, // depth buffer
+        NSOpenGLPFAAlphaSize, 8,
+
+        
+        0 // Null byte, indicates end of structure.
     };
     
     NSOpenGLPixelFormat *glPixForm = [[NSOpenGLPixelFormat alloc] initWithAttributes:attr];

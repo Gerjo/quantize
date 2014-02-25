@@ -119,7 +119,7 @@ void Quantize::loadDemoScene() {
         entities.push_back(std::shared_ptr<Entity>(e));
     }
     */
-    for(int i = 0, s = 6, n = 20; i < n; ++i) {
+    for(int i = 0, s = 9, n = 20; i < n; ++i) {
         for(int j = 0; j < n; ++j) {
 
             Entity* e = new Entity();
@@ -207,7 +207,7 @@ void Quantize::initialize(float width, float height) {
     initializeMeshProgram();
     
     // Setup the FBO, RBO and related shaders.
-    initializePostProgram();
+    //initializePostProgram();
     
     // Experimental raytacer
     initializeRaytraceProgram();
@@ -453,10 +453,10 @@ void Quantize::render(Model& model, const Matrix44& transform) {
 void Quantize::update(float dt) {
 
     // Enable framebuffer render target
-    glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
-    GLFBError();
+    //glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
+    //GLFBError();
     
-    glClearColor(0, 0, 0, 0);
+    glClearColor(0, 0, 0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     // Camera position
@@ -509,9 +509,9 @@ void Quantize::update(float dt) {
 
     for(int i = 0; i < Textures::samplers.size(); ++i) {
         // Texture enabling
-        glActiveTexture(GL_TEXTURE1 + i);                       // Use texture n
+        glActiveTexture(GL_TEXTURE0 + i);                       // Use texture n
         glBindTexture(GL_TEXTURE_2D, Textures::samplers[i]);    // Bind handle to n
-        glUniform1i(_uniformSamplers[i], i + 1);                // Set the sampler to tex n
+        glUniform1i(_uniformSamplers[i], i);                    // Set the sampler to tex n
         GLError();
     }
 
@@ -532,6 +532,8 @@ void Quantize::update(float dt) {
     // Stop rendering to buffer.
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     GLFBError();
+    glSwapAPPLE();
+    return;
 
 ////////////////////////////////////////////////////////////////////////////////
 //// POST PROCESSING
@@ -567,6 +569,9 @@ void Quantize::update(float dt) {
    
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    
+    glSwapAPPLE();
+    return;
  
 ////////////////////////////////////////////////////////////////////////////////
 //// RAYTRACER
@@ -578,7 +583,7 @@ void Quantize::update(float dt) {
     GLError();
     
     
-    auto subject = cube;
+    auto subject = rectangle;
     
     // Some group of faces
     std::vector<VertexData>& vertices = ((Model*)subject->sub[0].get())->vertices;

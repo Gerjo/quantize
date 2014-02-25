@@ -25,8 +25,6 @@ out vec4 finalColor;
 
 void main() {
 
-    //uniform sampler2D sampler_1 = samplers[0];
-
     int index = int(fragmentSamplerIndex);
 
 

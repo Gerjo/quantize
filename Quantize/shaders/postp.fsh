@@ -100,5 +100,6 @@ void main() {
     color.a = texture(uniformTexture, uvmapping).a;
  
     //
-    finalColor = mix(color, texture(uniformTexture, uvmapping), kernelLerp);
+    //finalColor = mix(color, texture(uniformTexture, uvmapping), kernelLerp);
+    finalColor = texture(uniformTexture, uvmapping);
 }
