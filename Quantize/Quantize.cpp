@@ -80,7 +80,7 @@ void Quantize::loadDemoScene() {
     //Textures::LoadPNG("models/tmp/red.png");
     
     cube      = Collada::FromFile("models/Magey/Magey.dae");
-    rectangle = Collada::FromFile("models/Plane/plane.dae");
+    rectangle = Collada::FromFile("models/Plane/checkerboard.dae");
     triangle  = Collada::FromFile("models/Plane/triangle.dae");
     
     entities.push_back(Collada::FromFile("models/cube.dae"));
@@ -589,7 +589,7 @@ void Quantize::update(float dt) {
     GLError();
     
     
-    auto subject = cube;
+    auto subject = rectangle;
     
     // Some group of faces
     std::vector<VertexData>& vertices = ((Model*)subject->sub[0].get())->vertices;

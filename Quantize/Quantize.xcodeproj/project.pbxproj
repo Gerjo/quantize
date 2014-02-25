@@ -155,6 +155,8 @@
 		A69FD3E018B4BD96002FB76E /* Textures.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A69FD3DF18B4BD96002FB76E /* Textures.cpp */; };
 		A69FD3E318B54FFE002FB76E /* raytracer.vsh in Sources */ = {isa = PBXBuildFile; fileRef = A69FD3E118B54FFE002FB76E /* raytracer.vsh */; };
 		A69FD3E418B54FFE002FB76E /* raytracer.fsh in Sources */ = {isa = PBXBuildFile; fileRef = A69FD3E218B54FFE002FB76E /* raytracer.fsh */; };
+		A6A92D0A18BD2C4B00B77E60 /* checkerboard.png in Resources */ = {isa = PBXBuildFile; fileRef = A6A92D0918BD2C4B00B77E60 /* checkerboard.png */; };
+		A6A92D0C18BD2CD600B77E60 /* checkerboard.dae in Resources */ = {isa = PBXBuildFile; fileRef = A6A92D0B18BD2CD600B77E60 /* checkerboard.dae */; };
 		A6C56A15189FC8DF00DFAA00 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C56A14189FC8DF00DFAA00 /* Cocoa.framework */; };
 		A6C56A1F189FC8DF00DFAA00 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A6C56A1D189FC8DF00DFAA00 /* InfoPlist.strings */; };
 		A6C56A21189FC8DF00DFAA00 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C56A20189FC8DF00DFAA00 /* main.m */; };
@@ -362,6 +364,8 @@
 		A69FD3DF18B4BD96002FB76E /* Textures.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Textures.cpp; sourceTree = "<group>"; };
 		A69FD3E118B54FFE002FB76E /* raytracer.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = raytracer.vsh; sourceTree = "<group>"; };
 		A69FD3E218B54FFE002FB76E /* raytracer.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = raytracer.fsh; sourceTree = "<group>"; };
+		A6A92D0918BD2C4B00B77E60 /* checkerboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkerboard.png; sourceTree = "<group>"; };
+		A6A92D0B18BD2CD600B77E60 /* checkerboard.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = checkerboard.dae; sourceTree = "<group>"; };
 		A6C56A11189FC8DF00DFAA00 /* Quantize.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Quantize.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6C56A14189FC8DF00DFAA00 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		A6C56A17189FC8DF00DFAA00 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -466,6 +470,7 @@
 		A66A071F18B66DC100F2CD15 /* models */ = {
 			isa = PBXGroup;
 			children = (
+				A6A92D0918BD2C4B00B77E60 /* checkerboard.png */,
 				CC71FFA218BCEC0B003AF106 /* Magey */,
 				A66A072018B66DC100F2CD15 /* A10 */,
 				A66A073318B66DC100F2CD15 /* AUSFB */,
@@ -633,6 +638,7 @@
 		A66A078118B66DC200F2CD15 /* Plane */ = {
 			isa = PBXGroup;
 			children = (
+				A6A92D0B18BD2CD600B77E60 /* checkerboard.dae */,
 				A66A084A18B6701600F2CD15 /* triangle.dae */,
 				A66A078218B66DC200F2CD15 /* plane.dae */,
 				A66A078318B66DC200F2CD15 /* Soil.png */,
@@ -979,6 +985,7 @@
 				A66A07E718B66DC200F2CD15 /* FW 190.png in Resources */,
 				A66A080D18B66DC200F2CD15 /* Wing Right.png in Resources */,
 				A66A082A18B66DC200F2CD15 /* Gun_Object_1.003.png in Resources */,
+				A6A92D0C18BD2CD600B77E60 /* checkerboard.dae in Resources */,
 				A66A080318B66DC200F2CD15 /* HEINKEL.dae in Resources */,
 				A66A083B18B66DC200F2CD15 /* palm.obj in Resources */,
 				A66A07DE18B66DC200F2CD15 /* Earth_S.png in Resources */,
@@ -1066,6 +1073,7 @@
 				A66A07E318B66DC200F2CD15 /* Track.png in Resources */,
 				A66A080118B66DC200F2CD15 /* Dials.png in Resources */,
 				A66A080518B66DC200F2CD15 /* Parts 1.png in Resources */,
+				A6A92D0A18BD2C4B00B77E60 /* checkerboard.png in Resources */,
 				A66A080618B66DC200F2CD15 /* parts 2.png in Resources */,
 				A66A084018B66DC200F2CD15 /* Track.png in Resources */,
 				A66A080F18B66DC200F2CD15 /* Glass.png in Resources */,
