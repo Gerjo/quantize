@@ -196,6 +196,8 @@
 		A6C56C6918A58C4D00DFAA00 /* tinyxml2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C6218A58C4D00DFAA00 /* tinyxml2.cpp */; };
 		A6C56C6F18A5924E00DFAA00 /* postp.vsh in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C6D18A5924E00DFAA00 /* postp.vsh */; };
 		A6C56C7018A5924E00DFAA00 /* postp.fsh in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C6E18A5924E00DFAA00 /* postp.fsh */; };
+		CC71FFA518BCEC0B003AF106 /* Mage.png in Resources */ = {isa = PBXBuildFile; fileRef = CC71FFA318BCEC0B003AF106 /* Mage.png */; };
+		CC71FFA618BCEC0B003AF106 /* Magey.dae in Resources */ = {isa = PBXBuildFile; fileRef = CC71FFA418BCEC0B003AF106 /* Magey.dae */; };
 		CCD8E8DB18B212BB0097323A /* Camera Controls.rtf in Resources */ = {isa = PBXBuildFile; fileRef = CCD8E8DA18B212BB0097323A /* Camera Controls.rtf */; };
 /* End PBXBuildFile section */
 
@@ -432,6 +434,8 @@
 		A6C56C6E18A5924E00DFAA00 /* postp.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = postp.fsh; sourceTree = "<group>"; };
 		A6C56CA718A8E9FC00DFAA00 /* Collada.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Collada.h; sourceTree = "<group>"; };
 		CC65799418A6456E0035EB43 /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
+		CC71FFA318BCEC0B003AF106 /* Mage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Mage.png; sourceTree = "<group>"; };
+		CC71FFA418BCEC0B003AF106 /* Magey.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = Magey.dae; sourceTree = "<group>"; };
 		CCD8E8DA18B212BB0097323A /* Camera Controls.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "Camera Controls.rtf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -462,6 +466,7 @@
 		A66A071F18B66DC100F2CD15 /* models */ = {
 			isa = PBXGroup;
 			children = (
+				CC71FFA218BCEC0B003AF106 /* Magey */,
 				A66A072018B66DC100F2CD15 /* A10 */,
 				A66A073318B66DC100F2CD15 /* AUSFB */,
 				A66A073B18B66DC100F2CD15 /* cube.dae */,
@@ -880,6 +885,15 @@
 			path = tinyXML;
 			sourceTree = "<group>";
 		};
+		CC71FFA218BCEC0B003AF106 /* Magey */ = {
+			isa = PBXGroup;
+			children = (
+				CC71FFA318BCEC0B003AF106 /* Mage.png */,
+				CC71FFA418BCEC0B003AF106 /* Magey.dae */,
+			);
+			path = Magey;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -974,6 +988,7 @@
 				A66A081318B66DC200F2CD15 /* P39.png in Resources */,
 				A66A07BF18B66DC200F2CD15 /* cockpit 2.png in Resources */,
 				A66A07D218B66DC200F2CD15 /* Turret 2.png in Resources */,
+				CC71FFA618BCEC0B003AF106 /* Magey.dae in Resources */,
 				A66A081C18B66DC200F2CD15 /* Turret.png in Resources */,
 				A66A07C218B66DC200F2CD15 /* cockpit.png in Resources */,
 				A66A083218B66DC200F2CD15 /* IS_NM.dds in Resources */,
@@ -1073,6 +1088,7 @@
 				A66A07C418B66DC200F2CD15 /* engines.png in Resources */,
 				A66A07CE18B66DC200F2CD15 /* AUSFB.png in Resources */,
 				A66A07FD18B66DC200F2CD15 /* wing right top.png in Resources */,
+				CC71FFA518BCEC0B003AF106 /* Mage.png in Resources */,
 				A66A07ED18B66DC200F2CD15 /* body top profile.png in Resources */,
 				A66A080918B66DC200F2CD15 /* pilot 2.png in Resources */,
 				A66A081D18B66DC200F2CD15 /* Abrams_BF3.obj in Resources */,
