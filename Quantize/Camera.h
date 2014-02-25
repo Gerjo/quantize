@@ -166,7 +166,7 @@ private:
     }
     
     Vector3 orientedTranslation(const Vector3& translation) {
-        Matrix44 _rotation = computeInverseRotation();
+        Matrix44 _rotation;// = computeInverseRotation();
         return _rotation * translation;
     }
     

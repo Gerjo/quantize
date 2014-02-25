@@ -104,7 +104,7 @@
   </library_lights>
   <library_images>
     <image id="Mage_png" name="Mage_png">
-      <init_from>Mage.png</init_from>
+      <init_from>models/Magey/Mage.png</init_from>
     </image>
   </library_images>
   <library_effects>
