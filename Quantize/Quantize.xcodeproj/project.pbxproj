@@ -806,8 +806,8 @@
 				A69FD3E218B54FFE002FB76E /* raytracer.fsh */,
 				A6C56C6D18A5924E00DFAA00 /* postp.vsh */,
 				A6C56C6E18A5924E00DFAA00 /* postp.fsh */,
-				A6C56AA018A106F000DFAA00 /* basic.fsh */,
 				A6C56AA118A106F000DFAA00 /* basic.vsh */,
+				A6C56AA018A106F000DFAA00 /* basic.fsh */,
 			);
 			path = shaders;
 			sourceTree = "<group>";

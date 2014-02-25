@@ -6,10 +6,10 @@
 //
 
 
-varying vec3 fragmentNormal;
-varying vec3 vertexPosition;
-varying vec2 fragmentUV;
-varying float fragmentSamplerIndex;
+in vec3 fragmentNormal;
+in vec3 vertexPosition;
+in vec2 fragmentUV;
+in float fragmentSamplerIndex;
 
 
 uniform sampler2D samplers[15];
@@ -20,6 +20,9 @@ uniform vec4 lightsDiffuse[10];
 uniform vec4 lightsSpecular[10];
 uniform vec4 lightsAmbiant[10];
 
+out vec4 finalColor;
+
+
 void main() {
 
     //uniform sampler2D sampler_1 = samplers[0];
@@ -28,7 +31,7 @@ void main() {
 
 
     // Query the texture.
-    vec4 texturecolor = texture2D(samplers[index], fragmentUV);
+    vec4 texturecolor = texture(samplers[index], fragmentUV);
     
     
     vec3 normal = normalize(fragmentNormal);
@@ -65,5 +68,6 @@ void main() {
     // todo: use 3 channel colors and neglect alpha?
     blend.a = texturecolor.a;
     
-    gl_FragColor = texturecolor * blend;
+    //gl_FragColor = texturecolor * blend;
+    finalColor = texturecolor * blend;
  }

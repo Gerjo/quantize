@@ -7,14 +7,14 @@
 
 
 
-attribute vec2 vertexPosition;
+in vec2 vertexPosition;
 uniform vec2 windowSize;
 
 uniform mat4 translation;
 uniform mat4 rotation;
 
 
-varying vec2 position;
+out vec2 position;
 
 
 void main() {

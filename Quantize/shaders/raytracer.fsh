@@ -10,7 +10,7 @@
 // #pragma nounroll
 
 uniform vec2 windowSize;        // Size of the viewport
-varying vec2 position;          // Normalize position on screen
+in vec2 position;              // Normalize position on screen
 
 
 const int MAX_TRIANGLES = 50;
@@ -35,6 +35,8 @@ uniform mat4 rotation;
 // My Intel onboard chip only supports 16 textures. If this becomes a limit,
 // we can make an atlas - textures up to 16k resolution are supported.
 uniform sampler2D textures[15];
+
+out vec4 finalColor;
 
 struct Ray {
     vec3 place;
@@ -203,6 +205,7 @@ void main() {
             
             zBufferDepth[j] = depth;
             zBufferColor[j++] = colors[mod(i, 6)] / 3.0;
+            //zBufferColor[j++] = texture(textures[1], uv);
         }
     }
     
@@ -229,5 +232,5 @@ void main() {
     else
         color = vec4(0.0, 0.0, 0.0, 0.0);
     
-    gl_FragColor = color;
+    finalColor = color;//gl_FragColor = color;
 }

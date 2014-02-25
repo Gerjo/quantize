@@ -232,7 +232,7 @@ void Quantize::initializeMeshProgram() {
     GLError();
 
     glLinkProgram(_programMesh);
-    GLValidateProgram(_programMesh);
+    //GLValidateProgram(_programMesh);
     
     // Get a handle to shader attributes
     _attrPosition     = glGetAttribLocation(_programMesh, "position");
@@ -302,18 +302,18 @@ void Quantize::initializePostProgram() {
     // Prepare all shaders. These will exit on failure.
     GLuint postvsh = CompileShader("shaders/postp.vsh");
     GLuint postfsh = CompileShader("shaders/postp.fsh");
-    
-    GLint link_ok = 0;
-    
+        
     _programPost = glCreateProgram();
     glAttachShader(_programPost, postvsh);
+    GLError();
     glAttachShader(_programPost, postfsh);
+    GLError();
     glLinkProgram(_programPost);
-    GLValidateProgram(_programPost);
+    //GLValidateProgram(_programPost);
 
     // Get a handle to the variables in the shader programs
     _attrUvFBO         = glGetAttribLocation(_programPost, "position");
-    _uniformFboTexture = glGetUniformLocation(_programPost, "texture");
+    _uniformFboTexture = glGetUniformLocation(_programPost, "uniformTexture");
     _uniformWindowSize = glGetUniformLocation(_programPost, "windowSize");
     
     _uniformKernelType =  glGetUniformLocation(_programPost, "kernelType");
@@ -356,7 +356,7 @@ void Quantize::initializeRaytraceProgram() {
     printf("Raytrace fragment - compiled.\n");
     
     glLinkProgram(_programRaytracer);
-    GLValidateProgram(_programRaytracer);
+    //GLValidateProgram(_programRaytracer);
     GLError();
 
     _uniformRtWindowSize = glGetUniformLocation(_programRaytracer, "windowSize");
@@ -434,8 +434,9 @@ void Quantize::render(Model& model, const Matrix44& transform) {
     
     // Load the vbo in global array buffer state
     glBindBuffer(GL_ARRAY_BUFFER, model.vbo[0]);
-
+    GLError();
     
+
     glVertexAttribPointer(_attrPosition,                       // The attribute in the shader.
                         3,                                     // Number of "fields", in this case 3 floats X, Y & Z.
                         GL_FLOAT,                              // Data type
@@ -446,7 +447,7 @@ void Quantize::render(Model& model, const Matrix44& transform) {
     GLError();
      
     glEnableVertexAttribArray(_attrPosition);
-    GLError();
+    GLError();   
     
     glVertexAttribPointer(_attrNormal,                       // The attribute in the shader.
                         3,                                   // Number of "fields", in this case 3 floats X, Y & Z.
@@ -587,7 +588,7 @@ void Quantize::update(float dt) {
         // Texture enabling
         glActiveTexture(GL_TEXTURE1 + i);                       // Use texture n
         glBindTexture(GL_TEXTURE_2D, Textures::samplers[i]);    // Bind handle to n
-        glUniform1i(_uniformSamplers[i], i + 1);                    // Set the sampler to tex n
+        glUniform1i(_uniformSamplers[i], i + 1);                // Set the sampler to tex n
         GLError();
     }
 

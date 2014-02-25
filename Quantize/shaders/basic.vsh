@@ -5,24 +5,24 @@
 //  Copyright (c) 2014 Quantize. All rights reserved.
 //
 
-attribute vec3 position;
-attribute vec3 normal;
-attribute vec4 color;
-attribute vec2 uv;
-attribute float samplerIndex;
+in vec3 position;
+in vec3 normal;
+in vec4 color;
+in vec2 uv;
+in float samplerIndex;
 
 uniform mat4 camera;
 uniform mat4 modelTransform;
 uniform mat3 normalTransform;
 
 
-varying vec4 fragmentColor;
-varying vec2 fragmentUV;
-varying vec3 fragmentNormal;
-varying vec3 vertexPosition;
-varying float fragmentSamplerIndex;
+out vec4 fragmentColor;
+out vec2 fragmentUV;
+out vec3 fragmentNormal;
+out vec3 vertexPosition;
+out float fragmentSamplerIndex;
 
-varying vec4 tmp;
+out vec4 tmp;
 
 
 

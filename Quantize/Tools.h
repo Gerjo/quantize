@@ -191,12 +191,17 @@ static void GLFBError() {
 }
 
 static GLuint CompileShader(const std::string& filename) {
+
+    const std::string version("#version 410\n");
+
     if(FileExists(filename)) {
         std::string source = ReadFile(filename);
     
         if(source.empty()) {
             Exit("File %f is empty.", filename.c_str());
         }
+        
+        source = version + source;
         
         GLenum type = 0;
         
@@ -211,6 +216,8 @@ static GLuint CompileShader(const std::string& filename) {
         
         GLuint shader = glCreateShader(type);
         GLError();
+        
+        //printf("%s", source.c_str());
 
         const char* csmells[] = {source.c_str()};
         
@@ -224,7 +231,7 @@ static GLuint CompileShader(const std::string& filename) {
         glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logLength);
         
         if (logLength > 0) {
-            printf("There were shader compile errors in %s.", source.c_str());
+            printf("There were shader compile errors in:\n%s\n", (version + source).c_str());
 
             GLchar* log = new GLchar[logLength];
             glGetShaderInfoLog(shader, logLength, &logLength, log);

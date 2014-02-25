@@ -5,12 +5,32 @@
 //  Copyright (c) 2014 Quantize. All rights reserved.
 //
 
-uniform sampler2D texture;
+//------------------------------------------------------------------------------------------
+
+/*
+out vec4 finalColor;
+
+
+void main() {
+    finalColor = vec4(0.0, 0.0, 0.0, 0.0);
+ }
+*/
+
+
+//------------------------------------------------------------------------------------------
+
+
+
+in vec2 uvmapping;
+in vec2 uvunit;
+
+uniform sampler2D uniformTexture;
 uniform int kernelType;
 uniform float kernelLerp;
 
-varying vec2 uvmapping;
-varying vec2 uvunit;
+
+out vec4 finalColor;
+
 
 // 0
 const mat3 identity = mat3( 0.0,  0.0,  0.0,
@@ -59,12 +79,12 @@ void main() {
         kernel = edge3;
     if(kernelType == 6)
         kernel = sharpen;
-    
+ 
     vec4 color = vec4(0.0, 0.0, 0.0, 0.0);
     for(int x = 0; x < 3; ++x) {
         for(int y = 0; y < 3; ++y) {
             
-            vec4 sam = texture2D(texture, uvmapping + vec2(x-1, y-1) * uvunit);
+            vec4 sam = texture(uniformTexture, uvmapping + vec2(x-1, y-1) * uvunit);
             
             color += sam * kernel[x][y];
         }
@@ -77,8 +97,8 @@ void main() {
     }
     
     // Restore the alpha channel.
-    color.a = texture2D(texture, uvmapping).a;
-    
+    color.a = texture(uniformTexture, uvmapping).a;
+ 
     //
-    gl_FragColor = mix(color, texture2D(texture, uvmapping), kernelLerp);
+    finalColor = mix(color, texture(uniformTexture, uvmapping), kernelLerp);
 }

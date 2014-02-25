@@ -17,7 +17,7 @@ static bool isInitialized = false;
     //printf("awakeFromNib- nibnibnibnibnooob\n");
     
      NSOpenGLPixelFormatAttribute attr[] = {
-        NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersionLegacy,
+        NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
         0
     };
     
