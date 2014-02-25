@@ -479,7 +479,7 @@ struct Collada {
                                 
                                 // To keep the shader and other logic simple, we
                                 // load a transparent texture if no texture is used.
-                                string textureFile = "models/tmp/red.png";
+                                string textureFile = "models/transparent.png";
                                 
                                 if(imageFiles.find(m.surface) != imageFiles.end()) {
                                     textureFile = imageFiles[m.surface];

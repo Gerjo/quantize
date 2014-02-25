@@ -576,8 +576,8 @@ void Quantize::update(float dt) {
    
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     
-    glSwapAPPLE();
-    return;
+    //glSwapAPPLE();
+    //return;
  
 ////////////////////////////////////////////////////////////////////////////////
 //// RAYTRACER
@@ -672,12 +672,15 @@ void Quantize::update(float dt) {
     glUniform1i(_uniformNumTriangles, (int) a.size());
     GLError();
     
-    std::vector<int> textureSamplers; textureSamplers.reserve(Textures::samplers.size());
+    std::vector<int> textureSamplers;
+    textureSamplers.reserve(Textures::samplers.size());
     for(int i = 0; i < Textures::samplers.size(); ++i) {
         // Texture enabling
         glActiveTexture(GL_TEXTURE1 + i);                       // Use texture n
         glBindTexture(GL_TEXTURE_2D, Textures::samplers[i]);    // Bind handle to n
         GLError();
+        
+        textureSamplers.push_back(i + 1);
     }
     
     // Inform the shader which sampler indices to use
