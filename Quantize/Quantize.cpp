@@ -207,7 +207,7 @@ void Quantize::initialize(float width, float height) {
     initializeMeshProgram();
     
     // Setup the FBO, RBO and related shaders.
-    //initializePostProgram();
+    initializePostProgram();
     
     // Experimental raytacer
     initializeRaytraceProgram();
@@ -429,9 +429,16 @@ void Quantize::render(Model& model, const Matrix44& transform) {
     glBindVertexArray(model.vao);
     GLError();
 
+    GLValidateProgram(_programMesh);
+
+    // We use glDrawElements.
+    //glDrawArrays(GL_TRIANGLES, 0, (GLsizei) model.vertices.size());
+    //GLError();
+
     // Indices are not stored in the VAO.
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model.vbo[1]);
     GLError();
+    
     
     // Draw call. (similar to glDrawArray, but with indices)
     glDrawElements(
@@ -444,19 +451,17 @@ void Quantize::render(Model& model, const Matrix44& transform) {
 
     // Unbind buffers.
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    glDisableVertexAttribArray(model.vao);
-    GLError();
 }
 
 /// Entry point for the update and draw loops.
 /// @param Time elapsed since previous call to update.
 void Quantize::update(float dt) {
-
+   
     // Enable framebuffer render target
-    //glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
-    //GLFBError();
+    glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
+    GLFBError();
     
-    glClearColor(0, 0, 0, 1.0);
+    glClearColor(0, 0, 0, 0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     // Camera position
@@ -532,8 +537,8 @@ void Quantize::update(float dt) {
     // Stop rendering to buffer.
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     GLFBError();
-    glSwapAPPLE();
-    return;
+    //glSwapAPPLE();
+    //return;
 
 ////////////////////////////////////////////////////////////////////////////////
 //// POST PROCESSING
@@ -549,11 +554,10 @@ void Quantize::update(float dt) {
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, _fboTexture);
     glUniform1i(_uniformFboTexture, 0);
-    glEnableVertexAttribArray(_attrUvFBO);
-    GLError();
-    
     glUniform2f(_uniformWindowSize, width, height);
-    
+    GLError();
+
+
     
     glBindBuffer(GL_ARRAY_BUFFER, _vboFboVertices);
     glVertexAttribPointer(
@@ -564,14 +568,16 @@ void Quantize::update(float dt) {
             0,                           // no extra data between each position
             0                            // offset of first element
     );
+    glEnableVertexAttribArray(_attrUvFBO);
+    GLError();
+    
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     glDisableVertexAttribArray(_attrUvFBO);
    
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     
-    glSwapAPPLE();
-    return;
+    //glSwapAPPLE();
+    //return;
  
 ////////////////////////////////////////////////////////////////////////////////
 //// RAYTRACER
@@ -666,12 +672,15 @@ void Quantize::update(float dt) {
     glUniform1i(_uniformNumTriangles, (int) a.size());
     GLError();
     
-    std::vector<int> textureSamplers; textureSamplers.reserve(Textures::samplers.size());
+    std::vector<int> textureSamplers;
+    textureSamplers.reserve(Textures::samplers.size());
     for(int i = 0; i < Textures::samplers.size(); ++i) {
         // Texture enabling
         glActiveTexture(GL_TEXTURE1 + i);                       // Use texture n
         glBindTexture(GL_TEXTURE_2D, Textures::samplers[i]);    // Bind handle to n
         GLError();
+        
+        textureSamplers.push_back(i + 1);
     }
     
     // Inform the shader which sampler indices to use

@@ -205,18 +205,11 @@ void main() {
             
             zBufferDepth[j] = depth;
             //zBufferColor[j++] = colors[mod(i, 6)] / 3.0;
-<<<<<<< HEAD
-            zBufferColor[j++] = texture(textures[0], uv);
-            
-            color  = texture(textures[0], uv);
-=======
-            zBufferColor[j++] = texture(textures[1], uv);
->>>>>>> c881fb530aeec2dec9f4c4ca0765a6f5c0ef6b39
+            zBufferColor[j++] = texture(textures[samplers[i]], uv);
         }
     }
     
-    //color = vec4(0.0, 0.0, 0.0, 0.0);
-    /*vec4 swapV;
+    vec4 swapV;
     float swapF;
     if (j > 0) {
         while (j > 1) {
@@ -237,6 +230,6 @@ void main() {
     }
     else
         color = vec4(0.0, 0.0, 0.0, 0.0);
-    */
+    
     finalColor = color;//gl_FragColor = color;
 }

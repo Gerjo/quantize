@@ -27,8 +27,8 @@ using std::string;
 using namespace tinyxml2;
 using namespace Furiosity;
 
-//#define COLLADALOG(...) printf(__VA_ARGS__)
-#define COLLADALOG(...) (void) 0
+#define COLLADALOG(...) printf(__VA_ARGS__)
+//#define COLLADALOG(...) (void) 0
 
 struct Collada {
 
