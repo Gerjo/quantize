@@ -207,7 +207,7 @@ void Quantize::initialize(float width, float height) {
     initializeMeshProgram();
     
     // Setup the FBO, RBO and related shaders.
-    //initializePostProgram();
+    initializePostProgram();
     
     // Experimental raytacer
     initializeRaytraceProgram();
@@ -431,10 +431,12 @@ void Quantize::render(Model& model, const Matrix44& transform) {
 
     GLValidateProgram(_programMesh);
 
-    glDrawArrays(GL_TRIANGLES, 0, (GLsizei) model.vertices.size());
-    
+    // We use glDrawElements.
+    //glDrawArrays(GL_TRIANGLES, 0, (GLsizei) model.vertices.size());
+    //GLError();
+
     // Indices are not stored in the VAO.
-    /*glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model.vbo[1]);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model.vbo[1]);
     GLError();
     
     
@@ -448,18 +450,18 @@ void Quantize::render(Model& model, const Matrix44& transform) {
     GLError();
 
     // Unbind buffers.
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);*/
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 /// Entry point for the update and draw loops.
 /// @param Time elapsed since previous call to update.
 void Quantize::update(float dt) {
-
+   
     // Enable framebuffer render target
     glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
     GLFBError();
     
-    glClearColor(0, 0, 0, 1.0);
+    glClearColor(0, 0, 0, 0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     // Camera position
