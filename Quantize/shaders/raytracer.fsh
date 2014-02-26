@@ -12,8 +12,7 @@
 uniform vec2 windowSize;        // Size of the viewport
 in vec2 position;              // Normalize position on screen
 
-
-const int MAX_TRIANGLES = 50;
+const int MAX_TRIANGLES = 40;
 
 uniform int numTriangles;       // Number of triangles
 
@@ -32,9 +31,22 @@ uniform int samplers[MAX_TRIANGLES];
 uniform mat4 translation;
 uniform mat4 rotation;
 
+
+
 // My Intel onboard chip only supports 16 textures. If this becomes a limit,
-// we can make an atlas - textures up to 16k resolution are supported.
+// we can make an atlas - textures up to 16k resolution are supported. Reading
+// the spect further, we can use a sampler2DArray!
 uniform sampler2D textures[15];
+
+
+/// Format (non optimized structure, directly compied from c++)
+/// Vector3 position;
+/// Vector3 normal;
+/// Vector2 uv;
+/// unsigned char color[4];
+/// GLuint sampler;
+///
+uniform sampler2D zdata;
 
 out vec4 finalColor;
 
@@ -43,6 +55,13 @@ struct Ray {
     vec3 direction;
 };
 
+vec3 getVertex(int i) {
+    const int lod = 1;
+    int offset    = 0; // i * 13;
+    
+    
+    return vec3(0.0,0.0,0.0);
+}
 
 int rayIntersetsTriangle(Ray ray, vec3 v0, vec3 v1, vec3 v2, inout vec3 where, inout float depth) {
 
@@ -120,6 +139,8 @@ int mod(int i, int n) {
 vec3 transformTriangle(vec3 v) {
     //return v + vec3(0, 0, 0);
     return vec3(v.x, translation[3][2], v.z);
+    return vec3(v.x, 0, v.z);
+    return v + vec3(0, 0, 0);
     //return (rotation * vec4(v, 1.0)).xyz;
 }
 

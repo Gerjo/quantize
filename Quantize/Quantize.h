@@ -91,8 +91,8 @@ public:
     GLint  _uniformUvB;
     GLint  _uniformUvC;
     GLint  _uniformSampler;
-    
-
+    GLint  _uniformDataTexture;
+    GLuint _dataTexture;
     
     /// Collection of models to render.
     std::vector<std::shared_ptr<Entity>> entities;

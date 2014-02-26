@@ -375,7 +375,7 @@ void Quantize::initializeRaytraceProgram() {
     _uniformSampler = glGetUniformLocation(_programRaytracer, "samplers");
     
     _uniformTextures = glGetUniformLocation(_programRaytracer, "textures");
-    
+    _uniformDataTexture = glGetUniformLocation(_programRaytracer, "zdata");
     GLError();
     
     // The rectangle used as canvas where ray are shot from.
@@ -399,6 +399,36 @@ void Quantize::initializeRaytraceProgram() {
     glDetachShader(_programRaytracer, fsh);     GLError();
     glDeleteShader(fsh);                        GLError();
 
+    // Data texture to hold vertices gerjo
+    glActiveTexture(GL_TEXTURE0);
+    glGenTextures(1, &_dataTexture);
+    glBindTexture(GL_TEXTURE_2D, _dataTexture);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    GLError();
+  
+    const int channels = 4;
+    const GLint width  = 20;
+    const GLint height = 1;
+    GLfloat data[height * width * channels];
+
+
+    glBindTexture(GL_TEXTURE_2D, _dataTexture);
+    GLError();
+    
+    glTexImage2D(GL_TEXTURE_2D,                     // What (target)
+             0,                                     // Mip-map level
+             GL_RGBA,                               // Internal format
+             width,                                 // Width
+             height,                                // Height
+             0,                                     // Border
+             GL_RGBA,                               // Format (how to use)
+             GL_FLOAT,                              // Type   (how to intepret)
+             data);                                 // Data
+    GLError();
+    
 }
 
 /// Render a model.
@@ -672,6 +702,7 @@ void Quantize::update(float dt) {
     glUniform1i(_uniformNumTriangles, (int) a.size());
     GLError();
     
+    // Bind the triangle textures (up to 15)
     std::vector<int> textureSamplers;
     textureSamplers.reserve(Textures::samplers.size());
     for(int i = 0; i < Textures::samplers.size(); ++i) {
@@ -685,6 +716,15 @@ void Quantize::update(float dt) {
     
     // Inform the shader which sampler indices to use
     glUniform1iv(_uniformTextures, (int) textureSamplers.size(), & textureSamplers[0]);
+    GLError();
+
+    // Enable data texture
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, _dataTexture);
+    GLError();
+    
+    // Set uniform sampler to use the data texture
+    glUniform1i(_uniformDataTexture, 0);
     GLError();
     
     // From this point onward we render a rectangle, this rectangle serves as a
@@ -701,8 +741,16 @@ void Quantize::update(float dt) {
             0,                           // no extra data between each position
             0                            // offset of first element
     );
+    GLError();
+    
+    GLValidateProgram(_programRaytracer);
+    
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    GLError();
+    
     glDisableVertexAttribArray(_vboRtVertices);
+    GLError();
+    
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     GLError();
 
