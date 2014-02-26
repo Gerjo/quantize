@@ -80,7 +80,7 @@ void Quantize::loadDemoScene() {
     //Textures::LoadPNG("models/tmp/red.png");
     
     cube      = Collada::FromFile("models/Magey/Magey.dae");
-    rectangle = Collada::FromFile("models/Plane/checkerboard.dae");
+    rectangle = Collada::FromFile("models/Plane/checkerboard2.dae");
     triangle  = Collada::FromFile("models/Plane/triangle.dae");
     
     entities.push_back(Collada::FromFile("models/cube.dae"));
