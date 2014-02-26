@@ -118,7 +118,8 @@ int mod(int i, int n) {
 ///       \      |
 
 vec3 transformTriangle(vec3 v) {
-    return v + vec3(0, 0, 0);
+    //return v + vec3(0, 0, 0);
+    return vec3(v.x, translation[3][2], v.z);
     //return (rotation * vec4(v, 1.0)).xyz;
 }
 
@@ -135,7 +136,8 @@ vec3 transformCamera(vec3 v) {
 ///  Read: http://en.wikipedia.org/wiki/Barycentric_coordinate_system
 ///
 vec2 barycentric(vec3 f, vec3 v1, vec3 v2, vec3 v3, vec2 uv1, vec2 uv2, vec2 uv3) {
-
+    /*
+    // Classic Strategy
     // Calculate vectors from point f to vertices v1, v2 and v3:
     vec3 f1 = v1 - f;
     vec3 f2 = v2 - f;
@@ -149,6 +151,36 @@ vec2 barycentric(vec3 f, vec3 v1, vec3 v2, vec3 v3, vec2 uv1, vec2 uv2, vec2 uv3
     
     // Find the uv corresponding to point f (uv1/uv2/uv3 are associated to v1/v2/v3):
     return uv1 * a1 + uv2 * a2 + uv3 * a3;
+     */
+    
+    /*
+    // UVW Strategy
+    vec3 uv1p = vec3(uv1, 1.0);
+    vec3 uv2p = vec3(uv2, 1.0);
+    vec3 uv3p = vec3(uv3, 1.0);
+    
+    vec3 uvp = uv1p * a1 + uv2p * a2 + uv3p * a3;
+    vec3 uv = (uvp / uvp.z);
+    return uv.xy;
+     */
+    
+    //Linear System Solver Strategy
+    vec3 m0 = v2 - v1;
+    vec3 m1 = v3 - v1;
+    vec3 m2 = f - v1;
+    
+    float d00 = dot(m0, m0);
+    float d01 = dot(m0, m1);
+    float d11 = dot(m1, m1);
+    float d20 = dot(m2, m0);
+    float d21 = dot(m2, m1);
+    float denom = d00 * d11 - d01 * d01;
+    
+    float a = (d11 * d20 - d01 * d21) / denom;
+    float b = (d00 * d21 - d01 * d20) / denom;
+    float c = 1.0f - a - b;
+    
+    return uv1 * a + uv2 * b + uv3 * c;
 }
 
 void main() {
@@ -204,6 +236,20 @@ void main() {
             //color += colors[mod(i, 6)] / 3.0;
             
             zBufferDepth[j] = depth;
+            
+            /*
+            if(uv.x > 1 || uv.y > 1) {
+                // red
+                zBufferColor[j++] = vec4(1.0, 0.0, 0.0, 1.0);
+            } else if(uv.x < 0 || uv.y < 0) {
+                // green
+                zBufferColor[j++] = vec4(0.0, 1.0, 0.0, 1.0);
+            } else {
+                zBufferColor[j++] = texture(textures[samplers[i]], uv);
+            }
+             */
+            
+            //zBufferColor[j++] = vec4(uv.x, uv.y, 0.0, 1.0);
             //zBufferColor[j++] = colors[mod(i, 6)] / 3.0;
             zBufferColor[j++] = texture(textures[samplers[i]], uv);
         }
