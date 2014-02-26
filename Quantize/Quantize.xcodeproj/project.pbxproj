@@ -198,6 +198,7 @@
 		A6C56C6918A58C4D00DFAA00 /* tinyxml2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C6218A58C4D00DFAA00 /* tinyxml2.cpp */; };
 		A6C56C6F18A5924E00DFAA00 /* postp.vsh in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C6D18A5924E00DFAA00 /* postp.vsh */; };
 		A6C56C7018A5924E00DFAA00 /* postp.fsh in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C6E18A5924E00DFAA00 /* postp.fsh */; };
+		CC704C9D18BE3F2300212FB9 /* checkerboard2.dae in Resources */ = {isa = PBXBuildFile; fileRef = CC704C9C18BE3F2300212FB9 /* checkerboard2.dae */; };
 		CC71FFA518BCEC0B003AF106 /* Mage.png in Resources */ = {isa = PBXBuildFile; fileRef = CC71FFA318BCEC0B003AF106 /* Mage.png */; };
 		CC71FFA618BCEC0B003AF106 /* Magey.dae in Resources */ = {isa = PBXBuildFile; fileRef = CC71FFA418BCEC0B003AF106 /* Magey.dae */; };
 		CCD8E8DB18B212BB0097323A /* Camera Controls.rtf in Resources */ = {isa = PBXBuildFile; fileRef = CCD8E8DA18B212BB0097323A /* Camera Controls.rtf */; };
@@ -438,6 +439,7 @@
 		A6C56C6E18A5924E00DFAA00 /* postp.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = postp.fsh; sourceTree = "<group>"; };
 		A6C56CA718A8E9FC00DFAA00 /* Collada.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Collada.h; sourceTree = "<group>"; };
 		CC65799418A6456E0035EB43 /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
+		CC704C9C18BE3F2300212FB9 /* checkerboard2.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = checkerboard2.dae; sourceTree = "<group>"; };
 		CC71FFA318BCEC0B003AF106 /* Mage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Mage.png; sourceTree = "<group>"; };
 		CC71FFA418BCEC0B003AF106 /* Magey.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = Magey.dae; sourceTree = "<group>"; };
 		CCD8E8DA18B212BB0097323A /* Camera Controls.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "Camera Controls.rtf"; sourceTree = "<group>"; };
@@ -638,6 +640,7 @@
 		A66A078118B66DC200F2CD15 /* Plane */ = {
 			isa = PBXGroup;
 			children = (
+				CC704C9C18BE3F2300212FB9 /* checkerboard2.dae */,
 				A6A92D0B18BD2CD600B77E60 /* checkerboard.dae */,
 				A66A084A18B6701600F2CD15 /* triangle.dae */,
 				A66A078218B66DC200F2CD15 /* plane.dae */,
@@ -1006,6 +1009,7 @@
 				A66A082418B66DC200F2CD15 /* car.png in Resources */,
 				A66A080218B66DC200F2CD15 /* glass 1.png in Resources */,
 				A66A083518B66DC200F2CD15 /* IS_SM.png in Resources */,
+				CC704C9D18BE3F2300212FB9 /* checkerboard2.dae in Resources */,
 				A66A07D818B66DC200F2CD15 /* Earth_Clouds_D.png in Resources */,
 				A66A081518B66DC200F2CD15 /* Soil.png in Resources */,
 				A66A080018B66DC200F2CD15 /* Body Rear.png in Resources */,

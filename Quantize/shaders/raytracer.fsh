@@ -137,11 +137,7 @@ int mod(int i, int n) {
 ///       \      |
 
 vec3 transformTriangle(vec3 v) {
-    //return v + vec3(0, 0, 0);
-    return vec3(v.x, translation[3][2], v.z);
-    return vec3(v.x, 0, v.z);
-    return v + vec3(0, 0, 0);
-    //return (rotation * vec4(v, 1.0)).xyz;
+    return v;
 }
 
 vec3 transformCamera(vec3 v) {
@@ -195,13 +191,15 @@ vec2 barycentric(vec3 f, vec3 v1, vec3 v2, vec3 v3, vec2 uv1, vec2 uv2, vec2 uv3
     float d11 = dot(m1, m1);
     float d20 = dot(m2, m0);
     float d21 = dot(m2, m1);
-    float denom = d00 * d11 - d01 * d01;
+    float denom = 1 / (d00 * d11 - d01 * d01);
     
-    float a = (d11 * d20 - d01 * d21) / denom;
-    float b = (d00 * d21 - d01 * d20) / denom;
+    float a = (d11 * d20 - d01 * d21) * denom;
+    float b = (d00 * d21 - d01 * d20) * denom;
     float c = 1.0f - a - b;
     
-    return uv1 * a + uv2 * b + uv3 * c;
+    vec2 uv = uv1 * c + uv2 * a + uv3 * b;
+    
+    return uv;
 }
 
 void main() {
