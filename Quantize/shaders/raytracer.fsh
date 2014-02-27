@@ -218,11 +218,12 @@ void main() {
     
     // Viewing direction, distance implies the perspective.
     const float perspective = 4.0;
-    ray.place = vec3(translation[3][0] * 0.1, 0.0, translation[3][2] * 0.1);
+    ray.place = vec3(translation[3][0] * 0.1, translation[3][1] * 0.1, translation[3][2] * 0.1);
+    //ray.place = vec3(translation[3][0] * 0.1, 0.0, translation[3][2] * 0.1);
     ray.direction = normalize(vec3(position, ray.place.z + perspective) - ray.place);
 
     // Rotate the camera
-    ray.place = transformCamera(ray.place);
+    //ray.place = transformCamera(ray.place);
     ray.direction = transformCamera(ray.direction);
     
     // cool idea!
