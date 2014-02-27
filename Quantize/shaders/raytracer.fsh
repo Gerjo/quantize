@@ -70,7 +70,7 @@ int getSampler(int i) {
 }
 
 
-int rayIntersetsTriangle(Ray ray, vec3 v0, vec3 v1, vec3 v2, inout vec3 where, inout float depth) {
+int rayIntersetsTriangle(Ray ray, vec3 v0, vec3 v1, vec3 v2, bool light, inout vec3 where, inout float depth) {
 
     vec3 a = v1 - v0;
     vec3 b = v2 - v0;
@@ -87,8 +87,8 @@ int rayIntersetsTriangle(Ray ray, vec3 v0, vec3 v1, vec3 v2, inout vec3 where, i
     float dot = dot(n, v0);
     float t = -(dot(n, ray.place) + dot) / NdotRaydirection;
 
-    // Behind the camera culling
-    if (t < 0.0) {
+    // Behind the camera culling, only for non light tests.
+    if ( !light && t < 0.0) {
         res += 1;
         return 0; // the triangle is behind
     }
@@ -252,7 +252,7 @@ void main() {
         float depth;
     
         // Ray collision test; "where" is an output: the point of intersection.
-        int res = rayIntersetsTriangle(ray, A, B, C, where, depth);
+        int res = rayIntersetsTriangle(ray, A, B, C, false, where, depth);
 
         
         if(res != 0) {
