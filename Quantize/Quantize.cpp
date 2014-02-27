@@ -10,11 +10,7 @@
 #include "Entity.h"
 #include "Textures.h"
 
-Quantize::Quantize()
-    : width(200)
-    , height(100)
-    , camera(new Camera())
-    {
+Quantize::Quantize() {
     
     Light light;
     light.position.x = 15.0f;
@@ -56,6 +52,8 @@ Quantize::Quantize()
 
 Quantize::~Quantize() {
     glDeleteProgram(_programRaytracer);
+    glDeleteVertexArrays(1, &_vaoFrame);
+    glDeleteBuffers(1, &_vboRtVertices);
 }
 
 void Quantize::loadDemoScene() {
@@ -165,6 +163,13 @@ void Quantize::initializeRaytraceProgram() {
     _uniformDataTexture = glGetUniformLocation(_programRaytracer, "zdata");
     GLError();
     
+    _lightCount     = glGetUniformLocation(_programRaytracer, "lightCount");
+    _lightsPosition = glGetUniformLocation(_programRaytracer, "lightsPosition");
+    _lightsDiffuse  = glGetUniformLocation(_programRaytracer, "lightsDiffuse");
+    _lightsSpecular = glGetUniformLocation(_programRaytracer, "lightsSpecular");
+    _lightsAmbiant  = glGetUniformLocation(_programRaytracer, "lightsAmbiant");
+    GLError();
+    
     // The rectangle used as canvas where ray are shot from.
     GLfloat vertices[] = {
         -1, -1,
@@ -199,7 +204,7 @@ void Quantize::initializeRaytraceProgram() {
     glDetachShader(_programRaytracer, fsh);     GLError();
     glDeleteShader(fsh);                        GLError();
 
-    // Data texture to hold vertices gerjo
+    // Data texture to hold vertices
     glActiveTexture(GL_TEXTURE0);
     glGenTextures(1, &_dataTexture);
     glBindTexture(GL_TEXTURE_2D, _dataTexture);
@@ -213,20 +218,48 @@ void Quantize::initializeRaytraceProgram() {
 /// Entry point for the update and draw loops.
 /// @param Time elapsed since previous call to update.
 void Quantize::update(float dt) {
-    camera->update();
+
+    if(width >= 16384 || scene.empty()) {
+        Exit("Too many or too few vertices in scene: %d/16384 bytes.", width);
+    }
+
+    camera.update();
 
     glClearColor(0.541, 0.361, 0.361, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     glUseProgram(_programRaytracer);
+    glBindVertexArray(_vaoFrame);
     GLError();
     
+    
+    // Build Structure of arrays (SOA) from Array of structures (AOS)
+    std::vector<Vector3> position;
+    std::vector<Color> diffuse;
+    std::vector<Color> specular;
+    std::vector<Color> ambient;
+
+    // Collect light properties
+    for(const Light& light : lights) {
+        position.push_back(light.position);
+        diffuse.push_back(light.diffuse);
+        specular.push_back(light.specular);
+        ambient.push_back(light.ambient);
+    }
+
+    // Amount of lights
+    int nLights = (int) lights.size();
+    
+    // Upload the lights and other uniforms to the GPU
+    glUniform1i(_lightCount, nLights);
+    glUniform3fv(_lightsPosition, nLights, position[0].v);
+    glUniform4fv(_lightsAmbiant, nLights, ambient[0].v);
+    glUniform4fv(_lightsSpecular, nLights, specular[0].v);
+    glUniform4fv(_lightsDiffuse, nLights, diffuse[0].v);
+    glUniformMatrix4fv(_uniformRtRotation, 1, GL_FALSE, camera.rotation().f);
+    glUniformMatrix4fv(_uniformRtTranslation, 1, GL_FALSE, camera.translation().f);
     glUniform2f(_uniformRtWindowSize, width, height);
     GLError();
-    
-   
-    glUniformMatrix4fv(_uniformRtRotation, 1, GL_FALSE, camera->rotation().f);
-    glUniformMatrix4fv(_uniformRtTranslation, 1, GL_FALSE, camera->translation().f);
     
     // Bind the triangle textures (up to 15)
     std::vector<int> textureSamplers;
@@ -244,21 +277,10 @@ void Quantize::update(float dt) {
     glUniform1iv(_uniformTextures, (int) textureSamplers.size(), & textureSamplers[0]);
     GLError();
     
-    if(scene.empty()) {
-        Exit("No vertices in scene");
-    }
-   
     // Amount of triangles
     glUniform1i(_uniformNumTriangles, (int) scene.size() / 3);
     GLError();
     
-    // 4 triplets with floats
-    const GLint width  = (GLint) scene.size() * 4;
-    
-    if(width >= 16384) {
-        Exit("Too many vertices in scene: %d/16384 bytes.", width);
-    }
-
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, _dataTexture);
     GLError();
@@ -268,7 +290,7 @@ void Quantize::update(float dt) {
     glTexImage2D(GL_TEXTURE_2D,                     // What (target)
              0,                                     // Mip-map level
              GL_RGB32F,                             // Internal format
-             width,                                 // Width
+             (GLint) scene.size() * 4,                                 // Width
              1,                                     // Height
              0,                                     // Border
              GL_RGB,                                // Format (how to use)
@@ -286,11 +308,11 @@ void Quantize::update(float dt) {
     // raytrace canvas.
     glEnableVertexAttribArray(_attrRtPosition);
     GLError();
-    
-    glBindVertexArray(_vaoFrame);
-    
+
+    // Validate just before drawing. If there are errors, this will show them. The
+    // actual draw call does not contain debug information at all.
     GLValidateProgram(_programRaytracer);
-    
+
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     GLError();
     
@@ -298,9 +320,9 @@ void Quantize::update(float dt) {
     GLError();
     
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
     GLError();
 
-    // Run draw calls.
-    //glFlush();
+    // Swap double buffer
     glSwapAPPLE();
 }

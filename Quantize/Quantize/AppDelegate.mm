@@ -26,17 +26,17 @@ static Quantize* quantize = Quantize::getInstance();
 
 - (IBAction)cameraSpeedSliderAction:(id)sender {
     float value = [sender floatValue] / 100.0f;
-    quantize->camera->moveSpeed = value;
+    quantize->camera.moveSpeed = value;
 }
 
 - (IBAction)cameraMouseSliderAction:(id)sender {
     float value = [sender floatValue] / 10000.0f;
-    quantize->camera->mouseSpeed = value;
+    quantize->camera.mouseSpeed = value;
 }
 
 - (IBAction)cameraRollSliderAction:(id)sender {
     float value = [sender floatValue] / 1000.0f;
-    quantize->camera->rollSpeed = value;
+    quantize->camera.rollSpeed = value;
 }
 
 - (IBAction)lights1XSliderAction:(id)sender {
@@ -142,12 +142,12 @@ static Quantize* quantize = Quantize::getInstance();
 }
 
 - (IBAction)lerpSliderAction:(id)sender {
-    float value = [sender floatValue] / 100.0f;
+    //float value = [sender floatValue] / 100.0f;
     //quantize->kernelLerp = value;
 }
 
 - (IBAction)kernelPopupAction:(id)sender {
-    int value = (int)[sender indexOfSelectedItem];
+    //int value = (int)[sender indexOfSelectedItem];
     //quantize->kernelType = value;
 }
 

@@ -28,31 +28,39 @@ using namespace Furiosity;
 using std::string;
 
 class Quantize {
-public:
+    /// Application window width
+    float width{256};
     
+    /// Application window height
+    float height{256};
+    
+    /// Raytrace program and shaders
+    GLuint _programRaytracer{0};
+    
+    /// Vertices of the window.
+    GLuint _vboRtVertices{0};
+    
+    /// Vertex array that embodies the aboce buffer.
+    GLuint _vaoFrame{0};
+    
+    /// Texture that will contain all VertexData (traingles)
+    GLuint _dataTexture{0};
+    
+    /// Miscellaneous Uniforms
+    GLint _attrRtPosition{-1};
+    GLint _uniformRtWindowSize{-1};
+    GLint _uniformRtRotation{-1};
+    GLint _uniformRtTranslation{-1};
+    GLint _uniformNumTriangles{-1};
+    GLint _uniformTextures{-1};
+    GLint _uniformDataTexture{-1};
+
     /// Light uniforms
-    GLuint _lightCount;
-    GLuint _lightsPosition;
-    GLuint _lightsDiffuse;
-    GLuint _lightsSpecular;
-    GLuint _lightsAmbiant;
-    
-    
-    float width;
-    float height;
-    
-    /// Ray tracer shader (todo: zero initialize)
-    GLint  _programRaytracer{0};
-    GLuint _vboRtVertices;
-    GLint  _attrRtPosition;
-    GLint  _uniformRtWindowSize;
-    GLint  _uniformRtRotation;
-    GLint  _uniformRtTranslation;
-    GLint  _uniformNumTriangles;
-    GLint  _uniformTextures;
-    GLint  _uniformDataTexture;
-    GLuint _vaoFrame;
-    GLuint _dataTexture;
+    GLint _lightCount{-1};
+    GLint _lightsPosition{-1};
+    GLint _lightsDiffuse{-1};
+    GLint _lightsSpecular{-1};
+    GLint _lightsAmbiant{-1};
     
     /// Collection of models to render.
     std::vector<std::shared_ptr<Entity>> entities;
@@ -63,18 +71,19 @@ public:
     std::shared_ptr<Model> triangle;
     std::shared_ptr<Model> model;
     
+    /// A collection that will be uploaded as a texture to the GPU.
     std::vector<VertexData> scene;
     
 public:
     /// Camera
-    Camera* camera;
+    Camera camera;
     
     /// Collection of light sources. Value semantics are used
     /// for better memory alignment. Array of structs idiom.
     std::vector<Light> lights;
     
+    /// A shared instance, for easy access from the Objective-C GUI.
     static Quantize* getInstance() {
-        // This works, read the manual ;)
         static Quantize* instance = new Quantize();
         
         return instance;
@@ -85,6 +94,13 @@ private:
     /// Default contructor, leaves the application in an undefined state. Use
     /// Quantize::initialize() to actually initialize.
     Quantize();
+    
+    /// Singleton based, no copy constructor.
+    Quantize(const Quantize&) = delete;
+    
+    
+    /// Singleton based, no assignment operator.
+    Quantize& operator = (const Quantize& other) = delete;
     
 public:
     /// Destructor

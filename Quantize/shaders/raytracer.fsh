@@ -9,6 +9,12 @@
 // #pragma optionNV(unroll all)
 // #pragma nounroll
 
+uniform int lightCount;
+uniform vec3 lightsPosition[10];
+uniform vec4 lightsDiffuse[10];
+uniform vec4 lightsSpecular[10];
+uniform vec4 lightsAmbiant[10];
+
 uniform vec2 windowSize;        // Size of the viewport
 in vec2 position;               // Normalize position on screen
 
