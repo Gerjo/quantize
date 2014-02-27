@@ -218,13 +218,18 @@ void main() {
     
     // Viewing direction, distance implies the perspective.
     const float perspective = 4.0;
-    ray.place = vec3(translation[3][0] * 0.1, translation[3][1] * 0.1, translation[3][2] * 0.1);
-    //ray.place = vec3(translation[3][0] * 0.1, 0.0, translation[3][2] * 0.1);
+    
+    // Camera at origin
+    ray.place = vec3(0, 0, 0);
+    
+    // Offset canvas from the camera (substraction is useless, but here for competeness)
     ray.direction = normalize(vec3(position, ray.place.z + perspective) - ray.place);
-
-    // Rotate the camera
-    //ray.place = transformCamera(ray.place);
+    
+    // Rotate direction about camera
     ray.direction = transformCamera(ray.direction);
+    
+    // Translate the camera
+    ray.place -= vec3(translation[3][0] * 0.1, translation[3][1] * 0.1, translation[3][2] * 0.1);
     
     // cool idea!
     vec4 zBufferColor[10];
