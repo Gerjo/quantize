@@ -257,7 +257,7 @@ void main() {
             vec4 blend = vec4(0.0, 0.0, 0.0, 1.0);
             
             // For each light
-            for(int l = 0; l < min(lightCount, 2); ++l) {
+            for(int l = 0; l < lightCount; ++l) {
             //for(int l = 0; l < lightCount; ++l) {
         
                
@@ -280,14 +280,14 @@ void main() {
                     int res = rayIntersetsTriangle(beam, D, E, F, true, tmp, t);
                     
                     // Test intersection distance.
-                    if(res != 0 && ( t > 0 || t < 1 )) {
+                    if(res != 0 && (t >= -0.0001 && t <= 1.0001)) {
                     
-                        vec2 uv2 = barycentric(where, D, E, F, getUV(k * 3 + 0), getUV(k * 3 + 1), getUV(k * 3 + 2));
-                        vec4 color2 = texture(textures[getSampler(k * 3)], uv);
+                        //vec2 uv2 = barycentric(where, D, E, F, getUV(k * 3 + 0), getUV(k * 3 + 1), getUV(k * 3 + 2));
+                        //vec4 color2 = texture(textures[getSampler(k * 3)], uv);
                     
-                        if(color2.a != 0.0) {
+                        //if(color2.a > 0.5) {
                             ++hits;
-                        }
+                        //}
                     }
                 }
                 
@@ -304,6 +304,7 @@ void main() {
             
             // No alpha channel in light.
             blend.a = 1.0;
+            //color.a = 1.0;
             
             zBufferDepth[j] = depth;
             //zBufferColor[j] = colors[mod(i, 6)] / 3.0;

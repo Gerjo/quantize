@@ -15,7 +15,7 @@ Quantize::Quantize() : _lastLogTime(GetTiming()) {
     Light light;
     light.position.x = 15.0f;
     light.position.y = 5.0f;
-    light.position.z = -20.0f;
+    light.position.z = 20.0f;
     
     for(size_t i = 0; i < 4; ++i) {
         light.ambient.v[i]  = 0.2f;
@@ -27,9 +27,9 @@ Quantize::Quantize() : _lastLogTime(GetTiming()) {
     light.diffuse.g = 0;
     light.diffuse.b = 2;
     lights.push_back(light);
-  
+    
         
-    light.diffuse.r = 1;
+    /*light.diffuse.r = 1;
     light.diffuse.g = 0;
     light.diffuse.b = 0;
     light.position.z = 40.0f;
@@ -47,7 +47,7 @@ Quantize::Quantize() : _lastLogTime(GetTiming()) {
     light.diffuse.b = 1;
     light.position.z = 15.0f;
     light.position.x = -30.0f;
-    lights.push_back(light);
+    lights.push_back(light);*/
 }
 
 Quantize::~Quantize() {
