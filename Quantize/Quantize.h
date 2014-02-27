@@ -61,6 +61,9 @@ public:
     std::shared_ptr<Model> cube;
     std::shared_ptr<Model> rectangle;
     std::shared_ptr<Model> triangle;
+    std::shared_ptr<Model> model;
+    
+    std::vector<VertexData> scene;
     
 public:
     /// Camera
