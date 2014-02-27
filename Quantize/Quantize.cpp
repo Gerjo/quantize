@@ -65,71 +65,26 @@ void Quantize::loadDemoScene() {
     rectangle = Collada::FromFile("models/Plane/checkerboard2.dae");
     triangle  = Collada::FromFile("models/Plane/triangle.dae");
     
+    model     = Collada::FromFile("models/Rock1/Rock1.dae");
+    
     entities.push_back(Collada::FromFile("models/cube.dae"));
 
-    //return;
-
-    /*for(int i = 0; i < 4; ++i) {
-        Entity* e = new Entity();
+    // Custom designed cube by Master Mergon with textures forged from the
+    // lava of Mount Doom enriched with tiny ring-like particles.
+    scene.insert(scene.end(), ((Model*)cube->sub[0].get())->vertices.begin(), ((Model*)cube->sub[0].get())->vertices.end());
     
-
-        if(i == 0)
-            e->sub.push_back(Collada::FromFile("models/P39 AIRACOBRA/p39.dae"));
-        
-        if(i == 1)
-            e->sub.push_back(Collada::FromFile("models/T-90/T-90.dae"));
-        
-        if(i == 2)
-            e->sub.push_back(Collada::FromFile("models/FW 190/FW190.dae"));
-        
-        if(i == 3)
-            e->sub.push_back(Collada::FromFile("models/FV510 Warrior/fv510.dae"));
-        
-        //e->sub.push_back(Collada::FromFile("models/A10/A10.dae"));
-        e->transform.SetTranslation(1000 * i, 0, 0);
-
-
-        entities.push_back(std::shared_ptr<Entity>(e));
-    }*/
-    
-    /*for(int i = 0; i < 4; ++i) {
-        Entity* e = new Entity();
-    
-        e->sub.push_back(Collada::FromFile("models/cube.dae"));
-        e->transform.SetTranslation(1000 * i, 0, 0);
-
-        entities.push_back(std::shared_ptr<Entity>(e));
-    }
-    */
-    for(int i = 0, s = 9, n = 20; i < n; ++i) {
-        for(int j = 0; j < n; ++j) {
-
-            Entity* e = new Entity();
-        
-            e->sub.push_back(Collada::FromFile("models/Plane/plane.dae"));
-
-            e->transform.SetTranslation(s * (n*0.5 - i), 0, s * (n*0.5 - j));
+    // A checkerboard of checkerboards.
+    float scale = 5;
+    for(int x = 0; x < 2; ++x) {
+        for(int y = 0; y < 2; ++y) {
+            Matrix44 t = Matrix44::CreateTranslation(x * scale, y * scale, 2) * Matrix44::CreateScale(scale);
             
-            entities.push_back(std::shared_ptr<Entity>(e));
+            for(VertexData d : ((Model*)rectangle->sub[0].get())->vertices) {
+                d.position = t *  d.position;
+            
+                scene.push_back(d);
+            }
         }
-    }
-    
-    for(int i = 0; i < 4; ++i) {
-        Entity* e = new Entity();
-    
-        e->sub.push_back(Collada::FromFile("models/AUSFB/ausfb.dae"));
-        e->transform.SetTranslation(1000 * i, 0, 3000);
-        
-        entities.push_back(std::shared_ptr<Entity>(e));
-    }
-    
-    //entities.push_back(std::shared_ptr<Entity>(Collada::FromFile("models/Plane/plane.dae")));
-    
-    int i = 0;
-    for(auto pair : Textures::cache) {
-        printf("[sampler: %d] texture: %s\n", Textures::samplers[i], pair.first.c_str());
-        
-        ++i;
     }
 }
 
@@ -269,9 +224,6 @@ void Quantize::update(float dt) {
     glUniform2f(_uniformRtWindowSize, width, height);
     GLError();
     
-    
-    auto subject = cube;
-    
    
     glUniformMatrix4fv(_uniformRtRotation, 1, GL_FALSE, camera->rotation().f);
     glUniformMatrix4fv(_uniformRtTranslation, 1, GL_FALSE, camera->translation().f);
@@ -292,22 +244,27 @@ void Quantize::update(float dt) {
     glUniform1iv(_uniformTextures, (int) textureSamplers.size(), & textureSamplers[0]);
     GLError();
     
-    // Some group of faces to upload
-    std::vector<VertexData>& vertices = ((Model*)subject->sub[0].get())->vertices;
+    if(scene.empty()) {
+        Exit("No vertices in scene");
+    }
    
     // Amount of triangles
-    glUniform1i(_uniformNumTriangles, (int) vertices.size() / 3);
+    glUniform1i(_uniformNumTriangles, (int) scene.size() / 3);
     GLError();
     
-    GLfloat* data = vertices[0].position.v;
-    
     // 4 triplets with floats
-    const GLint width  = (GLint) vertices.size() * 4;
+    const GLint width  = (GLint) scene.size() * 4;
+    
+    if(width >= 16384) {
+        Exit("Too many vertices in scene: %d/16384 bytes.", width);
+    }
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, _dataTexture);
     GLError();
     
+    // Upload the whole scene as a texture. We should measure the performance
+    // of this. Static objects could be uploaded just once.
     glTexImage2D(GL_TEXTURE_2D,                     // What (target)
              0,                                     // Mip-map level
              GL_RGB32F,                             // Internal format
@@ -316,7 +273,8 @@ void Quantize::update(float dt) {
              0,                                     // Border
              GL_RGB,                                // Format (how to use)
              GL_FLOAT,                              // Type   (how to intepret)
-             data);                                 // Data
+             scene[0].position.v                    // Data
+    );
     GLError();
 
     

@@ -242,7 +242,6 @@ void main() {
         vec3 B = transformTriangle(getVertex( i * 3 + 1));
         vec3 C = transformTriangle(getVertex( i * 3 + 2));
         
-        
         vec3 where;
         float depth;
     
@@ -256,7 +255,7 @@ void main() {
             zBufferDepth[j] = depth;
             
             //zBufferColor[j++] = colors[mod(i, 6)] / 3.0;
-            zBufferColor[j++] = texture(textures[getSampler(i)], uv);
+            zBufferColor[j++] = texture(textures[getSampler(i * 3)], uv);
         }
     }
     
