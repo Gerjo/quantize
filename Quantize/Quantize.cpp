@@ -72,9 +72,9 @@ void Quantize::loadDemoScene() {
     scene.insert(scene.end(), ((Model*)cube->sub[0].get())->vertices.begin(), ((Model*)cube->sub[0].get())->vertices.end());
     
     // A checkerboard of checkerboards.
-    float scale = 5;
-    for(int x = 0; x < 2; ++x) {
-        for(int y = 0; y < 2; ++y) {
+    float scale = 25;
+    for(int x = 0; x < 1; ++x) {
+        for(int y = 0; y < 1; ++y) {
             Matrix44 t = Matrix44::CreateTranslation(x * scale * 2, y * scale * 2, 2) * Matrix44::CreateScale(scale);
             
             for(VertexData d : ((Model*)rectangle->sub[0].get())->vertices) {
