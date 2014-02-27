@@ -36,7 +36,7 @@ uniform sampler2D textures[15];
 /// [3] Glbyte[2] padding;
 uniform sampler2D zdata;
 
-const int stride     = 4; // In integers
+const int stride     = 4; // In floats
 const int lod        = 0; // mipmap level
 
 out vec4 finalColor;
@@ -81,7 +81,7 @@ int rayIntersetsTriangle(Ray ray, vec3 v0, vec3 v1, vec3 v2, inout vec3 where, i
     float dot = dot(n, v0);
     float t = -(dot(n, ray.place) + dot) / NdotRaydirection;
 
-    // Poor backface culling, this only solves for planes, not "pixels".
+    // Behind the camera culling
     if (t < 0.0) {
         res += 1;
         return 0; // the triangle is behind
@@ -214,9 +214,6 @@ void main() {
     colors[4] = vec4(0, 1, 0, 0.5);
     colors[5] = vec4(0, 1, 1, 0.5);
 
-    // Color of this "pixel".
-    vec4 color = vec4(0.0, 0.0, 0.0, 0.0);
-
     Ray ray;
     
     // Viewing direction, distance implies the perspective.
@@ -257,28 +254,29 @@ void main() {
         }
     }
     
-    // TODO: Fancy z-test and alpha blending.
     vec4 swapV;
     float swapF;
-    if (j > 0) {
-        while (j > 1) {
-            for (int k = 0; k < j - 1; ++k) {
-                if (zBufferDepth[k] > zBufferDepth[k+1]) {
-                    swapV = zBufferColor[k];
-                    zBufferColor[k] = zBufferColor[k+1];
-                    zBufferColor[k+1] = swapV;
-                    
-                    swapF = zBufferDepth[k];
-                    zBufferDepth[k] = zBufferDepth[k+1];
-                    zBufferDepth[k+1] = swapF;
-                }
-            }
-            j--;
-        }
-        color = zBufferColor[0];
-    }
-    else
-        color = vec4(0.0, 0.0, 0.0, 0.0);
     
-    finalColor = color;//gl_FragColor = color;
+    for (int pivot = j; pivot > 1; --pivot) {
+        for (int k = 0; k < pivot - 1; ++k) {
+            if (zBufferDepth[k] > zBufferDepth[k+1]) {
+                swapV = zBufferColor[k];
+                zBufferColor[k] = zBufferColor[k+1];
+                zBufferColor[k+1] = swapV;
+                
+                swapF = zBufferDepth[k];
+                zBufferDepth[k] = zBufferDepth[k+1];
+                zBufferDepth[k+1] = swapF;
+            }
+        }
+    }
+    
+    // Final of this "pixel".
+    finalColor = vec4(0.0, 0.0, 0.0, 0.0);
+    
+    // Keep blending until there is no alpha or the buffer is empty.
+    for(int i = 0; i < j && finalColor.a < 1.0; ++i) {
+        finalColor += zBufferColor[i] * zBufferColor[i].a;
+    }
+    
 }
