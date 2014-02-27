@@ -10,27 +10,15 @@
 // #pragma nounroll
 
 uniform vec2 windowSize;        // Size of the viewport
-in vec2 position;              // Normalize position on screen
+in vec2 position;               // Normalize position on screen
 
-const int MAX_TRIANGLES = 40;
 
 uniform int numTriangles;       // Number of triangles
 
-// An ad-hoc array of structs
-uniform vec3 verticesA[MAX_TRIANGLES];  // Triangle vertex #1
-uniform vec3 verticesB[MAX_TRIANGLES];  // Triangle vertex #2
-uniform vec3 verticesC[MAX_TRIANGLES];  // Triangle vertex #3
-uniform vec2 uvA[MAX_TRIANGLES];        // UV vertex edge #1
-uniform vec2 uvB[MAX_TRIANGLES];        // UV vertex edge #2
-uniform vec2 uvC[MAX_TRIANGLES];        // UV vertex edge #3
-
-// Per triangle, texture sampler index.
-uniform int samplers[MAX_TRIANGLES];
 
 // Some transforms
 uniform mat4 translation;
 uniform mat4 rotation;
-
 
 
 // My Intel onboard chip only supports 16 textures. If this becomes a limit,
@@ -40,13 +28,16 @@ uniform sampler2D textures[15];
 
 
 /// Format (non optimized structure, directly compied from c++)
-/// Vector3 position;
-/// Vector3 normal;
-/// Vector2 uv;
-/// unsigned char color[4];
-/// GLuint sampler;
-///
+/// [0] Vector3 position;
+/// [1] Vector3 normal;
+/// [2] Vector2 uv;
+/// [2] unsigned char color[4];
+/// [3] GLuint sampler;
+/// [3] Glbyte[2] padding;
 uniform sampler2D zdata;
+
+const int stride     = 4; // In integers
+const int lod        = 0; // mipmap level
 
 out vec4 finalColor;
 
@@ -56,12 +47,22 @@ struct Ray {
 };
 
 vec3 getVertex(int i) {
-    const int lod = 1;
-    int offset    = 0; // i * 13;
-    
-    
-    return vec3(0.0,0.0,0.0);
+    int offset = i * stride;
+    return texelFetch(zdata, ivec2(offset, 0), lod).xyz;
 }
+
+vec2 getUV(int i) {
+    int offset = i * stride + 2;
+    return texelFetch(zdata, ivec2(offset, 0), lod).xy;
+}
+
+int getSampler(int i) {
+    int offset = i * stride + 3;
+    
+    // Retrieve the first float, apply rounding and cast to integer.
+    return int(floor(texelFetch(zdata, ivec2(offset, 0), lod).x + 0.5));
+}
+
 
 int rayIntersetsTriangle(Ray ray, vec3 v0, vec3 v1, vec3 v2, inout vec3 where, inout float depth) {
 
@@ -234,46 +235,29 @@ void main() {
     // A glsl 4.0 style loop
     int j = 0;
     for(int i = 0; i < numTriangles; ++i) {
-        vec3 A = transformTriangle(verticesA[i]);
-        vec3 B = transformTriangle(verticesB[i]);
-        vec3 C = transformTriangle(verticesC[i]);
-    
+        vec3 A = transformTriangle(getVertex( i * 3 + 0));
+        vec3 B = transformTriangle(getVertex( i * 3 + 1));
+        vec3 C = transformTriangle(getVertex( i * 3 + 2));
+        
+        
         vec3 where;
         float depth;
     
         // Ray collision test; "where" is an output: the point of intersection.
         int res = rayIntersetsTriangle(ray, A, B, C, where, depth);
 
-        // TODO: Fancy z-test and alpha blending.
+        
         if(res != 0) {
-        
-            vec2 uv = barycentric(where, A, B, C, uvA[i], uvB[i], uvC[i]);
-        
-            //color = texture2D(textures[0], uv);
-            
-            // Debug colors:
-            //color += colors[mod(i, 6)] / 3.0;
+            vec2 uv = barycentric(where, A, B, C, getUV(i * 3 + 0), getUV(i * 3 + 1), getUV(i * 3 + 2));
             
             zBufferDepth[j] = depth;
             
-            /*
-            if(uv.x > 1 || uv.y > 1) {
-                // red
-                zBufferColor[j++] = vec4(1.0, 0.0, 0.0, 1.0);
-            } else if(uv.x < 0 || uv.y < 0) {
-                // green
-                zBufferColor[j++] = vec4(0.0, 1.0, 0.0, 1.0);
-            } else {
-                zBufferColor[j++] = texture(textures[samplers[i]], uv);
-            }
-             */
-            
-            //zBufferColor[j++] = vec4(uv.x, uv.y, 0.0, 1.0);
             //zBufferColor[j++] = colors[mod(i, 6)] / 3.0;
-            zBufferColor[j++] = texture(textures[samplers[i]], uv);
+            zBufferColor[j++] = texture(textures[getSampler(i)], uv);
         }
     }
     
+    // TODO: Fancy z-test and alpha blending.
     vec4 swapV;
     float swapF;
     if (j > 0) {

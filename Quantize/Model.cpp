@@ -93,7 +93,7 @@
         
         glVertexAttribPointer(quantize->_attrSamplerIndex,        // The attribute in the shader.
                             1,                                    // Number of "fields", in this case 1: the index.
-                            GL_UNSIGNED_INT,                      // Data type
+                            GL_FLOAT,                             // Data type
                             GL_FALSE,                             // Must these values be normalized? No thanks.
                             sizeof(VertexData),                   // Size of each structure
                             (void*) offsetof(VertexData, sampler) // Offset

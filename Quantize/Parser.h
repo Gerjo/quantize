@@ -204,9 +204,9 @@ struct Parser {
                 model->indices.push_back((int) model->indices.size());
                 
                 // Random-ish color. This is usefull until textures work.
-                model->vertices[i].color[0] = j * 10;
-                model->vertices[i].color[1] = j * 30;
-                model->vertices[i].color[2] = j * 7 + 60;
+                //model->vertices[i].color[0] = j * 10;
+                //model->vertices[i].color[1] = j * 30;
+                //model->vertices[i].color[2] = j * 7 + 60;
                 
                 if(i % 6 == 0) {
                     ++j;

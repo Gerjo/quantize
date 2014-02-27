@@ -20,6 +20,7 @@ class Quantize;
 
 using namespace Furiosity;
 
+/// 4 float triplets
 struct VertexData {
 
     /// Position in the world
@@ -32,16 +33,21 @@ struct VertexData {
     Vector2 uv;
     
     /// RGBA blend color per vertex. Not used atm.
-    unsigned char color[4] = {(unsigned char)0, 255, 0, 0};
+    unsigned char color[4] = {2, 255, 2, 2};
+    
+    //int color;
     
     /// Texture sampler index.
-    GLuint sampler;
+    GLfloat sampler = {1};
+    
+    // Bring storage alignment to (bytes mod 3 == 0)
+    GLfloat padding[2] = {0};
     
     VertexData(Vector3 position,  Vector3 normal = Vector3(0, 0, 0), Vector2 uv = Vector2(1, 1))
         : position(position)
         , normal(normal)
         , uv(uv)
-        , sampler(198707891) {
+        {
             // codes
     }
     

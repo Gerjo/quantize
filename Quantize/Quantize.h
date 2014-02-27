@@ -84,13 +84,6 @@ public:
     GLint  _uniformRtTranslation;
     GLint  _uniformNumTriangles;
     GLint  _uniformTextures;
-    GLint  _uniformVerticesA;
-    GLint  _uniformVerticesB;
-    GLint  _uniformVerticesC;
-    GLint  _uniformUvA;
-    GLint  _uniformUvB;
-    GLint  _uniformUvC;
-    GLint  _uniformSampler;
     GLint  _uniformDataTexture;
     GLuint _dataTexture;
     

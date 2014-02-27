@@ -361,18 +361,9 @@ void Quantize::initializeRaytraceProgram() {
 
     _uniformRtWindowSize = glGetUniformLocation(_programRaytracer, "windowSize");
     _attrRtPosition = glGetAttribLocation(_programRaytracer, "vertexPosition");
-    
-    _uniformVerticesA = glGetUniformLocation(_programRaytracer, "verticesA");
-    _uniformVerticesB = glGetUniformLocation(_programRaytracer, "verticesB");
-    _uniformVerticesC = glGetUniformLocation(_programRaytracer, "verticesC");
     _uniformNumTriangles  = glGetUniformLocation(_programRaytracer, "numTriangles");
     _uniformRtRotation    = glGetUniformLocation(_programRaytracer, "rotation");
     _uniformRtTranslation = glGetUniformLocation(_programRaytracer, "translation");
-    
-    _uniformUvA = glGetUniformLocation(_programRaytracer, "uvA");
-    _uniformUvB = glGetUniformLocation(_programRaytracer, "uvB");
-    _uniformUvC = glGetUniformLocation(_programRaytracer, "uvC");
-    _uniformSampler = glGetUniformLocation(_programRaytracer, "samplers");
     
     _uniformTextures = glGetUniformLocation(_programRaytracer, "textures");
     _uniformDataTexture = glGetUniformLocation(_programRaytracer, "zdata");
@@ -409,25 +400,7 @@ void Quantize::initializeRaytraceProgram() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     GLError();
   
-    const int channels = 4;
-    const GLint width  = 20;
-    const GLint height = 1;
-    GLfloat data[height * width * channels];
 
-
-    glBindTexture(GL_TEXTURE_2D, _dataTexture);
-    GLError();
-    
-    glTexImage2D(GL_TEXTURE_2D,                     // What (target)
-             0,                                     // Mip-map level
-             GL_RGBA,                               // Internal format
-             width,                                 // Width
-             height,                                // Height
-             0,                                     // Border
-             GL_RGBA,                               // Format (how to use)
-             GL_FLOAT,                              // Type   (how to intepret)
-             data);                                 // Data
-    GLError();
     
 }
 
@@ -591,7 +564,7 @@ void Quantize::update(float dt) {
     
     glBindBuffer(GL_ARRAY_BUFFER, _vboFboVertices);
     glVertexAttribPointer(
-            _attrUvFBO,  // attribute
+            _attrUvFBO,                  // attribute
             2,                           // number of elements per vertex, here (x,y)
             GL_FLOAT,                    // the type of each element
             GL_FALSE,                    // take our values as-is
@@ -619,88 +592,11 @@ void Quantize::update(float dt) {
     GLError();
     
     
-    auto subject = rectangle;
+    auto subject = cube;
     
-    // Some group of faces
-    std::vector<VertexData>& vertices = ((Model*)subject->sub[0].get())->vertices;
-    
-    
-    static float foo = 10;
-    
-    foo -= 0.01;
-    
-    //Matrix44 t = Matrix44::CreateTranslation(0, 0, sinf(foo) * 100);
-    
-    Matrix44 cam = camera->transform();// cam.Invert();
-    Matrix44 t   = camera->translation();//*((Model*)subject->sub[0].get())->transform;
-    
-   // t.Invert();
-    
-    //Matrix44 t;// =  Matrix44::CreateTranslation(0.5, 0, 0);// * (camera->rotation() * Matrix44::CreateRotateX(foo) * Matrix44::CreateRotateY(foo));
-    
-    // Build a huge list of edges. TODO: use a quadtree embedded into a texture
-    
-    const size_t qty = vertices.size() / 3;
-    std::vector<Vector3> a; a.reserve(qty);
-    std::vector<Vector3> b; b.reserve(qty);
-    std::vector<Vector3> c; c.reserve(qty);
-
-    std::vector<Vector2> uvA; uvA.reserve(qty);
-    std::vector<Vector2> uvB; uvB.reserve(qty);
-    std::vector<Vector2> uvC; uvC.reserve(qty);
-
-    std::vector<int> sampler; sampler.reserve(qty);
-   
-    // We must have triplets
-    assert(vertices.size() % 3 == 0);
-   
    
     glUniformMatrix4fv(_uniformRtRotation, 1, GL_FALSE, camera->rotation().f);
     glUniformMatrix4fv(_uniformRtTranslation, 1, GL_FALSE, camera->translation().f);
-
-    // Collect vertices and transform them. The idea is to transform on the CPU once
-    // instead of per fragment. We also collect UV etc.
-    for(size_t i = 0; i < vertices.size(); ++i) {
-        a.push_back(vertices[i].position);
-        uvA.push_back(vertices[i].uv);
-        
-        ++i; // Next vertex
-        
-        b.push_back(vertices[i].position);
-        uvB.push_back(vertices[i].uv);
-
-        ++i; // Next vertex
-
-        c.push_back(vertices[i].position);
-        uvC.push_back(vertices[i].uv);
-
-        // Making the assumption that each triplet has the same texture. This
-        // seems sensible.
-        sampler.push_back(vertices[i].sampler);
-    }
-    
-    // All must be equal in size.
-    assert(a.size() == b.size() && b.size() == c.size());
-    assert(uvA.size() == uvB.size() && uvB.size() == uvC.size());
-    assert(uvA.size() == a.size());
-    assert(sampler.size() == a.size());
-    
-    // Upload the vertices
-    glUniform3fv(_uniformVerticesA, (int) a.size(), a[0].v);
-    glUniform3fv(_uniformVerticesB, (int) b.size(), b[0].v);
-    glUniform3fv(_uniformVerticesC, (int) c.size(), c[0].v);
-    
-    // Upload the texture coordinates
-    glUniform2fv(_uniformUvA, (int) uvA.size(), uvA[0].v);
-    glUniform2fv(_uniformUvB, (int) uvB.size(), uvB[0].v);
-    glUniform2fv(_uniformUvC, (int) uvC.size(), uvC[0].v);
-    
-    // Texture sampler indices
-    glUniform1iv(_uniformSampler, (int) sampler.size(), &sampler[0]);
-    
-    // Amount of triangles
-    glUniform1i(_uniformNumTriangles, (int) a.size());
-    GLError();
     
     // Bind the triangle textures (up to 15)
     std::vector<int> textureSamplers;
@@ -717,11 +613,34 @@ void Quantize::update(float dt) {
     // Inform the shader which sampler indices to use
     glUniform1iv(_uniformTextures, (int) textureSamplers.size(), & textureSamplers[0]);
     GLError();
+    
+    // Some group of faces to upload
+    std::vector<VertexData>& vertices = ((Model*)subject->sub[0].get())->vertices;
+   
+    // Amount of triangles
+    glUniform1i(_uniformNumTriangles, (int) vertices.size() / 3);
+    GLError();
+    
+    GLfloat* data = vertices[0].position.v;
+    
+    // 4 triplets with floats
+    const GLint width  = (GLint) vertices.size() * 4;
 
-    // Enable data texture
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, _dataTexture);
     GLError();
+    
+    glTexImage2D(GL_TEXTURE_2D,                     // What (target)
+             0,                                     // Mip-map level
+             GL_RGB32F,                             // Internal format
+             width,                                 // Width
+             1,                                     // Height
+             0,                                     // Border
+             GL_RGB,                                // Format (how to use)
+             GL_FLOAT,                              // Type   (how to intepret)
+             data);                                 // Data
+    GLError();
+
     
     // Set uniform sampler to use the data texture
     glUniform1i(_uniformDataTexture, 0);
