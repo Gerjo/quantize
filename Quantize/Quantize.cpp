@@ -10,7 +10,7 @@
 #include "Entity.h"
 #include "Textures.h"
 
-Quantize::Quantize() {
+Quantize::Quantize() : _lastLogTime(GetTiming()) {
     
     Light light;
     light.position.x = 15.0f;
@@ -219,6 +219,14 @@ void Quantize::initializeRaytraceProgram() {
 /// @param Time elapsed since previous call to update.
 void Quantize::update(float dt) {
 
+    const double startTime = GetTiming();
+
+    // Generic variable used for statistical reporting.
+    double time;
+
+    // Frame counter
+    stats.frames++;
+
     if(width >= 16384 || scene.empty()) {
         Exit("Too many or too few vertices in scene: %d/16384 bytes.", width);
     }
@@ -232,6 +240,7 @@ void Quantize::update(float dt) {
     glBindVertexArray(_vaoFrame);
     GLError();
     
+    time = GetTiming();
     
     // Build Structure of arrays (SOA) from Array of structures (AOS)
     std::vector<Vector3> position;
@@ -250,6 +259,7 @@ void Quantize::update(float dt) {
     // Amount of lights
     int nLights = (int) lights.size();
     
+    
     // Upload the lights and other uniforms to the GPU
     glUniform1i(_lightCount, nLights);
     glUniform3fv(_lightsPosition, nLights, position[0].v);
@@ -260,6 +270,8 @@ void Quantize::update(float dt) {
     glUniformMatrix4fv(_uniformRtTranslation, 1, GL_FALSE, camera.translation().f);
     glUniform2f(_uniformRtWindowSize, width, height);
     GLError();
+    
+    stats.uniforms += GetTiming() - time;
     
     // Bind the triangle textures (up to 15)
     std::vector<int> textureSamplers;
@@ -285,6 +297,8 @@ void Quantize::update(float dt) {
     glBindTexture(GL_TEXTURE_2D, _dataTexture);
     GLError();
     
+    time = GetTiming();
+    
     // Upload the whole scene as a texture. We should measure the performance
     // of this. Static objects could be uploaded just once.
     glTexImage2D(GL_TEXTURE_2D,                     // What (target)
@@ -299,22 +313,25 @@ void Quantize::update(float dt) {
     );
     GLError();
 
+    stats.uploadingDataTexture += GetTiming() - time;
     
     // Set uniform sampler to use the data texture
     glUniform1i(_uniformDataTexture, 0);
     GLError();
-    
-    // From this point onward we render a rectangle, this rectangle serves as a
-    // raytrace canvas.
-    glEnableVertexAttribArray(_attrRtPosition);
-    GLError();
 
+
+    glEnableVertexAttribArray(_attrRtPosition);
+    
     // Validate just before drawing. If there are errors, this will show them. The
     // actual draw call does not contain debug information at all.
-    GLValidateProgram(_programRaytracer);
+    //GLValidateProgram(_programRaytracer);
+
+    time = GetTiming();
 
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     GLError();
+    
+    stats.drawing += GetTiming() - time;
     
     glDisableVertexAttribArray(_vboRtVertices);
     GLError();
@@ -323,6 +340,37 @@ void Quantize::update(float dt) {
     glBindVertexArray(0);
     GLError();
 
+    time = GetTiming();
+
     // Swap double buffer
     glSwapAPPLE();
+    
+    stats.swapping = GetTiming() - time;
+    
+    stats.total += GetTiming() - startTime;
+    
+    time = GetTiming();
+    if(time - _lastLogTime > _logInterval) {
+    
+        printf("------------\n"
+        "Frames:             %.2f per second\n"
+        "Total time:         %f seconds\n"
+        "Swapping buffers:   %f seconds\n"
+        "Lights and camera:  %f seconds (%lu lights in %lu bytes)\n"
+        "Uploading vertices: %f seconds\n"
+        "Drawing:            %f seconds\n"
+        "Vertices:           %lu (%lu triangles in %lu bytes)\n",
+            1.0 / ((time - _lastLogTime) / stats.frames),
+            stats.total / stats.frames,
+            stats.swapping / stats.frames,
+            stats.uniforms / stats.frames,
+            lights.size(), sizeof(lights[0]) * lights.size(),
+            stats.uploadingDataTexture / stats.frames,
+            stats.drawing / stats.frames,
+            scene.size(), scene.size() / 3, sizeof(scene[0]) * scene.size());
+    
+        stats.reset();
+        _lastLogTime = time;
+    }
+    
 }

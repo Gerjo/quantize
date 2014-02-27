@@ -14,14 +14,11 @@
 #include "Math/Matrix44.h"
 
 #include "Tools.h"
-#include "Parser.h"
 #include "Model.h"
 #include "Textures.h"
 #include "Camera.h"
 #include "Light.h"
-
 #include "Collada.h"
-
 #include "Model.h"
 
 using namespace Furiosity;
@@ -73,6 +70,34 @@ class Quantize {
     
     /// A collection that will be uploaded as a texture to the GPU.
     std::vector<VertexData> scene;
+    
+    /// Variables for statistical reporting
+    double _lastLogTime{0}; // Time of last log print
+    double _logInterval{3}; // Per seconds
+    
+    /// Inline struct, easier than prefixing all variables.
+    struct Stats {
+        double drawing;
+        double uploadingDataTexture;
+        double total;
+        double swapping;
+        double uniforms;
+        int frames;
+        
+        Stats() {
+            reset();
+        }
+        
+        void reset() {
+            drawing = 0;
+            uploadingDataTexture = 0;
+            total = 0;
+            swapping = 0;
+            uniforms = 0;
+            frames = 0;
+        }
+    } stats;
+    
     
 public:
     /// Camera

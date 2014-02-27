@@ -17,6 +17,7 @@
 #include <cstdio>
 #include <cassert>
 #include <vector>
+#include <sys/time.h>  // For ::gettimeofday
 
 static std::string ReadFile(const std::string& filename) {
     std::ifstream t(filename.c_str());
@@ -276,4 +277,17 @@ static void GLValidateProgram(const GLuint program) {
     if (status == GL_FALSE) {
         Exit("Much break. Such not valid. many kapot. Log size: %d", logLength);
     }
+}
+
+static double GetTiming()
+{
+    ::timeval now;
+    int r = ::gettimeofday(&now, NULL);
+    
+    if(r != 0)
+    {
+        printf("GetMillies() Unable to retrieve system time, error code: '%i'.", r);
+    }
+    
+    return now.tv_sec + (now.tv_usec / 1000000.0);
 }

@@ -33,7 +33,7 @@ uniform mat4 rotation;
 uniform sampler2D textures[15];
 
 
-/// Format (non optimized structure, directly compied from c++)
+/// Format (non optimized structure, directly copied from c++)
 /// [0] Vector3 position;
 /// [1] Vector3 normal;
 /// [2] Vector2 uv;
