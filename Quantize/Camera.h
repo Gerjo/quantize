@@ -55,7 +55,7 @@ public:
     void update() {
         position += orientedTranslation(Vector3(control[LEFT] - control[RIGHT],
                                                 control[DOWN] - control[UP],
-                                                control[FORWARD] - control[BACKWARD])) * moveSpeed;
+                                                control[BACKWARD] - control[FORWARD])) * moveSpeed;
         orientation.z += (control[CW] - control[CCW]) * rollSpeed;
     }
     
