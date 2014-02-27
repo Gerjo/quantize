@@ -143,12 +143,12 @@ static Quantize* quantize = Quantize::getInstance();
 
 - (IBAction)lerpSliderAction:(id)sender {
     float value = [sender floatValue] / 100.0f;
-    quantize->kernelLerp = value;
+    //quantize->kernelLerp = value;
 }
 
 - (IBAction)kernelPopupAction:(id)sender {
     int value = (int)[sender indexOfSelectedItem];
-    quantize->kernelType = value;
+    //quantize->kernelType = value;
 }
 
 @end

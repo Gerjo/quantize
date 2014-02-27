@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A6403D9918AD9160009116CF /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6403D9818AD9160009116CF /* Model.cpp */; };
 		A66A07BB18B66DC200F2CD15 /* A10.dae in Resources */ = {isa = PBXBuildFile; fileRef = A66A072118B66DC100F2CD15 /* A10.dae */; };
 		A66A07BC18B66DC200F2CD15 /* A10.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A072218B66DC100F2CD15 /* A10.png */; };
 		A66A07BD18B66DC200F2CD15 /* body front.png in Resources */ = {isa = PBXBuildFile; fileRef = A66A072318B66DC100F2CD15 /* body front.png */; };
@@ -217,7 +216,6 @@
 /* Begin PBXFileReference section */
 		A6403D9418ACB9FA009116CF /* Light.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Light.h; sourceTree = "<group>"; };
 		A6403D9718AD8B05009116CF /* Entity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
-		A6403D9818AD9160009116CF /* Model.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Model.cpp; sourceTree = "<group>"; };
 		A66A072118B66DC100F2CD15 /* A10.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = A10.dae; sourceTree = "<group>"; };
 		A66A072218B66DC100F2CD15 /* A10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = A10.png; sourceTree = "<group>"; };
 		A66A072318B66DC100F2CD15 /* body front.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "body front.png"; sourceTree = "<group>"; };
@@ -731,7 +729,6 @@
 				A69FD3DF18B4BD96002FB76E /* Textures.cpp */,
 				A6403D9718AD8B05009116CF /* Entity.h */,
 				A6C56C3018A1480200DFAA00 /* Model.h */,
-				A6403D9818AD9160009116CF /* Model.cpp */,
 				A6403D9418ACB9FA009116CF /* Light.h */,
 				A6C56AA518A1092A00DFAA00 /* Tools.h */,
 				A6C56CA718A8E9FC00DFAA00 /* Collada.h */,
@@ -1162,7 +1159,6 @@
 				A6C56C5318A2AA5000DFAA00 /* pngpread.c in Sources */,
 				A6C56C5018A2AA5000DFAA00 /* pngerror.c in Sources */,
 				A6C56C2A18A139EB00DFAA00 /* Matrix44.cpp in Sources */,
-				A6403D9918AD9160009116CF /* Model.cpp in Sources */,
 				A6C56C5E18A2AA5000DFAA00 /* pngwutil.c in Sources */,
 				A6C56C2D18A139EB00DFAA00 /* Vector2.cpp in Sources */,
 				A6C56C6F18A5924E00DFAA00 /* postp.vsh in Sources */,

@@ -11,20 +11,9 @@
 #include "Textures.h"
 
 Quantize::Quantize()
-    : _programMesh(0)
-    , width(200)
+    : width(200)
     , height(100)
-    , _attrPosition(0)
-    , _attrNormal(0)
-    , _attrColor(0)
-    , _attrUV(0)
-    , _uniformCamera(0)
-    , _uniformModelTransform(0)
-    , _uniformNormalTransform(0)
-    , _uniformSamplers{0}
     , camera(new Camera())
-    , kernelLerp(0.7f)
-    , kernelType(6)
     {
     
     Light light;
@@ -66,14 +55,7 @@ Quantize::Quantize()
 }
 
 Quantize::~Quantize() {
-    glDeleteRenderbuffers(1, &_renderBuffer);
-    glDeleteTextures(1, &_fboTexture);
-    glDeleteFramebuffers(1, &_fbo);
-    
-    glDeleteProgram(_programPost);
-    glDeleteProgram(_programMesh);
-    
-    glDeleteBuffers(1, &_vboFboVertices);    
+    glDeleteProgram(_programRaytracer);
 }
 
 void Quantize::loadDemoScene() {
@@ -153,7 +135,7 @@ void Quantize::loadDemoScene() {
 
 
 void Quantize::initialize(float width, float height) {
-    if(_programMesh != 0) {
+    if(_programRaytracer != 0) {
         Exit("Program already initialized.");
     }
     
@@ -193,153 +175,12 @@ void Quantize::initialize(float width, float height) {
     // e.g., map [-1,1] to [0, screensize] - though it makes more sense
     // to use a matrix (_projection) for that.
     glViewport(0, 0, width, height);
-    
-    // Usual perspective matrix
-    _projection = Matrix44::CreatePerspective(
-        3.14159268/2.5f,      // Field of view
-        width/height,         // Aspect ratio
-        0.5f,                 // near
-        200.0f                // far
-    );
-    
-    
-    // Setup the mesh rendering shader programs
-    initializeMeshProgram();
-    
-    // Setup the FBO, RBO and related shaders.
-    initializePostProgram();
-    
+        
     // Experimental raytacer
     initializeRaytraceProgram();
     
     loadDemoScene();
 };
-
-void Quantize::initializeMeshProgram() {
-    // Programs contain shaders.
-    _programMesh = glCreateProgram();
-
-    // Prepare all shaders. These will exit on failure.
-    GLuint vsh = CompileShader("shaders/basic.vsh");
-    GLuint fsh = CompileShader("shaders/basic.fsh");
-    
-    // Attach vertex shader to program.
-    glAttachShader(_programMesh, vsh);
-    GLError();
-    
-    // Attach fragment shader to program.
-    glAttachShader(_programMesh, fsh);
-    GLError();
-
-    glLinkProgram(_programMesh);
-    //GLValidateProgram(_programMesh);
-    
-    // Get a handle to shader attributes
-    _attrPosition     = glGetAttribLocation(_programMesh, "position");
-    _attrNormal       = glGetAttribLocation(_programMesh, "normal");
-    _attrColor        = glGetAttribLocation(_programMesh, "color");
-    _attrUV           = glGetAttribLocation(_programMesh, "uv");
-    _attrSamplerIndex = glGetAttribLocation(_programMesh, "samplerIndex");
-    _uniformCamera    = glGetUniformLocation(_programMesh, "camera");
-    _uniformModelTransform  = glGetUniformLocation(_programMesh, "modelTransform");
-    _uniformNormalTransform = glGetUniformLocation(_programMesh, "normalTransform");
-    GLError();
-
-    for(int i = 0; i < 15; ++i) {
-        const string address = "samplers[" + std::to_string(i) + "]";
-        _uniformSamplers[i] = glGetUniformLocation(_programMesh, address.c_str());
-        
-        //printf("%s = %i\n", address.c_str(), _uniformSamplers[i]);
-    }
-
-    _lightCount     = glGetUniformLocation(_programMesh, "lightCount");
-    _lightsPosition = glGetUniformLocation(_programMesh, "lightsPosition");
-    _lightsDiffuse  = glGetUniformLocation(_programMesh, "lightsDiffuse");
-    _lightsSpecular = glGetUniformLocation(_programMesh, "lightsSpecular");
-    _lightsAmbiant  = glGetUniformLocation(_programMesh, "lightsAmbiant");
-    GLError();
-
-    // Remove the shaders, they are compiled and no longer required.
-    glDetachShader(_programMesh, vsh);
-    glDeleteShader(vsh);
-    glDetachShader(_programMesh, fsh);
-    glDeleteShader(fsh);
-}
-
-void Quantize::initializePostProgram() {
-    // We render to a texture, so let's create a texture.
-    glActiveTexture(GL_TEXTURE0);
-    glGenTextures(1, &_fboTexture);
-    glBindTexture(GL_TEXTURE_2D, _fboTexture);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    GLError();
-    
-    // Depth buffer  (Render Buffer Object)
-    glGenRenderbuffers(1, &_renderBuffer);
-    glBindRenderbuffer(GL_RENDERBUFFER, _renderBuffer);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, width, height);
-    glBindRenderbuffer(GL_RENDERBUFFER, 0);
-    GLError();
-    
-    // Framebuffer to link everything together
-    glGenFramebuffers(1, &_fbo);
-    glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _fboTexture, 0);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _renderBuffer);
-    GLenum status;
-    if ((status = glCheckFramebufferStatus(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE) {
-        Exit("glCheckFramebufferStatus: error %p.", status);
-    }
-  
-    // Disable buffer, for now.
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    
-    // Prepare all shaders. These will exit on failure.
-    GLuint postvsh = CompileShader("shaders/postp.vsh");
-    GLuint postfsh = CompileShader("shaders/postp.fsh");
-        
-    _programPost = glCreateProgram();
-    glAttachShader(_programPost, postvsh);
-    GLError();
-    glAttachShader(_programPost, postfsh);
-    GLError();
-    glLinkProgram(_programPost);
-    //GLValidateProgram(_programPost);
-
-    // Get a handle to the variables in the shader programs
-    _attrUvFBO         = glGetAttribLocation(_programPost, "position");
-    _uniformFboTexture = glGetUniformLocation(_programPost, "uniformTexture");
-    _uniformWindowSize = glGetUniformLocation(_programPost, "windowSize");
-    
-    _uniformKernelType =  glGetUniformLocation(_programPost, "kernelType");
-    _uniformKernelLerp =  glGetUniformLocation(_programPost, "kernelLerp");
-    
-    GLError();
-    
-    // The rectangle used to render onto, the UVs are derived from this.
-    GLfloat fbo_vertices[] = {
-        -1, -1,
-         1, -1,
-        -1,  1,
-         1,  1,
-    };
-    
-    glGenBuffers(1, &_vboFboVertices);
-    glBindBuffer(GL_ARRAY_BUFFER, _vboFboVertices);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(fbo_vertices), fbo_vertices, GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    
-    // Cleanup
-    glDetachShader(_programPost, postvsh);
-    glDeleteShader(postvsh);
-    glDetachShader(_programPost, postfsh);
-    glDeleteShader(postfsh);
-}
 
 
 void Quantize::initializeRaytraceProgram() {
@@ -377,12 +218,25 @@ void Quantize::initializeRaytraceProgram() {
          1,  1,
     };
     
+    glGenVertexArrays(1, &_vaoFrame);
+    glBindVertexArray(_vaoFrame);
+    
     glGenBuffers(1, &_vboRtVertices);
     glBindBuffer(GL_ARRAY_BUFFER, _vboRtVertices);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
     GLError();
 
+    glVertexAttribPointer(
+            _attrRtPosition,             // attribute
+            2,                           // number of elements per vertex, here (x,y)
+            GL_FLOAT,                    // the type of each element
+            GL_FALSE,                    // take our values as-is
+            0,                           // no extra data between each position
+            0                            // offset of first element
+    );
+    GLError();
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     // Cleanup
     glDetachShader(_programRaytracer, vsh);     GLError();
@@ -399,192 +253,16 @@ void Quantize::initializeRaytraceProgram() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     GLError();
-  
-
-    
-}
-
-/// Render a model.
-///
-/// @param A model to render.
-/// @param An optional extra model transform.
-void Quantize::render(Model& model, const Matrix44& transform) {
-    Matrix44 t = model.transform * transform;
-    
-    // Upload a model transform
-    glUniformMatrix4fv(_uniformModelTransform,  // Location
-                        1,                      // Amount of matrices
-                        false,                  // Require transpose
-                        t.f                     // Float array with values
-    );
-    GLError();
-    
-    // Upload the normal matrix (transform without translation)
-    glUniformMatrix3fv(_uniformNormalTransform,    // Location
-                        1,                         // Amount of matrices
-                        false,                     // Require transpose
-                        t.GetMatrix33().Invert().f // Float array with values
-    );
-    GLError();
-    
-
-    // Enable the VAO, implicitly enables the VBO and attribute arrays.
-    glBindVertexArray(model.vao);
-    GLError();
-
-    GLValidateProgram(_programMesh);
-
-    // We use glDrawElements.
-    //glDrawArrays(GL_TRIANGLES, 0, (GLsizei) model.vertices.size());
-    //GLError();
-
-    // Indices are not stored in the VAO.
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model.vbo[1]);
-    GLError();
-    
-    
-    // Draw call. (similar to glDrawArray, but with indices)
-    glDrawElements(
-        GL_TRIANGLES,                     // GL primitive type
-        (GLsizei) model.indices.size(),   // How many indices to draw
-        GL_UNSIGNED_INT,                  // Data type of indices
-        0                                 // Offset
-    );
-    GLError();
-
-    // Unbind buffers.
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 /// Entry point for the update and draw loops.
 /// @param Time elapsed since previous call to update.
 void Quantize::update(float dt) {
-   
-    // Enable framebuffer render target
-    glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
-    GLFBError();
-    
-    glClearColor(0, 0, 0, 0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-    // Camera position
     camera->update();
-    Matrix44 transform = camera->transform();
-    
-    
-    // Pre-multiply all projection related matrices. These are constant
-    // terms.
-    Matrix44 projection = _projection * transform;
-    
-    // Shader activate!
-    glUseProgram(_programMesh);
-    GLError();
-    
-    // Update the uniform.
-    glUniformMatrix4fv(_uniformCamera,  // Location
-                        1,              // Amount of matrices
-                        false,          // Require transpose
-                        projection.f   // Float array with values
-    );
-    GLError();
 
-
-    // Build Structure of arrays (SOA) from Array of structures (AOS)
-    std::vector<Vector3> position;
-    std::vector<Color> diffuse;
-    std::vector<Color> specular;
-    std::vector<Color> ambient;
-
-    for(const Light& light : lights) {
-        position.push_back(light.position);
-        diffuse.push_back(light.diffuse);
-        specular.push_back(light.specular);
-        ambient.push_back(light.ambient);
-    }
-
-    // Amount of lights
-    int nLights = (int) lights.size();
-    
-    glUniform1i(_lightCount, nLights);
-    GLError();
-    
-    glUniform3fv(_lightsPosition, nLights, position[0].v);
-    glUniform4fv(_lightsAmbiant, nLights, ambient[0].v);
-    glUniform4fv(_lightsSpecular, nLights, specular[0].v);
-    glUniform4fv(_lightsDiffuse, nLights, diffuse[0].v);
-    GLError();
-
-
-    for(int i = 0; i < Textures::samplers.size(); ++i) {
-        // Texture enabling
-        glActiveTexture(GL_TEXTURE0 + i);                       // Use texture n
-        glBindTexture(GL_TEXTURE_2D, Textures::samplers[i]);    // Bind handle to n
-        glUniform1i(_uniformSamplers[i], i);                    // Set the sampler to tex n
-        GLError();
-    }
-
-    // Render/Update loop
-    for(auto model : entities) {
-        model->update(this, Matrix44::CreateIdentity(), dt);
-    }
-
-
-    // Visualise the physical location of lights
-    for(Light& light : lights) {
-        Matrix44 transform = Matrix44::CreateTranslation(light.position.x, light.position.y, light.position.z)
-        * Matrix44::CreateScale(0.3f);
-        
-        cube->update(this, transform, dt);
-    }
-
-    // Stop rendering to buffer.
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    GLFBError();
-    //glSwapAPPLE();
-    //return;
-
-////////////////////////////////////////////////////////////////////////////////
-//// POST PROCESSING
-////////////////////////////////////////////////////////////////////////////////
     glClearColor(0.541, 0.361, 0.361, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    glUseProgram(_programPost);
     
-    glUniform1f(_uniformKernelLerp, kernelLerp);
-    glUniform1i(_uniformKernelType, kernelType);
-    
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, _fboTexture);
-    glUniform1i(_uniformFboTexture, 0);
-    glUniform2f(_uniformWindowSize, width, height);
-    GLError();
-
-
-    
-    glBindBuffer(GL_ARRAY_BUFFER, _vboFboVertices);
-    glVertexAttribPointer(
-            _attrUvFBO,                  // attribute
-            2,                           // number of elements per vertex, here (x,y)
-            GL_FLOAT,                    // the type of each element
-            GL_FALSE,                    // take our values as-is
-            0,                           // no extra data between each position
-            0                            // offset of first element
-    );
-    glEnableVertexAttribArray(_attrUvFBO);
-    GLError();
-    
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-    glDisableVertexAttribArray(_attrUvFBO);
-   
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    
-    //glSwapAPPLE();
-    //return;
- 
-////////////////////////////////////////////////////////////////////////////////
-//// RAYTRACER
-////////////////////////////////////////////////////////////////////////////////
     glUseProgram(_programRaytracer);
     GLError();
     
@@ -651,16 +329,7 @@ void Quantize::update(float dt) {
     glEnableVertexAttribArray(_attrRtPosition);
     GLError();
     
-    glBindBuffer(GL_ARRAY_BUFFER, _vboRtVertices);
-    glVertexAttribPointer(
-            _attrRtPosition,             // attribute
-            2,                           // number of elements per vertex, here (x,y)
-            GL_FLOAT,                    // the type of each element
-            GL_FALSE,                    // take our values as-is
-            0,                           // no extra data between each position
-            0                            // offset of first element
-    );
-    GLError();
+    glBindVertexArray(_vaoFrame);
     
     GLValidateProgram(_programRaytracer);
     

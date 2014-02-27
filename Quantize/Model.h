@@ -58,20 +58,8 @@ struct VertexData {
             // codes
     }};
 
-class Model : public Entity {
-private:
-    /// Flag to indicate if this texture has been uploaded already, i.e. are the
-    /// vbo's ready.
-    bool _isuploaded;
+struct Model : public Entity {
 
-public:
-    /// Pointer to vertex buffer objects.
-    ///  0: the vertex data
-    ///  1: the order of drawing indices
-    GLuint vbo[2];
-    
-    GLuint vao;
-    
     /// The vertexdata (as per vbo[0]
     std::vector<VertexData> vertices;
     
@@ -90,14 +78,4 @@ public:
     /// A handle to the texture. Smart pointers are used to manage the resource
     /// reuse.
     std::shared_ptr<GLuint> texture;
- 
-    /// Construct a
-    Model();
-    ~Model();
-    
-    /// Determine if the vbo's are uplaoded.
-    bool isUpoaded();
-    virtual void update(Quantize* q, const Matrix44& parent, const float dt) override;
-    
-    void upload(Quantize* quantize);
 };

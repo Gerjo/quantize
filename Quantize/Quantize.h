@@ -29,22 +29,6 @@ using std::string;
 
 class Quantize {
 public:
-    /// Main shader program.
-    GLuint _programMesh;
-    
-    /// Shader attributes.
-    GLuint _attrPosition;
-    GLuint _attrNormal;
-    GLuint _attrColor;
-    GLuint _attrUV;
-    GLuint _attrSamplerIndex;
-    
-    /// Shader uniforms.
-    GLint _uniformCamera;
-    GLint _uniformModelTransform;
-    GLint _uniformNormalTransform;
-    //GLuint _uniformSampler_1;
-    GLint _uniformSamplers[15];
     
     /// Light uniforms
     GLuint _lightCount;
@@ -57,26 +41,8 @@ public:
     float width;
     float height;
     
-    /// Perspective projection.
-    Matrix44 _projection;
-    
-
-    /// Framebuffer
-    GLuint _fbo;
-    GLuint _fboTexture;
-    GLuint _renderBuffer;
-
-    /// Post processing shader
-    GLuint _programPost;
-    GLint  _attrUvFBO;
-    GLint  _uniformFboTexture;
-    GLint  _uniformWindowSize;
-    GLuint _vboFboVertices;
-    GLint  _uniformKernelType;
-    GLint  _uniformKernelLerp;
-    
     /// Ray tracer shader (todo: zero initialize)
-    GLint  _programRaytracer;
+    GLint  _programRaytracer{0};
     GLuint _vboRtVertices;
     GLint  _attrRtPosition;
     GLint  _uniformRtWindowSize;
@@ -85,6 +51,7 @@ public:
     GLint  _uniformNumTriangles;
     GLint  _uniformTextures;
     GLint  _uniformDataTexture;
+    GLuint _vaoFrame;
     GLuint _dataTexture;
     
     /// Collection of models to render.
@@ -96,20 +63,6 @@ public:
     std::shared_ptr<Model> triangle;
     
 public:
-    /// Type of convolution kernel.
-    /// 0:        kernel = identity;
-    /// 1:        kernel = blur1;
-    /// 2:        kernel = blur2;
-    /// 3:        kernel = edge1;
-    /// 4:        kernel = edge2;
-    /// 5:        kernel = edge3;
-    /// 6:        kernel = sharpen;
-    int kernelType;
-    
-    /// Blend value of the convolution kernel. 0 = kernel only, 1 = original only.
-    float kernelLerp;
-    
-
     /// Camera
     Camera* camera;
     
@@ -140,21 +93,9 @@ public:
     /// Initialize OpenGL and width/height dependent variables.
     void initialize(float width, float height);
     
-    /// Load the mesh (model) renderer program.
-    void initializeMeshProgram();
-    
-    /// Load the post processing shader program.
-    void initializePostProgram();
-    
     /// Load the raytracer shader program.
     void initializeRaytraceProgram();
     
-    /// Render a model.
-    ///
-    /// @param A model to render.
-    /// @param An additional transform.
-    void render(Model& model, const Matrix44& transform = Matrix44());
-   
     /// Entry point for the update and draw loops.
     ///
     /// @param Time elapsed since previous call to update.
