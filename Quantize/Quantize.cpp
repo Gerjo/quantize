@@ -252,7 +252,7 @@ void Quantize::update(float dt) {
 
     // Collect light properties
     for(const Light& light : lights) {
-        position.push_back(light.position);
+        position.push_back(light.position * 100);
         diffuse.push_back(light.diffuse);
         specular.push_back(light.specular);
         ambient.push_back(light.ambient);
