@@ -58,6 +58,11 @@ vec3 getVertex(int i) {
     return texelFetch(zdata, ivec2(offset, 0), lod).xyz;
 }
 
+vec3 getNormal(int i) {
+    int offset = i * stride + 1;
+    return texelFetch(zdata, ivec2(offset, 0), lod).xyz;
+}
+
 vec2 getUV(int i) {
     int offset = i * stride + 2;
     return texelFetch(zdata, ivec2(offset, 0), lod).xy;
@@ -260,8 +265,6 @@ void main() {
             for(int l = 0; l < lightCount; ++l) {
             //for(int l = 0; l < lightCount; ++l) {
         
-               
-        
                 Ray beam;
                 beam.place     = where;
                 beam.direction = lightsPosition[l] - beam.place;
@@ -272,15 +275,15 @@ void main() {
                     vec3 tmp;
                     float t;
                     
-                    vec3 D = getVertex( k * 3 + 0);
-                    vec3 E = getVertex( k * 3 + 1);
-                    vec3 F = getVertex( k * 3 + 2);
+                    vec3 D = getVertex(k * 3 + 0);
+                    vec3 E = getVertex(k * 3 + 1);
+                    vec3 F = getVertex(k * 3 + 2);
                     
                     // Test the right ray against the current triangle.
                     int res = rayIntersetsTriangle(beam, D, E, F, true, tmp, t);
                     
                     // Test intersection distance.
-                    if(res != 0 && (t >= -0.0001 && t <= 1.0001)) {
+                    if(res != 0 && (t >= -0.000001 && t <= 1.000001)) {
                     
                         //vec2 uv2 = barycentric(where, D, E, F, getUV(k * 3 + 0), getUV(k * 3 + 1), getUV(k * 3 + 2));
                         //vec4 color2 = texture(textures[getSampler(k * 3)], uv);
