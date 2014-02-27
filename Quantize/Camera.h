@@ -52,11 +52,15 @@ public:
         //else return defaultLookat();
     }
     
-    void update() {
+    void update(const float dt) {
+        
+        const float scale = 140;
+    
         position += orientedTranslation(Vector3(control[LEFT] - control[RIGHT],
                                                 control[DOWN] - control[UP],
-                                                control[BACKWARD] - control[FORWARD])) * moveSpeed;
-        orientation.z += (control[CCW] - control[CW]) * rollSpeed;
+                                                control[BACKWARD] - control[FORWARD])) * moveSpeed * dt * scale;
+        
+        orientation.z += (control[CCW] - control[CW]) * rollSpeed * dt * scale;
     }
     
     void onMove(const Vector2& location) {

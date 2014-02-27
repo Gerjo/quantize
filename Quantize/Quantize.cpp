@@ -233,7 +233,7 @@ void Quantize::update(float dt) {
         Exit("Too many or too few vertices in scene: %d/16384 bytes.", width);
     }
 
-    camera.update();
+    camera.update(dt);
 
     glClearColor(0.541, 0.361, 0.361, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

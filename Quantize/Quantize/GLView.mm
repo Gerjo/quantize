@@ -1,11 +1,12 @@
 #import "GLView.h"
-#include <OpenGL/gl.h>
+#include "Tools.h"
 
 #include "Vector2.h"
 #include "Quantize.h"
 
 static NSTimer *timer = nil;
 
+static double lastUpdate = GetTiming();
 
 static Quantize* quantize = Quantize::getInstance();
 static bool isInitialized = false;
@@ -40,6 +41,8 @@ static bool isInitialized = false;
 
 -(void) drawRect: (NSRect) bounds
 {
+    double startTime = GetTiming();
+
     //[self setNeedsDisplay:YES];
     
     if( ! isInitialized) {
@@ -51,8 +54,9 @@ static bool isInitialized = false;
         isInitialized = true;
     }
 
-    quantize->update(1.0f/60.0f);
-    
+    quantize->update(startTime - lastUpdate);
+        
+    lastUpdate = startTime;
 }
 
 
