@@ -56,14 +56,14 @@ public:
         position += orientedTranslation(Vector3(control[LEFT] - control[RIGHT],
                                                 control[DOWN] - control[UP],
                                                 control[BACKWARD] - control[FORWARD])) * moveSpeed;
-        orientation.z += (control[CW] - control[CCW]) * rollSpeed;
+        orientation.z += (control[CCW] - control[CW]) * rollSpeed;
     }
     
     void onMove(const Vector2& location) {
         if (!locked) {
-        Matrix44 _rollCompensation = Matrix44::CreateRotateZ(-1 * orientation.z);
-        Vector3 _rotation = updateMouse(location);
-        orientation += _rollCompensation * _rotation;
+            Matrix44 _rollCompensation = Matrix44::CreateRotateZ(orientation.z);
+            Vector3 _rotation = updateMouse(location);
+            orientation += _rollCompensation * _rotation;
         }
     }
     
@@ -174,7 +174,7 @@ private:
         Matrix44 _rotateX = Matrix44::CreateRotateX(-1 * orientation.y);
         Matrix44 _rotateY = Matrix44::CreateRotateY(orientation.x);
         Matrix44 _roll = Matrix44::CreateRotateZ(orientation.z);
-        return _roll * _rotateX * _rotateY;
+        return _rotateY * _rotateX * _roll;
     }
     
     Matrix44 computeInverseRotation() {
