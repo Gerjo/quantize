@@ -43,6 +43,8 @@ class Quantize {
     /// Texture that will contain all VertexData (traingles)
     GLuint _dataTexture{0};
     
+    GLuint _glTimerQuery{0};
+    
     /// Miscellaneous Uniforms
     GLint _attrRtPosition{-1};
     GLint _uniformRtWindowSize{-1};

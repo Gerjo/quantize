@@ -75,7 +75,7 @@ void Quantize::loadDemoScene() {
     float scale = 5;
     for(int x = 0; x < 2; ++x) {
         for(int y = 0; y < 2; ++y) {
-            Matrix44 t = Matrix44::CreateTranslation(x * scale, y * scale, 2) * Matrix44::CreateScale(scale);
+            Matrix44 t = Matrix44::CreateTranslation(x * scale * 2, y * scale * 2, 2) * Matrix44::CreateScale(scale);
             
             for(VertexData d : ((Model*)rectangle->sub[0].get())->vertices) {
                 d.position = t *  d.position;
@@ -213,6 +213,8 @@ void Quantize::initializeRaytraceProgram() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     GLError();
+    
+    glGenQueries(1, &_glTimerQuery);
 }
 
 /// Entry point for the update and draw loops.
@@ -326,13 +328,17 @@ void Quantize::update(float dt) {
     // actual draw call does not contain debug information at all.
     //GLValidateProgram(_programRaytracer);
 
-    time = GetTiming();
 
+    // http://www.lighthouse3d.com/tutorials/opengl-short-tutorials/opengl-timer-query/
+    
+    glBeginQuery(GL_TIME_ELAPSED, _glTimerQuery);
+    
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     GLError();
     
-    stats.drawing += GetTiming() - time;
+    glEndQuery(GL_TIME_ELAPSED);
     
+
     glDisableVertexAttribArray(_vboRtVertices);
     GLError();
     
@@ -345,28 +351,35 @@ void Quantize::update(float dt) {
     // Swap double buffer
     glSwapAPPLE();
     
+    
+    GLint duration;
+    glGetQueryObjectiv(_glTimerQuery, GL_QUERY_RESULT, &duration);
+    
+    stats.drawing += duration * 0.0000000001;
+    
+    //printf("%d\n", duration);
+    
     stats.swapping = GetTiming() - time;
     
     stats.total += GetTiming() - startTime;
+
     
     time = GetTiming();
     if(time - _lastLogTime > _logInterval) {
     
         printf("------------\n"
         "Frames:             %.2f per second\n"
-        "Total time:         %f seconds\n"
-        "Swapping buffers:   %f seconds\n"
+        "Update time:        %f seconds\n"
         "Lights and camera:  %f seconds (%lu lights in %lu bytes)\n"
         "Uploading vertices: %f seconds\n"
-        "Drawing:            %f seconds\n"
+        "Shader time:        %f seconds\n"
         "Vertices:           %lu (%lu triangles in %lu bytes)\n",
             1.0 / ((time - _lastLogTime) / stats.frames),
             stats.total / stats.frames,
-            stats.swapping / stats.frames,
             stats.uniforms / stats.frames,
             lights.size(), sizeof(lights[0]) * lights.size(),
             stats.uploadingDataTexture / stats.frames,
-            stats.drawing / stats.frames,
+            stats.drawing,
             scene.size(), scene.size() / 3, sizeof(scene[0]) * scene.size());
     
         stats.reset();

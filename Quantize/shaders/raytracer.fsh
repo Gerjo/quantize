@@ -42,8 +42,9 @@ uniform sampler2D textures[15];
 /// [3] Glbyte[2] padding;
 uniform sampler2D zdata;
 
-const int stride     = 4; // In floats
-const int lod        = 0; // mipmap level
+const float Infinity = 99999999; // Infinity, for all intents and purposes.
+const int stride     = 4;        // In floats
+const int lod        = 0;        // mipmap level
 
 out vec4 finalColor;
 
@@ -143,15 +144,6 @@ int mod(int i, int n) {
 ///      \       |
 ///       \      |
 
-vec3 transformTriangle(vec3 v) {
-    return v;
-}
-
-vec3 transformCamera(vec3 v) {
-    //return v;
-    return (rotation * vec4(v, 1.0)).xyz;
-}
-
 /// Find the barycenter using the weights (UV) and vertices. I spend little time
 /// on getting this to work - there might be optimal solutions without so many
 /// square roots.
@@ -232,7 +224,7 @@ void main() {
     ray.direction = normalize(vec3(position, ray.place.z + perspective) - ray.place);
     
     // Rotate direction about camera
-    ray.direction = transformCamera(ray.direction);
+    ray.direction = (rotation * vec4(ray.direction, 1.0)).xyz;
     
     // Translate the camera
     ray.place -= vec3(translation[3][0] * 0.1, translation[3][1] * 0.1, translation[3][2] * 0.1);
@@ -241,12 +233,15 @@ void main() {
     vec4 zBufferColor[10];
     float zBufferDepth[10];
 
-    // A glsl 4.0 style loop
+    
+    float infLightCount = 1.0 / lightCount;
+    float ambientRatio  = 0.7 * infLightCount;
+
     int j = 0;
     for(int i = 0; i < numTriangles; ++i) {
-        vec3 A = transformTriangle(getVertex( i * 3 + 0));
-        vec3 B = transformTriangle(getVertex( i * 3 + 1));
-        vec3 C = transformTriangle(getVertex( i * 3 + 2));
+        vec3 A = getVertex( i * 3 + 0);
+        vec3 B = getVertex( i * 3 + 1);
+        vec3 C = getVertex( i * 3 + 2);
         
         vec3 where;
         float depth;
@@ -257,11 +252,65 @@ void main() {
         
         if(res != 0) {
             vec2 uv = barycentric(where, A, B, C, getUV(i * 3 + 0), getUV(i * 3 + 1), getUV(i * 3 + 2));
+            vec4 color = texture(textures[getSampler(i * 3)], uv);
+          
+            vec4 blend = vec4(0.0, 0.0, 0.0, 1.0);
+            
+            // For each light
+            for(int l = 0; l < min(lightCount, 2); ++l) {
+            //for(int l = 0; l < lightCount; ++l) {
+        
+               
+        
+                Ray beam;
+                beam.place     = where;
+                beam.direction = lightsPosition[l] - beam.place;
+                
+                int hits = 0;
+                
+                for(int k = 0; k < numTriangles && hits <= 1; ++k) {
+                    vec3 tmp;
+                    float t;
+                    
+                    vec3 D = getVertex( k * 3 + 0);
+                    vec3 E = getVertex( k * 3 + 1);
+                    vec3 F = getVertex( k * 3 + 2);
+                    
+                    // Test the right ray against the current triangle.
+                    int res = rayIntersetsTriangle(beam, D, E, F, true, tmp, t);
+                    
+                    // Test intersection distance.
+                    if(res != 0 && ( t > 0 || t < 1 )) {
+                    
+                        vec2 uv2 = barycentric(where, D, E, F, getUV(k * 3 + 0), getUV(k * 3 + 1), getUV(k * 3 + 2));
+                        vec4 color2 = texture(textures[getSampler(k * 3)], uv);
+                    
+                        if(color2.a != 0.0) {
+                            ++hits;
+                        }
+                    }
+                }
+                
+                // Hit nothing, Full light!
+                if(hits <= 1) {
+                    blend += lightsDiffuse[l] * infLightCount;
+                    
+                // Hit something, use ambient term
+                } else {
+                    blend += vec4(0.2, 0.2, 0.2, 1.0);//lightsDiffuse[l] * ambientRatio;
+                }
+                
+            }
+            
+            // No alpha channel in light.
+            blend.a = 1.0;
             
             zBufferDepth[j] = depth;
+            //zBufferColor[j] = colors[mod(i, 6)] / 3.0;
+            zBufferColor[j] = color * blend;
             
-            //zBufferColor[j++] = colors[mod(i, 6)] / 3.0;
-            zBufferColor[j++] = texture(textures[getSampler(i * 3)], uv);
+            // Move to the next depth slot. TODO: test for limit!
+            j++;
         }
     }
     
