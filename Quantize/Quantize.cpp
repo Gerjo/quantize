@@ -60,7 +60,7 @@ void Quantize::loadDemoScene() {
     //Textures::LoadPNG("models/tmp/red.png");
     
     cube      = Collada::FromFile("models/Magey/Magey.dae");
-    rectangle = Collada::FromFile("models/Plane/checkerboard2.dae");
+    rectangle = Collada::FromFile("models/Plane/checkerboard3.dae");
     triangle  = Collada::FromFile("models/Plane/triangle.dae");
     
     model     = Collada::FromFile("models/Rock1/Rock1.dae");
@@ -75,7 +75,7 @@ void Quantize::loadDemoScene() {
     float scale = 25;
     for(int x = 0; x < 1; ++x) {
         for(int y = 0; y < 1; ++y) {
-            Matrix44 t = Matrix44::CreateTranslation(x * scale * 2, y * scale * 2, 2) * Matrix44::CreateScale(scale);
+            Matrix44 t = Matrix44::CreateRotateX(3.14 / 2) * Matrix44::CreateTranslation(x * scale * 2, y * scale * 2, -1) * Matrix44::CreateScale(scale);
             
             for(VertexData d : ((Model*)rectangle->sub[0].get())->vertices) {
                 d.position = t *  d.position;

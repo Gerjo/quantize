@@ -200,6 +200,7 @@
 		CC704C9D18BE3F2300212FB9 /* checkerboard2.dae in Resources */ = {isa = PBXBuildFile; fileRef = CC704C9C18BE3F2300212FB9 /* checkerboard2.dae */; };
 		CC71FFA518BCEC0B003AF106 /* Mage.png in Resources */ = {isa = PBXBuildFile; fileRef = CC71FFA318BCEC0B003AF106 /* Mage.png */; };
 		CC71FFA618BCEC0B003AF106 /* Magey.dae in Resources */ = {isa = PBXBuildFile; fileRef = CC71FFA418BCEC0B003AF106 /* Magey.dae */; };
+		CC80945F18C0A9EF00361414 /* checkerboard3.dae in Resources */ = {isa = PBXBuildFile; fileRef = CC80945E18C0A9EF00361414 /* checkerboard3.dae */; };
 		CCD8E8DB18B212BB0097323A /* Camera Controls.rtf in Resources */ = {isa = PBXBuildFile; fileRef = CCD8E8DA18B212BB0097323A /* Camera Controls.rtf */; };
 /* End PBXBuildFile section */
 
@@ -440,6 +441,7 @@
 		CC704C9C18BE3F2300212FB9 /* checkerboard2.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = checkerboard2.dae; sourceTree = "<group>"; };
 		CC71FFA318BCEC0B003AF106 /* Mage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Mage.png; sourceTree = "<group>"; };
 		CC71FFA418BCEC0B003AF106 /* Magey.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = Magey.dae; sourceTree = "<group>"; };
+		CC80945E18C0A9EF00361414 /* checkerboard3.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = checkerboard3.dae; sourceTree = "<group>"; };
 		CCD8E8DA18B212BB0097323A /* Camera Controls.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "Camera Controls.rtf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -638,6 +640,7 @@
 		A66A078118B66DC200F2CD15 /* Plane */ = {
 			isa = PBXGroup;
 			children = (
+				CC80945E18C0A9EF00361414 /* checkerboard3.dae */,
 				CC704C9C18BE3F2300212FB9 /* checkerboard2.dae */,
 				A6A92D0B18BD2CD600B77E60 /* checkerboard.dae */,
 				A66A084A18B6701600F2CD15 /* triangle.dae */,
@@ -985,6 +988,7 @@
 				A66A07E718B66DC200F2CD15 /* FW 190.png in Resources */,
 				A66A080D18B66DC200F2CD15 /* Wing Right.png in Resources */,
 				A66A082A18B66DC200F2CD15 /* Gun_Object_1.003.png in Resources */,
+				CC80945F18C0A9EF00361414 /* checkerboard3.dae in Resources */,
 				A6A92D0C18BD2CD600B77E60 /* checkerboard.dae in Resources */,
 				A66A080318B66DC200F2CD15 /* HEINKEL.dae in Resources */,
 				A66A083B18B66DC200F2CD15 /* palm.obj in Resources */,

@@ -143,7 +143,7 @@ public:
     }
     
     void onClick() {
-        printf("Registered click at: %.2f %.2f\n", mouse.x, mouse.y);
+        printf("Registered click at: %.2f %.2f\nCurrent Orientation: %.2f %.2f %.2f\n", mouse.x, mouse.y, orientation.x, orientation.y, orientation.z);
     }
     
 private:
