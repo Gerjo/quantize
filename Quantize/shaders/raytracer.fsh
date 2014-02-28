@@ -233,11 +233,17 @@ void main() {
     float stratIntervalX = 2.0 / (float(stratDivisions) * windowSize.x);
     float stratIntervalY = 2.0 / (float(stratDivisions) * windowSize.y);
     vec2 stratPos;
+    vec2 randomSeed = position;
+    float randomDX;
+    float randomDY;
     for (int stratX = 0 - stratDegree; stratX < 1 + stratDegree; ++stratX) {
         for (int stratY = 0 - stratDegree; stratY < 1 + stratDegree; ++stratY) {
+            randomDX = fract(sin(dot(randomSeed.xy ,vec2(12.9898,78.233))) * 43758.5453) - 0.5;
+            randomDY = fract(cos(dot(randomSeed.xy ,vec2(78.233,12.9898))) * 43758.5453) - 0.5;
+            
             stratPos = position;
-            stratPos.x += float(stratX) * stratIntervalX;
-            stratPos.y += float(stratY) * stratIntervalY;
+            stratPos.x += float(stratX + randomDX) * stratIntervalX;
+            stratPos.y += float(stratY + randomDY) * stratIntervalY;
             
             // Camera at origin
             ray.place = vec3(0, 0, 0);
