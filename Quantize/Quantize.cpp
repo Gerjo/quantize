@@ -11,7 +11,7 @@
 #include "Textures.h"
 
 Quantize::Quantize() : _lastLogTime(GetTiming()) {
-    
+    /*
     Light light;
     light.position.x = 15.0f;
     light.position.y = 5.0f;
@@ -27,7 +27,7 @@ Quantize::Quantize() : _lastLogTime(GetTiming()) {
     light.diffuse.g = 0;
     light.diffuse.b = 2;
     lights.push_back(light);
-    
+    */
         
     /*light.diffuse.r = 1;
     light.diffuse.g = 0;

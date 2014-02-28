@@ -218,6 +218,8 @@ void main() {
     colors[5] = vec4(0, 1, 1, 0.5);
 
     Ray ray;
+    vec4 stratColor = vec4(0.0, 0.0, 0.0, 0.0);
+    vec4 stratTemp;
     
     // Viewing direction, distance implies the perspective.
     const float perspective = 4.0;
@@ -225,116 +227,141 @@ void main() {
     // Camera at origin
     ray.place = vec3(0, 0, 0);
     
-    // Offset canvas from the camera (substraction is useless, but here for competeness)
-    ray.direction = normalize(vec3(position, ray.place.z + perspective) - ray.place);
-    
-    // Rotate direction about camera
-    ray.direction = (rotation * vec4(ray.direction, 1.0)).xyz;
-    
-    // Translate the camera
-    ray.place -= vec3(translation[3][0] * 0.1, translation[3][1] * 0.1, translation[3][2] * 0.1);
-    
-    // cool idea!
-    vec4 zBufferColor[10];
-    float zBufferDepth[10];
-
-    
-    float infLightCount = 1.0 / lightCount;
-    float ambientRatio  = 0.7 * infLightCount;
-
-    int j = 0;
-    for(int i = 0; i < numTriangles; ++i) {
-        vec3 A = getVertex( i * 3 + 0);
-        vec3 B = getVertex( i * 3 + 1);
-        vec3 C = getVertex( i * 3 + 2);
-        
-        vec3 where;
-        float depth;
-    
-        // Ray collision test; "where" is an output: the point of intersection.
-        int res = rayIntersetsTriangle(ray, A, B, C, false, where, depth);
-
-        
-        if(res != 0) {
-            vec2 uv = barycentric(where, A, B, C, getUV(i * 3 + 0), getUV(i * 3 + 1), getUV(i * 3 + 2));
-            vec4 color = texture(textures[getSampler(i * 3)], uv);
-          
-            vec4 blend = vec4(0.0, 0.0, 0.0, 1.0);
+    //Stratification degree. Set to 0 to disable.
+    int stratDegree = 1;
+    float stratIterations = pow(2 * stratDegree + 1, 2);
+    int stratDivisions = 2 * (stratDegree + 1);
+    float stratIntervalX = 2.0 / (float(stratDivisions) * windowSize.x);
+    float stratIntervalY = 2.0 / (float(stratDivisions) * windowSize.y);
+    vec2 stratPos;
+    for (int stratX = 0 - stratDegree; stratX < 1 + stratDegree; ++stratX) {
+        for (int stratY = 0 - stratDegree; stratY < 1 + stratDegree; ++stratY) {
+            stratPos = position;
+            //stratPos.x += float(stratX) * stratIntervalX;
+            //stratPos.y += float(stratY) * stratIntervalY;
             
-            // For each light
-            for(int l = 0; l < lightCount; ++l) {
-            //for(int l = 0; l < lightCount; ++l) {
-        
-                Ray beam;
-                beam.place     = where;
-                beam.direction = lightsPosition[l] - beam.place;
+            // Offset canvas from the camera (substraction is useless, but here for competeness)
+            ray.direction = normalize(vec3(stratPos, ray.place.z + perspective) - ray.place);
+            
+            // Rotate direction about camera
+            ray.direction = (rotation * vec4(ray.direction, 1.0)).xyz;
+            
+            // Translate the camera
+            ray.place -= vec3(translation[3][0] * 0.1, translation[3][1] * 0.1, translation[3][2] * 0.1);
+            
+            // cool idea!
+            vec4 zBufferColor[10];
+            float zBufferDepth[10];
+            
+            
+            float infLightCount = 1.0 / lightCount;
+            float ambientRatio  = 0.7 * infLightCount;
+            
+            int j = 0;
+            for(int i = 0; i < numTriangles; ++i) {
+                vec3 A = getVertex( i * 3 + 0);
+                vec3 B = getVertex( i * 3 + 1);
+                vec3 C = getVertex( i * 3 + 2);
                 
-                int hits = 0;
+                vec3 where;
+                float depth;
                 
-                for(int k = 0; k < numTriangles && hits <= 1; ++k) {
-                    vec3 tmp;
-                    float t;
+                // Ray collision test; "where" is an output: the point of intersection.
+                int res = rayIntersetsTriangle(ray, A, B, C, false, where, depth);
+                
+                
+                if(res != 0) {
+                    vec2 uv = barycentric(where, A, B, C, getUV(i * 3 + 0), getUV(i * 3 + 1), getUV(i * 3 + 2));
+                    vec4 color = texture(textures[getSampler(i * 3)], uv);
                     
-                    vec3 D = getVertex(k * 3 + 0);
-                    vec3 E = getVertex(k * 3 + 1);
-                    vec3 F = getVertex(k * 3 + 2);
+                    vec4 blend = vec4(0.0, 0.0, 0.0, 1.0);
                     
-                    // Test the right ray against the current triangle.
-                    int res = rayIntersetsTriangle(beam, D, E, F, true, tmp, t);
+                    // For each light
+                    for(int l = 0; l < lightCount; ++l) {
+                        //for(int l = 0; l < lightCount; ++l) {
+                        
+                        Ray beam;
+                        beam.place     = where;
+                        beam.direction = lightsPosition[l] - beam.place;
+                        
+                        int hits = 0;
+                        
+                        for(int k = 0; k < numTriangles && hits <= 1; ++k) {
+                            vec3 tmp;
+                            float t;
+                            
+                            vec3 D = getVertex(k * 3 + 0);
+                            vec3 E = getVertex(k * 3 + 1);
+                            vec3 F = getVertex(k * 3 + 2);
+                            
+                            // Test the right ray against the current triangle.
+                            int res = rayIntersetsTriangle(beam, D, E, F, true, tmp, t);
+                            
+                            // Test intersection distance.
+                            if(res != 0 && (t >= -0.000001 && t <= 1.000001)) {
+                                
+                                //vec2 uv2 = barycentric(where, D, E, F, getUV(k * 3 + 0), getUV(k * 3 + 1), getUV(k * 3 + 2));
+                                //vec4 color2 = texture(textures[getSampler(k * 3)], uv);
+                                
+                                //if(color2.a > 0.5) {
+                                ++hits;
+                                //}
+                            }
+                        }
+                        
+                        // Hit nothing, Full light!
+                        if(hits <= 1) {
+                            blend += lightsDiffuse[l] * infLightCount;
+                            
+                            // Hit something, use ambient term
+                        } else {
+                            blend += vec4(0.2, 0.2, 0.2, 1.0);//lightsDiffuse[l] * ambientRatio;
+                        }
+                        
+                    }
                     
-                    // Test intersection distance.
-                    if(res != 0 && (t >= -0.000001 && t <= 1.000001)) {
+                    // No alpha channel in light.
+                    blend.a = 1.0;
+                    //color.a = 1.0;
                     
-                        //vec2 uv2 = barycentric(where, D, E, F, getUV(k * 3 + 0), getUV(k * 3 + 1), getUV(k * 3 + 2));
-                        //vec4 color2 = texture(textures[getSampler(k * 3)], uv);
+                    zBufferDepth[j] = depth;
+                    //zBufferColor[j] = colors[mod(i, 6)] / 3.0;
+                    //zBufferColor[j] = color * blend;
+                    zBufferColor[j] = color;
                     
-                        //if(color2.a > 0.5) {
-                            ++hits;
-                        //}
+                    // Move to the next depth slot. TODO: test for limit!
+                    j++;
+                }
+            }
+            
+            vec4 swapV;
+            float swapF;
+            
+            for (int pivot = j; pivot > 1; --pivot) {
+                for (int k = 0; k < pivot - 1; ++k) {
+                    if (zBufferDepth[k] > zBufferDepth[k+1]) {
+                        swapV = zBufferColor[k];
+                        zBufferColor[k] = zBufferColor[k+1];
+                        zBufferColor[k+1] = swapV;
+                        
+                        swapF = zBufferDepth[k];
+                        zBufferDepth[k] = zBufferDepth[k+1];
+                        zBufferDepth[k+1] = swapF;
                     }
                 }
-                
-                // Hit nothing, Full light!
-                if(hits <= 1) {
-                    blend += lightsDiffuse[l] * infLightCount;
-                    
-                // Hit something, use ambient term
-                } else {
-                    blend += vec4(0.2, 0.2, 0.2, 1.0);//lightsDiffuse[l] * ambientRatio;
-                }
-                
             }
             
-            // No alpha channel in light.
-            blend.a = 1.0;
-            //color.a = 1.0;
-            
-            zBufferDepth[j] = depth;
-            //zBufferColor[j] = colors[mod(i, 6)] / 3.0;
-            zBufferColor[j] = color * blend;
-            
-            // Move to the next depth slot. TODO: test for limit!
-            j++;
-        }
-    }
-    
-    vec4 swapV;
-    float swapF;
-    
-    for (int pivot = j; pivot > 1; --pivot) {
-        for (int k = 0; k < pivot - 1; ++k) {
-            if (zBufferDepth[k] > zBufferDepth[k+1]) {
-                swapV = zBufferColor[k];
-                zBufferColor[k] = zBufferColor[k+1];
-                zBufferColor[k+1] = swapV;
-                
-                swapF = zBufferDepth[k];
-                zBufferDepth[k] = zBufferDepth[k+1];
-                zBufferDepth[k+1] = swapF;
+            //color for this stratification iteration
+            stratTemp = vec4(0.0, 0.0, 0.0, 0.0);
+            // Keep blending until there is no alpha or the buffer is empty.
+            for(int i = 0; i < j && stratTemp.a < 1.0; ++i) {
+                stratTemp += zBufferColor[i] * zBufferColor[i].a;
             }
+            //add to average
+            stratColor += (stratTemp / stratIterations);
         }
     }
-    
+    /*
     // Final of this "pixel".
     finalColor = vec4(0.0, 0.0, 0.0, 0.0);
     
@@ -342,5 +369,6 @@ void main() {
     for(int i = 0; i < j && finalColor.a < 1.0; ++i) {
         finalColor += zBufferColor[i] * zBufferColor[i].a;
     }
-    
+    */
+    finalColor = stratColor;
 }
