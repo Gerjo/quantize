@@ -224,8 +224,7 @@ void main() {
     // Viewing direction, distance implies the perspective.
     const float perspective = 4.0;
     
-    // Camera at origin
-    ray.place = vec3(0, 0, 0);
+    
     
     //Stratification degree. Set to 0 to disable.
     int stratDegree = 1;
@@ -237,8 +236,11 @@ void main() {
     for (int stratX = 0 - stratDegree; stratX < 1 + stratDegree; ++stratX) {
         for (int stratY = 0 - stratDegree; stratY < 1 + stratDegree; ++stratY) {
             stratPos = position;
-            //stratPos.x += float(stratX) * stratIntervalX;
-            //stratPos.y += float(stratY) * stratIntervalY;
+            stratPos.x += float(stratX) * stratIntervalX;
+            stratPos.y += float(stratY) * stratIntervalY;
+            
+            // Camera at origin
+            ray.place = vec3(0, 0, 0);
             
             // Offset canvas from the camera (substraction is useless, but here for competeness)
             ray.direction = normalize(vec3(stratPos, ray.place.z + perspective) - ray.place);
