@@ -332,6 +332,8 @@ vec4 traceRay(Ray ray, vec2 pos, float perspective) {
 
 void main() {
 
+#define RANDOM
+    
     // Debug colors.
     vec4 colors[6];
     colors[0] = vec4(1, 1, 0, 0.5);
@@ -345,9 +347,41 @@ void main() {
     
     // Viewing direction, distance implies the perspective.
     const float perspective = 4.0;
+    finalColor = vec4(0.0, 0.0, 0.0, 0.0);
     
+#ifdef RANDOM
+    int iterations = 3;
+    float deviationX = 2.0 / windowSize.x;
+    float deviationY = 2.0 / windowSize.y;
+    vec2 randomPos;
+    vec2 randomSeed = position;
+    float randomDX;
+    float randomDY;
+    vec4 itColor = vec4(0.0, 0.0, 0.0, 0.0);
+    for (int i = 0; i < iterations; ++i) {
+        //calculate randomised deviation
+        randomPos = position;
+        
+        randomDX = fract(sin(dot(randomSeed.xy ,vec2(12.9898,78.233))) * 43758.5453) - 0.5;
+        randomDY = fract(cos(dot(randomSeed.xy ,vec2(78.233,12.9898))) * 43758.5453) - 0.5;
+        
+        randomSeed.x += randomSeed.y;
+        randomSeed.y += randomSeed.x;
+        
+        randomPos.x += randomDX * deviationX;
+        randomPos.y += randomDY * deviationY;
+        
+        //raytracer go!
+        itColor = traceRay(ray, randomPos, perspective);
+        
+        //add to average
+        finalColor += (itColor / iterations);
+    }
+#endif //RANDOM
+    
+#ifdef STRATIFICATION
     //Stratification degree. Set to 0 to disable.
-    int stratDegree = 0;
+    int stratDegree = 1;
     float stratIterations = pow(2 * stratDegree + 1, 2);
     int stratDivisions = 2 * (stratDegree + 1);
     float stratIntervalX = 2.0 / (float(stratDivisions) * windowSize.x);
@@ -356,32 +390,27 @@ void main() {
     vec2 randomSeed = position;
     float randomDX;
     float randomDY;
-    
-    vec4 stratColor = vec4(0.0, 0.0, 0.0, 0.0);
     vec4 stratTemp;
     for (int stratX = 0 - stratDegree; stratX < 1 + stratDegree; ++stratX) {
         for (int stratY = 0 - stratDegree; stratY < 1 + stratDegree; ++stratY) {
+            //calculate randomised deviation
             stratPos = position;
             
             randomDX = fract(sin(dot(randomSeed.xy ,vec2(12.9898,78.233))) * 43758.5453) - 0.5;
             randomDY = fract(cos(dot(randomSeed.xy ,vec2(78.233,12.9898))) * 43758.5453) - 0.5;
+            
+            randomSeed.x += randomSeed.y;
+            randomSeed.y += randomSeed.x;
+            
             stratPos.x += float(stratX + randomDX) * stratIntervalX;
             stratPos.y += float(stratY + randomDY) * stratIntervalY;
             
+            //raytracer go!
             stratTemp = traceRay(ray, stratPos, perspective);
             
             //add to average
-            stratColor += (stratTemp / stratIterations);
+            finalColor += (stratTemp / stratIterations);
         }
     }
-    /*
-    // Final of this "pixel".
-    finalColor = vec4(0.0, 0.0, 0.0, 0.0);
-    
-    // Keep blending until there is no alpha or the buffer is empty.
-    for(int i = 0; i < j && finalColor.a < 1.0; ++i) {
-        finalColor += zBufferColor[i] * zBufferColor[i].a;
-    }
-    */
-    finalColor = stratColor;
+#endif //STRATIFICATION
 }
