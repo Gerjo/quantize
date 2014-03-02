@@ -345,7 +345,7 @@ void main() {
 
     Ray ray;
     
-    // Viewing direction, distance implies the perspective.
+    // Distance between camera and canvas implies the perspective.
     const float perspective = 4.0;
     finalColor = vec4(0.0, 0.0, 0.0, 0.0);
     
