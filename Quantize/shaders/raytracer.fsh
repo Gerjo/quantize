@@ -332,22 +332,19 @@ vec4 traceRay(Ray ray, vec2 pos, float perspective) {
 
 void main() {
 
-#define RANDOM
-    
-    // Debug colors.
-    vec4 colors[6];
-    colors[0] = vec4(1, 1, 0, 0.5);
-    colors[1] = vec4(0, 1, 0, 0.5);
-    colors[2] = vec4(0, 0, 0, 0.5);
-    colors[3] = vec4(1, 0, 1, 0.5);
-    colors[4] = vec4(0, 1, 0, 0.5);
-    colors[5] = vec4(0, 1, 1, 0.5);
+#define STRATIFICATION
 
     Ray ray;
     
     // Distance between camera and canvas implies the perspective.
     const float perspective = 4.0;
     finalColor = vec4(0.0, 0.0, 0.0, 0.0);
+    
+#ifdef NONE
+
+    finalColor = traceRay(ray, position, perspective);
+
+#endif
     
 #ifdef RANDOM
     int iterations = 3;
@@ -399,7 +396,7 @@ void main() {
             randomDX = fract(sin(dot(randomSeed.xy ,vec2(12.9898,78.233))) * 43758.5453) - 0.5;
             randomDY = fract(cos(dot(randomSeed.xy ,vec2(78.233,12.9898))) * 43758.5453) - 0.5;
             
-            randomSeed.x += randomSeed.y;
+            randomSeed.x += randomSeed.y + 0.014159268;
             randomSeed.y += randomSeed.x;
             
             stratPos.x += float(stratX + randomDX) * stratIntervalX;
