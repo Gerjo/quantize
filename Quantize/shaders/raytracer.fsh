@@ -332,7 +332,8 @@ vec4 traceRay(Ray ray, vec2 pos, float perspective) {
 
 void main() {
 
-#define STRATIFICATION
+#define RANDOM
+#define GAUSSIAN
 
     Ray ray;
     
@@ -347,33 +348,62 @@ void main() {
 #endif
     
 #ifdef RANDOM
-    int iterations = 3;
-    float deviationX = 2.0 / windowSize.x;
-    float deviationY = 2.0 / windowSize.y;
+    int iterations = 25;
+    float deviationX = 30.0 / windowSize.x;
+    float deviationY = 30.0 / windowSize.y;
     vec2 randomPos;
     vec2 randomSeed = position;
     float randomDX;
     float randomDY;
     vec4 itColor = vec4(0.0, 0.0, 0.0, 0.0);
+    
+    #ifdef GAUSSIAN
+        float sigma = 10.2;
+        float sigmaPrecomputed = 1.0 / (2.0 * sigma * sigma);
+        float sigmaSum = 0.0;
+    #endif
+    
     for (int i = 0; i < iterations; ++i) {
         //calculate randomised deviation
         randomPos = position;
         
-        randomDX = fract(sin(dot(randomSeed.xy ,vec2(12.9898,78.233))) * 43758.5453) - 0.5;
-        randomDY = fract(cos(dot(randomSeed.xy ,vec2(78.233,12.9898))) * 43758.5453) - 0.5;
+        randomDX = fract(sin(dot(randomSeed.xy, vec2(12.9898, 78.233))) * 43758.5453) - 0.5;
+        randomDY = fract(cos(dot(randomSeed.xy, vec2(12.9898, 78.233))) * 43758.5453) - 0.5;
         
-        randomSeed.x += randomSeed.y;
+        randomSeed.x += randomSeed.y + 0.27182;
         randomSeed.y += randomSeed.x;
         
-        randomPos.x += randomDX * deviationX;
-        randomPos.y += randomDY * deviationY;
+        float deltaX = randomDX * deviationX;
+        float deltaY = randomDY * deviationY;
+        
+        randomPos.x += deltaX;
+        randomPos.y += deltaY;
         
         //raytracer go!
         itColor = traceRay(ray, randomPos, perspective);
         
-        //add to average
-        finalColor += (itColor / iterations);
+        #ifdef GAUSSIAN
+            // Linear
+            //float w = 1 / (sqrt(deltaX * deltaX + deltaY * deltaY));
+        
+            // Bell curve
+            float w = 1 / exp((deltaX * deltaX + deltaY * deltaY) * sigmaPrecomputed);
+        
+            // Accumulate sigma for normalisation
+            sigmaSum += w;
+       
+            //finalColor.a = 1.0;
+            finalColor += itColor * w;
+        #else
+            //add to average
+            finalColor += (itColor / iterations);
+        #endif
     }
+    
+    #ifdef GAUSSIAN
+        finalColor /= sigmaSum;
+    #endif
+    
 #endif //RANDOM
     
 #ifdef STRATIFICATION
@@ -393,14 +423,18 @@ void main() {
             //calculate randomised deviation
             stratPos = position;
             
-            randomDX = fract(sin(dot(randomSeed.xy ,vec2(12.9898,78.233))) * 43758.5453) - 0.5;
-            randomDY = fract(cos(dot(randomSeed.xy ,vec2(78.233,12.9898))) * 43758.5453) - 0.5;
+            randomDX = fract(sin(dot(randomSeed.xy, vec2(12.9898, 78.233))) * 43758.5453) - 0.5;
+            randomDY = fract(cos(dot(randomSeed.xy, vec2(78.233, 12.9898))) * 43758.5453) - 0.5;
             
             randomSeed.x += randomSeed.y + 0.014159268;
             randomSeed.y += randomSeed.x;
             
-            stratPos.x += float(stratX + randomDX) * stratIntervalX;
-            stratPos.y += float(stratY + randomDY) * stratIntervalY;
+            //stratPos.x += float(stratX + randomDX) * stratIntervalX;
+            //stratPos.y += float(stratY + randomDY) * stratIntervalY;
+            
+            stratPos.x += float(stratX) * stratIntervalX;
+            stratPos.y += float(stratY) * stratIntervalY;
+            
             
             //raytracer go!
             stratTemp = traceRay(ray, stratPos, perspective);
