@@ -367,20 +367,30 @@ void Quantize::update(float dt) {
     time = GetTiming();
     if(time - _lastLogTime > _logInterval) {
     
+        Vector3 position    = camera.position;
+        Vector3 orientation = camera.orientation;
+    
         printf("------------\n"
         "Frames:             %.2f per second\n"
         "Update time:        %f seconds\n"
         "Lights and camera:  %f seconds (%lu lights in %lu bytes)\n"
         "Uploading vertices: %f seconds\n"
         "Shader time:        %f seconds\n"
-        "Vertices:           %lu (%lu triangles in %lu bytes)\n",
+        "Vertices:           %lu (%lu triangles in %lu bytes)\n"
+        "Position:           %.2f %.2f %.2f\n"
+        "Orientation:        %.2f %.2f %.2f\n",
+        
+        
             1.0 / ((time - _lastLogTime) / stats.frames),
             stats.total / stats.frames,
             stats.uniforms / stats.frames,
             lights.size(), sizeof(lights[0]) * lights.size(),
             stats.uploadingDataTexture / stats.frames,
             stats.drawing,
-            scene.size(), scene.size() / 3, sizeof(scene[0]) * scene.size());
+            scene.size(), scene.size() / 3, sizeof(scene[0]) * scene.size(),
+            position.x, position.y, position.z,
+            orientation.x, orientation.y, orientation.z
+            );
     
         stats.reset();
         _lastLogTime = time;
