@@ -151,4 +151,9 @@ static Quantize* quantize = Quantize::getInstance();
     //quantize->kernelType = value;
 }
 
+- (IBAction)nSliderAction:(id)sender {
+    int value = (int)[sender integerValue];
+    quantize->n = value;
+}
+
 @end
