@@ -290,7 +290,7 @@ void Quantize::update(float dt) {
     glUniform1f(_uniformSigma, sigma);
     glUniform1f(_uniformRange, range);
     glUniform1i(_uniformJitter, (int) enableJitter);
-    
+    glUniform1i(_uniformUseTexture, (int) useTexture);
     GLError();
     
     stats.uniforms += GetTiming() - time;

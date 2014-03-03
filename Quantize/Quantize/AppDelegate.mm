@@ -216,5 +216,10 @@ static Quantize* quantize = Quantize::getInstance();
     quantize->enableJitter = value;
 }
 
+- (IBAction)useTextureAction:(id)sender {
+    bool value = ([sender state] == NSOnState);
+    quantize->useTexture = value;
+}
+
 
 @end

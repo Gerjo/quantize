@@ -254,8 +254,9 @@ vec4 traceRay(vec2 pos, float perspective) {
             
             
             if(useTexture == 0) {
-                int foo = int(floor(where.x / 5) * 5);
-                int bar = int(floor(where.z / 5) * 5);
+                float size = 1;
+                int foo = int(floor(where.x / 1) * 1);
+                int bar = int(floor(where.z / 1) * 1);
                 
                 if(mod(foo + bar, 2) == 0) {
                     color = vec4(1.0, 1.0, 1.0, 1.0);
