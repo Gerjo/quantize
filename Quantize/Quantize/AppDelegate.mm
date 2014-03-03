@@ -183,5 +183,10 @@ static Quantize* quantize = Quantize::getInstance();
     [lightsMonitor setStringValue:monitor];
 }
 
+- (IBAction)enableJitterAction:(id)sender {
+    bool value = [sender boolValue];
+    quantize->enableJitter = value;
+}
+
 
 @end
