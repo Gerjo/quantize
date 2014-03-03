@@ -1168,7 +1168,7 @@
                                         <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0VM-ue-TIe" userLabel="Sigma Slider">
                                             <rect key="frame" x="64" y="361" width="212" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="50" tickMarkPosition="above" sliderType="linear" id="gmZ-so-SPa"/>
+                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="2" tickMarkPosition="above" sliderType="linear" id="gmZ-so-SPa"/>
                                             <connections>
                                                 <action selector="sigmaSliderAction:" target="494" id="LC1-rT-i0g"/>
                                             </connections>
