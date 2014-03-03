@@ -21,6 +21,7 @@ in vec2 position;               // Normalize position on screen
 
 uniform int numTriangles;       // Number of triangles
 
+uniform int useTexture;
 
 uniform int n;
 uniform float sigma;
@@ -233,7 +234,7 @@ vec4 traceRay(vec2 pos, float perspective) {
     float zBufferDepth[10];
     
     float infLightCount = 1.0 / lightCount;
-    float ambientRatio  = 0.7 * infLightCount;
+    float ambientRatio  = 0.4 * infLightCount;
     
     int j = 0;
     for(int i = 0; i < numTriangles; ++i) {
@@ -247,10 +248,21 @@ vec4 traceRay(vec2 pos, float perspective) {
         // Ray collision test; "where" is an output: the point of intersection.
         int res = rayIntersetsTriangle(ray, A, B, C, false, where, depth);
         
-        
         if(res != 0) {
             vec2 uv = barycentric(where, A, B, C, getUV(i * 3 + 0), getUV(i * 3 + 1), getUV(i * 3 + 2));
             vec4 color = texture(textures[getSampler(i * 3)], uv);
+            
+            
+            if(useTexture == 0) {
+                int foo = int(floor(where.x / 5) * 5);
+                int bar = int(floor(where.z / 5) * 5);
+                
+                if(mod(foo + bar, 2) == 0) {
+                    color = vec4(1.0, 1.0, 1.0, 1.0);
+                } else {
+                    color = vec4(0.0, 0.0, 0.0, 1.0);
+                }
+            }
             
             vec4 blend = vec4(0.0, 0.0, 0.0, 1.0);
             
@@ -378,11 +390,15 @@ void main() {
     float randomDY;
     vec4 itColor = vec4(0.0, 0.0, 0.0, 0.0);
     
-    
-    //float sigma = 10.2; // Is a global uniform
-    float sigmaPrecomputed = 1.0 / (2.0 * sigma * sigma);
+    float derpma = sigma; // Is a global uniform
+    float sigmaPrecomputed = 1.0 / (2.0 * derpma * derpma);
     float sigmaSum = 0.0;
     
+    /*finalColor.a =  1.0;
+    finalColor.r +=  sigma;
+    finalColor.g +=  sigma;
+    finalColor.b +=  sigma;
+    */
     for (int i = 0; i < iterations; ++i) {
         //calculate randomised deviation
         randomPos = position;
@@ -399,15 +415,19 @@ void main() {
         randomPos.x += deltaX;
         randomPos.y += deltaY;
         
+        deltaX *= 100.0;
+        deltaY *= 100.0;
+        
         //raytracer go!
         itColor = traceRay(randomPos, perspective);
+        
         
         if(sigma != 0.0) {
             // Linear
             //float w = 1 / (sqrt(deltaX * deltaX + deltaY * deltaY));
         
             // Bell curve
-            float w = 1 / exp((deltaX * deltaX + deltaY * deltaY) * sigmaPrecomputed);
+            float w = exp(-((deltaX * deltaX + deltaY * deltaY) * sigmaPrecomputed));
         
             // Accumulate sigma for normalisation
             sigmaSum += w;
@@ -449,7 +469,7 @@ void main() {
             randomSeed.x += randomSeed.y + 0.014159268;
             randomSeed.y += randomSeed.x;
             
-            if(enableJitter) {
+            if(enableJitter == 1) {
                 stratPos.x += float(stratX + randomDX) * stratIntervalX;
                 stratPos.y += float(stratY + randomDY) * stratIntervalY;
             }

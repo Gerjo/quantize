@@ -172,6 +172,7 @@ void Quantize::initializeRaytraceProgram() {
     _uniformSigma  = glGetUniformLocation(_programRaytracer, "sigma");
     _uniformRange  = glGetUniformLocation(_programRaytracer, "range");
     _uniformJitter = glGetUniformLocation(_programRaytracer, "enableJitter");
+    _uniformUseTexture = glGetUniformLocation(_programRaytracer, "useTexture");
     GLError();
     
     _lightCount     = glGetUniformLocation(_programRaytracer, "lightCount");
