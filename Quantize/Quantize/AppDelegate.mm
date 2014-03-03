@@ -212,7 +212,7 @@ static Quantize* quantize = Quantize::getInstance();
 }
 
 - (IBAction)enableJitterAction:(id)sender {
-    bool value = [sender boolValue];
+    bool value = ([sender state] == NSOnState);
     quantize->enableJitter = value;
 }
 
