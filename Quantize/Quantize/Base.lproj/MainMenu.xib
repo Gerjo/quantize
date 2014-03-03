@@ -667,7 +667,10 @@
         <customObject id="494" customClass="AppDelegate">
             <connections>
                 <outlet property="cameraControlsView" destination="mwd-6q-lHO" id="a6q-zT-f9w"/>
+                <outlet property="lightsMonitor" destination="UYf-5q-H2q" id="1kn-xa-5fp"/>
                 <outlet property="nMonitor" destination="8oV-Ny-3Dx" id="1GH-K1-5dp"/>
+                <outlet property="rangeMonitor" destination="8Hr-os-6X3" id="Ee8-Fp-sDm"/>
+                <outlet property="sigmaMonitor" destination="jQs-em-yc6" id="ZRn-7v-0R3"/>
                 <outlet property="window" destination="371" id="532"/>
             </connections>
         </customObject>
@@ -1158,17 +1161,26 @@
                                         <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0VM-ue-TIe" userLabel="Sigma Slider">
                                             <rect key="frame" x="180" y="361" width="96" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="gmZ-so-SPa"/>
+                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="50" tickMarkPosition="above" sliderType="linear" id="gmZ-so-SPa"/>
+                                            <connections>
+                                                <action selector="sigmaSliderAction:" target="494" id="LC1-rT-i0g"/>
+                                            </connections>
                                         </slider>
                                         <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gER-PO-Xka" userLabel="Range Slider">
                                             <rect key="frame" x="180" y="306" width="96" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="sFT-uW-zsJ"/>
+                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="50" doubleValue="3" tickMarkPosition="above" sliderType="linear" id="sFT-uW-zsJ"/>
+                                            <connections>
+                                                <action selector="rangeSliderAction:" target="494" id="gmJ-SF-YRR"/>
+                                            </connections>
                                         </slider>
                                         <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Zx-iq-OjV" userLabel="Lights Slider">
-                                            <rect key="frame" x="180" y="251" width="96" height="21"/>
+                                            <rect key="frame" x="180" y="252" width="96" height="27"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="92Q-FS-aWz"/>
+                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="4" doubleValue="1" tickMarkPosition="below" numberOfTickMarks="5" allowsTickMarkValuesOnly="YES" sliderType="linear" id="92Q-FS-aWz"/>
+                                            <connections>
+                                                <action selector="lightsSliderAction:" target="494" id="5cJ-EG-ver"/>
+                                            </connections>
                                         </slider>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jQs-em-yc6" userLabel="Sigma Monitor">
                                             <rect key="frame" x="178" y="333" width="96" height="22"/>
@@ -1179,7 +1191,7 @@
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Hr-os-6X3">
+                                        <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Hr-os-6X3" userLabel="Range Monitor">
                                             <rect key="frame" x="178" y="278" width="96" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="yeb-Vd-JLG">
@@ -1188,7 +1200,7 @@
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UYf-5q-H2q">
+                                        <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UYf-5q-H2q" userLabel="Lights Monitor">
                                             <rect key="frame" x="178" y="223" width="96" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="zsy-TT-mx0">
@@ -1198,32 +1210,40 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kvn-jG-5Tm">
-                                            <rect key="frame" x="17" y="363" width="38" height="17"/>
+                                            <rect key="frame" x="17" y="363" width="43" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="kd0-aK-Qo1">
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Sigma" id="kd0-aK-Qo1">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NfM-Rt-KlH">
-                                            <rect key="frame" x="17" y="308" width="38" height="17"/>
+                                            <rect key="frame" x="17" y="308" width="43" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="Y9d-AZ-m0k">
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Range" id="Y9d-AZ-m0k">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zF1-Xw-Scd">
-                                            <rect key="frame" x="19" y="253" width="38" height="17"/>
+                                            <rect key="frame" x="19" y="253" width="42" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="EiM-Kl-5Mb">
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Lights" id="EiM-Kl-5Mb">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
+                                        <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="foa-3V-0xf">
+                                            <rect key="frame" x="19" y="203" width="98" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Enable Jitter" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="DZE-oE-eiO">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                        </button>
                                     </subviews>
                                 </view>
                             </tabViewItem>

@@ -15,6 +15,9 @@ static Quantize* quantize = Quantize::getInstance();
 @implementation AppDelegate
 @synthesize cameraControlsView;
 @synthesize nMonitor;
+@synthesize sigmaMonitor;
+@synthesize rangeMonitor;
+@synthesize lightsMonitor;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
@@ -158,5 +161,27 @@ static Quantize* quantize = Quantize::getInstance();
     NSString *monitor = [NSString stringWithFormat:@"%d", value];
     [nMonitor setStringValue:monitor];
 }
+
+- (IBAction)sigmaSliderAction:(id)sender {
+    float value = [sender floatValue];
+    quantize->sigma = value;
+    NSString *monitor = [NSString stringWithFormat:@"%f", value];
+    [sigmaMonitor setStringValue:monitor];
+}
+
+- (IBAction)rangeSliderAction:(id)sender {
+    float value = [sender floatValue];
+    quantize->range = value;
+    NSString *monitor = [NSString stringWithFormat:@"%f", value];
+    [rangeMonitor setStringValue:monitor];
+}
+
+- (IBAction)lightsSliderAction:(id)sender {
+    int value = (int)[sender integerValue];
+    quantize->enableLights = value;
+    NSString *monitor = [NSString stringWithFormat:@"%d", value];
+    [lightsMonitor setStringValue:monitor];
+}
+
 
 @end
