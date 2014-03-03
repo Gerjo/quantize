@@ -112,7 +112,7 @@ public:
     int n{1};
     float sigma{1.0};
     float range{2.0};
-    bool enableLights{true};
+    int enableLights{1};
     
     /// Camera
     Camera camera;

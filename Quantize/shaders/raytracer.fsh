@@ -253,9 +253,10 @@ vec4 traceRay(Ray ray, vec2 pos, float perspective) {
             vec4 blend = vec4(0.0, 0.0, 0.0, 1.0);
             
             
-            vec3 u = B - A;
-            vec3 v = C - A;
-            vec3 normal = cross(u, v);
+            //vec3 u = B - A;
+            //vec3 v = C - A;
+            vec3 normal = getNormal(i * 3 + 0);//cross(u, v);
+            
             
             // For each light
             for(int l = 0; l < lightCount; ++l) {
@@ -264,7 +265,7 @@ vec4 traceRay(Ray ray, vec2 pos, float perspective) {
                 beam.place     = where;
                 beam.direction = lightsPosition[l] - beam.place;
                 
-                if(dot(normal, beam.direction) < 0.0) {
+                //if(dot(normal, lightsPosition[l] - A) < 0.0) {
                     
                     int hits = 0;
                     
@@ -286,9 +287,9 @@ vec4 traceRay(Ray ray, vec2 pos, float perspective) {
                             vec2 uv2 = barycentric(where, D, E, F, getUV(k * 3 + 0), getUV(k * 3 + 1), getUV(k * 3 + 2));
                             vec4 color2 = texture(textures[getSampler(k * 3)], uv);
                             
-                            if(color2.a > 0.1) {
+                            //if(color2.a > 0.1) {
                                 ++hits;
-                            }
+                            //}
                         }
                     }
                     
@@ -300,7 +301,7 @@ vec4 traceRay(Ray ray, vec2 pos, float perspective) {
                     } else {
                         blend += vec4(0.2, 0.2, 0.2, 1.0);//lightsDiffuse[l] * ambientRatio;
                     }
-                }
+                //}
             }
             
             // No alpha channel in light.
