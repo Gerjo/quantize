@@ -28,7 +28,7 @@ Quantize::Quantize() : _lastLogTime(GetTiming()) {
     light.diffuse.b = 2;
     lights.push_back(light);
         
-    /*light.diffuse.r = 1;
+    light.diffuse.r = 1;
     light.diffuse.g = 0;
     light.diffuse.b = 0;
     light.position.z = 40.0f;
@@ -46,7 +46,7 @@ Quantize::Quantize() : _lastLogTime(GetTiming()) {
     light.diffuse.b = 1;
     light.position.z = 15.0f;
     light.position.x = -30.0f;
-    lights.push_back(light);*/
+    lights.push_back(light);
 }
 
 Quantize::~Quantize() {
@@ -269,7 +269,7 @@ void Quantize::update(float dt) {
     }
 
     // Amount of lights, when disabled - simply upload nothing.
-    int nLights = enableLights ? (int) lights.size() : 0;
+    const int nLights = std::min(enableLights, (int) lights.size());
     
     
     // Upload the lights and other uniforms to the GPU
