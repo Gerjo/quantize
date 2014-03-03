@@ -667,6 +667,7 @@
         <customObject id="494" customClass="AppDelegate">
             <connections>
                 <outlet property="cameraControlsView" destination="mwd-6q-lHO" id="a6q-zT-f9w"/>
+                <outlet property="nMonitor" destination="8oV-Ny-3Dx" id="1GH-K1-5dp"/>
                 <outlet property="window" destination="371" id="532"/>
             </connections>
         </customObject>
@@ -1129,9 +1130,9 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BJO-Yn-FWi" userLabel="N Slider">
-                                            <rect key="frame" x="175" y="416" width="96" height="21"/>
+                                            <rect key="frame" x="35" y="417" width="236" height="27"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <sliderCell key="cell" state="on" alignment="left" maxValue="50" doubleValue="1" tickMarkPosition="above" allowsTickMarkValuesOnly="YES" sliderType="linear" id="hWQ-bn-M6q"/>
+                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="50" doubleValue="1.0204081632653061" tickMarkPosition="below" numberOfTickMarks="50" allowsTickMarkValuesOnly="YES" sliderType="linear" id="hWQ-bn-M6q"/>
                                             <connections>
                                                 <action selector="nSliderAction:" target="494" id="f1T-Qc-Pcw"/>
                                             </connections>
@@ -1143,6 +1144,15 @@
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8oV-Ny-3Dx" userLabel="N Monitor">
+                                            <rect key="frame" x="178" y="388" width="96" height="22"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="Llp-lX-7RQ">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
                                     </subviews>

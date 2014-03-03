@@ -13,5 +13,6 @@
 
 @property (assign) IBOutlet NSWindow *window;
 @property (weak) IBOutlet NSScrollView *cameraControlsView;
+@property (weak) IBOutlet NSTextField *nMonitor;
 
 @end

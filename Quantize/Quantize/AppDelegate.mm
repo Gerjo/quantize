@@ -14,6 +14,7 @@ static Quantize* quantize = Quantize::getInstance();
 
 @implementation AppDelegate
 @synthesize cameraControlsView;
+@synthesize nMonitor;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
@@ -154,6 +155,8 @@ static Quantize* quantize = Quantize::getInstance();
 - (IBAction)nSliderAction:(id)sender {
     int value = (int)[sender integerValue];
     quantize->n = value;
+    NSString *monitor = [NSString stringWithFormat:@"%d", value];
+    [nMonitor setStringValue:monitor];
 }
 
 @end
