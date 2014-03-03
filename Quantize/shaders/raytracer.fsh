@@ -25,7 +25,7 @@ uniform int numTriangles;       // Number of triangles
 uniform int n;
 uniform float sigma;
 uniform float range;
-
+uniform int enableJitter;
 
 // Some transforms
 uniform mat4 translation;
@@ -211,8 +211,10 @@ vec2 barycentric(vec3 f, vec3 v1, vec3 v2, vec3 v3, vec2 uv1, vec2 uv2, vec2 uv3
     return uv;
 }
 
-vec4 traceRay(Ray ray, vec2 pos, float perspective) {
+vec4 traceRay(vec2 pos, float perspective) {
     vec4 color = vec4(0.0, 0.0, 0.0, 0.0);
+    
+    Ray ray;
     
     // Camera at origin
     ray.place = vec3(0, 0, 0);
@@ -355,7 +357,6 @@ void main() {
 //#define NONE
 //#define STRATIFICATION
 
-    Ray ray;
     
     // Distance between camera and canvas implies the perspective.
     const float perspective = 4.0;
@@ -363,7 +364,7 @@ void main() {
     
 #ifdef NONE
 
-    finalColor = traceRay(ray, position, perspective);
+    finalColor = traceRay(position, perspective);
 
 #endif
     
@@ -399,7 +400,7 @@ void main() {
         randomPos.y += deltaY;
         
         //raytracer go!
-        itColor = traceRay(ray, randomPos, perspective);
+        itColor = traceRay(randomPos, perspective);
         
         if(sigma != 0.0) {
             // Linear
@@ -448,15 +449,17 @@ void main() {
             randomSeed.x += randomSeed.y + 0.014159268;
             randomSeed.y += randomSeed.x;
             
-            //stratPos.x += float(stratX + randomDX) * stratIntervalX;
-            //stratPos.y += float(stratY + randomDY) * stratIntervalY;
+            if(enableJitter) {
+                stratPos.x += float(stratX + randomDX) * stratIntervalX;
+                stratPos.y += float(stratY + randomDY) * stratIntervalY;
+            }
             
             stratPos.x += float(stratX) * stratIntervalX;
             stratPos.y += float(stratY) * stratIntervalY;
             
             
             //raytracer go!
-            stratTemp = traceRay(ray, stratPos, perspective);
+            stratTemp = traceRay(stratPos, perspective);
             
             //add to average
             finalColor += (stratTemp / stratIterations);
