@@ -14,9 +14,13 @@ static Quantize* quantize = Quantize::getInstance();
 
 @implementation AppDelegate
 @synthesize cameraControlsView;
+@synthesize nSlider;
 @synthesize nMonitor;
+@synthesize sigmaSlider;
 @synthesize sigmaMonitor;
+@synthesize rangeSlider;
 @synthesize rangeMonitor;
+@synthesize lightsSlider;
 @synthesize lightsMonitor;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -162,11 +166,23 @@ static Quantize* quantize = Quantize::getInstance();
     [nMonitor setStringValue:monitor];
 }
 
+- (IBAction)nMonitorAction:(id)sender {
+    int value = (int)[sender integerValue];
+    quantize->n = value;
+    [nSlider setIntegerValue:value];
+}
+
 - (IBAction)sigmaSliderAction:(id)sender {
     float value = [sender floatValue];
     quantize->sigma = value;
     NSString *monitor = [NSString stringWithFormat:@"%f", value];
     [sigmaMonitor setStringValue:monitor];
+}
+
+- (IBAction)sigmaMonitorAction:(id)sender {
+    float value = [sender floatValue];
+    quantize->sigma = value;
+    [sigmaSlider setFloatValue:value];
 }
 
 - (IBAction)rangeSliderAction:(id)sender {
@@ -176,11 +192,23 @@ static Quantize* quantize = Quantize::getInstance();
     [rangeMonitor setStringValue:monitor];
 }
 
+- (IBAction)rangeMonitorAction:(id)sender {
+    float value = [sender floatValue];
+    quantize->range = value;
+    [rangeSlider setFloatValue:value];
+}
+
 - (IBAction)lightsSliderAction:(id)sender {
     int value = (int)[sender integerValue];
     quantize->enableLights = value;
     NSString *monitor = [NSString stringWithFormat:@"%d", value];
     [lightsMonitor setStringValue:monitor];
+}
+
+- (IBAction)lightsMonitorAction:(id)sender {
+    int value = (int)[sender integerValue];
+    quantize->enableLights = value;
+    [lightsSlider setIntegerValue:value];
 }
 
 - (IBAction)enableJitterAction:(id)sender {

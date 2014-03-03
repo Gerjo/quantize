@@ -13,9 +13,13 @@
 
 @property (assign) IBOutlet NSWindow *window;
 @property (weak) IBOutlet NSScrollView *cameraControlsView;
+@property (weak) IBOutlet NSSlider *nSlider;
 @property (weak) IBOutlet NSTextField *nMonitor;
+@property (weak) IBOutlet NSSlider *sigmaSlider;
 @property (weak) IBOutlet NSTextField *sigmaMonitor;
+@property (weak) IBOutlet NSSlider *rangeSlider;
 @property (weak) IBOutlet NSTextField *rangeMonitor;
+@property (weak) IBOutlet NSSlider *lightsSlider;
 @property (weak) IBOutlet NSTextField *lightsMonitor;
 
 @end

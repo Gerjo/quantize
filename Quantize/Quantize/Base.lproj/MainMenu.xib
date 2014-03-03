@@ -668,9 +668,13 @@
             <connections>
                 <outlet property="cameraControlsView" destination="mwd-6q-lHO" id="a6q-zT-f9w"/>
                 <outlet property="lightsMonitor" destination="UYf-5q-H2q" id="1kn-xa-5fp"/>
+                <outlet property="lightsSlider" destination="7Zx-iq-OjV" id="9gk-oo-HOI"/>
                 <outlet property="nMonitor" destination="8oV-Ny-3Dx" id="1GH-K1-5dp"/>
+                <outlet property="nSlider" destination="BJO-Yn-FWi" id="xHA-Is-06g"/>
                 <outlet property="rangeMonitor" destination="8Hr-os-6X3" id="Ee8-Fp-sDm"/>
+                <outlet property="rangeSlider" destination="gER-PO-Xka" id="ZQM-QL-uYh"/>
                 <outlet property="sigmaMonitor" destination="jQs-em-yc6" id="ZRn-7v-0R3"/>
+                <outlet property="sigmaSlider" destination="0VM-ue-TIe" id="ZJm-1Z-U6S"/>
                 <outlet property="window" destination="371" id="532"/>
             </connections>
         </customObject>
@@ -1152,11 +1156,14 @@
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8oV-Ny-3Dx" userLabel="N Monitor">
                                             <rect key="frame" x="228" y="388" width="46" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="1" drawsBackground="YES" id="Llp-lX-7RQ">
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="1" drawsBackground="YES" id="Llp-lX-7RQ">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
+                                            <connections>
+                                                <action selector="nMonitorAction:" target="494" id="ybs-ZK-ESo"/>
+                                            </connections>
                                         </textField>
                                         <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0VM-ue-TIe" userLabel="Sigma Slider">
                                             <rect key="frame" x="64" y="361" width="212" height="21"/>
@@ -1190,6 +1197,9 @@
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
+                                            <connections>
+                                                <action selector="sigmaMonitorAction:" target="494" id="bRa-5V-efh"/>
+                                            </connections>
                                         </textField>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Hr-os-6X3" userLabel="Range Monitor">
                                             <rect key="frame" x="228" y="278" width="46" height="22"/>
@@ -1199,6 +1209,9 @@
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
+                                            <connections>
+                                                <action selector="rangeMonitorAction:" target="494" id="RRJ-RO-BPb"/>
+                                            </connections>
                                         </textField>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UYf-5q-H2q" userLabel="Lights Monitor">
                                             <rect key="frame" x="228" y="223" width="46" height="22"/>
@@ -1208,6 +1221,9 @@
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
+                                            <connections>
+                                                <action selector="lightsMonitorAction:" target="494" id="Yso-5Z-7ky"/>
+                                            </connections>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kvn-jG-5Tm">
                                             <rect key="frame" x="17" y="363" width="43" height="17"/>
