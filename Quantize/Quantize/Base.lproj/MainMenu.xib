@@ -782,7 +782,7 @@
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Lights" identifier="2" id="Y3T-xe-4yG">
-                                <view key="view" ambiguous="YES" id="MAy-sx-JBv">
+                                <view key="view" id="MAy-sx-JBv">
                                     <rect key="frame" x="10" y="33" width="286" height="524"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -1091,12 +1091,12 @@
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="AA" identifier="" id="eGG-Wf-May">
-                                <view key="view" id="V9f-uG-svR">
-                                    <rect key="frame" x="10" y="33" width="286" height="438"/>
+                                <view key="view" ambiguous="YES" id="V9f-uG-svR">
+                                    <rect key="frame" x="10" y="33" width="286" height="524"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BJO-Yn-FWi" userLabel="N Slider">
-                                            <rect key="frame" x="35" y="417" width="236" height="27"/>
+                                            <rect key="frame" x="35" y="503" width="236" height="27"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="50" doubleValue="1.0204081632653061" tickMarkPosition="below" numberOfTickMarks="50" allowsTickMarkValuesOnly="YES" sliderType="linear" id="hWQ-bn-M6q"/>
                                             <connections>
@@ -1104,7 +1104,7 @@
                                             </connections>
                                         </slider>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gt7-Qo-uKW">
-                                            <rect key="frame" x="17" y="418" width="14" height="17"/>
+                                            <rect key="frame" x="17" y="504" width="14" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="N" id="eYp-zG-2PD">
                                                 <font key="font" metaFont="system"/>
@@ -1113,7 +1113,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8oV-Ny-3Dx" userLabel="N Monitor">
-                                            <rect key="frame" x="228" y="388" width="46" height="22"/>
+                                            <rect key="frame" x="228" y="474" width="46" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="1" drawsBackground="YES" id="Llp-lX-7RQ">
                                                 <font key="font" metaFont="system"/>
@@ -1125,7 +1125,7 @@
                                             </connections>
                                         </textField>
                                         <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0VM-ue-TIe" userLabel="Sigma Slider">
-                                            <rect key="frame" x="64" y="361" width="212" height="21"/>
+                                            <rect key="frame" x="64" y="447" width="212" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="2" tickMarkPosition="above" sliderType="linear" id="gmZ-so-SPa"/>
                                             <connections>
@@ -1133,7 +1133,7 @@
                                             </connections>
                                         </slider>
                                         <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gER-PO-Xka" userLabel="Range Slider">
-                                            <rect key="frame" x="64" y="306" width="212" height="21"/>
+                                            <rect key="frame" x="64" y="392" width="212" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="150" doubleValue="3" tickMarkPosition="above" sliderType="linear" id="sFT-uW-zsJ"/>
                                             <connections>
@@ -1141,7 +1141,7 @@
                                             </connections>
                                         </slider>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jQs-em-yc6" userLabel="Sigma Monitor">
-                                            <rect key="frame" x="228" y="333" width="46" height="22"/>
+                                            <rect key="frame" x="228" y="419" width="46" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="0" drawsBackground="YES" id="480-mu-erd">
                                                 <font key="font" metaFont="system"/>
@@ -1153,7 +1153,7 @@
                                             </connections>
                                         </textField>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Hr-os-6X3" userLabel="Range Monitor">
-                                            <rect key="frame" x="228" y="278" width="46" height="22"/>
+                                            <rect key="frame" x="228" y="364" width="46" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="3" drawsBackground="YES" id="yeb-Vd-JLG">
                                                 <font key="font" metaFont="system"/>
@@ -1165,7 +1165,7 @@
                                             </connections>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kvn-jG-5Tm">
-                                            <rect key="frame" x="17" y="363" width="43" height="17"/>
+                                            <rect key="frame" x="17" y="449" width="43" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Sigma" id="kd0-aK-Qo1">
                                                 <font key="font" metaFont="system"/>
@@ -1174,7 +1174,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NfM-Rt-KlH">
-                                            <rect key="frame" x="17" y="308" width="43" height="17"/>
+                                            <rect key="frame" x="17" y="394" width="43" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Range" id="Y9d-AZ-m0k">
                                                 <font key="font" metaFont="system"/>
@@ -1183,7 +1183,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="foa-3V-0xf">
-                                            <rect key="frame" x="19" y="203" width="98" height="18"/>
+                                            <rect key="frame" x="17" y="476" width="98" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Enable Jitter" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="DZE-oE-eiO">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
