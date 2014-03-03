@@ -58,6 +58,7 @@ class Quantize {
     GLint _uniformN;
     GLint _uniformSigma;
     GLint _uniformRange;
+    GLint _uniformJitter;
 
     /// Light uniforms
     GLint _lightCount{-1};
@@ -113,6 +114,7 @@ public:
     float sigma{1.0};
     float range{2.0};
     int enableLights{1};
+    bool enableJitter{true};
     
     /// Camera
     Camera camera;

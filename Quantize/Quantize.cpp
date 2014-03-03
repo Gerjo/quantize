@@ -168,9 +168,10 @@ void Quantize::initializeRaytraceProgram() {
     _uniformDataTexture = glGetUniformLocation(_programRaytracer, "zdata");
     GLError();
     
-    _uniformN     = glGetUniformLocation(_programRaytracer, "n");
-    _uniformSigma = glGetUniformLocation(_programRaytracer, "sigma");
-    _uniformRange = glGetUniformLocation(_programRaytracer, "range");
+    _uniformN      = glGetUniformLocation(_programRaytracer, "n");
+    _uniformSigma  = glGetUniformLocation(_programRaytracer, "sigma");
+    _uniformRange  = glGetUniformLocation(_programRaytracer, "range");
+    _uniformJitter = glGetUniformLocation(_programRaytracer, "enableJitter");
     GLError();
     
     _lightCount     = glGetUniformLocation(_programRaytracer, "lightCount");
@@ -287,6 +288,8 @@ void Quantize::update(float dt) {
     glUniform1i(_uniformN, n);
     glUniform1f(_uniformSigma, sigma);
     glUniform1f(_uniformRange, range);
+    glUniform1i(_uniformJitter, (int) enableJitter);
+    
     GLError();
     
     stats.uniforms += GetTiming() - time;
@@ -368,10 +371,10 @@ void Quantize::update(float dt) {
     glSwapAPPLE();
     
     
-    GLint duration;
-    glGetQueryObjectiv(_glTimerQuery, GL_QUERY_RESULT, &duration);
+    //GLint duration;
+    //glGetQueryObjectiv(_glTimerQuery, GL_QUERY_RESULT, &duration);
     
-    stats.drawing += duration * 0.0000000001;
+    //stats.drawing += duration * 0.0000000001;
     
     //printf("%d\n", duration);
     
