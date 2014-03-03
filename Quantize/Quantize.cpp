@@ -11,7 +11,7 @@
 #include "Textures.h"
 
 Quantize::Quantize() : _lastLogTime(GetTiming()) {
-    /*
+    
     Light light;
     light.position.x = 15.0f;
     light.position.y = 5.0f;
@@ -27,7 +27,6 @@ Quantize::Quantize() : _lastLogTime(GetTiming()) {
     light.diffuse.g = 0;
     light.diffuse.b = 2;
     lights.push_back(light);
-    */
         
     /*light.diffuse.r = 1;
     light.diffuse.g = 0;
@@ -65,16 +64,22 @@ void Quantize::loadDemoScene() {
     
     model     = Collada::FromFile("models/Rock1/Rock1.dae");
     
-    entities.push_back(Collada::FromFile("models/cube.dae"));
+    //entities.push_back(Collada::FromFile("models/cube.dae"));
 
     // Custom designed cube by Master Mergon with textures forged from the
     // lava of Mount Doom enriched with tiny ring-like particles.
-    scene.insert(scene.end(), ((Model*)cube->sub[0].get())->vertices.begin(), ((Model*)cube->sub[0].get())->vertices.end());
+    //scene.insert(scene.end(), ((Model*)cube->sub[0].get())->vertices.begin(), ((Model*)cube->sub[0].get())->vertices.end());
+    
+    for(VertexData d : ((Model*)cube->sub[0].get())->vertices) {
+        d.position = Matrix44::CreateTranslation(0, 1, 0) * d.position;
+    
+        scene.push_back(d);
+    }
     
     // A checkerboard of checkerboards.
     float scale = 25;
-    for(int x = 0; x < 1; ++x) {
-        for(int y = 0; y < 1; ++y) {
+    for(int x = 0; x < 2; ++x) {
+        for(int y = 0; y < 3; ++y) {
             Matrix44 t = Matrix44::CreateRotateX(3.14 / 2) * Matrix44::CreateTranslation(x * scale * 2, y * scale * 2, -1) * Matrix44::CreateScale(scale);
             
             for(VertexData d : ((Model*)rectangle->sub[0].get())->vertices) {
@@ -161,6 +166,11 @@ void Quantize::initializeRaytraceProgram() {
     
     _uniformTextures = glGetUniformLocation(_programRaytracer, "textures");
     _uniformDataTexture = glGetUniformLocation(_programRaytracer, "zdata");
+    GLError();
+    
+    _uniformN     = glGetUniformLocation(_programRaytracer, "n");
+    _uniformSigma = glGetUniformLocation(_programRaytracer, "sigma");
+    _uniformRange = glGetUniformLocation(_programRaytracer, "range");
     GLError();
     
     _lightCount     = glGetUniformLocation(_programRaytracer, "lightCount");
@@ -258,8 +268,8 @@ void Quantize::update(float dt) {
         ambient.push_back(light.ambient);
     }
 
-    // Amount of lights
-    int nLights = (int) lights.size();
+    // Amount of lights, when disabled - simply upload nothing.
+    int nLights = enableLights ? (int) lights.size() : 0;
     
     
     // Upload the lights and other uniforms to the GPU
@@ -271,6 +281,12 @@ void Quantize::update(float dt) {
     glUniformMatrix4fv(_uniformRtRotation, 1, GL_FALSE, camera.rotation().f);
     glUniformMatrix4fv(_uniformRtTranslation, 1, GL_FALSE, camera.translation().f);
     glUniform2f(_uniformRtWindowSize, width, height);
+    GLError();
+    
+    // Upload raytracing properties
+    glUniform1i(_uniformN, n);
+    glUniform1f(_uniformSigma, sigma);
+    glUniform1f(_uniformRange, range);
     GLError();
     
     stats.uniforms += GetTiming() - time;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
     </dependencies>
@@ -648,15 +648,17 @@
         </menu>
         <window title="Quantize" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="371" userLabel="MainWindow">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
-            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="335" y="390" width="655" height="467"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
+            <windowPositionMask key="initialPositionMask" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="0.0" y="58" width="1000" height="820"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
+            <value key="minSize" type="size" width="1000" height="820"/>
+            <value key="maxSize" type="size" width="1000" height="820"/>
             <view key="contentView" id="372" userLabel="MainView">
-                <rect key="frame" x="0.0" y="0.0" width="655" height="467"/>
+                <rect key="frame" x="0.0" y="0.0" width="1000" height="820"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <openGLView fixedFrame="YES" depthSize="32bit" stencilSize="8bit" antiAliasingType="supersample" rendererType="accelerated" numberOfAuxiliaryBuffers="1" useAuxiliaryDepthBufferStencil="NO" allowOffline="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rWz-pO-4bY" userLabel="GLView" customClass="GLView">
-                        <rect key="frame" x="-11" y="-27" width="666" height="494"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="820"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </openGLView>
                 </subviews>
@@ -673,7 +675,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" utility="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="132" width="332" height="500"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
             <view key="contentView" id="BXO-Af-2Qd">
                 <rect key="frame" x="0.0" y="0.0" width="332" height="500"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -684,12 +686,12 @@
                         <font key="font" metaFont="system"/>
                         <tabViewItems>
                             <tabViewItem label="Camera" identifier="1" id="NZQ-za-m5K">
-                                <view key="view" id="IYN-Y9-ded">
-                                    <rect key="frame" x="10" y="33" width="286" height="316"/>
+                                <view key="view" ambiguous="YES" id="IYN-Y9-ded">
+                                    <rect key="frame" x="10" y="33" width="211" height="0.0"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <slider identifier="CameraSpeedSlider" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="67t-eF-iq5" userLabel="Speed Slider">
-                                            <rect key="frame" x="133" y="293" width="138" height="26"/>
+                                            <rect key="frame" x="133" y="-23" width="138" height="26"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="30" tickMarkPosition="above" numberOfTickMarks="11" sliderType="linear" id="avP-yd-QxF"/>
                                             <connections>
@@ -697,7 +699,7 @@
                                             </connections>
                                         </slider>
                                         <slider identifier="CameraMouseSlider" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ccX-di-C3P" userLabel="Mouse Slider">
-                                            <rect key="frame" x="133" y="269" width="138" height="26"/>
+                                            <rect key="frame" x="133" y="-47" width="138" height="26"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="70" tickMarkPosition="above" numberOfTickMarks="11" sliderType="linear" id="KCQ-iM-OHA"/>
                                             <connections>
@@ -705,7 +707,7 @@
                                             </connections>
                                         </slider>
                                         <slider identifier="CameraRollSlider" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bld-5a-tZX" userLabel="Roll Slider">
-                                            <rect key="frame" x="133" y="244" width="138" height="26"/>
+                                            <rect key="frame" x="133" y="-72" width="138" height="26"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="40" tickMarkPosition="above" numberOfTickMarks="11" sliderType="linear" id="c9v-mu-vs2"/>
                                             <connections>
@@ -713,7 +715,7 @@
                                             </connections>
                                         </slider>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j0O-YS-Blp">
-                                            <rect key="frame" x="17" y="296" width="42" height="17"/>
+                                            <rect key="frame" x="17" y="-20" width="42" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Speed" id="7pL-wA-Hcb">
                                                 <font key="font" metaFont="system"/>
@@ -722,7 +724,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OJO-jc-8He">
-                                            <rect key="frame" x="17" y="271" width="112" height="17"/>
+                                            <rect key="frame" x="17" y="-45" width="112" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Mouse Sensitivity" id="Er0-cH-RBY">
                                                 <font key="font" metaFont="system"/>
@@ -731,7 +733,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZQY-tr-p5g">
-                                            <rect key="frame" x="17" y="246" width="70" height="17"/>
+                                            <rect key="frame" x="17" y="-70" width="70" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Roll Speed" id="j6F-Qs-fny">
                                                 <font key="font" metaFont="system"/>
@@ -772,7 +774,7 @@
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Lights" identifier="2" id="Y3T-xe-4yG">
-                                <view key="view" ambiguous="YES" id="MAy-sx-JBv">
+                                <view key="view" id="MAy-sx-JBv">
                                     <rect key="frame" x="10" y="33" width="286" height="438"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -1067,12 +1069,12 @@
                                         <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LI3-qg-f6U" userLabel="Kernel Popup">
                                             <rect key="frame" x="66" y="386" width="206" height="26"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <popUpButtonCell key="cell" type="push" title="Original" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Prc-ag-MOp" id="H9k-X1-cVW">
+                                            <popUpButtonCell key="cell" type="push" title="Original" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Prc-ag-MOp" id="H9k-X1-cVW">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="system"/>
+                                                <font key="font" metaFont="menu"/>
                                                 <menu key="menu" title="OtherViews" id="t3j-Wp-AsP">
                                                     <items>
-                                                        <menuItem title="Original" keyEquivalent="1" id="Prc-ag-MOp">
+                                                        <menuItem title="Original" state="on" keyEquivalent="1" id="Prc-ag-MOp">
                                                             <modifierMask key="keyEquivalentModifierMask"/>
                                                         </menuItem>
                                                         <menuItem title="Blur 1" keyEquivalent="2" id="Nnx-zG-fXA">

@@ -53,6 +53,17 @@ class Quantize {
     GLint _uniformNumTriangles{-1};
     GLint _uniformTextures{-1};
     GLint _uniformDataTexture{-1};
+    
+    /// Ray tracingproperties
+    GLint _uniformN;
+    GLint _uniformSigma;
+    GLint _uniformRange;
+    
+    int n{1};
+    float sigma{1.0};
+    float range{2.0};
+    bool enableLights{true};
+    
 
     /// Light uniforms
     GLint _lightCount{-1};
@@ -99,6 +110,7 @@ class Quantize {
             frames = 0;
         }
     } stats;
+    
     
     
 public:

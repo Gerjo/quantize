@@ -22,6 +22,11 @@ in vec2 position;               // Normalize position on screen
 uniform int numTriangles;       // Number of triangles
 
 
+uniform int n;
+uniform float sigma;
+uniform float range;
+
+
 // Some transforms
 uniform mat4 translation;
 uniform mat4 rotation;
@@ -247,58 +252,71 @@ vec4 traceRay(Ray ray, vec2 pos, float perspective) {
             
             vec4 blend = vec4(0.0, 0.0, 0.0, 1.0);
             
+            
+            vec3 u = B - A;
+            vec3 v = C - A;
+            vec3 normal = cross(u, v);
+            
             // For each light
             for(int l = 0; l < lightCount; ++l) {
-                //for(int l = 0; l < lightCount; ++l) {
                 
                 Ray beam;
                 beam.place     = where;
                 beam.direction = lightsPosition[l] - beam.place;
                 
-                int hits = 0;
-                
-                for(int k = 0; k < numTriangles && hits <= 1; ++k) {
-                    vec3 tmp;
-                    float t;
+                if(dot(normal, beam.direction) < 0.0) {
                     
-                    vec3 D = getVertex(k * 3 + 0);
-                    vec3 E = getVertex(k * 3 + 1);
-                    vec3 F = getVertex(k * 3 + 2);
+                    int hits = 0;
                     
-                    // Test the right ray against the current triangle.
-                    int res = rayIntersetsTriangle(beam, D, E, F, true, tmp, t);
-                    
-                    // Test intersection distance.
-                    if(res != 0 && (t >= -0.000001 && t <= 1.000001)) {
+                    for(int k = 0; k < numTriangles && hits <= 1; ++k) {
+                        vec3 tmp;
+                        float t;
                         
-                        //vec2 uv2 = barycentric(where, D, E, F, getUV(k * 3 + 0), getUV(k * 3 + 1), getUV(k * 3 + 2));
-                        //vec4 color2 = texture(textures[getSampler(k * 3)], uv);
+                        vec3 D = getVertex(k * 3 + 0);
+                        vec3 E = getVertex(k * 3 + 1);
+                        vec3 F = getVertex(k * 3 + 2);
                         
-                        //if(color2.a > 0.5) {
-                        ++hits;
-                        //}
+                        // Test the right ray against the current triangle.
+                        int res = rayIntersetsTriangle(beam, D, E, F, true, tmp, t);
+                        
+                        // Test intersection distance.
+                        //if(res != 0 && (t >= -0.0000001 && t <= 1.0000001)) {
+                        if(res != 0 && (t >= -0.0000001 && t <= 1.0000001)) {
+                            
+                            vec2 uv2 = barycentric(where, D, E, F, getUV(k * 3 + 0), getUV(k * 3 + 1), getUV(k * 3 + 2));
+                            vec4 color2 = texture(textures[getSampler(k * 3)], uv);
+                            
+                            if(color2.a > 0.1) {
+                                ++hits;
+                            }
+                        }
+                    }
+                    
+                    // Hit nothing, Full light!
+                    if(hits <= 1) {
+                        blend += lightsDiffuse[l] * infLightCount;
+                        
+                        // Hit something, use ambient term
+                    } else {
+                        blend += vec4(0.2, 0.2, 0.2, 1.0);//lightsDiffuse[l] * ambientRatio;
                     }
                 }
-                
-                // Hit nothing, Full light!
-                if(hits <= 1) {
-                    blend += lightsDiffuse[l] * infLightCount;
-                    
-                    // Hit something, use ambient term
-                } else {
-                    blend += vec4(0.2, 0.2, 0.2, 1.0);//lightsDiffuse[l] * ambientRatio;
-                }
-                
             }
             
             // No alpha channel in light.
             blend.a = 1.0;
-            //color.a = 1.0;
             
+            blend.r = max(0.1, blend.r);
+            blend.g = max(0.1, blend.g);
+            blend.b = max(0.1, blend.b);
+
             zBufferDepth[j] = depth;
-            //zBufferColor[j] = colors[mod(i, 6)] / 3.0;
-            //zBufferColor[j] = color * blend;
             zBufferColor[j] = color;
+            
+            // There are lights, blend them. Otherwise do nothing.
+            if(lightCount > 0) {
+                zBufferColor[j] = zBufferColor[j] * blend;
+            }
             
             // Move to the next depth slot. TODO: test for limit!
             j++;
@@ -333,7 +351,8 @@ vec4 traceRay(Ray ray, vec2 pos, float perspective) {
 void main() {
 
 #define RANDOM
-#define GAUSSIAN
+//#define NONE
+//#define STRATIFICATION
 
     Ray ray;
     
@@ -348,20 +367,19 @@ void main() {
 #endif
     
 #ifdef RANDOM
-    int iterations = 25;
-    float deviationX = 30.0 / windowSize.x;
-    float deviationY = 30.0 / windowSize.y;
+    int iterations = n;
+    float deviationX = range / windowSize.x;
+    float deviationY = range / windowSize.y;
     vec2 randomPos;
     vec2 randomSeed = position;
     float randomDX;
     float randomDY;
     vec4 itColor = vec4(0.0, 0.0, 0.0, 0.0);
     
-    #ifdef GAUSSIAN
-        float sigma = 10.2;
-        float sigmaPrecomputed = 1.0 / (2.0 * sigma * sigma);
-        float sigmaSum = 0.0;
-    #endif
+    
+    //float sigma = 10.2; // Is a global uniform
+    float sigmaPrecomputed = 1.0 / (2.0 * sigma * sigma);
+    float sigmaSum = 0.0;
     
     for (int i = 0; i < iterations; ++i) {
         //calculate randomised deviation
@@ -382,7 +400,7 @@ void main() {
         //raytracer go!
         itColor = traceRay(ray, randomPos, perspective);
         
-        #ifdef GAUSSIAN
+        if(sigma != 0.0) {
             // Linear
             //float w = 1 / (sqrt(deltaX * deltaX + deltaY * deltaY));
         
@@ -394,21 +412,21 @@ void main() {
        
             //finalColor.a = 1.0;
             finalColor += itColor * w;
-        #else
+        } else {
             //add to average
             finalColor += (itColor / iterations);
-        #endif
+        }
     }
     
-    #ifdef GAUSSIAN
+    if(sigma != 0.0) {
         finalColor /= sigmaSum;
-    #endif
+    }
     
 #endif //RANDOM
     
 #ifdef STRATIFICATION
     //Stratification degree. Set to 0 to disable.
-    int stratDegree = 1;
+    int stratDegree = n;
     float stratIterations = pow(2 * stratDegree + 1, 2);
     int stratDivisions = 2 * (stratDegree + 1);
     float stratIntervalX = 2.0 / (float(stratDivisions) * windowSize.x);
