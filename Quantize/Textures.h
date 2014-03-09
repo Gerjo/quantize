@@ -86,11 +86,11 @@ struct Textures {
                 internalFormat = GL_RGB;
                 break;
             case PNG_COLOR_TYPE_GRAY:
-                internalFormat = GL_LUMINANCE;
+                internalFormat = GL_RED; // GL_LUMINANCE; // 1 channel
                 break;
                 
             case PNG_COLOR_TYPE_GRAY_ALPHA:
-                internalFormat = GL_LUMINANCE_ALPHA;
+                internalFormat = GL_RG; // GL_LUMINANCE_ALPHA; // 2 channels
                 break;
                 
             default:
