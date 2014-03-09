@@ -115,10 +115,10 @@ void Quantize::initialize(float width, float height) {
     printf("\n\n");
     
     // Let open GL deal with the z-index and order of rendering.
-    glEnable(GL_DEPTH_TEST);
+    glDisable(GL_DEPTH_TEST);
     
     // Hide faces not facing us.
-    //glEnable(GL_CULL_FACE);
+    glDisable(GL_CULL_FACE);
     
     //glDepthFunc(GL_ALWAYS);
 
