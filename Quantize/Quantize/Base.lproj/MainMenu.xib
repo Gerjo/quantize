@@ -683,7 +683,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" utility="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="132" width="332" height="586"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="900"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
             <view key="contentView" id="BXO-Af-2Qd">
                 <rect key="frame" x="0.0" y="0.0" width="332" height="586"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -694,7 +694,7 @@
                         <font key="font" metaFont="system"/>
                         <tabViewItems>
                             <tabViewItem label="Camera" identifier="1" id="NZQ-za-m5K">
-                                <view key="view" id="IYN-Y9-ded">
+                                <view key="view" ambiguous="YES" id="IYN-Y9-ded">
                                     <rect key="frame" x="10" y="33" width="184" height="0.0"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -1091,7 +1091,7 @@
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="AA" identifier="" id="eGG-Wf-May">
-                                <view key="view" ambiguous="YES" id="V9f-uG-svR">
+                                <view key="view" id="V9f-uG-svR">
                                     <rect key="frame" x="10" y="33" width="286" height="524"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>

@@ -437,6 +437,8 @@
 		A6C56C6D18A5924E00DFAA00 /* postp.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = postp.vsh; sourceTree = "<group>"; };
 		A6C56C6E18A5924E00DFAA00 /* postp.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = postp.fsh; sourceTree = "<group>"; };
 		A6C56CA718A8E9FC00DFAA00 /* Collada.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Collada.h; sourceTree = "<group>"; };
+		A6F24E7218D332C200B4FCE6 /* Tribox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tribox.h; sourceTree = "<group>"; };
+		A6F24E7418D33D4B00B4FCE6 /* Tree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tree.h; sourceTree = "<group>"; };
 		CC65799418A6456E0035EB43 /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		CC704C9C18BE3F2300212FB9 /* checkerboard2.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = checkerboard2.dae; sourceTree = "<group>"; };
 		CC71FFA318BCEC0B003AF106 /* Mage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Mage.png; sourceTree = "<group>"; };
@@ -724,11 +726,13 @@
 		A6C56A08189FC8DF00DFAA00 = {
 			isa = PBXGroup;
 			children = (
+				A6F24E7418D33D4B00B4FCE6 /* Tree.h */,
 				A66A071F18B66DC100F2CD15 /* models */,
 				A6C56C6118A58C4D00DFAA00 /* tinyXML */,
 				A6C56C3518A2AA5000DFAA00 /* libPNG */,
 				A6C56C1318A139EB00DFAA00 /* Math */,
 				A6C56C3418A2A88900DFAA00 /* Textures.h */,
+				A6F24E7218D332C200B4FCE6 /* Tribox.h */,
 				A69FD3DF18B4BD96002FB76E /* Textures.cpp */,
 				A6403D9718AD8B05009116CF /* Entity.h */,
 				A6C56C3018A1480200DFAA00 /* Model.h */,
