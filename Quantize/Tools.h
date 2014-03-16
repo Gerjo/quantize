@@ -9,7 +9,6 @@
 #pragma once
 
 #include <OpenGL/gl3.h>
-#include <OpenGL/glu.h>
 
 
 #include <fstream>
@@ -170,12 +169,12 @@ static void GLFBError() {
         case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
             Exit("Framebuffer Object Error: Missing Attachment");
             break;
-        case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT:
-            Exit("Framebuffer Object Error: Dimensions do not match");
-            break;
-        case GL_FRAMEBUFFER_INCOMPLETE_FORMATS_EXT:
-            Exit("Framebuffer Object Error: Formats");
-            break;
+        //case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT:
+        //    Exit("Framebuffer Object Error: Dimensions do not match");
+        //    break;
+        //case GL_FRAMEBUFFER_INCOMPLETE_FORMATS_EXT:
+        //    Exit("Framebuffer Object Error: Formats");
+        //    break;
         case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER:
             Exit("Framebuffer Object Error: Draw Buffer");
             break;

@@ -369,8 +369,8 @@ void Quantize::update(float dt) {
     time = GetTiming();
 
     // Swap double buffer
-    glSwapAPPLE();
-    
+    //glSwapAPPLE();
+    //glFlush();
     
     //GLint duration;
     //glGetQueryObjectiv(_glTimerQuery, GL_QUERY_RESULT, &duration);

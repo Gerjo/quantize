@@ -57,6 +57,8 @@ static bool isInitialized = false;
     quantize->update(startTime - lastUpdate);
         
     lastUpdate = startTime;
+    
+    [[self openGLContext] flushBuffer];
 }
 
 
