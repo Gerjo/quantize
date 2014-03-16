@@ -372,14 +372,12 @@ void Quantize::update(float dt) {
     //glSwapAPPLE();
     //glFlush();
     
-    //GLint duration;
-    //glGetQueryObjectiv(_glTimerQuery, GL_QUERY_RESULT, &duration);
+    GLint duration;
+    glGetQueryObjectiv(_glTimerQuery, GL_QUERY_RESULT, &duration);
     
-    //stats.drawing += duration * 0.0000000001;
+    stats.drawing += duration * 0.0000000001;
     
-    //printf("%d\n", duration);
     
-    stats.swapping = GetTiming() - time;
     
     stats.total += GetTiming() - startTime;
 

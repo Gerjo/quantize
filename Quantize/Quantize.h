@@ -89,7 +89,6 @@ class Quantize {
         double drawing;
         double uploadingDataTexture;
         double total;
-        double swapping;
         double uniforms;
         int frames;
         
@@ -101,7 +100,6 @@ class Quantize {
             drawing = 0;
             uploadingDataTexture = 0;
             total = 0;
-            swapping = 0;
             uniforms = 0;
             frames = 0;
         }

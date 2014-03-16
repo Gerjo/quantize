@@ -86,6 +86,7 @@ static bool isInitialized = false;
 }
 
 - (void)keyDown:(NSEvent *)theEvent {
+    printf("derph\n");
     if ([theEvent modifierFlags]) {
         NSString *theKey = [theEvent charactersIgnoringModifiers];
         unichar keyChar = 0;
