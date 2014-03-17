@@ -24,9 +24,9 @@ Quantize::Quantize() : _lastLogTime(GetTiming()) {
         light.specular.v[i] = 0.0f;
     }
   
-    light.diffuse.r = 0;
-    light.diffuse.g = 0;
-    light.diffuse.b = 2;
+    light.diffuse.r = 0.3;
+    light.diffuse.g = 1;
+    light.diffuse.b = 1.7;
     lights.push_back(light);
         
     light.diffuse.r = 1;
@@ -89,15 +89,23 @@ void Quantize::loadDemoScene() {
 
     
     for(VertexData d : vertices) {
-        d.position = Matrix44::CreateTranslation(0, 1, 0) * d.position;
+    
+        d.position.x -= 0;
+        d.position.y += 1;
+        d.position.z += 4;
     
         scene.push_back(d);
     }
     
+    //scene.clear();
+    
+    for(VertexData d : vertices) {
+        scene.push_back(d);
+    }
     
     assert(scene.size() % 3 == 0);
     
-    for(size_t i = 0; i < scene.size(); i += 3) {
+   for(size_t i = 0; i < scene.size(); i += 3) {
     
         Face face;
         
@@ -443,7 +451,7 @@ void Quantize::update(float dt) {
             lights.size(), sizeof(lights[0]) * lights.size(),
             stats.uploadingDataTexture / stats.frames,
             stats.drawing,
-            scene.size(), scene.size() / 3, sizeof(scene[0]) * scene.size(),
+            faces.size(), faces.size() / 3, sizeof(faces[0]) * faces.size(),
             position.x, position.y, position.z,
             orientation.x, orientation.y, orientation.z
             );

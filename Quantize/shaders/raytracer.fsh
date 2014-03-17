@@ -59,62 +59,47 @@ struct Ray {
     vec3 direction;
 };
 
-int rayIntersetsTriangle(Ray ray, vec3 v0, vec3 v1, vec3 v2, bool light, inout vec3 where, inout float depth) {
+// Source: http://www.lighthouse3d.com/tutorials/maths/ray-triangle-intersection/
+int rayIntersetsTriangle(in Ray ray, in vec3 v0, in vec3 v1, in vec3 v2, in bool light, out vec3 where, out float depth) {
 
-    vec3 a = v1 - v0;
-    vec3 b = v2 - v0;
-    vec3 n = cross(a, b);
+    vec3 e1 = v1 - v0;
+    vec3 e2 = v2 - v0;
     
-    float NdotRaydirection = dot(n, ray.direction);
-    
-    if(abs(NdotRaydirection) < 0.0001) {
-        return 0;
-    }
-    
-    int res = 1;
-    
-    float dot = dot(n, v0);
-    float t = -(dot(n, ray.place) + dot) / NdotRaydirection;
+    vec3 h  = cross(ray.direction, e2);
+	float a = dot(e1, h);
 
-    // Behind the camera culling, only for non light tests.
-    if ( !light && t < 0.0) {
-        res += 1;
-        return 0; // the triangle is behind
+	if (a > -0.00001 && a < 0.00001) {
+		return 0;
     }
     
-    // Solve for intersection point. Using this point we determine if it's inside
-    // the intersection of each edge.
-    where = ray.place + t * ray.direction;
-    depth = t;
-    
-    
-    vec3 perp; // vector perpendicular to triangle's plane
-    vec3 edge; // Edge direction vector
- 
-    // Half space tested for edge #0
-    edge = v1 - v0;
-    perp = cross(edge, where - v0);
-    if (dot(n, perp) < 0.0) {
-        return 0;
+	float f = 1 / a;
+	vec3 s  = ray.place - v0;
+	float u = f * dot(s, h);
+
+	if (u < 0.0 || u > 1.0) {
+		return 0;
+    }
+	
+    vec3 q  = cross(s, e1);
+	float v = f * dot(ray.direction, q);
+
+	if (v < 0.0 || u + v > 1.0) {
+		return 0;
     }
     
-    // Half space tested for edge #1
-    edge = v2 - v1;
-    perp = cross(edge, where - v1);
-    if (dot(n, perp) < 0.0) {
-        return 0;
-    }
+	// at this stage we can compute t to find out where
+	// the intersection point is on the line
+	depth = f * dot(e2, q);
     
-    // Half space tested for edge #2
-    edge = v0 - v2;
-    perp = cross(edge, where - v2);
-    if (dot(n, perp) < 0.0) {
-        return 0;
+	if (depth > 0.00001) {// ray intersection
+        where = ray.place + depth * ray.direction;
+
+        return 1;
+    } else { // this means that there is a line intersection
+		 // but not a ray intersection
+		 return 0;
     }
-    
-    return res;
 }
-
 
 // Integer modulo.
 int mod(int i, int n) {
@@ -140,45 +125,20 @@ int mod(int i, int n) {
 ///  Read: http://en.wikipedia.org/wiki/Barycentric_coordinate_system
 ///
 vec2 barycentric(vec3 f, vec3 v1, vec3 v2, vec3 v3, vec2 uv1, vec2 uv2, vec2 uv3) {
-    /*
-    // Classic Strategy
-    // Calculate vectors from point f to vertices v1, v2 and v3:
-    vec3 f1 = v1 - f;
-    vec3 f2 = v2 - f;
-    vec3 f3 = v3 - f;
-    
-    // Calculate the areas and factors (order of parameters doesn't matter):
-    float a  = length(cross(v1 - v2, v1 - v3)); // main triangle area a
-    float a1 = length(cross(f2, f3)) / a; // v1's triangle area / a
-    float a2 = length(cross(f3, f1)) / a; // v2's triangle area / a
-    float a3 = length(cross(f1, f2)) / a; // v3's triangle area / a
-    
-    // Find the uv corresponding to point f (uv1/uv2/uv3 are associated to v1/v2/v3):
-    return uv1 * a1 + uv2 * a2 + uv3 * a3;
-     */
-    
-    /*
-    // UVW Strategy
-    vec3 uv1p = vec3(uv1, 1.0);
-    vec3 uv2p = vec3(uv2, 1.0);
-    vec3 uv3p = vec3(uv3, 1.0);
-    
-    vec3 uvp = uv1p * a1 + uv2p * a2 + uv3p * a3;
-    vec3 uv = (uvp / uvp.z);
-    return uv.xy;
-     */
-    
     //Linear System Solver Strategy
     vec3 m0 = v2 - v1;
     vec3 m1 = v3 - v1;
-    vec3 m2 = f - v1;
+    
     
     float d00 = dot(m0, m0);
     float d01 = dot(m0, m1);
     float d11 = dot(m1, m1);
+    float denom = 1 / (d00 * d11 - d01 * d01);
+    
+    vec3 m2   = f - v1;
     float d20 = dot(m2, m0);
     float d21 = dot(m2, m1);
-    float denom = 1 / (d00 * d11 - d01 * d01);
+    
     
     float a = (d11 * d20 - d01 * d21) * denom;
     float b = (d00 * d21 - d01 * d20) * denom;
@@ -190,7 +150,7 @@ vec2 barycentric(vec3 f, vec3 v1, vec3 v2, vec3 v3, vec2 uv1, vec2 uv2, vec2 uv3
 }
 
 vec4 traceRay(vec2 pos, float perspective) {
-    vec4 color = vec4(0.0, 0.0, 0.0, 0.0);
+    
     
     Ray ray;
     
@@ -206,9 +166,9 @@ vec4 traceRay(vec2 pos, float perspective) {
     // Translate the camera
     ray.place -= vec3(translation[3][0] * 0.1, translation[3][1] * 0.1, translation[3][2] * 0.1);
     
-    // cool idea!
-    vec4 zBufferColor[10];
-    float zBufferDepth[10];
+    const int maxBuffer = 10;
+    vec4 zBufferColor[maxBuffer];
+    float zBufferDepth[maxBuffer];
     
     float infLightCount = 1.0 / lightCount;
     float ambientRatio  = 0.4 * infLightCount;
@@ -220,7 +180,6 @@ vec4 traceRay(vec2 pos, float perspective) {
         vec3 A = texelFetch(zdata, ivec2(offset + 0, 0), lod).xyz;
         vec3 B = texelFetch(zdata, ivec2(offset + 1, 0), lod).xyz;
         vec3 C = texelFetch(zdata, ivec2(offset + 2, 0), lod).xyz;
-    
         
         vec3 where;
         float depth;
@@ -238,7 +197,7 @@ vec4 traceRay(vec2 pos, float perspective) {
             int sampler = int(texelFetch(zdata, ivec2(offset + 3, 0), lod).z);
             vec4 color = texture(textures[sampler], uv);
             
-            if(useTexture == 0) {
+            /*if(useTexture == 0) {
                 float size = 1;
                 int foo = int(floor(where.x / 1) * 1);
                 int bar = int(floor(where.z / 1) * 1);
@@ -248,7 +207,7 @@ vec4 traceRay(vec2 pos, float perspective) {
                 } else {
                     color = vec4(0.0, 0.0, 0.0, 1.0);
                 }
-            }
+            }*/
             
             vec4 blend = vec4(0.0, 0.0, 0.0, 1.0);
             
@@ -325,6 +284,8 @@ vec4 traceRay(vec2 pos, float perspective) {
             }
         }
     }
+    
+    vec4 color = vec4(0.0, 0.0, 0.0, 0.0);
     
     // Keep blending until there is no alpha or the buffer is empty.
     for(int i = 0; i < j && color.a < 1.0; ++i) {
