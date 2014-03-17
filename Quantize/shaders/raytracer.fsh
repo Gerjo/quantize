@@ -124,7 +124,7 @@ int mod(int i, int n) {
 ///  Read: http://answers.unity3d.com/questions/383804/calculate-uv-coordinates-of-3d-point-on-plane-of-m.html
 ///  Read: http://en.wikipedia.org/wiki/Barycentric_coordinate_system
 ///
-vec2 barycentric(vec3 f, vec3 v1, vec3 v2, vec3 v3, vec2 uv1, vec2 uv2, vec2 uv3) {
+vec2 barycentric(in vec3 f, in vec3 v1, in vec3 v2, in vec3 v3, in vec2 uv1, in vec2 uv2, in vec2 uv3) {
     //Linear System Solver Strategy
     vec3 m0 = v2 - v1;
     vec3 m1 = v3 - v1;
@@ -149,7 +149,7 @@ vec2 barycentric(vec3 f, vec3 v1, vec3 v2, vec3 v3, vec2 uv1, vec2 uv2, vec2 uv3
     return uv;
 }
 
-vec4 traceRay(vec2 pos, float perspective) {
+vec4 traceRay(in vec2 pos, in float perspective) {
     
     
     Ray ray;
