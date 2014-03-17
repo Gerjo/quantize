@@ -364,7 +364,7 @@ void Quantize::update(float dt) {
              0,                                     // Mip-map level
              GL_RGB32F,                             // Internal format
              (GLint) faces.size() *
-             (sizeof(Face) / 3),        // Width
+             (sizeof(Face) / 3),                    // Width
              1,                                     // Height
              0,                                     // Border
              GL_RGB,                                // Format (how to use)

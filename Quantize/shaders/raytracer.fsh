@@ -252,8 +252,6 @@ vec4 traceRay(vec2 pos, float perspective) {
             
             vec4 blend = vec4(0.0, 0.0, 0.0, 1.0);
             
-         
-            
             // For each light
             for(int l = 0; l < lightCount; ++l) {
                 
@@ -261,47 +259,34 @@ vec4 traceRay(vec2 pos, float perspective) {
                 beam.place     = where;
                 beam.direction = lightsPosition[l] - beam.place;
                 
-                //if(dot(normal, lightsPosition[l] - A) < 0.0) {
+                int hits = 0;
+                
+                for(int k = 0; k < numTriangles && hits <= 1; ++k) {
+                    vec3 tmp;
+                    float t;
                     
-                    int hits = 0;
+                    int offset2 = k * stride;
+                    vec3 D = texelFetch(zdata, ivec2(offset2 + 0, 0), lod).xyz;
+                    vec3 E = texelFetch(zdata, ivec2(offset2 + 1, 0), lod).xyz;
+                    vec3 F = texelFetch(zdata, ivec2(offset2 + 2, 0), lod).xyz;
                     
-                    for(int k = 0; k < numTriangles && hits <= 1; ++k) {
-                        vec3 tmp;
-                        float t;
-                        
-                        int offset2 = k * stride;
-                        vec3 D = texelFetch(zdata, ivec2(offset2 + 0, 0), lod).xyz;
-                        vec3 E = texelFetch(zdata, ivec2(offset2 + 1, 0), lod).xyz;
-                        vec3 F = texelFetch(zdata, ivec2(offset2 + 2, 0), lod).xyz;
-                        
-                        
-                        // Test the right ray against the current triangle.
-                        int res = rayIntersetsTriangle(beam, D, E, F, true, tmp, t);
-                        
-                        // Test intersection distance.
-                        if(res != 0 && (t >= -0.0000001 && t <= 1.0000001)) {
-                            
-                            //vec2 uv2 = barycentric(where, D, E, F, getUV(k * 3 + 0), getUV(k * 3 + 1), getUV(k * 3 + 2));
-                            //vec4 color2 = texture(textures[getSampler(k * 3)], uv);
-                            
-                            //int sampler = int(texelFetch(zdata, ivec2(offset2 + 3, 0), lod).z);
-                            //vec4 color2 = texture(textures[1], uv);
-                            
-                            //if(color2.a > 0.1) {
-                                ++hits;
-                            //}
-                        }
+                    // Test the right ray against the current triangle.
+                    int res = rayIntersetsTriangle(beam, D, E, F, true, tmp, t);
+                    
+                    // Test intersection distance.
+                    if(res != 0 && (t >= -0.0000001 && t <= 1.0000001)) {
+                        ++hits;
                     }
+                }
+                
+                // Hit nothing, Full light!
+                if(hits <= 1) {
+                    blend += lightsDiffuse[l] * infLightCount;
                     
-                    // Hit nothing, Full light!
-                    if(hits <= 1) {
-                        blend += lightsDiffuse[l] * infLightCount;
-                        
-                        // Hit something, use ambient term
-                    } else {
-                        blend += vec4(0.2, 0.2, 0.2, 1.0);//lightsDiffuse[l] * ambientRatio;
-                    }
-                //}
+                    // Hit something, use ambient term
+                } else {
+                    blend += vec4(0.2, 0.2, 0.2, 1.0);//lightsDiffuse[l] * ambientRatio;
+                }
             }
             
             // No alpha channel in light.
