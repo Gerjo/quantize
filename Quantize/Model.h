@@ -20,6 +20,22 @@ class Quantize;
 
 using namespace Furiosity;
 
+// 6 float triplets
+struct Face {
+    Vector3 a;
+    Vector3 b;
+    Vector3 c;
+    
+    Vector2 u;
+    GLfloat sampler{1};
+    
+    Vector2 v;
+    GLfloat padding1{0};
+    
+    Vector2 w;
+    GLfloat padding2{0};
+};
+
 /// 4 float triplets
 struct VertexData {
 

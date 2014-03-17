@@ -71,29 +71,6 @@ void Quantize::loadDemoScene() {
     // lava of Mount Doom enriched with tiny ring-like particles.
     //scene.insert(scene.end(), ((Model*)cube->sub[0].get())->vertices.begin(), ((Model*)cube->sub[0].get())->vertices.end());
     
-    
-    for(VertexData d : ((Model*)cube->sub[0].get())->vertices) {
-        d.position = Matrix44::CreateTranslation(0, 1, 0) * d.position;
-    
-        scene.push_back(d);
-    }
-    
-    
-    auto &vertices = ((Model*)cube->sub[0].get())->vertices;
-
-    printf("Will insert: %lu triangles.\n", vertices.size()/3);
-    
-    Tree tree;
-
-    
-    for(size_t i = 0; i < vertices.size(); i += 3) {
-        tree.insert(vertices[i], vertices[i + 1], vertices[i + 2]);
-    }
-    
-    tree.print();
-    
-    printf("Tree bytes: %lu, root bytes: %lu\n", tree.size(), tree.root.triangles.size() * sizeof(VertexData) * 3);
-    
     // A checkerboard of checkerboards.
     float scale = 25;
     for(int x = 0; x < 2; ++x) {
@@ -107,6 +84,50 @@ void Quantize::loadDemoScene() {
             }
         }
     }
+    
+    auto &vertices = ((Model*)cube->sub[0].get())->vertices;
+
+    
+    for(VertexData d : vertices) {
+        d.position = Matrix44::CreateTranslation(0, 1, 0) * d.position;
+    
+        scene.push_back(d);
+    }
+    
+    
+    assert(scene.size() % 3 == 0);
+    
+    for(size_t i = 0; i < scene.size(); i += 3) {
+    
+        Face face;
+        
+        face.a = scene[i + 0].position;
+        face.b = scene[i + 1].position;
+        face.c = scene[i + 2].position;
+        
+        
+        face.u = scene[i + 0].uv;
+        face.v = scene[i + 1].uv;
+        face.w = scene[i + 2].uv;
+        
+        face.sampler = scene[i].sampler;
+    
+        faces.push_back(face);
+    }
+/*
+    printf("Will insert: %lu triangles.\n", vertices.size()/3);
+    
+    Tree tree;
+
+    
+    for(size_t i = 0; i < vertices.size(); i += 3) {
+        tree.insert(vertices[i], vertices[i + 1], vertices[i + 2]);
+    }
+    
+    tree.print();
+    
+    printf("Tree bytes: %lu, root bytes: %lu\n", tree.size(), tree.root.triangles.size() * sizeof(VertexData) * 3);
+    */
 }
 
 
@@ -330,7 +351,7 @@ void Quantize::update(float dt) {
     GLError();
     
     // Amount of triangles
-    glUniform1i(_uniformNumTriangles, (int) scene.size() / 3);
+    glUniform1i(_uniformNumTriangles, (int) faces.size());
     GLError();
     
     glActiveTexture(GL_TEXTURE0);
@@ -339,17 +360,16 @@ void Quantize::update(float dt) {
     
     time = GetTiming();
     
-    // Upload the whole scene as a texture. We should measure the performance
-    // of this. Static objects could be uploaded just once.
     glTexImage2D(GL_TEXTURE_2D,                     // What (target)
              0,                                     // Mip-map level
              GL_RGB32F,                             // Internal format
-             (GLint) scene.size() * 4,                                 // Width
+             (GLint) faces.size() *
+             (sizeof(Face) / 3),        // Width
              1,                                     // Height
              0,                                     // Border
              GL_RGB,                                // Format (how to use)
              GL_FLOAT,                              // Type   (how to intepret)
-             scene[0].position.v                    // Data
+             faces[0].a.v                           // Data
     );
     GLError();
 

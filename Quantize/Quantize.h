@@ -80,6 +80,8 @@ class Quantize {
     /// A collection that will be uploaded as a texture to the GPU.
     std::vector<VertexData> scene;
     
+    std::vector<Face> faces;
+    
     /// Variables for statistical reporting
     double _lastLogTime{0}; // Time of last log print
     double _logInterval{30}; // Per seconds

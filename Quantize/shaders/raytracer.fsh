@@ -49,7 +49,7 @@ uniform sampler2D textures[15];
 uniform sampler2D zdata;
 
 const float Infinity = 99999999; // Infinity, for all intents and purposes.
-const int stride     = 4;        // In floats
+const int stride     = 6;        // In vec3
 const int lod        = 0;        // mipmap level
 
 out vec4 finalColor;
@@ -58,29 +58,6 @@ struct Ray {
     vec3 place;
     vec3 direction;
 };
-
-vec3 getVertex(int i) {
-    int offset = i * stride;
-    return texelFetch(zdata, ivec2(offset, 0), lod).xyz;
-}
-
-vec3 getNormal(int i) {
-    int offset = i * stride + 1;
-    return texelFetch(zdata, ivec2(offset, 0), lod).xyz;
-}
-
-vec2 getUV(int i) {
-    int offset = i * stride + 2;
-    return texelFetch(zdata, ivec2(offset, 0), lod).xy;
-}
-
-int getSampler(int i) {
-    int offset = i * stride + 3;
-    
-    // Retrieve the first float, apply rounding and cast to integer.
-    return int(floor(texelFetch(zdata, ivec2(offset, 0), lod).x + 0.5));
-}
-
 
 int rayIntersetsTriangle(Ray ray, vec3 v0, vec3 v1, vec3 v2, bool light, inout vec3 where, inout float depth) {
 
@@ -238,9 +215,12 @@ vec4 traceRay(vec2 pos, float perspective) {
     
     int j = 0;
     for(int i = 0; i < numTriangles; ++i) {
-        vec3 A = getVertex( i * 3 + 0);
-        vec3 B = getVertex( i * 3 + 1);
-        vec3 C = getVertex( i * 3 + 2);
+        
+        int offset = i * stride;
+        vec3 A = texelFetch(zdata, ivec2(offset + 0, 0), lod).xyz;
+        vec3 B = texelFetch(zdata, ivec2(offset + 1, 0), lod).xyz;
+        vec3 C = texelFetch(zdata, ivec2(offset + 2, 0), lod).xyz;
+    
         
         vec3 where;
         float depth;
@@ -249,9 +229,14 @@ vec4 traceRay(vec2 pos, float perspective) {
         int res = rayIntersetsTriangle(ray, A, B, C, false, where, depth);
         
         if(res != 0) {
-            vec2 uv = barycentric(where, A, B, C, getUV(i * 3 + 0), getUV(i * 3 + 1), getUV(i * 3 + 2));
-            vec4 color = texture(textures[getSampler(i * 3)], uv);
+            vec2 U = texelFetch(zdata, ivec2(offset + 3, 0), lod).xy;
+            vec2 V = texelFetch(zdata, ivec2(offset + 4, 0), lod).xy;
+            vec2 W = texelFetch(zdata, ivec2(offset + 5, 0), lod).xy;
+        
+            vec2 uv = barycentric(where, A, B, C, U, V, W);
             
+            int sampler = int(texelFetch(zdata, ivec2(offset + 3, 0), lod).z);
+            vec4 color = texture(textures[sampler], uv);
             
             if(useTexture == 0) {
                 float size = 1;
@@ -267,11 +252,7 @@ vec4 traceRay(vec2 pos, float perspective) {
             
             vec4 blend = vec4(0.0, 0.0, 0.0, 1.0);
             
-            
-            //vec3 u = B - A;
-            //vec3 v = C - A;
-            vec3 normal = getNormal(i * 3 + 0);//cross(u, v);
-            
+         
             
             // For each light
             for(int l = 0; l < lightCount; ++l) {
@@ -288,19 +269,23 @@ vec4 traceRay(vec2 pos, float perspective) {
                         vec3 tmp;
                         float t;
                         
-                        vec3 D = getVertex(k * 3 + 0);
-                        vec3 E = getVertex(k * 3 + 1);
-                        vec3 F = getVertex(k * 3 + 2);
+                        int offset2 = k * stride;
+                        vec3 D = texelFetch(zdata, ivec2(offset2 + 0, 0), lod).xyz;
+                        vec3 E = texelFetch(zdata, ivec2(offset2 + 1, 0), lod).xyz;
+                        vec3 F = texelFetch(zdata, ivec2(offset2 + 2, 0), lod).xyz;
+                        
                         
                         // Test the right ray against the current triangle.
                         int res = rayIntersetsTriangle(beam, D, E, F, true, tmp, t);
                         
                         // Test intersection distance.
-                        //if(res != 0 && (t >= -0.0000001 && t <= 1.0000001)) {
                         if(res != 0 && (t >= -0.0000001 && t <= 1.0000001)) {
                             
-                            vec2 uv2 = barycentric(where, D, E, F, getUV(k * 3 + 0), getUV(k * 3 + 1), getUV(k * 3 + 2));
-                            vec4 color2 = texture(textures[getSampler(k * 3)], uv);
+                            //vec2 uv2 = barycentric(where, D, E, F, getUV(k * 3 + 0), getUV(k * 3 + 1), getUV(k * 3 + 2));
+                            //vec4 color2 = texture(textures[getSampler(k * 3)], uv);
+                            
+                            //int sampler = int(texelFetch(zdata, ivec2(offset2 + 3, 0), lod).z);
+                            //vec4 color2 = texture(textures[1], uv);
                             
                             //if(color2.a > 0.1) {
                                 ++hits;
