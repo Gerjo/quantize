@@ -60,6 +60,16 @@ public:
         if (i == 1) return y;
 		return z;
     }
+    
+    /// Set the individual x, y, z components.
+    Vector3& operator () (const float x, const float y, const float z)
+    {
+        this->x = x;
+        this->y = y;
+        this->z = z;
+        
+        return *this;
+    }
 	
 	/// Returns the value of the given vector added to this
     Vector3 operator+(const Vector3& v) const

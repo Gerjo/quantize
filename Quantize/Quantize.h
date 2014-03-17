@@ -82,7 +82,7 @@ class Quantize {
     
     /// Variables for statistical reporting
     double _lastLogTime{0}; // Time of last log print
-    double _logInterval{3}; // Per seconds
+    double _logInterval{30}; // Per seconds
     
     /// Inline struct, easier than prefixing all variables.
     struct Stats {

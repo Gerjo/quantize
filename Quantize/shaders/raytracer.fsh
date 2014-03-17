@@ -366,8 +366,8 @@ vec4 traceRay(vec2 pos, float perspective) {
 
 void main() {
 
-#define RANDOM
-//#define NONE
+//#define RANDOM
+#define NONE
 //#define STRATIFICATION
 
     

@@ -9,6 +9,7 @@
 #include "Quantize.h"
 #include "Entity.h"
 #include "Textures.h"
+#include "Tree.h"
 
 Quantize::Quantize() : _lastLogTime(GetTiming()) {
     
@@ -70,11 +71,28 @@ void Quantize::loadDemoScene() {
     // lava of Mount Doom enriched with tiny ring-like particles.
     //scene.insert(scene.end(), ((Model*)cube->sub[0].get())->vertices.begin(), ((Model*)cube->sub[0].get())->vertices.end());
     
+    
     for(VertexData d : ((Model*)cube->sub[0].get())->vertices) {
         d.position = Matrix44::CreateTranslation(0, 1, 0) * d.position;
     
         scene.push_back(d);
     }
+    
+    
+    auto &vertices = ((Model*)cube->sub[0].get())->vertices;
+
+    printf("Will insert: %lu triangles.\n", vertices.size()/3);
+    
+    Tree tree;
+
+    
+    for(size_t i = 0; i < vertices.size(); i += 3) {
+        tree.insert(vertices[i], vertices[i + 1], vertices[i + 2]);
+    }
+    
+    tree.print();
+    
+    printf("Tree bytes: %lu, root bytes: %lu\n", tree.size(), tree.root.triangles.size() * sizeof(VertexData) * 3);
     
     // A checkerboard of checkerboards.
     float scale = 25;
