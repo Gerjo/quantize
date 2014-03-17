@@ -211,11 +211,12 @@ vec4 traceRay(vec2 pos, float perspective) {
             
             vec4 blend = vec4(0.0, 0.0, 0.0, 1.0);
             
+            Ray beam;
+            beam.place     = where;
+            
             // For each light
             for(int l = 0; l < lightCount; ++l) {
                 
-                Ray beam;
-                beam.place     = where;
                 beam.direction = lightsPosition[l] - beam.place;
                 
                 int hits = 0;
@@ -249,7 +250,7 @@ vec4 traceRay(vec2 pos, float perspective) {
                         }
                     }
                 }
-                
+            
                 // Hit nothing, Full light!
                 if(hits < 1) {
                     blend += lightsDiffuse[l] * infLightCount;
