@@ -95,7 +95,7 @@ void Quantize::loadDemoScene() {
     
     assert(scene.size() % 3 == 0);
     
-   for(size_t i = 0; i < scene.size(); i += 3) {
+    for(size_t i = 0; i < scene.size(); i += 3) {
     
         Face face;
         
@@ -112,7 +112,7 @@ void Quantize::loadDemoScene() {
     
         faces.push_back(face);
     }
-/*
+
     printf("Will insert: %lu triangles.\n", vertices.size()/3);
     
     Tree tree;
@@ -125,7 +125,7 @@ void Quantize::loadDemoScene() {
     tree.print();
     
     printf("Tree bytes: %lu, root bytes: %lu\n", tree.size(), tree.root.triangles.size() * sizeof(VertexData) * 3);
-    */
+    
 }
 
 
@@ -441,7 +441,7 @@ void Quantize::update(float dt) {
             lights.size(), sizeof(lights[0]) * lights.size(),
             stats.uploadingDataTexture / stats.frames,
             stats.drawing,
-            faces.size(), faces.size() / 3, sizeof(faces[0]) * faces.size(),
+            faces.size() * 3, faces.size(), sizeof(faces[0]) * faces.size(),
             position.x, position.y, position.z,
             orientation.x, orientation.y, orientation.z
             );
