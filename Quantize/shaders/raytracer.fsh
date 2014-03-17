@@ -166,7 +166,7 @@ vec4 traceRay(vec2 pos, float perspective) {
     // Translate the camera
     ray.place -= vec3(translation[3][0] * 0.1, translation[3][1] * 0.1, translation[3][2] * 0.1);
     
-    const int maxBuffer = 10;
+    const int maxBuffer = 5;
     vec4 zBufferColor[maxBuffer];
     float zBufferDepth[maxBuffer];
     
@@ -220,7 +220,7 @@ vec4 traceRay(vec2 pos, float perspective) {
                 
                 int hits = 0;
                 
-                for(int k = 0; k < numTriangles && hits <= 1; ++k) {
+                for(int k = 0; k < numTriangles && hits < 1; ++k) {
                     vec3 tmp;
                     float t;
                     
@@ -234,15 +234,27 @@ vec4 traceRay(vec2 pos, float perspective) {
                     
                     // Test intersection distance.
                     if(res != 0 && (t >= -0.0000001 && t <= 1.0000001)) {
-                        ++hits;
+                    
+                        vec2 U2 = texelFetch(zdata, ivec2(offset2 + 3, 0), lod).xy;
+                        vec2 V2 = texelFetch(zdata, ivec2(offset2 + 4, 0), lod).xy;
+                        vec2 W2 = texelFetch(zdata, ivec2(offset2 + 5, 0), lod).xy;
+                    
+                        vec2 uv = barycentric(tmp, D, E, F, U2, V2, W2);
+                        
+                        int sampler2 = int(texelFetch(zdata, ivec2(offset2 + 3, 0), lod).z);
+                        vec4 color2 = texture(textures[sampler], uv);
+                    
+                        if(color2.a > 0.4) {
+                            ++hits;
+                        }
                     }
                 }
                 
                 // Hit nothing, Full light!
-                if(hits <= 1) {
+                if(hits < 1) {
                     blend += lightsDiffuse[l] * infLightCount;
                     
-                    // Hit something, use ambient term
+                // Hit something, use ambient term
                 } else {
                     blend += vec4(0.2, 0.2, 0.2, 1.0);//lightsDiffuse[l] * ambientRatio;
                 }

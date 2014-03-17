@@ -75,7 +75,7 @@ void Quantize::loadDemoScene() {
     float scale = 25;
     for(int x = 0; x < 2; ++x) {
         for(int y = 0; y < 3; ++y) {
-            Matrix44 t = Matrix44::CreateRotateX(3.14 / 2) * Matrix44::CreateTranslation(x * scale * 2, y * scale * 2, -1) * Matrix44::CreateScale(scale);
+            Matrix44 t = Matrix44::CreateRotateX(3.14 / 2) * Matrix44::CreateTranslation(x * scale * 2, y * scale * 2, 0) * Matrix44::CreateScale(scale);
             
             for(VertexData d : ((Model*)rectangle->sub[0].get())->vertices) {
                 d.position = t *  d.position;
@@ -89,17 +89,7 @@ void Quantize::loadDemoScene() {
 
     
     for(VertexData d : vertices) {
-    
-        d.position.x -= 0;
         d.position.y += 1;
-        d.position.z += 4;
-    
-        scene.push_back(d);
-    }
-    
-    //scene.clear();
-    
-    for(VertexData d : vertices) {
         scene.push_back(d);
     }
     
