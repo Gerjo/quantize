@@ -54,6 +54,7 @@ Quantize::~Quantize() {
     glDeleteProgram(_programRaytracer);
     glDeleteVertexArrays(1, &_vaoFrame);
     glDeleteBuffers(1, &_vboRtVertices);
+    // TODO: double check this list. I must've missed many gl items.
 }
 
 void Quantize::loadDemoScene() {
@@ -115,7 +116,7 @@ void Quantize::loadDemoScene() {
 
     printf("Will insert: %lu triangles.\n", vertices.size()/3);
     
-    Tree tree;
+    /*Tree tree;
 
     
     for(size_t i = 0; i < vertices.size(); i += 3) {
@@ -125,7 +126,7 @@ void Quantize::loadDemoScene() {
     tree.print();
     
     printf("Tree bytes: %lu, root bytes: %lu\n", tree.size(), tree.root.triangles.size() * sizeof(VertexData) * 3);
-    
+    */
 }
 
 
@@ -195,20 +196,22 @@ void Quantize::initializeRaytraceProgram() {
     //GLValidateProgram(_programRaytracer);
     GLError();
 
-    _uniformRtWindowSize = glGetUniformLocation(_programRaytracer, "windowSize");
-    _attrRtPosition = glGetAttribLocation(_programRaytracer, "vertexPosition");
+    _uniformRtWindowSize  = glGetUniformLocation(_programRaytracer, "windowSize");
+    _attrRtPosition       = glGetAttribLocation(_programRaytracer, "vertexPosition");
     _uniformNumTriangles  = glGetUniformLocation(_programRaytracer, "numTriangles");
     _uniformRtRotation    = glGetUniformLocation(_programRaytracer, "rotation");
     _uniformRtTranslation = glGetUniformLocation(_programRaytracer, "translation");
     
-    _uniformTextures = glGetUniformLocation(_programRaytracer, "textures");
-    _uniformDataTexture = glGetUniformLocation(_programRaytracer, "zdata");
+    _uniformTextures     = glGetUniformLocation(_programRaytracer, "textures");
+    _uniformDataTexture  = glGetUniformLocation(_programRaytracer, "zdata");
+    _uniformTime         = glGetUniformLocation(_programRaytracer, "time");
+    _uniformFrameCounter = glGetUniformLocation(_programRaytracer, "frameCounter");
     GLError();
     
-    _uniformN      = glGetUniformLocation(_programRaytracer, "n");
-    _uniformSigma  = glGetUniformLocation(_programRaytracer, "sigma");
-    _uniformRange  = glGetUniformLocation(_programRaytracer, "range");
-    _uniformJitter = glGetUniformLocation(_programRaytracer, "enableJitter");
+    _uniformN          = glGetUniformLocation(_programRaytracer, "n");
+    _uniformSigma      = glGetUniformLocation(_programRaytracer, "sigma");
+    _uniformRange      = glGetUniformLocation(_programRaytracer, "range");
+    _uniformJitter     = glGetUniformLocation(_programRaytracer, "enableJitter");
     _uniformUseTexture = glGetUniformLocation(_programRaytracer, "useTexture");
     GLError();
     
@@ -269,7 +272,8 @@ void Quantize::initializeRaytraceProgram() {
 /// Entry point for the update and draw loops.
 /// @param Time elapsed since previous call to update.
 void Quantize::update(float dt) {
-
+    ++_frameCounter;
+    
     const double startTime = GetTiming();
 
     // Generic variable used for statistical reporting.
@@ -330,6 +334,11 @@ void Quantize::update(float dt) {
     glUniform1i(_uniformUseTexture, (int) useTexture);
     GLError();
     
+    
+    
+    glUniform1i(_uniformFrameCounter, (int) _frameCounter);
+    glUniform1f(_uniformTime, (float) GetTiming());
+    GLError();
     stats.uniforms += GetTiming() - time;
     
     // Bind the triangle textures (up to 15)
@@ -382,7 +391,7 @@ void Quantize::update(float dt) {
     
     // Validate just before drawing. If there are errors, this will show them. The
     // actual draw call does not contain debug information at all.
-    //GLValidateProgram(_programRaytracer);
+    GLValidateProgram(_programRaytracer);
 
 
     // http://www.lighthouse3d.com/tutorials/opengl-short-tutorials/opengl-timer-query/
@@ -403,10 +412,6 @@ void Quantize::update(float dt) {
     GLError();
 
     time = GetTiming();
-
-    // Swap double buffer
-    //glSwapAPPLE();
-    //glFlush();
     
     GLint duration;
     glGetQueryObjectiv(_glTimerQuery, GL_QUERY_RESULT, &duration);

@@ -13,6 +13,19 @@
 
 using namespace Furiosity;
 
+struct Photon {
+    Vector3 position;
+    char p[4];              // power packed as 4 chars
+    char phi;               // compressed incident direction
+    char theta;
+    short flag;            // flag used in kdtree
+};
+
+/*
+
+phi = 255 * (atan2(dy,dx)+PI) / (2*PI) theta = 255 * acos(dx) / PI
+
+*/
 
 struct Color {
     //using byte = unsigned char;

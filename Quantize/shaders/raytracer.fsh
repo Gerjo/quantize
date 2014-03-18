@@ -17,7 +17,7 @@ uniform vec4 lightsAmbiant[10];
 
 uniform vec2 windowSize;        // Size of the viewport
 in vec2 position;               // Normalize position on screen
-
+in vec2 pixelPosition;          // The approximate pixel on screen.
 
 uniform int numTriangles;       // Number of triangles
 
@@ -31,6 +31,10 @@ uniform int enableJitter;
 // Some transforms
 uniform mat4 translation;
 uniform mat4 rotation;
+
+// Used for randomness
+uniform int frameCounter;
+uniform float time;
 
 
 // My Intel onboard chip only supports 16 textures. If this becomes a limit,
@@ -166,7 +170,7 @@ vec4 traceRay(in vec2 pos, in float perspective) {
     // Translate the camera
     ray.place -= vec3(translation[3][0] * 0.1, translation[3][1] * 0.1, translation[3][2] * 0.1);
     
-    const int maxBuffer = 5;
+    const int maxBuffer = 3;
     vec4 zBufferColor[maxBuffer];
     float zBufferDepth[maxBuffer];
     
@@ -309,6 +313,16 @@ vec4 traceRay(in vec2 pos, in float perspective) {
 }
 
 void main() {
+
+    //if(mod(int(floor((pixelPosition.x / 2 + 1) * windowSize.x + 0.5)), 2) == 0) {
+    
+    int row = int(floor((pixelPosition.x / 2 + 1) * windowSize.x));
+    int col = int(floor((pixelPosition.y / 2 + 1) * windowSize.y));
+    
+    if(mod(col, 5) != mod(frameCounter, 5)) {
+        finalColor = vec4(0, 0, 0, 0);
+        return;
+    }
 
 //#define RANDOM
 #define NONE

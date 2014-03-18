@@ -657,7 +657,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="794" height="580"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <openGLView fixedFrame="YES" depthSize="32bit" stencilSize="8bit" antiAliasingType="supersample" rendererType="accelerated" numberOfAuxiliaryBuffers="1" useAuxiliaryDepthBufferStencil="NO" allowOffline="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rWz-pO-4bY" userLabel="GLView" customClass="GLView">
+                    <openGLView fixedFrame="YES" depthSize="32bit" stencilSize="8bit" rendererType="accelerated" numberOfAuxiliaryBuffers="1" useAuxiliaryDepthBufferStencil="NO" allowOffline="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rWz-pO-4bY" userLabel="GLView" customClass="GLView">
                         <rect key="frame" x="0.0" y="0.0" width="794" height="580"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </openGLView>
@@ -774,7 +774,7 @@
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
                                             <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="BQT-1u-kkJ">
-                                                <rect key="frame" x="235" y="1" width="16" height="197"/>
+                                                <rect key="frame" x="-15" y="1" width="16" height="0.0"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
                                         </scrollView>

@@ -16,7 +16,7 @@
 #include <array>
 
 /// Do not partition below this size. TODO: refine this approach.
-const float minSize     = 0.1f;     // Never partition smaller than this.
+const float minSize     = 0.01f;     // Never partition smaller than this.
 const int   maxChildren = 5;        // Only partition if a node has more than x children
 const float initialSize = 5.0f;     // Starting hsize of the tree.
 

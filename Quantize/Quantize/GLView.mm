@@ -22,12 +22,15 @@ static bool isInitialized = false;
         
         NSOpenGLPFAAccelerated,
         //NSOpenGLPFANoRecovery,
-        NSOpenGLPFABackingStore,
+       // NSOpenGLPFABackingStore,
         NSOpenGLPFADoubleBuffer,
         
         NSOpenGLPFAColorSize, 32, // color buffer
-        NSOpenGLPFADepthSize, 24, // depth buffer
-        NSOpenGLPFAAlphaSize, 8,
+        //NSOpenGLPFADepthSize, 24, // depth buffer
+        //NSOpenGLPFAAlphaSize, 8,
+
+        NSOpenGLPFASampleBuffers, 0, // # of sample buffers
+        NSOpenGLPFASamples, 0, // # of samples
 
         
         0 // Null byte, indicates end of structure.

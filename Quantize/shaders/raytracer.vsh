@@ -13,8 +13,8 @@ uniform vec2 windowSize;
 uniform mat4 translation;
 uniform mat4 rotation;
 
-
 out vec2 position;
+out vec2 pixelPosition;
 
 
 void main() {
@@ -23,8 +23,13 @@ void main() {
     
     float aspect = windowSize.x / windowSize.y;
     
+
+    
     // We only fix the varying for aspect ratio, not the "gl_Position".
-    position.x *= aspect;
+    position.y /= aspect;
+    
+    pixelPosition = vertexPosition;//(position * windowSize) + windowSize * 0.5;
+
     
     // Expand to 3rd dimension (because... 3d)
     // Expand to 4th dimension (for depth buffer purposes)

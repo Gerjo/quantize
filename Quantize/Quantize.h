@@ -53,6 +53,9 @@ class Quantize {
     GLint _uniformNumTriangles{-1};
     GLint _uniformTextures{-1};
     GLint _uniformDataTexture{-1};
+    GLint _uniformTime{-1};
+    GLint _uniformFrameCounter{-1};
+
     
     /// Ray tracingproperties
     GLint _uniformN;
@@ -107,7 +110,7 @@ class Quantize {
         }
     } stats;
     
-    
+    int _frameCounter{0};
     
 public:
     /// Raytracer Properties
