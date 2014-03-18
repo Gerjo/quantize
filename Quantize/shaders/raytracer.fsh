@@ -5,9 +5,7 @@
 //  copyright (c) 2014 Quantize. All rights reserved.
 //
 
-
-// #pragma optionNV(unroll all)
-// #pragma nounroll
+#include "shaders/common.glsl"
 
 uniform int lightCount;
 uniform vec3 lightsPosition[10];
@@ -58,57 +56,9 @@ const int lod        = 0;        // mipmap level
 
 out vec4 finalColor;
 
-struct Ray {
-    vec3 place;
-    vec3 direction;
-};
 
-// Source: http://www.lighthouse3d.com/tutorials/maths/ray-triangle-intersection/
-int rayIntersetsTriangle(in Ray ray, in vec3 v0, in vec3 v1, in vec3 v2, in bool light, out vec3 where, out float depth) {
 
-    vec3 e1 = v1 - v0;
-    vec3 e2 = v2 - v0;
-    
-    vec3 h  = cross(ray.direction, e2);
-	float a = dot(e1, h);
 
-	if (a > -0.00001 && a < 0.00001) {
-		return 0;
-    }
-    
-	float f = 1 / a;
-	vec3 s  = ray.place - v0;
-	float u = f * dot(s, h);
-
-	if (u < 0.0 || u > 1.0) {
-		return 0;
-    }
-	
-    vec3 q  = cross(s, e1);
-	float v = f * dot(ray.direction, q);
-
-	if (v < 0.0 || u + v > 1.0) {
-		return 0;
-    }
-    
-	// at this stage we can compute t to find out where
-	// the intersection point is on the line
-	depth = f * dot(e2, q);
-    
-	if (depth > 0.00001) {// ray intersection
-        where = ray.place + depth * ray.direction;
-
-        return 1;
-    } else { // this means that there is a line intersection
-		 // but not a ray intersection
-		 return 0;
-    }
-}
-
-// Integer modulo.
-int mod(int i, int n) {
-    return i - i / n * n;
-}
 
 
 ///   ---> direction --->
@@ -121,37 +71,6 @@ int mod(int i, int n) {
 ///      \       |
 ///       \      |
 
-/// Find the barycenter using the weights (UV) and vertices. I spend little time
-/// on getting this to work - there might be optimal solutions without so many
-/// square roots.
-///
-///  Read: http://answers.unity3d.com/questions/383804/calculate-uv-coordinates-of-3d-point-on-plane-of-m.html
-///  Read: http://en.wikipedia.org/wiki/Barycentric_coordinate_system
-///
-vec2 barycentric(in vec3 f, in vec3 v1, in vec3 v2, in vec3 v3, in vec2 uv1, in vec2 uv2, in vec2 uv3) {
-    //Linear System Solver Strategy
-    vec3 m0 = v2 - v1;
-    vec3 m1 = v3 - v1;
-    
-    
-    float d00 = dot(m0, m0);
-    float d01 = dot(m0, m1);
-    float d11 = dot(m1, m1);
-    float denom = 1 / (d00 * d11 - d01 * d01);
-    
-    vec3 m2   = f - v1;
-    float d20 = dot(m2, m0);
-    float d21 = dot(m2, m1);
-    
-    
-    float a = (d11 * d20 - d01 * d21) * denom;
-    float b = (d00 * d21 - d01 * d20) * denom;
-    float c = 1.0f - a - b;
-    
-    vec2 uv = uv1 * c + uv2 * a + uv3 * b;
-    
-    return uv;
-}
 
 vec4 traceRay(in vec2 pos, in float perspective) {
     
@@ -312,6 +231,7 @@ vec4 traceRay(in vec2 pos, in float perspective) {
     return color;
 }
 
+
 void main() {
 
     //if(mod(int(floor((pixelPosition.x / 2 + 1) * windowSize.x + 0.5)), 2) == 0) {
@@ -319,10 +239,10 @@ void main() {
     int row = int(floor((pixelPosition.x / 2 + 1) * windowSize.x));
     int col = int(floor((pixelPosition.y / 2 + 1) * windowSize.y));
     
-    if(mod(col, 5) != mod(frameCounter, 5)) {
-        finalColor = vec4(0, 0, 0, 0);
-        return;
-    }
+    //if(mod(col, 5) != mod(frameCounter, 5)) {
+    //    finalColor = vec4(0, 0, 0, 0);
+    //    return;
+    //}
 
 //#define RANDOM
 #define NONE
@@ -352,12 +272,7 @@ void main() {
     float derpma = sigma; // Is a global uniform
     float sigmaPrecomputed = 1.0 / (2.0 * derpma * derpma);
     float sigmaSum = 0.0;
-    
-    /*finalColor.a =  1.0;
-    finalColor.r +=  sigma;
-    finalColor.g +=  sigma;
-    finalColor.b +=  sigma;
-    */
+
     for (int i = 0; i < iterations; ++i) {
         //calculate randomised deviation
         randomPos = position;

@@ -16,6 +16,7 @@
 #include <cstdio>
 #include <cassert>
 #include <vector>
+#include <string>
 #include <sys/time.h>  // For ::gettimeofday
 
 static std::string ReadFile(const std::string& filename) {
@@ -195,13 +196,7 @@ static GLuint CompileShader(const std::string& filename) {
     const std::string version("#version 410\n");
 
     if(FileExists(filename)) {
-        std::string source = ReadFile(filename);
-    
-        if(source.empty()) {
-            Exit("File %f is empty.", filename.c_str());
-        }
         
-        source = version + source;
         
         GLenum type = 0;
         
@@ -217,9 +212,47 @@ static GLuint CompileShader(const std::string& filename) {
         GLuint shader = glCreateShader(type);
         GLError();
         
-        //printf("%s", source.c_str());
+        
+        
+        std::function<std::string(std::string, int)> Parse;
+        Parse = [&Parse] (const std::string& filename, int depth) -> std::string {
+            std::string merged;
+            
+            if(depth > 10) {
+                Exit("Aborting, too many nested includes. Is there a circular dependancy?");
+            }
+            
+            if( ! FileExists(filename)) {
+                Exit("Shader include file '%s' does not exist.", filename.c_str());
+            }
+            
+            std::string source = ReadFile(filename);
+    
+            if(source.empty()) {
+                Exit("File '%s' is empty.", filename.c_str());
+            }
 
-        const char* csmells[] = {source.c_str()};
+            
+            for(std::string& line : StringExplode(source, "\n")) {
+            
+                if(StringStartsWith(line, "#include \"")) {
+                    printf("-- %s\n", line.c_str());
+                
+                    std::string file = line.substr(10, line.length() - 11);
+                
+                    merged += Parse(file, depth + 1);
+                } else {
+                    merged += line + "\n";
+                }
+            }
+            
+            return merged;
+        };
+
+        std::string source = version + Parse(filename, 0);
+        
+
+        const char* csmells[] = {&source[0]};
         
         glShaderSource(shader, 1, csmells, NULL);
         GLError();
@@ -231,7 +264,7 @@ static GLuint CompileShader(const std::string& filename) {
         glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logLength);
         
         if (logLength > 0) {
-            printf("There were shader compile errors in:\n%s\n", (version + source).c_str());
+            printf("There were shader compile errors in:\n%s\n", source.c_str());
 
             GLchar* log = new GLchar[logLength];
             glGetShaderInfoLog(shader, logLength, &logLength, log);

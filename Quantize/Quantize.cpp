@@ -114,9 +114,10 @@ void Quantize::loadDemoScene() {
         faces.push_back(face);
     }
 
+    /*
     printf("Will insert: %lu triangles.\n", vertices.size()/3);
     
-    /*Tree tree;
+    Tree tree;
 
     
     for(size_t i = 0; i < vertices.size(); i += 3) {
@@ -175,9 +176,81 @@ void Quantize::initialize(float width, float height) {
     // Experimental raytacer
     initializeRaytraceProgram();
     
+    initializePhotonProgram();
+
     loadDemoScene();
 };
 
+void Quantize::initializePhotonProgram() {
+    // We render to a texture, so let's create a texture.
+    glActiveTexture(GL_TEXTURE0);
+    glGenTextures(1, &photon.texture);
+    glBindTexture(GL_TEXTURE_2D, photon.texture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    GLError();
+    
+    // Depth buffer  (Render Buffer Object)
+    glGenRenderbuffers(1, &photon.renderBuffer);
+    glBindRenderbuffer(GL_RENDERBUFFER, photon.renderBuffer);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, width, height);
+    glBindRenderbuffer(GL_RENDERBUFFER, 0);
+    GLError();
+    
+    // Framebuffer to link everything together
+    glGenFramebuffers(1, &photon.fbo);
+    glBindFramebuffer(GL_FRAMEBUFFER, photon.fbo);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, photon.texture, 0);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, photon.renderBuffer);
+    
+    GLenum status;
+    if ((status = glCheckFramebufferStatus(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE) {
+        Exit("glCheckFramebufferStatus: error %p.", status);
+    }
+  
+    // Disable buffer, for now.
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    
+    
+    // Prepare all shaders. These will exit on failure.
+    GLuint vsh = CompileShader("shaders/photon.vsh");
+    GLuint fsh = CompileShader("shaders/photon.fsh");
+    
+    photon.program = glCreateProgram();
+    glAttachShader(photon.program, vsh);
+    GLError();
+    glAttachShader(photon.program, fsh);
+    GLError();
+    glLinkProgram(photon.program);
+    
+    photon.attrUv = glGetAttribLocation(photon.program, "position");
+    GLError();
+    
+    // The rectangle used to render onto, the UVs are derived from this.
+    GLfloat fbo_vertices[] = {
+        -1, -1,
+         1, -1,
+        -1,  1,
+         1,  1,
+    };
+    
+    glGenBuffers(1, &photon.vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, photon.vbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(fbo_vertices), fbo_vertices, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    GLError();
+    
+    // Cleanup
+    glDetachShader(photon.program, vsh);
+    glDeleteShader(vsh);
+    glDetachShader(photon.program, fsh);
+    glDeleteShader(fsh);
+    GLError();
+}
 
 void Quantize::initializeRaytraceProgram() {
     // Prepare all shaders. These will exit on failure.
@@ -193,7 +266,6 @@ void Quantize::initializeRaytraceProgram() {
     printf("Raytrace fragment - compiled.\n");
     
     glLinkProgram(_programRaytracer);
-    //GLValidateProgram(_programRaytracer);
     GLError();
 
     _uniformRtWindowSize  = glGetUniformLocation(_programRaytracer, "windowSize");
@@ -422,7 +494,7 @@ void Quantize::update(float dt) {
     
     stats.total += GetTiming() - startTime;
 
-    
+    // Statistical reporting.
     time = GetTiming();
     if(time - _lastLogTime > _logInterval) {
     

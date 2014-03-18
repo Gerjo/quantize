@@ -23,8 +23,6 @@ void main() {
     
     float aspect = windowSize.x / windowSize.y;
     
-
-    
     // We only fix the varying for aspect ratio, not the "gl_Position".
     position.y /= aspect;
     

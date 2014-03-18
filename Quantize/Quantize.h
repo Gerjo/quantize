@@ -37,7 +37,7 @@ class Quantize {
     /// Vertices of the window.
     GLuint _vboRtVertices{0};
     
-    /// Vertex array that embodies the aboce buffer.
+    /// Vertex array that embodies the above buffer.
     GLuint _vaoFrame{0};
     
     /// Texture that will contain all VertexData (traingles)
@@ -112,6 +112,16 @@ class Quantize {
     
     int _frameCounter{0};
     
+    struct Photon {
+        GLuint program;
+        GLuint fbo;
+        GLuint texture;
+        GLuint renderBuffer;
+        GLuint vbo;
+        
+        GLuint attrUv;
+    } photon;
+    
 public:
     /// Raytracer Properties
     int n{1};
@@ -160,6 +170,9 @@ public:
     
     /// Load the raytracer shader program.
     void initializeRaytraceProgram();
+    
+    /// Load photon mapping shader program.
+    void initializePhotonProgram();
     
     /// Entry point for the update and draw loops.
     ///

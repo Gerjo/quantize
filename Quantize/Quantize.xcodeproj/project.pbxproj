@@ -197,6 +197,9 @@
 		A6C56C6918A58C4D00DFAA00 /* tinyxml2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C6218A58C4D00DFAA00 /* tinyxml2.cpp */; };
 		A6C56C6F18A5924E00DFAA00 /* postp.vsh in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C6D18A5924E00DFAA00 /* postp.vsh */; };
 		A6C56C7018A5924E00DFAA00 /* postp.fsh in Sources */ = {isa = PBXBuildFile; fileRef = A6C56C6E18A5924E00DFAA00 /* postp.fsh */; };
+		A6F24E7718D85A1200B4FCE6 /* photon.fsh in Sources */ = {isa = PBXBuildFile; fileRef = A6F24E7518D85A1200B4FCE6 /* photon.fsh */; };
+		A6F24E7818D85A1200B4FCE6 /* photon.vsh in Sources */ = {isa = PBXBuildFile; fileRef = A6F24E7618D85A1200B4FCE6 /* photon.vsh */; };
+		A6F24E7A18D88E5500B4FCE6 /* common.glsl in Resources */ = {isa = PBXBuildFile; fileRef = A6F24E7918D88E5500B4FCE6 /* common.glsl */; };
 		CC704C9D18BE3F2300212FB9 /* checkerboard2.dae in Resources */ = {isa = PBXBuildFile; fileRef = CC704C9C18BE3F2300212FB9 /* checkerboard2.dae */; };
 		CC71FFA518BCEC0B003AF106 /* Mage.png in Resources */ = {isa = PBXBuildFile; fileRef = CC71FFA318BCEC0B003AF106 /* Mage.png */; };
 		CC71FFA618BCEC0B003AF106 /* Magey.dae in Resources */ = {isa = PBXBuildFile; fileRef = CC71FFA418BCEC0B003AF106 /* Magey.dae */; };
@@ -439,6 +442,9 @@
 		A6C56CA718A8E9FC00DFAA00 /* Collada.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Collada.h; sourceTree = "<group>"; };
 		A6F24E7218D332C200B4FCE6 /* Tribox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tribox.h; sourceTree = "<group>"; };
 		A6F24E7418D33D4B00B4FCE6 /* Tree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tree.h; sourceTree = "<group>"; };
+		A6F24E7518D85A1200B4FCE6 /* photon.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = photon.fsh; sourceTree = "<group>"; };
+		A6F24E7618D85A1200B4FCE6 /* photon.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = photon.vsh; sourceTree = "<group>"; };
+		A6F24E7918D88E5500B4FCE6 /* common.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = common.glsl; sourceTree = "<group>"; };
 		CC65799418A6456E0035EB43 /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		CC704C9C18BE3F2300212FB9 /* checkerboard2.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = checkerboard2.dae; sourceTree = "<group>"; };
 		CC71FFA318BCEC0B003AF106 /* Mage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Mage.png; sourceTree = "<group>"; };
@@ -820,6 +826,9 @@
 		A6C56A9F18A106F000DFAA00 /* shaders */ = {
 			isa = PBXGroup;
 			children = (
+				A6F24E7918D88E5500B4FCE6 /* common.glsl */,
+				A6F24E7518D85A1200B4FCE6 /* photon.fsh */,
+				A6F24E7618D85A1200B4FCE6 /* photon.vsh */,
 				A69FD3E118B54FFE002FB76E /* raytracer.vsh */,
 				A69FD3E218B54FFE002FB76E /* raytracer.fsh */,
 				A6C56C6D18A5924E00DFAA00 /* postp.vsh */,
@@ -1131,6 +1140,7 @@
 				A6C56A2B189FC8DF00DFAA00 /* MainMenu.xib in Resources */,
 				A66A07F418B66DC200F2CD15 /* interior 2.png in Resources */,
 				A66A082818B66DC200F2CD15 /* ford.obj in Resources */,
+				A6F24E7A18D88E5500B4FCE6 /* common.glsl in Resources */,
 				A66A083918B66DC200F2CD15 /* nodamage.png in Resources */,
 				A66A083618B66DC200F2CD15 /* lights.png in Resources */,
 				A66A07E018B66DC200F2CD15 /* fv510.dae in Resources */,
@@ -1160,9 +1170,11 @@
 				A6C56AA318A106F000DFAA00 /* basic.vsh in Sources */,
 				A6C56C5718A2AA5000DFAA00 /* pngrutil.c in Sources */,
 				A69FD3E018B4BD96002FB76E /* Textures.cpp in Sources */,
+				A6F24E7718D85A1200B4FCE6 /* photon.fsh in Sources */,
 				A6C56A28189FC8DF00DFAA00 /* AppDelegate.mm in Sources */,
 				A6C56C5B18A2AA5000DFAA00 /* pngwio.c in Sources */,
 				A6C56C2E18A139EB00DFAA00 /* Vector3.cpp in Sources */,
+				A6F24E7818D85A1200B4FCE6 /* photon.vsh in Sources */,
 				A6C56C5818A2AA5000DFAA00 /* pngset.c in Sources */,
 				A6C56C5318A2AA5000DFAA00 /* pngpread.c in Sources */,
 				A6C56C5018A2AA5000DFAA00 /* pngerror.c in Sources */,
