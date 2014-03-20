@@ -12,6 +12,8 @@ in vec2 uvunit;
 
 out vec4 finalColor;
 
+uniform int lightCount;          // Amount of light sources
+uniform vec3 lightPositions[10];  // Position of each light, up to 10.
 
 void main() {
     finalColor = vec4(1, 0, 0, 0.5);

@@ -268,8 +268,10 @@ static GLuint CompileShader(const std::string& filename) {
 
             GLchar* log = new GLchar[logLength];
             glGetShaderInfoLog(shader, logLength, &logLength, log);
-            Exit("Shader compile log:\n%s\n", log);
+            printf("Shader compile log:\n-------------\n%s-------------\n", log);
             delete[] log;
+            
+            exit(0);
         }
         
         GLint status = 0;

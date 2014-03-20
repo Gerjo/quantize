@@ -229,6 +229,8 @@ void Quantize::initializePhotonProgram() {
     
     photon.attrPosition = glGetAttribLocation(photon.program, "position");
     photon.uniformWindowSize = glGetUniformLocation(photon.program, "windowSize");
+    photon.uniformLightCount = glGetUniformLocation(photon.program, "lightCount");
+    photon.uniformLightsPosition = glGetUniformLocation(photon.program, "lgihtPositions");
     GLError();
     
     // The rectangle used to render onto, the UVs are derived from this.
@@ -359,6 +361,7 @@ void Quantize::initializeRaytraceProgram() {
     
     glGenQueries(1, &_glTimerQuery);
 }
+
 
 /// Entry point for the update and draw loops.
 /// @param Time elapsed since previous call to update.
@@ -513,8 +516,37 @@ void Quantize::update(float dt) {
     
     stats.total += GetTiming() - startTime;
 
-    // Statistical reporting.
-    time = GetTiming();
+    handleLogging();
+    
+////////////////////////////////////////////////////////////////////////////////
+// Photon stuff
+////////////////////////////////////////////////////////////////////////////////
+
+    glUseProgram(photon.program);
+
+    glUniform2f(photon.uniformWindowSize, width, height);
+    
+    // The data is remnant from the above ray tracer.
+    glUniform1i(photon.uniformLightCount, nLights);
+    glUniform3fv(photon.uniformLightsPosition, nLights, position[0].v);
+    GLError();
+    
+    glBindVertexArray(photon.vao);
+    GLError();
+    
+    GLValidateProgram(photon.program);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    GLError();
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    GLError();
+    
+}
+
+
+
+void Quantize::handleLogging() {
+    const double time = GetTiming();
     if(time - _lastLogTime > _logInterval) {
     
         Vector3 position    = camera.position;
@@ -540,28 +572,10 @@ void Quantize::update(float dt) {
             faces.size() * 3, faces.size(), sizeof(faces[0]) * faces.size(),
             position.x, position.y, position.z,
             orientation.x, orientation.y, orientation.z
-            );
+        );
     
         stats.reset();
         _lastLogTime = time;
     }
-    
-////////////////////////////////////////////////////////////////////////////////
-// Photon stuff
 
-    glUseProgram(photon.program);
-
-    glUniform2f(photon.uniformWindowSize, width, height);
-    GLError();
-    
-    glBindVertexArray(photon.vao);
-    GLError();
-    
-    GLValidateProgram(photon.program);
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-    GLError();
-    
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    GLError();
-    
 }

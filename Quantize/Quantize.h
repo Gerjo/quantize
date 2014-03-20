@@ -112,7 +112,7 @@ class Quantize {
     
     int _frameCounter{0};
     
-    struct Photon {
+    struct PhotonVariables {
         GLuint program{0};
         GLuint fbo{0};
         GLuint texture{0};
@@ -121,6 +121,9 @@ class Quantize {
         GLuint vao{0};
         GLint uniformWindowSize{-1};
         GLint attrPosition{-1};
+        
+        GLint uniformLightCount{-1};
+        GLint uniformLightsPosition{-1};
     } photon;
     
 public:
@@ -158,6 +161,9 @@ private:
     
     /// Singleton based, no assignment operator.
     Quantize& operator = (const Quantize& other) = delete;
+    
+    /// Statistical reporting to the console.
+    void handleLogging();
     
 public:
     /// Destructor
