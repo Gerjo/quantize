@@ -5,7 +5,6 @@
 //  Copyright (c) 2014 Quantize. All rights reserved.
 //
 
-
 in vec2 position;
 
 uniform vec2 windowSize;

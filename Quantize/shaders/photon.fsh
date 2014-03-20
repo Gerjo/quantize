@@ -10,12 +10,9 @@
 in vec2 uvmapping;
 in vec2 uvunit;
 
-//uniform sampler2D uniformTexture;
-
-
 out vec4 finalColor;
 
 
 void main() {
-    finalColor = vec4(1, 0, 0, 1);//texture(uniformTexture, uvmapping);
+    finalColor = vec4(1, 0, 0, 0.5);
 }

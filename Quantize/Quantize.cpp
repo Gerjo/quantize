@@ -227,7 +227,8 @@ void Quantize::initializePhotonProgram() {
     GLError();
     glLinkProgram(photon.program);
     
-    photon.attrUv = glGetAttribLocation(photon.program, "position");
+    photon.attrPosition = glGetAttribLocation(photon.program, "position");
+    photon.uniformWindowSize = glGetUniformLocation(photon.program, "windowSize");
     GLError();
     
     // The rectangle used to render onto, the UVs are derived from this.
@@ -238,9 +239,27 @@ void Quantize::initializePhotonProgram() {
          1,  1,
     };
     
+    glGenVertexArrays(1, &photon.vao);
+    glBindVertexArray(photon.vao);
+    
     glGenBuffers(1, &photon.vbo);
     glBindBuffer(GL_ARRAY_BUFFER, photon.vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(fbo_vertices), fbo_vertices, GL_STATIC_DRAW);
+    GLError();
+    
+    glVertexAttribPointer(
+            photon.attrPosition,         // attribute
+            2,                           // number of elements per vertex, here (x,y)
+            GL_FLOAT,                    // the type of each element
+            GL_FALSE,                    // take our values as-is
+            0,                           // no extra data between each position
+            0                            // offset of first element
+    );
+    GLError();
+    
+    glEnableVertexAttribArray(photon.attrPosition);
+    GLError();
+    
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     GLError();
     
@@ -526,5 +545,23 @@ void Quantize::update(float dt) {
         stats.reset();
         _lastLogTime = time;
     }
+    
+////////////////////////////////////////////////////////////////////////////////
+// Photon stuff
+
+    glUseProgram(photon.program);
+
+    glUniform2f(photon.uniformWindowSize, width, height);
+    GLError();
+    
+    glBindVertexArray(photon.vao);
+    GLError();
+    
+    GLValidateProgram(photon.program);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    GLError();
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    GLError();
     
 }

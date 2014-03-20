@@ -113,13 +113,14 @@ class Quantize {
     int _frameCounter{0};
     
     struct Photon {
-        GLuint program;
-        GLuint fbo;
-        GLuint texture;
-        GLuint renderBuffer;
-        GLuint vbo;
-        
-        GLuint attrUv;
+        GLuint program{0};
+        GLuint fbo{0};
+        GLuint texture{0};
+        GLuint renderBuffer{0};
+        GLuint vbo{0};
+        GLuint vao{0};
+        GLint uniformWindowSize{-1};
+        GLint attrPosition{-1};
     } photon;
     
 public:
