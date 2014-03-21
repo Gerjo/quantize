@@ -181,40 +181,53 @@ void Quantize::initialize(float width, float height) {
     loadDemoScene();
 };
 
+
+/// Useful links: http://ephenationopengl.blogspot.nl/2012/01/setting-up-deferred-shader.html
+///
 void Quantize::initializePhotonProgram() {
     // We render to a texture, so let's create a texture.
     glActiveTexture(GL_TEXTURE0);
-    glGenTextures(1, &photon.texture);
-    glBindTexture(GL_TEXTURE_2D, photon.texture);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    GLError();
+    glGenTextures(3, photon.texture);
+    
+    for(size_t i = 0; i < 3; ++i) {
+        glBindTexture(GL_TEXTURE_2D, photon.texture[i]);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        GLError();
+    }
     
     // Depth buffer  (Render Buffer Object)
     glGenRenderbuffers(1, &photon.renderBuffer);
+    glGenFramebuffers(1, &photon.fbo);
+    GLError();
+    
     glBindRenderbuffer(GL_RENDERBUFFER, photon.renderBuffer);
     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, width, height);
     glBindRenderbuffer(GL_RENDERBUFFER, 0);
     GLError();
     
-    // Framebuffer to link everything together
-    glGenFramebuffers(1, &photon.fbo);
     glBindFramebuffer(GL_FRAMEBUFFER, photon.fbo);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, photon.texture, 0);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, photon.renderBuffer);
+    GLError();
+    
+    for(size_t i = 0; i < 3; ++i) {
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, photon.texture[i], 0);
+        GLError();
+    }
     
     GLenum status;
     if ((status = glCheckFramebufferStatus(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE) {
         Exit("glCheckFramebufferStatus: error %p.", status);
     }
   
+    
     // Disable buffer, for now.
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    
+    GLError();
     
     // Prepare all shaders. These will exit on failure.
     GLuint vsh = CompileShader("shaders/photon.vsh");
@@ -222,11 +235,10 @@ void Quantize::initializePhotonProgram() {
     
     photon.program = glCreateProgram();
     glAttachShader(photon.program, vsh);
-    GLError();
     glAttachShader(photon.program, fsh);
-    GLError();
     glLinkProgram(photon.program);
-    
+    GLError();
+
     photon.attrPosition = glGetAttribLocation(photon.program, "position");
     photon.uniformWindowSize = glGetUniformLocation(photon.program, "windowSize");
     photon.uniformLightCount = glGetUniformLocation(photon.program, "lightCount");
@@ -270,6 +282,12 @@ void Quantize::initializePhotonProgram() {
     glDeleteShader(vsh);
     glDetachShader(photon.program, fsh);
     glDeleteShader(fsh);
+    GLError();
+    
+    
+    glBindFragDataLocation(photon.program, 0, "outColor");
+    glBindFragDataLocation(photon.program, 1, "outPosition");
+    glBindFragDataLocation(photon.program, 2, "outMeta");
     GLError();
 }
 

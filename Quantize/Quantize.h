@@ -115,8 +115,8 @@ class Quantize {
     struct PhotonVariables {
         GLuint program{0};
         GLuint fbo{0};
-        GLuint texture{0};
-        GLuint renderBuffer{0};
+        GLuint texture[3]      = {0};
+        GLuint renderBuffer{0}; // Ties all buffers together, as a VAO does for VBO. (I think...)
         GLuint vbo{0};
         GLuint vao{0};
         GLint uniformWindowSize{-1};

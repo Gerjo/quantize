@@ -38,7 +38,6 @@ vec2 barycentric(in vec3 f, in vec3 v1, in vec3 v2, in vec3 v3, in vec2 uv1, in 
     float d20 = dot(m2, m0);
     float d21 = dot(m2, m1);
     
-    
     float a = (d11 * d20 - d01 * d21) * denom;
     float b = (d00 * d21 - d01 * d20) * denom;
     float c = 1.0f - a - b;
