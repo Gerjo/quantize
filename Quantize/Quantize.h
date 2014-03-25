@@ -122,6 +122,8 @@ class Quantize {
         GLint uniformWindowSize{-1};
         GLint attrPosition{-1};
         
+        GLint uniformData{-1};
+        GLint unformTriangleCount{-1};
         GLint uniformLightCount{-1};
         GLint uniformLightsPosition{-1};
     } photon;

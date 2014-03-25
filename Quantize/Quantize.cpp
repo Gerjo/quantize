@@ -14,9 +14,9 @@
 Quantize::Quantize() : _lastLogTime(GetTiming()) {
     
     Light light;
-    light.position.x = 15.0f;
-    light.position.y = 5.0f;
-    light.position.z = 20.0f;
+    light.position.x = 0;//15.0f;
+    light.position.y = 10;//5.0f;
+    light.position.z = 0;//20.0f;
     
     for(size_t i = 0; i < 4; ++i) {
         light.ambient.v[i]  = 0.2f;
@@ -74,12 +74,12 @@ void Quantize::loadDemoScene() {
     
     // A checkerboard of checkerboards.
     float scale = 25;
-    for(int x = 0; x < 2; ++x) {
-        for(int y = 0; y < 3; ++y) {
+    for(int x = 0; x < 1; ++x) {
+        for(int y = 0; y < 1; ++y) {
             Matrix44 t = Matrix44::CreateRotateX(3.14 / 2) * Matrix44::CreateTranslation(x * scale * 2, y * scale * 2, 0) * Matrix44::CreateScale(scale);
             
             for(VertexData d : ((Model*)rectangle->sub[0].get())->vertices) {
-                d.position = t *  d.position;
+                d.position = t * d.position;
             
                 scene.push_back(d);
             }
@@ -87,7 +87,6 @@ void Quantize::loadDemoScene() {
     }
     
     auto &vertices = ((Model*)cube->sub[0].get())->vertices;
-
     
     for(VertexData d : vertices) {
         d.position.y += 1;
@@ -214,8 +213,10 @@ void Quantize::initializePhotonProgram() {
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, photon.renderBuffer);
     GLError();
     
-    for(size_t i = 0; i < 3; ++i) {
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, photon.texture[i], 0);
+    for(int i = 0; i < 3; ++i) {
+        glBindTexture(GL_TEXTURE_2D, photon.texture[i]);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, photon.texture[i], 0);
+        glBindTexture(GL_TEXTURE_2D, 0);
         GLError();
     }
     
@@ -242,7 +243,9 @@ void Quantize::initializePhotonProgram() {
     photon.attrPosition = glGetAttribLocation(photon.program, "position");
     photon.uniformWindowSize = glGetUniformLocation(photon.program, "windowSize");
     photon.uniformLightCount = glGetUniformLocation(photon.program, "lightCount");
-    photon.uniformLightsPosition = glGetUniformLocation(photon.program, "lgihtPositions");
+    photon.uniformLightsPosition = glGetUniformLocation(photon.program, "lightPositions");
+    photon.uniformData = glGetUniformLocation(photon.program, "zdata");
+    photon.unformTriangleCount = glGetUniformLocation(photon.program, "triangleCount");
     GLError();
     
     // The rectangle used to render onto, the UVs are derived from this.
@@ -429,6 +432,7 @@ void Quantize::update(float dt) {
     
     // Upload the lights and other uniforms to the GPU
     glUniform1i(_lightCount, nLights);
+    //glUniform1i(_lightCount, 0);
     glUniform3fv(_lightsPosition, nLights, position[0].v);
     glUniform4fv(_lightsAmbiant, nLights, ambient[0].v);
     glUniform4fv(_lightsSpecular, nLights, specular[0].v);
@@ -540,13 +544,24 @@ void Quantize::update(float dt) {
 // Photon stuff
 ////////////////////////////////////////////////////////////////////////////////
 
+    // Enable framebuffer render target
+    glBindFramebuffer(GL_FRAMEBUFFER, photon.fbo);
+    GLFBError();
+    
     glUseProgram(photon.program);
+    
+    // Draw into the following buffers
+    static GLenum buffers[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1,  GL_COLOR_ATTACHMENT2 };
+    glDrawBuffers(3, buffers);
+    GLError();
 
     glUniform2f(photon.uniformWindowSize, width, height);
     
     // The data is remnant from the above ray tracer.
     glUniform1i(photon.uniformLightCount, nLights);
     glUniform3fv(photon.uniformLightsPosition, nLights, position[0].v);
+    glUniform1i(photon.unformTriangleCount, (int) faces.size());
+    glUniform1i(photon.uniformData, 0);
     GLError();
     
     glBindVertexArray(photon.vao);
@@ -557,6 +572,35 @@ void Quantize::update(float dt) {
     GLError();
     
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+    GLError();
+    
+    //static GLfloat* pixels = new GLfloat[(int)width * (int)height * 4];
+    
+    static std::vector<GLfloat> p((int)width * (int)height * 4, 9);
+    
+    glBindTexture(GL_TEXTURE_2D, photon.texture[1]);
+    GLError();
+    
+    GLint w, h;
+    glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &w);
+    glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &h);
+    
+    //glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_FLOAT, pixels);
+    glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_FLOAT, & p[0]);
+    GLError();
+    
+    printf("%dx%dpx ", w, h);
+    
+    for(int i = 0; i < 10; ++i) {
+        printf("%.1f ", p[i]);
+    }
+    
+    printf("\n");
+    
+    //glReadPixels(0, 0, width, height, GL_RGBA, GL_FLOAT, pixels);
+    
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    GLFBError();
     GLError();
     
 }

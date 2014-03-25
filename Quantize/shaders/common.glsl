@@ -15,6 +15,18 @@ int mod(int i, int n) {
     return i - i / n * n;
 }
 
+float random(in vec2 seed) {
+    return fract(cos(dot(seed, vec2(78.233, 12.9898))) * 43758.5453) - 0.5;
+}
+
+float random(in vec3 seed) {
+    return random(seed.xy);
+}
+
+float random(in float x, in float y) {
+    return random(vec2(x, y));
+}
+
 
 /// Find the barycenter using the weights (UV) and vertices. I spend little time
 /// on getting this to work - there might be optimal solutions without so many

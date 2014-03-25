@@ -827,8 +827,8 @@
 			isa = PBXGroup;
 			children = (
 				A6F24E7918D88E5500B4FCE6 /* common.glsl */,
-				A6F24E7518D85A1200B4FCE6 /* photon.fsh */,
 				A6F24E7618D85A1200B4FCE6 /* photon.vsh */,
+				A6F24E7518D85A1200B4FCE6 /* photon.fsh */,
 				A69FD3E118B54FFE002FB76E /* raytracer.vsh */,
 				A69FD3E218B54FFE002FB76E /* raytracer.fsh */,
 				A6C56C6D18A5924E00DFAA00 /* postp.vsh */,

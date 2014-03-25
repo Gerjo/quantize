@@ -139,7 +139,7 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             
             // For each light
             for(int l = 0; l < lightCount; ++l) {
-                
+            
                 beam.direction = lightsPosition[l] - beam.place;
                 
                 int hits = 0;
