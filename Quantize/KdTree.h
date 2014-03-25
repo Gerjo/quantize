@@ -1,3 +1,4 @@
+
 //
 //  KdTree.h
 //  Quantize
@@ -6,9 +7,23 @@
 //  Copyright (c) 2014 Quantize. All rights reserved.
 //
 
-#ifndef Quantize_KdTree_h
-#define Quantize_KdTree_h
+#pragma once
 
+struct Photon {
+    Vector3 color;
+    Vector3 position;
+    Vector3 meta;
+};
 
+class KdTree {
 
-#endif
+    std::vector<Photon> storage;
+
+public:
+    KdTree(std::vector<Photon> photons) {
+    
+    
+        // then sum.
+    }
+};
+
