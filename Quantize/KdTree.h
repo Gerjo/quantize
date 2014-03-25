@@ -9,6 +9,8 @@
 
 #pragma once
 
+enum axis{X, Y, Z};
+
 struct Photon {
     Vector3 color;
     Vector3 position;
@@ -28,12 +30,63 @@ struct Photon {
     }
 };
 
+struct Node {
+    struct Node* alpha;
+    struct Node* beta;
+    int splitAxis;
+    float pivot;
+};
+
 class KdTree {
 
     std::vector<Photon> storage;
+    struct Node* tree = new struct Node;
 
+    struct Node* buildTree(std::deque<Photon> photons, int splitAxis) {
+        struct Node* node = new struct Node;
+        node->splitAxis = splitAxis;
+        
+        std::deque<Photon> alphaSet, betaSet;
+        
+        float pivot = 0.0f;
+        
+        // Find median of all photons
+        
+        // pivot = median
+        
+        // divide set into < pivot and > pivot
+        for (Photon p : photons) {
+            if (splitAxis == X) {
+                if (p.position.x < pivot)
+                    alphaSet.push_back(p);
+                else
+                    betaSet.push_back(p);
+            }
+            else if (splitAxis == Y) {
+                if (p.position.y < pivot)
+                    alphaSet.push_back(p);
+                else
+                    betaSet.push_back(p);
+            }
+            else {
+                if (p.position.z < pivot)
+                    alphaSet.push_back(p);
+                else
+                    betaSet.push_back(p);
+            }
+        }
+        
+        // recursion with sets to make alpha and beta
+        node->alpha = buildTree(alphaSet, (++splitAxis) % 3);
+        node->beta = buildTree(betaSet, (++splitAxis) % 3);
+        
+        return node;
+    }
+    
 public:
     KdTree(std::deque<Photon> photons) {
+        tree->splitAxis = X;
+        
         // And then some.
     }
 };
