@@ -74,6 +74,13 @@ void main() {
         
         if(res != 0) {
             outPosition = vec4(pixelPosition, 1, 1);
+            
+            // Take note of incomming angle and so-called "power". These are
+            // to be stored into outMeta as a vec4.
+            
+            // We can experiment with colors too, these can be stored in
+            // outColor as vec4.
+            
             ++hits;
             break;
         }
