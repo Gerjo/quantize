@@ -20,6 +20,7 @@
 #include "Light.h"
 #include "Collada.h"
 #include "Model.h"
+#include "KdTree.h"
 
 using namespace Furiosity;
 using std::string;

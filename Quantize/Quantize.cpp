@@ -551,20 +551,20 @@ void Quantize::update(float dt) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glDisable(GL_BLEND);
     
+    // Photon program enable!
     glUseProgram(photon.program);
     
-    // Draw into the following buffers
+    // Draw into the following buffers (Color, position and meta)
     static GLenum buffers[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1,  GL_COLOR_ATTACHMENT2 };
     glDrawBuffers(3, buffers);
     GLError();
 
-    glUniform2f(photon.uniformWindowSize, width, height);
-    
-    // The data is remnant from the above ray tracer.
+    // Upload uniform values to the GPU. The data is remnant from the above ray tracer.
     glUniform1i(photon.uniformLightCount, nLights);
     glUniform3fv(photon.uniformLightsPosition, nLights, position[0].v);
     glUniform1i(photon.unformTriangleCount, (int) faces.size());
     glUniform1i(photon.uniformData, 0);
+    glUniform2f(photon.uniformWindowSize, width, height);
     GLError();
     
     glBindVertexArray(photon.vao);
@@ -576,39 +576,56 @@ void Quantize::update(float dt) {
     
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     GLError();
-    
-    
+
+    // Stop rendering to the buffer. Enable rendering to screen.
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     GLFBError();
     GLError();
     
     //static GLfloat* pixels = new GLfloat[(int)width * (int)height * 4];
     
+    // The GPU returns RGBA. We simply discard the "A" component.
     int channels = 4;
-    std::vector<GLfloat> colors((int)width * (int)height * channels, 0);      // 1
-    std::vector<GLfloat> positions((int)width * (int)height * channels, 0);   // 2
-    std::vector<GLfloat> meta((int)width * (int)height * channels, 0);        // 3
     
+    // Allocate some memory to hold the to be retrieve data.
+    std::vector<float> colors((int)width * (int)height * channels, 0);      // 1
+    std::vector<float> positions((int)width * (int)height * channels, 0);   // 2
+    std::vector<float> meta((int)width * (int)height * channels, 0);        // 3
     
+    // Retrieve the photon colors from the GPU
     glBindTexture(GL_TEXTURE_2D, photon.texture[0]);
     glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_FLOAT, & colors[0]);
     glBindTexture(GL_TEXTURE_2D, 0);
     GLError();
+    
+    // Retrieve the photon positions from the GPU
     glBindTexture(GL_TEXTURE_2D, photon.texture[1]);
     glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_FLOAT, & positions[0]);
     glBindTexture(GL_TEXTURE_2D, 0);
     GLError();
+    
+    // Retrieve the photon meta data from the GPU
     glBindTexture(GL_TEXTURE_2D, photon.texture[2]);
     glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_FLOAT, & meta[0]);
     glBindTexture(GL_TEXTURE_2D, 0);
     GLError();
     
-    /*printf("Colors: ");
-    for(int i = 0; i < 4; ++i) {
-        printf("%.1f ", colors[i]);
-    }
-    printf("\n");*/
     
+    std::deque<Photon> photons;
+    
+    // From the arrays, create photon structs.
+    for(int i = 0; i < width * height; i += channels) {
+        Photon photon(&positions[i], &colors[i], &meta[i]);
+        
+        photons.push_back(photon);
+    }
+    
+    // Make the KdTree!
+    KdTree tree(photons);
+    
+    
+    
+    /*
     printf("P: ");
     for(int i = 2000, j = 0; j < 4; i += 4) {
         const Vector3& v = * ((Vector3*) & positions[i]);
@@ -620,16 +637,7 @@ void Quantize::update(float dt) {
         }
     }
     printf("\n");
-    
-    /*printf(" Meta: ");
-    for(int i = 0; i < 4; ++i) {
-        printf("%.1f ", meta[i]);
-    }
-    printf("\n");*/
-    
-    //glReadPixels(0, 0, width, height, GL_RGBA, GL_FLOAT, pixels);
-    
-    
+  */
 }
 
 
