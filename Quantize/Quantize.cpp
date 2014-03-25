@@ -9,7 +9,6 @@
 #include "Quantize.h"
 #include "Entity.h"
 #include "Textures.h"
-#include "Tree.h"
 
 Quantize::Quantize() : _lastLogTime(GetTiming()) {
     
@@ -159,9 +158,6 @@ void Quantize::initialize(float width, float height) {
     glDisable(GL_CULL_FACE);
     
     //glDepthFunc(GL_ALWAYS);
-
-    // Enable alpha layers
-    glEnable (GL_BLEND);
     
     // Premultiplied alpha. (I think? I always confuse the two)
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -194,7 +190,7 @@ void Quantize::initializePhotonProgram() {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, width, height, 0, GL_RGBA, GL_FLOAT, NULL);
         glBindTexture(GL_TEXTURE_2D, 0);
         GLError();
     }
@@ -237,6 +233,13 @@ void Quantize::initializePhotonProgram() {
     photon.program = glCreateProgram();
     glAttachShader(photon.program, vsh);
     glAttachShader(photon.program, fsh);
+    GLError();
+    
+    glBindFragDataLocation(photon.program, 0, "outColor");
+    glBindFragDataLocation(photon.program, 1, "outPosition");
+    glBindFragDataLocation(photon.program, 2, "outMeta");
+    GLError();
+    
     glLinkProgram(photon.program);
     GLError();
 
@@ -288,10 +291,6 @@ void Quantize::initializePhotonProgram() {
     GLError();
     
     
-    glBindFragDataLocation(photon.program, 0, "outColor");
-    glBindFragDataLocation(photon.program, 1, "outPosition");
-    glBindFragDataLocation(photon.program, 2, "outMeta");
-    GLError();
 }
 
 void Quantize::initializeRaytraceProgram() {
@@ -405,6 +404,7 @@ void Quantize::update(float dt) {
 
     glClearColor(0.541, 0.361, 0.361, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_BLEND);
     
     glUseProgram(_programRaytracer);
     glBindVertexArray(_vaoFrame);
@@ -547,6 +547,9 @@ void Quantize::update(float dt) {
     // Enable framebuffer render target
     glBindFramebuffer(GL_FRAMEBUFFER, photon.fbo);
     GLFBError();
+    glClearColor(0, 0, 0, 0.0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glDisable(GL_BLEND);
     
     glUseProgram(photon.program);
     
@@ -574,34 +577,58 @@ void Quantize::update(float dt) {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     GLError();
     
-    //static GLfloat* pixels = new GLfloat[(int)width * (int)height * 4];
-    
-    static std::vector<GLfloat> p((int)width * (int)height * 4, 9);
-    
-    glBindTexture(GL_TEXTURE_2D, photon.texture[1]);
-    GLError();
-    
-    GLint w, h;
-    glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &w);
-    glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &h);
-    
-    //glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_FLOAT, pixels);
-    glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_FLOAT, & p[0]);
-    GLError();
-    
-    printf("%dx%dpx ", w, h);
-    
-    for(int i = 0; i < 10; ++i) {
-        printf("%.1f ", p[i]);
-    }
-    
-    printf("\n");
-    
-    //glReadPixels(0, 0, width, height, GL_RGBA, GL_FLOAT, pixels);
     
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     GLFBError();
     GLError();
+    
+    //static GLfloat* pixels = new GLfloat[(int)width * (int)height * 4];
+    
+    int channels = 4;
+    std::vector<GLfloat> colors((int)width * (int)height * channels, 0);      // 1
+    std::vector<GLfloat> positions((int)width * (int)height * channels, 0);   // 2
+    std::vector<GLfloat> meta((int)width * (int)height * channels, 0);        // 3
+    
+    
+    glBindTexture(GL_TEXTURE_2D, photon.texture[0]);
+    glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_FLOAT, & colors[0]);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    GLError();
+    glBindTexture(GL_TEXTURE_2D, photon.texture[1]);
+    glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_FLOAT, & positions[0]);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    GLError();
+    glBindTexture(GL_TEXTURE_2D, photon.texture[2]);
+    glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_FLOAT, & meta[0]);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    GLError();
+    
+    /*printf("Colors: ");
+    for(int i = 0; i < 4; ++i) {
+        printf("%.1f ", colors[i]);
+    }
+    printf("\n");*/
+    
+    printf("P: ");
+    for(int i = 2000, j = 0; j < 4; i += 4) {
+        const Vector3& v = * ((Vector3*) & positions[i]);
+    
+        if(v.x != 0  || v.y != 0 || v.z != 0) {
+            printf("%.4f %.4f %.4f, ", v.x, v.y, v.z);
+            
+            ++j;
+        }
+    }
+    printf("\n");
+    
+    /*printf(" Meta: ");
+    for(int i = 0; i < 4; ++i) {
+        printf("%.1f ", meta[i]);
+    }
+    printf("\n");*/
+    
+    //glReadPixels(0, 0, width, height, GL_RGBA, GL_FLOAT, pixels);
+    
     
 }
 

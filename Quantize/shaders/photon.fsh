@@ -38,9 +38,9 @@ const int lod        = 0;        // mipmap level
 void main() {
     
     // Zero initialize.
-    outColor     = vec4(0.5, 0.6, 0.7, 0.8);
-    outPosition  = vec4(0, 0, 0, 0.8);
-    outMeta      = vec4(0, 0, 0, 0.8);
+    outColor     = vec4(1, 2, 3, 3);
+    outPosition  = vec4(0, 0, 0, 0);
+    outMeta      = vec4(9, 9, 9, 9);
 
     int lightSource = 0;
 
@@ -55,7 +55,7 @@ void main() {
     
     // Normalize, for good measure.
     ray.direction = normalize(ray.direction);
-    
+        
     // Test against world.
     
     int hits = 0;
@@ -73,8 +73,9 @@ void main() {
         int res = rayIntersetsTriangle(ray, A, B, C, true, where, depth);
         
         if(res != 0) {
-           outPosition = vec4(where, 1);
+            outPosition = vec4(pixelPosition, 1, 1);
             ++hits;
+            break;
         }
     }
 }

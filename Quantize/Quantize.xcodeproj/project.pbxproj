@@ -369,6 +369,7 @@
 		A69FD3E218B54FFE002FB76E /* raytracer.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = raytracer.fsh; sourceTree = "<group>"; };
 		A6A92D0918BD2C4B00B77E60 /* checkerboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkerboard.png; sourceTree = "<group>"; };
 		A6A92D0B18BD2CD600B77E60 /* checkerboard.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = checkerboard.dae; sourceTree = "<group>"; };
+		A6C3425718E1DC4D006A35AB /* KdTree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KdTree.h; sourceTree = "<group>"; };
 		A6C56A11189FC8DF00DFAA00 /* Quantize.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Quantize.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6C56A14189FC8DF00DFAA00 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		A6C56A17189FC8DF00DFAA00 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -441,7 +442,7 @@
 		A6C56C6E18A5924E00DFAA00 /* postp.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = postp.fsh; sourceTree = "<group>"; };
 		A6C56CA718A8E9FC00DFAA00 /* Collada.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Collada.h; sourceTree = "<group>"; };
 		A6F24E7218D332C200B4FCE6 /* Tribox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tribox.h; sourceTree = "<group>"; };
-		A6F24E7418D33D4B00B4FCE6 /* Tree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tree.h; sourceTree = "<group>"; };
+		A6F24E7418D33D4B00B4FCE6 /* OctTree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OctTree.h; sourceTree = "<group>"; };
 		A6F24E7518D85A1200B4FCE6 /* photon.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = photon.fsh; sourceTree = "<group>"; };
 		A6F24E7618D85A1200B4FCE6 /* photon.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = photon.vsh; sourceTree = "<group>"; };
 		A6F24E7918D88E5500B4FCE6 /* common.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = common.glsl; sourceTree = "<group>"; };
@@ -732,7 +733,8 @@
 		A6C56A08189FC8DF00DFAA00 = {
 			isa = PBXGroup;
 			children = (
-				A6F24E7418D33D4B00B4FCE6 /* Tree.h */,
+				A6C3425718E1DC4D006A35AB /* KdTree.h */,
+				A6F24E7418D33D4B00B4FCE6 /* OctTree.h */,
 				A66A071F18B66DC100F2CD15 /* models */,
 				A6C56C6118A58C4D00DFAA00 /* tinyXML */,
 				A6C56C3518A2AA5000DFAA00 /* libPNG */,
