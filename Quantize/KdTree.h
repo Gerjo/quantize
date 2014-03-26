@@ -182,6 +182,8 @@ public:
                 vector[i] = p;
                 i++;
             }
+            
+            return vector;
         }
     }
 };
