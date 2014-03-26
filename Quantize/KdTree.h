@@ -28,48 +28,88 @@ struct Photon {
         meta.y = metaData[1];
         meta.z = metaData[2];
     }
+    
+    Photon() {
+        
+    }
 };
 
 struct Node {
     struct Node* alpha;
     struct Node* beta;
+    Photon photon;
     int splitAxis;
     float pivot;
+    bool leaf;
 };
 
 class KdTree {
-
-    std::vector<Photon> storage;
-    struct Node* tree = new struct Node;
+    struct Node* tree;
+    
+    static bool comparatorX(Photon a, Photon b) {
+        return (a.position.x < b.position.x);
+    }
+    
+    static bool comparatorY(Photon a, Photon b) {
+        return (a.position.y < b.position.y);
+    }
+    
+    static bool comparatorZ(Photon a, Photon b) {
+        return (a.position.z < b.position.z);
+    }
+    
+    static Photon median(std::deque<Photon> photons, int splitAxis) {
+        switch (splitAxis) {
+            case X:
+                std::sort(photons.begin(), photons.end(), comparatorX);
+                break;
+            case Y:
+                std::sort(photons.begin(), photons.end(), comparatorY);
+                break;
+            case Z:
+                std::sort(photons.begin(), photons.end(), comparatorZ);
+                break;
+        }
+        int index = (int)photons.size() / 2;
+        return photons[index];
+    }
 
     struct Node* buildTree(std::deque<Photon> photons, int splitAxis) {
         struct Node* node = new struct Node;
         node->splitAxis = splitAxis;
+        if (photons.size() == 1) {
+            node->leaf = true;
+            node->photon = photons[0];
+            return node;
+        }
+        else
+            node->leaf = false;
         
         std::deque<Photon> alphaSet, betaSet;
         
-        float pivot = 0.0f;
-        
-        // Find median of all photons
-        
-        // pivot = median
+        // find the median
+        Photon pivot = median(photons, splitAxis);
+        node->photon = pivot;
         
         // divide set into < pivot and > pivot
         for (Photon p : photons) {
             if (splitAxis == X) {
-                if (p.position.x < pivot)
+                node->pivot = pivot.position.x;
+                if (p.position.x < pivot.position.x)
                     alphaSet.push_back(p);
                 else
                     betaSet.push_back(p);
             }
             else if (splitAxis == Y) {
-                if (p.position.y < pivot)
+                node->pivot = pivot.position.y;
+                if (p.position.y < pivot.position.y)
                     alphaSet.push_back(p);
                 else
                     betaSet.push_back(p);
             }
             else {
-                if (p.position.z < pivot)
+                node->pivot = pivot.position.z;
+                if (p.position.z < pivot.position.z)
                     alphaSet.push_back(p);
                 else
                     betaSet.push_back(p);
@@ -85,9 +125,26 @@ class KdTree {
     
 public:
     KdTree(std::deque<Photon> photons) {
-        tree->splitAxis = X;
+        tree = buildTree(photons, X);
         
         // And then some.
+    }
+    
+    std::vector<Photon> toVector() {
+        std::deque<Node> inOrder;
+        std::deque<Node> queue;
+        
+        while(true) {
+            while(queue.size() > 0) {
+                //pop node
+                
+                //if not leaf, enqueue children
+                
+                //inOrder.push_back(node);
+            }
+        }
+        
+        //inOrder -> vector<Photon>
     }
 };
 
