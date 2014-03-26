@@ -7,10 +7,12 @@
 //  Copyright (c) 2014 Quantize. All rights reserved.
 //
 
+#include <limits>
+
 #pragma once
 
 enum axis{X, Y, Z};
-enum tier{LEAF, ONECHILD, TWOCHILD};
+enum tier{LEAF, TWOCHILD, ONLYALPHA, ONLYBETA};
 
 struct Photon {
     Vector3 color;
@@ -59,6 +61,15 @@ class KdTree {
         return (a.position.z < b.position.z);
     }
     
+    static Node* infinityNode() {
+        Node* node = new struct Node;
+        float inf = std::numeric_limits<float>::infinity();
+        node->photon.position.x = inf;
+        node->photon.position.y = inf;
+        node->photon.position.z = inf;
+        return node;
+    }
+    
     static Photon median(std::deque<Photon> photons, int splitAxis) {
         switch (splitAxis) {
             case X:
@@ -98,21 +109,21 @@ class KdTree {
                 node->pivot = pivot.position.x;
                 if (p.position.x < pivot.position.x)
                     alphaSet.push_back(p);
-                else
+                else if (p.position.x > pivot.position.x)
                     betaSet.push_back(p);
             }
             else if (splitAxis == Y) {
                 node->pivot = pivot.position.y;
                 if (p.position.y < pivot.position.y)
                     alphaSet.push_back(p);
-                else
+                else if (p.position.y > pivot.position.y)
                     betaSet.push_back(p);
             }
             else {
                 node->pivot = pivot.position.z;
                 if (p.position.z < pivot.position.z)
                     alphaSet.push_back(p);
-                else
+                else if (p.position.z > pivot.position.z)
                     betaSet.push_back(p);
             }
         }
@@ -121,8 +132,11 @@ class KdTree {
         if (alphaSet.size() > 0)
             node->alpha = buildTree(alphaSet, (++splitAxis) % 3);
         else
-            node->tier = ONECHILD;
-        node->beta = buildTree(betaSet, (++splitAxis) % 3);
+            node->tier = ONLYBETA;
+        if (betaSet.size() > 0)
+            node->beta = buildTree(betaSet, (++splitAxis) % 3);
+        else
+            node->tier = ONLYALPHA;
         
         return node;
     }
@@ -135,8 +149,10 @@ public:
     }
     
     std::vector<Photon> toVector() {
-        std::deque<Node*> inOrder;
+        std::deque<Photon> inOrder;
         std::deque<Node*> queue;
+        
+        queue.push_front(tree);
         
         while(true) {
             while(queue.size() > 0) {
@@ -145,12 +161,28 @@ public:
                 queue.pop_back();
                 
                 //if not leaf, enqueue children
+                if (node->tier == TWOCHILD) {
+                    if (node->tier != ONLYBETA)
+                        queue.push_front(node->alpha);
+                    else
+                        queue.push_front(infinityNode());
+                    if (node->tier != ONLYALPHA)
+                        queue.push_front(node->beta);
+                    else
+                        queue.push_front(infinityNode());
+                }
                 
-                //inOrder.push_back(node);
+                inOrder.push_front(node->photon);
+            }
+            
+            std::vector<Photon> vector(inOrder.size());
+            
+            int i = 0;
+            for (Photon p : inOrder) {
+                vector[i] = p;
+                i++;
             }
         }
-        
-        //inOrder -> vector<Photon>
     }
 };
 
