@@ -10,6 +10,7 @@
 #pragma once
 
 enum axis{X, Y, Z};
+enum tier{LEAF, ONECHILD, TWOCHILD};
 
 struct Photon {
     Vector3 color;
@@ -40,7 +41,7 @@ struct Node {
     Photon photon;
     int splitAxis;
     float pivot;
-    bool leaf;
+    int tier;
 };
 
 class KdTree {
@@ -78,12 +79,12 @@ class KdTree {
         struct Node* node = new struct Node;
         node->splitAxis = splitAxis;
         if (photons.size() == 1) {
-            node->leaf = true;
+            node->tier = LEAF;
             node->photon = photons[0];
             return node;
         }
         else
-            node->leaf = false;
+            node->tier = TWOCHILD;
         
         std::deque<Photon> alphaSet, betaSet;
         
@@ -117,7 +118,10 @@ class KdTree {
         }
         
         // recursion with sets to make alpha and beta
-        node->alpha = buildTree(alphaSet, (++splitAxis) % 3);
+        if (alphaSet.size() > 0)
+            node->alpha = buildTree(alphaSet, (++splitAxis) % 3);
+        else
+            node->tier = ONECHILD;
         node->beta = buildTree(betaSet, (++splitAxis) % 3);
         
         return node;
@@ -131,12 +135,14 @@ public:
     }
     
     std::vector<Photon> toVector() {
-        std::deque<Node> inOrder;
-        std::deque<Node> queue;
+        std::deque<Node*> inOrder;
+        std::deque<Node*> queue;
         
         while(true) {
             while(queue.size() > 0) {
                 //pop node
+                Node* node = queue.back();
+                queue.pop_back();
                 
                 //if not leaf, enqueue children
                 
