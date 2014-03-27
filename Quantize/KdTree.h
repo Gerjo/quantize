@@ -12,7 +12,7 @@
 #pragma once
 
 enum axis{X, Y, Z};
-enum tier{INFINITY, LEAF, TWOCHILD, ONLYALPHA, ONLYBETA};
+enum tier{END, LEAF, TWOCHILD, ONLYALPHA, ONLYBETA};
 
 struct Photon {
     Vector3 color;
@@ -44,6 +44,19 @@ struct Node {
     int splitAxis;
     float pivot;
     int tier;
+    
+    Node() {
+        alpha = nullptr;
+        beta = nullptr;
+    }
+    
+    ~Node() {
+        delete alpha;
+        delete beta;
+        
+        alpha = nullptr;
+        beta = nullptr;
+    }
 };
 
 class KdTree {
@@ -63,7 +76,7 @@ class KdTree {
     
     static Node* infinityNode() {
         Node* node = new struct Node;
-        node->tier = INFINITY;
+        node->tier = END;
         float inf = std::numeric_limits<float>::infinity();
         node->photon.position.x = inf;
         node->photon.position.y = inf;
@@ -149,47 +162,49 @@ public:
         // And then some.
     }
     
+    ~KdTree() {
+        
+    }
+    
     std::vector<Photon> toVector() {
         std::deque<Photon> inOrder;
         std::deque<Node*> queue;
         
         queue.push_front(tree);
         
-        while(true) {
-            while(queue.size() > 0) {
-                //pop node
-                Node* node = queue.back();
-                queue.pop_back();
-                
-                //if not leaf, enqueue children
-                if (node->tier == TWOCHILD) {
-                    if (node->tier != ONLYBETA)
-                        queue.push_front(node->alpha);
-                    else
-                        queue.push_front(infinityNode());
-                    if (node->tier != ONLYALPHA)
-                        queue.push_front(node->beta);
-                    else if (node->tier == LEAF)
-                        queue.push_front(infinityNode());
-                }
-                else {
+        while(queue.size() > 0) {
+            //pop node
+            Node* node = queue.back();
+            queue.pop_back();
+            
+            //if not leaf, enqueue children
+            if (node->tier == TWOCHILD) {
+                if (node->tier != ONLYBETA)
+                    queue.push_front(node->alpha);
+                else
                     queue.push_front(infinityNode());
+                if (node->tier != ONLYALPHA)
+                    queue.push_front(node->beta);
+                else if (node->tier == LEAF)
                     queue.push_front(infinityNode());
-                }
-                
-                inOrder.push_front(node->photon);
+            }
+            else {
+                queue.push_front(infinityNode());
+                queue.push_front(infinityNode());
             }
             
-            std::vector<Photon> vector(inOrder.size());
-            
-            int i = 0;
-            for (Photon p : inOrder) {
-                vector[i] = p;
-                i++;
-            }
-            
-            return vector;
+            inOrder.push_front(node->photon);
         }
+        
+        std::vector<Photon> vector(inOrder.size());
+        
+        int i = 0;
+        for (Photon p : inOrder) {
+            vector[i] = p;
+            i++;
+        }
+        
+        return vector;
     }
 };
 
