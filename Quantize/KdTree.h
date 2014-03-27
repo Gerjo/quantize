@@ -21,12 +21,12 @@ struct Photon {
     
     // This _works_ for now.
     Photon(const float* positionData, const float* colorData, const float* metaData) {
-        color.x = positionData[0];
-        color.y = positionData[1];
-        color.z = positionData[2];
-        position.x = colorData[0];
-        position.y = colorData[1];
-        position.z = colorData[2];
+        color.x = colorData[0];
+        color.y = colorData[1];
+        color.z = colorData[2];
+        position.x = positionData[0];
+        position.y = positionData[1];
+        position.z = positionData[2];
         meta.x = metaData[0];
         meta.y = metaData[1];
         meta.z = metaData[2];
@@ -101,6 +101,8 @@ class KdTree {
     }
 
     struct Node* buildTree(std::deque<Photon> photons, int splitAxis) {
+        printf("%lu\n", photons.size());
+        
         struct Node* node = new Node;
         node->splitAxis = splitAxis;
         if (photons.size() == 1) {
@@ -143,12 +145,13 @@ class KdTree {
         }
         
         // recursion with sets to make alpha and beta
+        splitAxis = (splitAxis + 1) % 3;
         if (alphaSet.size() > 0)
-            node->alpha = buildTree(alphaSet, (++splitAxis) % 3);
+            node->alpha = buildTree(alphaSet, splitAxis);
         else
             node->tier = ONLYBETA;
         if (betaSet.size() > 0)
-            node->beta = buildTree(betaSet, (++splitAxis) % 3);
+            node->beta = buildTree(betaSet, splitAxis);
         else
             node->tier = ONLYALPHA;
         
