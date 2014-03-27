@@ -56,7 +56,7 @@ class Quantize {
     GLint _uniformDataTexture{-1};
     GLint _uniformTime{-1};
     GLint _uniformFrameCounter{-1};
-
+    GLint _uniformPhotonTexture{-1};
     
     /// Ray tracingproperties
     GLint _uniformN;
@@ -114,6 +114,10 @@ class Quantize {
     int _frameCounter{0};
     
     struct PhotonVariables {
+    
+        GLuint width{16};
+        GLuint height{16};
+    
         GLuint program{0};
         GLuint fbo{0};
         GLuint texture[3] = {0};    // color, position qnd meta outputs.
@@ -169,6 +173,9 @@ private:
     
     /// Statistical reporting to the console.
     void handleLogging();
+    
+    /// Shoot... photons.
+    void shootPhotons();
     
 public:
     /// Destructor

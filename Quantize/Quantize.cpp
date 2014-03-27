@@ -126,6 +126,9 @@ void Quantize::loadDemoScene() {
     
     printf("Tree bytes: %lu, root bytes: %lu\n", tree.size(), tree.root.triangles.size() * sizeof(VertexData) * 3);
     */
+    
+    
+    shootPhotons();
 }
 
 
@@ -202,7 +205,7 @@ void Quantize::initializePhotonProgram() {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, width, height, 0, GL_RGBA, GL_FLOAT, NULL);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, photon.width, photon.height, 0, GL_RGBA, GL_FLOAT, NULL);
         glBindTexture(GL_TEXTURE_2D, 0);
         GLError();
     }
@@ -213,7 +216,7 @@ void Quantize::initializePhotonProgram() {
     GLError();
     
     glBindRenderbuffer(GL_RENDERBUFFER, photon.renderBuffer);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, width, height);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, photon.width, photon.height);
     glBindRenderbuffer(GL_RENDERBUFFER, 0);
     GLError();
     
@@ -326,6 +329,7 @@ void Quantize::initializeRaytraceProgram() {
     _uniformNumTriangles  = glGetUniformLocation(_programRaytracer, "numTriangles");
     _uniformRtRotation    = glGetUniformLocation(_programRaytracer, "rotation");
     _uniformRtTranslation = glGetUniformLocation(_programRaytracer, "translation");
+    _uniformPhotonTexture = glGetUniformLocation(_programRaytracer, "photons");
     
     _uniformTextures     = glGetUniformLocation(_programRaytracer, "textures");
     _uniformDataTexture  = glGetUniformLocation(_programRaytracer, "zdata");
@@ -449,6 +453,7 @@ void Quantize::update(float dt) {
     glUniform4fv(_lightsAmbiant, nLights, ambient[0].v);
     glUniform4fv(_lightsSpecular, nLights, specular[0].v);
     glUniform4fv(_lightsDiffuse, nLights, diffuse[0].v);
+    
     glUniformMatrix4fv(_uniformRtRotation, 1, GL_FALSE, camera.rotation().f);
     glUniformMatrix4fv(_uniformRtTranslation, 1, GL_FALSE, camera.translation().f);
     glUniform2f(_uniformRtWindowSize, width, height);
@@ -552,9 +557,13 @@ void Quantize::update(float dt) {
 
     handleLogging();
     
+
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Photon stuff
 ////////////////////////////////////////////////////////////////////////////////
+void Quantize::shootPhotons() {
 
     // Enable framebuffer render target
     glBindFramebuffer(GL_FRAMEBUFFER, photon.fbo);
@@ -571,7 +580,26 @@ void Quantize::update(float dt) {
     glDrawBuffers(3, buffers);
     GLError();
 
-    // Upload uniform values to the GPU. The data is remnant from the above ray tracer.
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, _dataTexture);
+    
+    printf("Uploading scene...");
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, (GLint) faces.size() * (sizeof(Face) / 3),  1, 0, GL_RGB, GL_FLOAT, faces[0].a.v);
+    GLError();
+    printf(" done.\n");
+
+    // Amount of lights, when disabled - simply upload nothing.
+    const int nLights = std::min(enableLights, (int) lights.size());
+    
+    // Build Structure of arrays (SOA) from Array of structures (AOS)
+    std::vector<Vector3> position;
+    
+    // Collect light properties
+    for(const Light& light : lights) {
+        position.push_back(light.position * 100);
+    }
+    
     glUniform1i(photon.uniformLightCount, nLights);
     glUniform3fv(photon.uniformLightsPosition, nLights, position[0].v);
     glUniform1i(photon.unformTriangleCount, (int) faces.size());
@@ -581,6 +609,8 @@ void Quantize::update(float dt) {
     
     glBindVertexArray(photon.vao);
     GLError();
+    
+    printf("Issuing command to shoot %d photons.\n", photon.width * photon.height);
     
     GLValidateProgram(photon.program);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
@@ -600,9 +630,11 @@ void Quantize::update(float dt) {
     int channels = 4;
     
     // Allocate some memory to hold the to be retrieve data.
-    std::vector<float> colors((int)width * (int)height * channels, 0);      // 1
-    std::vector<float> positions((int)width * (int)height * channels, 0);   // 2
-    std::vector<float> meta((int)width * (int)height * channels, 0);        // 3
+    std::vector<float> colors((int)photon.width * (int)photon.height * channels, 0);      // 1
+    std::vector<float> positions((int)photon.width * (int)photon.height * channels, 0);   // 2
+    std::vector<float> meta((int)photon.width * (int)photon.height * channels, 0);        // 3
+    
+    glFinish();
     
     // Retrieve the photon colors from the GPU
     glBindTexture(GL_TEXTURE_2D, photon.texture[0]);
@@ -625,37 +657,53 @@ void Quantize::update(float dt) {
     
     std::deque<Photon> photons;
     
+    int discarded = 0;
+    
     // From the arrays, create photon structs.
-    for(int i = 0; i < width * height * channels; i += channels) {
-        Photon photon(&positions[i], &colors[i], &meta[i]);
+    for(int i = 0; i < photon.width * photon.height * channels; i += channels) {
         
-        photons.push_back(photon);
+        // Discard "null" photons, those that hit nothing.
+        if(positions[i] == 0 && positions[i + 1] == 0 && positions[i + 2] == 0) {
+            ++discarded;
+        } else {
+            Photon photon(&positions[i], &colors[i], &meta[i]);
+        
+            photons.push_back(photon);
+        }
     }
     
-    printf("# photons: %lu\n", photons.size());
+    printf("Discarded %d dead photons :(\n", discarded);
     
+    printf("Building KdTreee...");
     
     // Make the KdTree!
     KdTree tree(photons);
+    
+    printf(" done.\n");
 
+    printf("Exporting %lu photons to vector... ", photons.size());
     std::vector<Photon> kdtree = tree.toVector();
     
-    /*
-    printf("P: ");
-    for(int i = 2000, j = 0; j < 4; i += 4) {
-        const Vector3& v = * ((Vector3*) & positions[i]);
+    printf(" %lu items in tree. Done.\n", kdtree.size());
     
-        if(v.x != 0  || v.y != 0 || v.z != 0) {
-            printf("%.4f %.4f %.4f, ", v.x, v.y, v.z);
-            
-            ++j;
-        }
+    printf("Uploading kdtree to GPU...");
+    glBindTexture(GL_TEXTURE_2D, photon.photonTexture);
+    
+    if(kdtree.size() > 16000) {
+        Exit("Too many. Wrap around texture rows.");
     }
-    printf("\n");
-  */
+    
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, (int) kdtree.size() * 3, 1, 0, GL_RGB, GL_FLOAT, & kdtree[0].position);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glActiveTexture(GL_TEXTURE1);
+    GLError();
+    
+    glUniform1i(_uniformPhotonTexture, 1);
+    GLError();
+    
+    printf(" done.\n");
+    
 }
-
-
 
 void Quantize::handleLogging() {
     const double time = GetTiming();
@@ -674,7 +722,6 @@ void Quantize::handleLogging() {
         "Position:           %.2f %.2f %.2f\n"
         "Orientation:        %.2f %.2f %.2f\n",
         
-        
             1.0 / ((time - _lastLogTime) / stats.frames),
             stats.total / stats.frames,
             stats.uniforms / stats.frames,
@@ -687,7 +734,7 @@ void Quantize::handleLogging() {
         );
     
         stats.reset();
-        _lastLogTime = time;
+        _lastLogTime = time + 10000000;
     }
 
 }

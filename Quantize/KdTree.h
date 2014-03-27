@@ -101,7 +101,7 @@ class KdTree {
     }
 
     struct Node* buildTree(std::deque<Photon> photons, int splitAxis) {
-        printf("%lu\n", photons.size());
+        //``printf("%lu\n", photons.size());
         
         struct Node* node = new Node;
         node->splitAxis = splitAxis;

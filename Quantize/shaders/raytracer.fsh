@@ -56,6 +56,7 @@ const int lod        = 0;        // mipmap level
 
 out vec4 finalColor;
 
+uniform sampler2D photons;
 
 
 
