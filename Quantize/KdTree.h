@@ -75,7 +75,7 @@ class KdTree {
     }
     
     static Node* infinityNode() {
-        Node* node = new struct Node;
+        Node* node = new Node;
         node->tier = END;
         float inf = std::numeric_limits<float>::infinity();
         node->photon.position.x = inf;
@@ -101,7 +101,7 @@ class KdTree {
     }
 
     struct Node* buildTree(std::deque<Photon> photons, int splitAxis) {
-        struct Node* node = new struct Node;
+        struct Node* node = new Node;
         node->splitAxis = splitAxis;
         if (photons.size() == 1) {
             node->tier = LEAF;
