@@ -163,7 +163,7 @@ public:
     }
     
     ~KdTree() {
-        
+        delete tree;
     }
     
     std::vector<Photon> toVector() {
@@ -185,10 +185,10 @@ public:
                     queue.push_front(infinityNode());
                 if (node->tier != ONLYALPHA)
                     queue.push_front(node->beta);
-                else if (node->tier == LEAF)
+                else
                     queue.push_front(infinityNode());
             }
-            else {
+            else if (node->tier == LEAF) {
                 queue.push_front(infinityNode());
                 queue.push_front(infinityNode());
             }

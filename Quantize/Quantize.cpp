@@ -622,7 +622,7 @@ void Quantize::update(float dt) {
     
     // Make the KdTree!
     KdTree tree(photons);
-    
+    tree.toVector();
     
     
     /*
