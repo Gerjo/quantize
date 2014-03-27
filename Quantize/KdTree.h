@@ -41,7 +41,7 @@ struct Node {
     struct Node* alpha;
     struct Node* beta;
     Photon photon;
-    int splitAxis;
+    int splitAxis{9};
     float pivot;
     int tier;
     
@@ -116,10 +116,26 @@ class KdTree {
         std::deque<Photon> alphaSet, betaSet;
         
         // find the median
-        Photon pivot = median(photons, splitAxis);
+        //Photon pivot = median(photons, splitAxis);
+        
+        switch (splitAxis) {
+            case X:
+                std::sort(photons.begin(), photons.end(), comparatorX);
+                break;
+            case Y:
+                std::sort(photons.begin(), photons.end(), comparatorY);
+                break;
+            case Z:
+                std::sort(photons.begin(), photons.end(), comparatorZ);
+                break;
+        }
+        int index = (int)photons.size() / 2;
+        Photon pivot = photons[index];
+        
         node->photon = pivot;
         
         // divide set into < pivot and > pivot
+        /*
         for (Photon p : photons) {
             if (splitAxis == X) {
                 node->pivot = pivot.position.x;
@@ -142,6 +158,13 @@ class KdTree {
                 else if (p.position.z > pivot.position.z)
                     betaSet.push_back(p);
             }
+        }
+         */
+        for (int i = 0; i < photons.size(); i++) {
+            if (i < index)
+                alphaSet.push_back(photons[i]);
+            else
+                betaSet.push_back(photons[i]);
         }
         
         // recursion with sets to make alpha and beta
