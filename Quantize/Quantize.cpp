@@ -180,6 +180,18 @@ void Quantize::initialize(float width, float height) {
 /// Useful links: http://ephenationopengl.blogspot.nl/2012/01/setting-up-deferred-shader.html
 ///
 void Quantize::initializePhotonProgram() {
+
+    // Texture to hold the photon data
+    glGenTextures(1, &photon.photonTexture);
+    glBindTexture(GL_TEXTURE_2D, photon.photonTexture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, width, height, 0, GL_RGB, GL_FLOAT, NULL);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    GLError();
+
     // We render to a texture, so let's create a texture.
     glActiveTexture(GL_TEXTURE0);
     glGenTextures(3, photon.texture);
@@ -462,11 +474,11 @@ void Quantize::update(float dt) {
     textureSamplers.reserve(Textures::samplers.size());
     for(int i = 0; i < Textures::samplers.size(); ++i) {
         // Texture enabling
-        glActiveTexture(GL_TEXTURE1 + i);                       // Use texture n
+        glActiveTexture(GL_TEXTURE2 + i);                       // Use texture n
         glBindTexture(GL_TEXTURE_2D, Textures::samplers[i]);    // Bind handle to n
         GLError();
         
-        textureSamplers.push_back(i + 1);
+        textureSamplers.push_back(i + 2);
     }
     
     // Inform the shader which sampler indices to use
@@ -614,16 +626,19 @@ void Quantize::update(float dt) {
     std::deque<Photon> photons;
     
     // From the arrays, create photon structs.
-    for(int i = 0; i < width * height; i += channels) {
+    for(int i = 0; i < width * height * channels; i += channels) {
         Photon photon(&positions[i], &colors[i], &meta[i]);
         
         photons.push_back(photon);
     }
     
+    printf("# photons: %lu\n", photons.size());
+    
+    
     // Make the KdTree!
     KdTree tree(photons);
-    tree.toVector();
-    
+
+    std::vector<Photon> kdtree = tree.toVector();
     
     /*
     printf("P: ");
