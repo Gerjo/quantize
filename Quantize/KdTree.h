@@ -12,7 +12,7 @@
 #pragma once
 
 enum axis{X, Y, Z};
-enum tier{LEAF, TWOCHILD, ONLYALPHA, ONLYBETA};
+enum tier{INFINITY, LEAF, TWOCHILD, ONLYALPHA, ONLYBETA};
 
 struct Photon {
     Vector3 color;
@@ -63,6 +63,7 @@ class KdTree {
     
     static Node* infinityNode() {
         Node* node = new struct Node;
+        node->tier = INFINITY;
         float inf = std::numeric_limits<float>::infinity();
         node->photon.position.x = inf;
         node->photon.position.y = inf;
@@ -168,8 +169,12 @@ public:
                         queue.push_front(infinityNode());
                     if (node->tier != ONLYALPHA)
                         queue.push_front(node->beta);
-                    else
+                    else if (node->tier == LEAF)
                         queue.push_front(infinityNode());
+                }
+                else {
+                    queue.push_front(infinityNode());
+                    queue.push_front(infinityNode());
                 }
                 
                 inOrder.push_front(node->photon);
