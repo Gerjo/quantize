@@ -38,7 +38,7 @@ const int lod        = 0;        // mipmap level
 void main() {
     
     // Zero initialize.
-    outColor     = vec4(1, 2, 3, 3);
+    outColor     = vec4(1, 0, 0, 1);
     outPosition  = vec4(0, 0, 0, 0);
     outMeta      = vec4(9, 9, 9, 9);
 

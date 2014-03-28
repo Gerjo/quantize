@@ -37,8 +37,8 @@ uniform float time;
 
 // My Intel onboard chip only supports 16 textures. If this becomes a limit,
 // we can make an atlas - textures up to 16k resolution are supported. Reading
-// the spect further, we can use a sampler2DArray!
-uniform sampler2D textures[15];
+// the spec further, we can use a sampler2DArray!
+uniform sampler2D textures[14];
 
 
 /// Format (non optimized structure, directly copied from c++)
@@ -59,7 +59,11 @@ out vec4 finalColor;
 uniform sampler2D photons;
 
 
-
+struct Photon {
+    vec3 color;
+    vec3 position;
+    vec3 meta;
+};
 
 
 ///   ---> direction --->
@@ -71,7 +75,6 @@ uniform sampler2D photons;
 ///     \        |                 +------+
 ///      \       |
 ///       \      |
-
 
 vec4 traceRay(in vec2 pos, in float perspective) {
     
@@ -120,18 +123,6 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             
             int sampler = int(texelFetch(zdata, ivec2(offset + 3, 0), lod).z);
             vec4 color = texture(textures[sampler], uv);
-            
-            /*if(useTexture == 0) {
-                float size = 1;
-                int foo = int(floor(where.x / 1) * 1);
-                int bar = int(floor(where.z / 1) * 1);
-                
-                if(mod(foo + bar, 2) == 0) {
-                    color = vec4(1.0, 1.0, 1.0, 1.0);
-                } else {
-                    color = vec4(0.0, 0.0, 0.0, 1.0);
-                }
-            }*/
             
             vec4 blend = vec4(0.0, 0.0, 0.0, 1.0);
             
@@ -235,130 +226,13 @@ vec4 traceRay(in vec2 pos, in float perspective) {
 
 void main() {
 
-    //if(mod(int(floor((pixelPosition.x / 2 + 1) * windowSize.x + 0.5)), 2) == 0) {
-    
-    int row = int(floor((pixelPosition.x / 2 + 1) * windowSize.x));
-    int col = int(floor((pixelPosition.y / 2 + 1) * windowSize.y));
-    
-    //if(mod(col, 5) != mod(frameCounter, 5)) {
-    //    finalColor = vec4(0, 0, 0, 0);
-    //    return;
-    //}
-
-//#define RANDOM
-#define NONE
-//#define STRATIFICATION
-
-    
     // Distance between camera and canvas implies the perspective.
     const float perspective = 4.0;
     finalColor = vec4(0.0, 0.0, 0.0, 0.0);
-    
-#ifdef NONE
 
-    finalColor = traceRay(position, perspective);
+    finalColor = texelFetch(photons, ivec2(0, 0), lod);
+    finalColor.a = 1;
 
-#endif
-    
-#ifdef RANDOM
-    int iterations = n;
-    float deviationX = range / windowSize.x;
-    float deviationY = range / windowSize.y;
-    vec2 randomPos;
-    vec2 randomSeed = position;
-    float randomDX;
-    float randomDY;
-    vec4 itColor = vec4(0.0, 0.0, 0.0, 0.0);
-    
-    float derpma = sigma; // Is a global uniform
-    float sigmaPrecomputed = 1.0 / (2.0 * derpma * derpma);
-    float sigmaSum = 0.0;
+    //finalColor = traceRay(position, perspective);
 
-    for (int i = 0; i < iterations; ++i) {
-        //calculate randomised deviation
-        randomPos = position;
-        
-        randomDX = fract(sin(dot(randomSeed.xy, vec2(12.9898, 78.233))) * 43758.5453) - 0.5;
-        randomDY = fract(cos(dot(randomSeed.xy, vec2(12.9898, 78.233))) * 43758.5453) - 0.5;
-        
-        randomSeed.x += randomSeed.y + 0.27182;
-        randomSeed.y += randomSeed.x;
-        
-        float deltaX = randomDX * deviationX;
-        float deltaY = randomDY * deviationY;
-        
-        randomPos.x += deltaX;
-        randomPos.y += deltaY;
-        
-        deltaX *= 100.0;
-        deltaY *= 100.0;
-        
-        //raytracer go!
-        itColor = traceRay(randomPos, perspective);
-        
-        
-        if(sigma != 0.0) {
-            // Linear
-            //float w = 1 / (sqrt(deltaX * deltaX + deltaY * deltaY));
-        
-            // Bell curve
-            float w = exp(-((deltaX * deltaX + deltaY * deltaY) * sigmaPrecomputed));
-        
-            // Accumulate sigma for normalisation
-            sigmaSum += w;
-       
-            //finalColor.a = 1.0;
-            finalColor += itColor * w;
-        } else {
-            //add to average
-            finalColor += (itColor / iterations);
-        }
-    }
-    
-    if(sigma != 0.0) {
-        finalColor /= sigmaSum;
-    }
-    
-#endif //RANDOM
-    
-#ifdef STRATIFICATION
-    //Stratification degree. Set to 0 to disable.
-    int stratDegree = n;
-    float stratIterations = pow(2 * stratDegree + 1, 2);
-    int stratDivisions = 2 * (stratDegree + 1);
-    float stratIntervalX = 2.0 / (float(stratDivisions) * windowSize.x);
-    float stratIntervalY = 2.0 / (float(stratDivisions) * windowSize.y);
-    vec2 stratPos;
-    vec2 randomSeed = position;
-    float randomDX;
-    float randomDY;
-    vec4 stratTemp;
-    for (int stratX = 0 - stratDegree; stratX < 1 + stratDegree; ++stratX) {
-        for (int stratY = 0 - stratDegree; stratY < 1 + stratDegree; ++stratY) {
-            //calculate randomised deviation
-            stratPos = position;
-            
-            randomDX = fract(sin(dot(randomSeed.xy, vec2(12.9898, 78.233))) * 43758.5453) - 0.5;
-            randomDY = fract(cos(dot(randomSeed.xy, vec2(78.233, 12.9898))) * 43758.5453) - 0.5;
-            
-            randomSeed.x += randomSeed.y + 0.014159268;
-            randomSeed.y += randomSeed.x;
-            
-            if(enableJitter == 1) {
-                stratPos.x += float(stratX + randomDX) * stratIntervalX;
-                stratPos.y += float(stratY + randomDY) * stratIntervalY;
-            }
-            
-            stratPos.x += float(stratX) * stratIntervalX;
-            stratPos.y += float(stratY) * stratIntervalY;
-            
-            
-            //raytracer go!
-            stratTemp = traceRay(stratPos, perspective);
-            
-            //add to average
-            finalColor += (stratTemp / stratIterations);
-        }
-    }
-#endif //STRATIFICATION
 }

@@ -185,6 +185,7 @@ void Quantize::initialize(float width, float height) {
 void Quantize::initializePhotonProgram() {
 
     // Texture to hold the photon data
+    glActiveTexture(GL_TEXTURE1);
     glGenTextures(1, &photon.photonTexture);
     glBindTexture(GL_TEXTURE_2D, photon.photonTexture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -519,6 +520,11 @@ void Quantize::update(float dt) {
     glUniform1i(_uniformDataTexture, 0);
     GLError();
 
+    // Enable photon map texture
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, photon.photonTexture);
+    glUniform1i(_uniformPhotonTexture, 1);
+    GLError();
 
     glEnableVertexAttribArray(_attrRtPosition);
     
@@ -612,6 +618,7 @@ void Quantize::shootPhotons() {
     
     printf("Issuing command to shoot %d photons.\n", photon.width * photon.height);
     
+    
     GLValidateProgram(photon.program);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     GLError();
@@ -684,25 +691,25 @@ void Quantize::shootPhotons() {
     printf("Exporting %lu photons to vector... ", photons.size());
     std::vector<Photon> kdtree = tree.toVector();
     
+    //kdtree[0].color(1, 1, 1);
+    //kdtree[0].position(1, 1, 1);
+    //kdtree[0].meta(1, 1, 1);
+    
     printf(" %lu items in tree. Done.\n", kdtree.size());
     
     printf("Uploading kdtree to GPU...");
+    glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, photon.photonTexture);
     
     if(kdtree.size() > 16000) {
         Exit("Too many. Wrap around texture rows.");
     }
     
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, (int) kdtree.size() * 3, 1, 0, GL_RGB, GL_FLOAT, & kdtree[0].position);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, (int) kdtree.size() * 3, 1, 0, GL_RGB, GL_FLOAT, kdtree[0].color.v);
     glBindTexture(GL_TEXTURE_2D, 0);
-    glActiveTexture(GL_TEXTURE1);
     GLError();
-    
-    glUniform1i(_uniformPhotonTexture, 1);
-    GLError();
-    
+
     printf(" done.\n");
-    
 }
 
 void Quantize::handleLogging() {
