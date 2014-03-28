@@ -622,7 +622,8 @@ void Quantize::update(float dt) {
     
     // Make the KdTree!
     KdTree tree(photons);
-    tree.toVector();
+    std::vector<Photon> treeVec = tree.toVector();
+    printf("Tree vectorized.");
     
     
     /*
