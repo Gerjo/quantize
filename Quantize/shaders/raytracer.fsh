@@ -67,6 +67,40 @@ struct Photon {
 };
 
 
+
+vec3 nearestPhoton(in vec3 search) {
+    const int axes = 3;
+    const float inf = 1. / 0.;
+    
+    int index = 1;
+    int axis  = 0;
+    
+    int bestIndex = 0;
+    float bestDistance = inf;
+    vec3 bestPosition = vec3(0, 0, 0);
+    
+    while(index <= numPhotons) {
+        vec3 tentative = texelFetch(photons, ivec2((index - 1) * 3 + 1, 0), lod).xyz;
+        float distance = dot(length(tentative - search), length(tentative - search));
+        
+        if(distance < bestDistance) {
+            bestIndex    = index;
+            bestDistance = distance;
+            bestPosition = tentative;
+        }
+        
+        if(search[axis] > tentative[axis]) {
+            index = index * 2 + 1;
+        } else {
+            index = index * 2;
+        }
+        
+        axis = (axis + 1 ) % axes;
+    }
+
+    return bestPosition;
+}
+
 ///   ---> direction --->
 ///   eye       canvas            object
 ///       /      |
@@ -94,7 +128,7 @@ vec4 traceRay(in vec2 pos, in float perspective) {
     // Translate the camera
     ray.place -= vec3(translation[3][0] * 0.1, translation[3][1] * 0.1, translation[3][2] * 0.1);
     
-    const int maxBuffer = 3;
+    const int maxBuffer = 8; // weird transparent object? increase this number.
     vec4 zBufferColor[maxBuffer];
     float zBufferDepth[maxBuffer];
     
@@ -128,14 +162,22 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             vec4 blend = vec4(0.0, 0.0, 0.0, 1.0);
             
             
-            for(int l = 0; l < numPhotons; ++l) {
+            vec3 pos = nearestPhoton(where);
+            
+            float d = length(pos - where);
+                
+            if(d < 0.5) {
+                color.r += (0.5-d)*0.7;
+            }
+            
+            /*for(int l = 0; l < numPhotons; ++l) {
                 vec3 pos = texelFetch(photons, ivec2(l * 3 + 1, 0), lod).xyz;
                 float d = length(pos - where);
                 
                 if(d < 0.5) {
                     color.r += (0.5-d)*0.7;
                 }
-            }
+            }*/
             
             
             Ray beam;
@@ -172,9 +214,9 @@ vec4 traceRay(in vec2 pos, in float perspective) {
                         int sampler2 = int(texelFetch(zdata, ivec2(offset2 + 3, 0), lod).z);
                         vec4 color2 = texture(textures[sampler], uv);
                     
-                        if(color2.a > 0.4) {
+                        //if(color2.a > 0.4) {
                             ++hits;
-                        }
+                        //}
                     }
                 }
             

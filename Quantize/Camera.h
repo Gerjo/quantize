@@ -32,7 +32,8 @@ public:
     bool locked {true};
     
     Camera() {
-        
+        position(86.14, -96.81, -112.90);
+        orientation(2.49, -0.65, 0.00);
     }
     
     Matrix44 rotation() {

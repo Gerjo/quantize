@@ -30,11 +30,10 @@ out vec4 outMeta;
 uniform int lightCount;           // Amount of light sources
 uniform vec3 lightPositions[10];  // Position of each light, up to 10.
 
-const float Infinity = 99999999; // Infinity, for all intents and purposes.
 const int stride     = 6;        // In vec3
 const int lod        = 0;        // mipmap level
 
-
+uniform sampler2D textures[14];
 
 // Some initial seed.
 int seed = 10;
@@ -59,12 +58,12 @@ void main() {
     int lightSource = 0;
 
 
-    srand(pixelPosition.y / pixelPosition.x);
+    srand(pixelPosition.y + pixelPosition.x * 100);
 
     Ray ray;
     
     // Start at a given light source position
-    ray.place = vec3(0, 0, 0);//lightPositions[lightSource];
+    ray.place = vec3(0, 1, 0);//lightPositions[lightSource];
     
     // Random direction, this should be derived from the projection map.
     ray.direction = normalize(vec3(
@@ -89,8 +88,20 @@ void main() {
         int res = rayIntersetsTriangle(ray, A, B, C, true, where, depth);
         
         if(res != 0) {
-            //outPosition = vec4(pixelPosition, 1, 1);
             outPosition = vec4(where, 1);
+            
+            // Uv coordinates per triangle vertex
+            vec2 U = texelFetch(zdata, ivec2(offset + 3, 0), lod).xy;
+            vec2 V = texelFetch(zdata, ivec2(offset + 4, 0), lod).xy;
+            vec2 W = texelFetch(zdata, ivec2(offset + 5, 0), lod).xy;
+        
+            // Solve for UV coordinates
+            vec2 uv = barycentric(where, A, B, C, U, V, W);
+            
+            int sampler = int(texelFetch(zdata, ivec2(offset + 3, 0), lod).z);
+            outColor = texture(textures[sampler], uv);
+            
+            
             
             // Take note of incomming angle and so-called "power". These are
             // to be stored into outMeta as a vec4.

@@ -264,7 +264,12 @@ static GLuint CompileShader(const std::string& filename) {
         glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logLength);
         
         if (logLength > 0) {
-            printf("There were shader compile errors in:\n%s\n", source.c_str());
+            //printf("There were shader compile errors in:\n%s\n", source.c_str());
+    
+            auto chunks = StringExplode(source, "\n");
+            for(int i = 0; i < chunks.size(); ++i) {
+                printf("[%d] %s\n", i, chunks[i].c_str());
+            }
 
             GLchar* log = new GLchar[logLength];
             glGetShaderInfoLog(shader, logLength, &logLength, log);

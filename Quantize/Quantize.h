@@ -118,8 +118,8 @@ class Quantize {
     
     struct PhotonVariables {
     
-        GLuint width{32};
-        GLuint height{32};
+        GLuint width{64};
+        GLuint height{64};
     
         GLuint program{0};
         GLuint fbo{0};
@@ -129,7 +129,8 @@ class Quantize {
         GLuint vao{0};
         GLint uniformWindowSize{-1};
         GLint attrPosition{-1};
-        
+        GLint uniformTextures{-1};
+
         GLuint photonTexture;
         
         GLint uniformData{-1};

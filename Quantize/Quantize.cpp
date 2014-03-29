@@ -47,7 +47,7 @@ Quantize::Quantize() : _lastLogTime(GetTiming()) {
 
     Light light;
     light.position.x = 0;//15.0f;
-    light.position.y = 4;//5.0f;
+    light.position.y = 5.0f;
     light.position.z = 0;//20.0f;
     
     for(size_t i = 0; i < 4; ++i) {
@@ -56,9 +56,9 @@ Quantize::Quantize() : _lastLogTime(GetTiming()) {
         light.specular.v[i] = 0.0f;
     }
   
-    light.diffuse.r = 0.3;
-    light.diffuse.g = 1;
-    light.diffuse.b = 1.7;
+    light.diffuse.r = 1.0;
+    light.diffuse.g = 1.0;
+    light.diffuse.b = 1.0;
     lights.push_back(light);
         
     light.diffuse.r = 1;
@@ -105,7 +105,7 @@ void Quantize::loadDemoScene() {
     //scene.insert(scene.end(), ((Model*)cube->sub[0].get())->vertices.begin(), ((Model*)cube->sub[0].get())->vertices.end());
     
     // A checkerboard of checkerboards.
-    float scale = 25;
+    /*float scale = 25;
     for(int x = 0; x < 1; ++x) {
         for(int y = 0; y < 1; ++y) {
             Matrix44 t = Matrix44::CreateRotateX(3.14 / 2) * Matrix44::CreateTranslation(x * scale * 2, y * scale * 2, 0) * Matrix44::CreateScale(scale);
@@ -116,14 +116,32 @@ void Quantize::loadDemoScene() {
                 scene.push_back(d);
             }
         }
-    }
+    }*/
     
     auto &vertices = ((Model*)cube->sub[0].get())->vertices;
     
+    // Mega cube
     for(VertexData d : vertices) {
-        d.position = Matrix44::CreateScale(10) * d.position;
+        d.position = Matrix44::CreateTranslation(0, 0, 0) * Matrix44::CreateScale(Vector3(20, 10, 20)) * d.position;
         scene.push_back(d);
     }
+    
+    // Mini cube
+    for(VertexData d : vertices) {
+        d.position = Matrix44::CreateTranslation(0, 0, 0) * Matrix44::CreateScale(Vector3(1, 1, 1)) * d.position;
+        scene.push_back(d);
+    }
+    
+    // Tile
+    for(VertexData d : ((Model*)rectangle->sub[0].get())->vertices) {
+        d.position = Matrix44::CreateTranslation(0, 0, 0)
+        * Matrix44::CreateScale(Vector3(4, 4, 4))
+        * Matrix44::CreateRotate(1.23, 1, 1, 1)
+        * d.position;
+        scene.push_back(d);
+    }
+    
+    
     
     assert(scene.size() % 3 == 0);
     
@@ -297,6 +315,8 @@ void Quantize::initializePhotonProgram() {
     photon.uniformLightsPosition = glGetUniformLocation(photon.program, "lightPositions");
     photon.uniformData = glGetUniformLocation(photon.program, "zdata");
     photon.unformTriangleCount = glGetUniformLocation(photon.program, "triangleCount");
+    photon.uniformTextures     = glGetUniformLocation(_programRaytracer, "textures");
+
     GLError();
     
     // The rectangle used to render onto, the UVs are derived from this.
@@ -470,14 +490,14 @@ void Quantize::update(float dt) {
 
     // Collect light properties
     for(const Light& light : lights) {
-        position.push_back(light.position * 100);
+        position.push_back(light.position);
         diffuse.push_back(light.diffuse);
         specular.push_back(light.specular);
         ambient.push_back(light.ambient);
     }
 
     // Amount of lights, when disabled - simply upload nothing.
-    const int nLights = 0;//std::min(enableLights, (int) lights.size());
+    const int nLights = std::min(enableLights, (int) lights.size());
     
     
     // Upload the lights and other uniforms to the GPU
@@ -637,7 +657,7 @@ void Quantize::shootPhotons() {
     
     // Collect light properties
     for(const Light& light : lights) {
-        position.push_back(light.position * 100);
+        position.push_back(light.position);
     }
     
     glUniform1i(photon.uniformLightCount, nLights);
@@ -646,6 +666,24 @@ void Quantize::shootPhotons() {
     glUniform1i(photon.uniformData, 0);
     glUniform2f(photon.uniformWindowSize, width, height);
     GLError();
+    
+      
+    // Bind the triangle textures (up to 15)
+    std::vector<int> textureSamplers;
+    textureSamplers.reserve(Textures::samplers.size());
+    for(int i = 0; i < Textures::samplers.size(); ++i) {
+        // Texture enabling
+        glActiveTexture(GL_TEXTURE2 + i);                       // Use texture n
+        glBindTexture(GL_TEXTURE_2D, Textures::samplers[i]);    // Bind handle to n
+        GLError();
+        
+        textureSamplers.push_back(i + 2);
+    }
+    
+    // Inform the shader which sampler indices to use
+    glUniform1iv(photon.uniformTextures, (int) textureSamplers.size(), & textureSamplers[0]);
+    GLError();
+
     
     glBindVertexArray(photon.vao);
     GLError();
@@ -785,7 +823,7 @@ void Quantize::handleLogging() {
         );
     
         stats.reset();
-        _lastLogTime = time + 10000000;
+        _lastLogTime = time;// + 10000000;
     }
 
 }
