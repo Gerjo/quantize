@@ -28,7 +28,7 @@ out vec4 outPosition;
 out vec4 outMeta;
 
 uniform int lightCount;           // Amount of light sources
-uniform vec3 lightPositions[10];  // Position of each light, up to 10.
+uniform vec3 lightPositions[5];  // Position of each light, up to 10.
 
 const int stride     = 6;        // In vec3
 const int lod        = 0;        // mipmap level
@@ -63,7 +63,9 @@ void main() {
     Ray ray;
     
     // Start at a given light source position
-    ray.place = vec3(0, 1, 0);//lightPositions[lightSource];
+    ray.place = lightPositions[lightSource];
+    
+    // vec3(0, 10, 0);//
     
     // Random direction, this should be derived from the projection map.
     ray.direction = normalize(vec3(
@@ -72,45 +74,55 @@ void main() {
         rand() - 0.5
     ));
     
+    
+    int hits             = 0;
+    int bestHitOffset    = 0;
+    float bestHitDepth   = Infinity;
+    vec3 bestHitPosition = vec3(0, 0, 0);
+    
+    
+    vec3 where  = vec3(0, 0, 0);
+    float depth = 0.0f;
+    
     // Test against world.
-    int hits = 0;
-    for(int i = 0; i < triangleCount && hits == 0; ++i) {
+    for(int i = 0; i < triangleCount; ++i) {
         int offset = i * stride;
         
         vec3 A = texelFetch(zdata, ivec2(offset + 0, 0), lod).xyz;
         vec3 B = texelFetch(zdata, ivec2(offset + 1, 0), lod).xyz;
         vec3 C = texelFetch(zdata, ivec2(offset + 2, 0), lod).xyz;
         
-        vec3 where = vec3(0, 0, 0);
-        float depth = 0.0f;
         
         // Ray collision test; "where" is an output: the point of intersection.
         int res = rayIntersetsTriangle(ray, A, B, C, true, where, depth);
         
         if(res != 0) {
-            outPosition = vec4(where, 1);
-            
-            // Uv coordinates per triangle vertex
-            vec2 U = texelFetch(zdata, ivec2(offset + 3, 0), lod).xy;
-            vec2 V = texelFetch(zdata, ivec2(offset + 4, 0), lod).xy;
-            vec2 W = texelFetch(zdata, ivec2(offset + 5, 0), lod).xy;
         
-            // Solve for UV coordinates
-            vec2 uv = barycentric(where, A, B, C, U, V, W);
-            
-            int sampler = int(texelFetch(zdata, ivec2(offset + 3, 0), lod).z);
-            outColor = texture(textures[sampler], uv);
-            
-            
-            
-            // Take note of incomming angle and so-called "power". These are
-            // to be stored into outMeta as a vec4.
-            
-            // We can experiment with colors too, these can be stored in
-            // outColor as vec4.
-            
+            // Keep only the nearest surface. We've simplified the model to not
+            // use z-buffers.
+            if(depth < bestHitDepth) {
+                bestHitDepth    = depth;
+                bestHitPosition = where;
+                bestHitOffset   = offset;
+            }
+      
             ++hits;
-            break;
         }
     }
+    
+    if(hits > 0) {
+        vec3 A = texelFetch(zdata, ivec2(bestHitOffset + 0, 0), lod).xyz;
+        vec3 B = texelFetch(zdata, ivec2(bestHitOffset + 1, 0), lod).xyz;
+        vec3 C = texelFetch(zdata, ivec2(bestHitOffset + 2, 0), lod).xyz;
+        vec2 U = texelFetch(zdata, ivec2(bestHitOffset + 3, 0), lod).xy;
+        vec2 V = texelFetch(zdata, ivec2(bestHitOffset + 4, 0), lod).xy;
+        vec2 W = texelFetch(zdata, ivec2(bestHitOffset + 5, 0), lod).xy;
+    
+        // Solve for UV coordinates
+        vec2 uv     = barycentric(bestHitPosition, A, B, C, U, V, W);
+        int sampler = int(texelFetch(zdata, ivec2(bestHitOffset + 3, 0), lod).z);
+        outColor    = texture(textures[sampler], uv);
+    }
+    
+    outPosition = vec4(bestHitPosition, 1);
 }

@@ -309,13 +309,13 @@ void Quantize::initializePhotonProgram() {
     glLinkProgram(photon.program);
     GLError();
 
-    photon.attrPosition = glGetAttribLocation(photon.program, "position");
-    photon.uniformWindowSize = glGetUniformLocation(photon.program, "windowSize");
-    photon.uniformLightCount = glGetUniformLocation(photon.program, "lightCount");
+    photon.attrPosition          = glGetAttribLocation(photon.program, "position");
+    photon.uniformWindowSize     = glGetUniformLocation(photon.program, "windowSize");
+    photon.uniformLightCount     = glGetUniformLocation(photon.program, "lightCount");
     photon.uniformLightsPosition = glGetUniformLocation(photon.program, "lightPositions");
-    photon.uniformData = glGetUniformLocation(photon.program, "zdata");
-    photon.unformTriangleCount = glGetUniformLocation(photon.program, "triangleCount");
-    photon.uniformTextures     = glGetUniformLocation(_programRaytracer, "textures");
+    photon.uniformData           = glGetUniformLocation(photon.program, "zdata");
+    photon.unformTriangleCount   = glGetUniformLocation(photon.program, "triangleCount");
+    photon.uniformTextures       = glGetUniformLocation(photon.program, "textures");
 
     GLError();
     

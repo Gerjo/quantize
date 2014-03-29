@@ -50,7 +50,6 @@ uniform sampler2D textures[14];
 /// [3] Glbyte[2] padding;
 uniform sampler2D zdata;
 
-const float Infinity = 99999999; // Infinity, for all intents and purposes.
 const int stride     = 6;        // In vec3
 const int lod        = 0;        // mipmap level
 
@@ -70,13 +69,12 @@ struct Photon {
 
 vec3 nearestPhoton(in vec3 search) {
     const int axes = 3;
-    const float inf = 1. / 0.;
     
     int index = 1;
     int axis  = 0;
     
     int bestIndex = 0;
-    float bestDistance = inf;
+    float bestDistance = Infinity;
     vec3 bestPosition = vec3(0, 0, 0);
     
     while(index <= numPhotons) {
@@ -167,7 +165,7 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             float d = length(pos - where);
                 
             if(d < 0.5) {
-                color.r += (0.5-d)*0.7;
+                color.r += 1;//(0.5-d)*0.7;
             }
             
             /*for(int l = 0; l < numPhotons; ++l) {

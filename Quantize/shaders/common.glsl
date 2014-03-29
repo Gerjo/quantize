@@ -5,6 +5,8 @@
 //  Copyright (c) 2014 Quantize. All rights reserved.
 //
 
+const float Infinity = 1. / 0.;
+
 struct Ray {
     vec3 place;
     vec3 direction;
