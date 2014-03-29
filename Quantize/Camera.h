@@ -54,7 +54,7 @@ public:
     
     void update(const float dt) {
         
-        const float scale = 140;
+        const float scale = 240;
     
         position += orientedTranslation(Vector3(control[LEFT] - control[RIGHT],
                                                 control[DOWN] - control[UP],

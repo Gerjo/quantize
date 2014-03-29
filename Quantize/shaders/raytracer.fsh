@@ -57,6 +57,7 @@ const int lod        = 0;        // mipmap level
 out vec4 finalColor;
 
 uniform sampler2D photons;
+uniform int numPhotons; // Number of photons
 
 
 struct Photon {
@@ -125,6 +126,17 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             vec4 color = texture(textures[sampler], uv);
             
             vec4 blend = vec4(0.0, 0.0, 0.0, 1.0);
+            
+            
+            for(int l = 0; l < numPhotons; ++l) {
+                vec3 pos = texelFetch(photons, ivec2(l * 3 + 1, 0), lod).xyz;
+                float d = length(pos - where);
+                
+                if(d < 0.5) {
+                    color.r += (0.5-d)*0.7;
+                }
+            }
+            
             
             Ray beam;
             beam.place     = where;
@@ -228,11 +240,7 @@ void main() {
 
     // Distance between camera and canvas implies the perspective.
     const float perspective = 4.0;
-    finalColor = vec4(0.0, 0.0, 0.0, 0.0);
+    finalColor = vec4(0.0, 0.0, 0.0, 1.0);
 
-    finalColor = texelFetch(photons, ivec2(0, 0), lod);
-    finalColor.a = 1;
-
-    //finalColor = traceRay(position, perspective);
-
+    finalColor = traceRay(position, perspective);
 }

@@ -57,6 +57,7 @@ class Quantize {
     GLint _uniformTime{-1};
     GLint _uniformFrameCounter{-1};
     GLint _uniformPhotonTexture{-1};
+    GLint _uniformNumPhotons{-1};
     
     /// Ray tracingproperties
     GLint _uniformN;
@@ -85,6 +86,8 @@ class Quantize {
     std::vector<VertexData> scene;
     
     std::vector<Face> faces;
+    
+    std::vector<Photon> kdtree;
     
     /// Variables for statistical reporting
     double _lastLogTime{0}; // Time of last log print
@@ -115,8 +118,8 @@ class Quantize {
     
     struct PhotonVariables {
     
-        GLuint width{16};
-        GLuint height{16};
+        GLuint width{32};
+        GLuint height{32};
     
         GLuint program{0};
         GLuint fbo{0};

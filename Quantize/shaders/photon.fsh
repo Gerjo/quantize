@@ -35,6 +35,20 @@ const int stride     = 6;        // In vec3
 const int lod        = 0;        // mipmap level
 
 
+
+// Some initial seed.
+int seed = 10;
+
+void srand(float s) {
+    seed = int(s * 12345);
+}
+
+float rand() {
+    seed = (1103515245 * seed + 12345) % 2147483648;
+
+    return fract(seed * 0.001);
+}
+
 void main() {
     
     // Zero initialize.
@@ -45,19 +59,21 @@ void main() {
     int lightSource = 0;
 
 
+    srand(pixelPosition.y / pixelPosition.x);
+
     Ray ray;
     
     // Start at a given light source position
     ray.place = vec3(0, 0, 0);//lightPositions[lightSource];
     
     // Random direction, this should be derived from the projection map.
-    ray.direction = vec3(random(pixelPosition) * 3.14 - 0.5, random(pixelPosition) * 2.71 - 0.5, random(pixelPosition) * 1.65 - 0.5);
+    ray.direction = normalize(vec3(
+        rand() - 0.5,
+        rand() - 0.5,
+        rand() - 0.5
+    ));
     
-    // Normalize, for good measure.
-    ray.direction = normalize(ray.direction);
-        
     // Test against world.
-    
     int hits = 0;
     for(int i = 0; i < triangleCount && hits == 0; ++i) {
         int offset = i * stride;
@@ -73,7 +89,8 @@ void main() {
         int res = rayIntersetsTriangle(ray, A, B, C, true, where, depth);
         
         if(res != 0) {
-            outPosition = vec4(pixelPosition, 1, 1);
+            //outPosition = vec4(pixelPosition, 1, 1);
+            outPosition = vec4(where, 1);
             
             // Take note of incomming angle and so-called "power". These are
             // to be stored into outMeta as a vec4.

@@ -194,32 +194,39 @@ public:
     
     std::vector<Photon> toVector() {
         std::deque<Photon> inOrder;
+        
         std::deque<Node*> queue;
         
         queue.push_front(tree);
         
         while(queue.size() > 0) {
             //pop node
-            Node* node = queue.back();
-            queue.pop_back();
+            Node* node = queue.front();
+            queue.pop_front();
+            
+            inOrder.push_back(node->photon);
             
             //if not leaf, enqueue children
             if (node->tier == TWOCHILD) {
                 if (node->tier != ONLYBETA)
-                    queue.push_front(node->alpha);
+                    queue.push_back(node->alpha);
                 else
-                    queue.push_front(infinityNode());
+                    queue.push_back(infinityNode());
                 if (node->tier != ONLYALPHA)
-                    queue.push_front(node->beta);
+                    queue.push_back(node->beta);
                 else
-                    queue.push_front(infinityNode());
+                    queue.push_back(infinityNode());
             }
             else if (node->tier == LEAF) {
-                queue.push_front(infinityNode());
-                queue.push_front(infinityNode());
+                queue.push_back(infinityNode());
+                queue.push_back(infinityNode());
             }
             
+<<<<<<< Updated upstream
             inOrder.push_back(node->photon);
+=======
+            
+>>>>>>> Stashed changes
         }
         
         std::vector<Photon> vector(inOrder.size());
