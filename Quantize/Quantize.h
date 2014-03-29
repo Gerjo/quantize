@@ -123,7 +123,7 @@ class Quantize {
     
         GLuint program{0};
         GLuint fbo{0};
-        GLuint texture[3] = {0};    // color, position qnd meta outputs.
+        GLuint texture[3] = {0};    // direction, position qnd meta outputs.
         GLuint renderBuffer{0};     // Ties all buffers together
         GLuint vbo{0};
         GLuint vao{0};

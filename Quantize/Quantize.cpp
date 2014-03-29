@@ -123,6 +123,10 @@ void Quantize::loadDemoScene() {
     // Mega cube
     for(VertexData d : vertices) {
         d.position = Matrix44::CreateTranslation(0, 0, 0) * Matrix44::CreateScale(Vector3(20, 10, 20)) * d.position;
+        
+        // Flip the normal, we're inside the cube.
+        d.normal.Invert();
+        
         scene.push_back(d);
     }
     
@@ -134,10 +138,16 @@ void Quantize::loadDemoScene() {
     
     // Tile
     for(VertexData d : ((Model*)rectangle->sub[0].get())->vertices) {
+    
+        const auto r = Matrix44::CreateRotate(1.23, 1, 1, 1);
+    
         d.position = Matrix44::CreateTranslation(0, 0, 0)
         * Matrix44::CreateScale(Vector3(4, 4, 4))
-        * Matrix44::CreateRotate(1.23, 1, 1, 1)
+        * r
         * d.position;
+        
+        d.normal = r * d.normal;
+        
         scene.push_back(d);
     }
     
@@ -321,7 +331,7 @@ void Quantize::initializePhotonProgram() {
     glAttachShader(photon.program, fsh);
     GLError();
     
-    glBindFragDataLocation(photon.program, 0, "outColor");
+    glBindFragDataLocation(photon.program, 0, "outDirection");
     glBindFragDataLocation(photon.program, 1, "outPosition");
     glBindFragDataLocation(photon.program, 2, "outMeta");
     GLError();
@@ -729,15 +739,15 @@ void Quantize::shootPhotons() {
     int channels = 4;
     
     // Allocate some memory to hold the to be retrieve data.
-    std::vector<float> colors((int)photon.width * (int)photon.height * channels, 0);      // 1
+    std::vector<float> directions((int)photon.width * (int)photon.height * channels, 0);      // 1
     std::vector<float> positions((int)photon.width * (int)photon.height * channels, 0);   // 2
     std::vector<float> meta((int)photon.width * (int)photon.height * channels, 0);        // 3
     
     glFinish();
     
-    // Retrieve the photon colors from the GPU
+    // Retrieve the photon directions from the GPU
     glBindTexture(GL_TEXTURE_2D, photon.texture[0]);
-    glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_FLOAT, & colors[0]);
+    glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_FLOAT, & directions[0]);
     glBindTexture(GL_TEXTURE_2D, 0);
     GLError();
     
@@ -765,7 +775,7 @@ void Quantize::shootPhotons() {
         if(positions[i] == 0 && positions[i + 1] == 0 && positions[i + 2] == 0) {
             ++discarded;
         } else {
-            Photon photon(&positions[i], &colors[i], &meta[i]);
+            Photon photon(&positions[i], &directions[i], &meta[i]);
         
             photons.push_back(photon);
         }
@@ -783,10 +793,6 @@ void Quantize::shootPhotons() {
     printf("Exporting %lu photons to vector... ", photons.size());
     kdtree = tree.toVector();
     
-    //kdtree[0].color(1, 1, 1);
-    //kdtree[0].position(1, 1, 1);
-    //kdtree[0].meta(1, 1, 1);
-    
     printf(" %lu items in tree. Done.\n", kdtree.size());
     
     
@@ -798,7 +804,7 @@ void Quantize::shootPhotons() {
         Exit("Too many. Wrap around texture rows.");
     }
     
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, (int) kdtree.size() * 3, 1, 0, GL_RGB, GL_FLOAT, kdtree[0].color.v);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, (int) kdtree.size() * 3, 1, 0, GL_RGB, GL_FLOAT, kdtree[0].direction.v);
     glBindTexture(GL_TEXTURE_2D, 0);
     GLError();
 

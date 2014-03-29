@@ -23,7 +23,7 @@ uniform vec4 uniformPosition;
 uniform vec4 uniformMeta;
 
 // New bounce
-out vec4 outColor;
+out vec4 outDirection;
 out vec4 outPosition;
 out vec4 outMeta;
 
@@ -51,7 +51,7 @@ float rand() {
 void main() {
     
     // Zero initialize.
-    outColor     = vec4(1, 0, 0, 1);
+    outDirection     = vec4(1, 0, 0, 1);
     outPosition  = vec4(0, 0, 0, 0);
     outMeta      = vec4(9, 9, 9, 9);
 
@@ -111,17 +111,31 @@ void main() {
     }
     
     if(hits > 0) {
+        // Triangle vertices
         vec3 A = texelFetch(zdata, ivec2(bestHitOffset + 0, 0), lod).xyz;
         vec3 B = texelFetch(zdata, ivec2(bestHitOffset + 1, 0), lod).xyz;
         vec3 C = texelFetch(zdata, ivec2(bestHitOffset + 2, 0), lod).xyz;
+        
+        // UV blending:
         vec2 U = texelFetch(zdata, ivec2(bestHitOffset + 3, 0), lod).xy;
         vec2 V = texelFetch(zdata, ivec2(bestHitOffset + 4, 0), lod).xy;
         vec2 W = texelFetch(zdata, ivec2(bestHitOffset + 5, 0), lod).xy;
-    
+        
+        // Normal blending:
+        vec3 n1 = texelFetch(zdata, ivec2(bestHitOffset + 6, 0), lod).xyz;
+        vec3 n2 = texelFetch(zdata, ivec2(bestHitOffset + 7, 0), lod).xyz;
+        vec3 n3 = texelFetch(zdata, ivec2(bestHitOffset + 8, 0), lod).xyz;
+        
         // Solve for UV coordinates
-        vec2 uv     = barycentric(bestHitPosition, A, B, C, U, V, W);
+        /*vec2 uv     = barycentric(bestHitPosition, A, B, C, U, V, W);
         int sampler = int(texelFetch(zdata, ivec2(bestHitOffset + 3, 0), lod).z);
-        outColor    = texture(textures[sampler], uv);
+        outDirection    = texture(textures[sampler], uv);
+        */
+        
+        // Find normal
+        vec3 normal = barycentric3(bestHitPosition, A, B, C, n1, n2, n3);
+        
+        outDirection = vec4(reflect(ray.direction, normal), 8);
     }
     
     outPosition = vec4(bestHitPosition, 1);

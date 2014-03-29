@@ -224,15 +224,23 @@ vec4 traceRay(in vec2 pos, in float perspective) {
                 //}
                 
                 const vec4 ambientTerm = vec4(0.2, 0.2, 0.2, 1.0);
+                //const vec4 ambientTerm = vec4(0,0,0,0);
             
                 // Hit nothing, Full light!
                 if(hits < 1) {
+                    vec3 n1 = texelFetch(zdata, ivec2(offset + 6, 0), lod).xyz;
+                    vec3 n2 = texelFetch(zdata, ivec2(offset + 7, 0), lod).xyz;
+                    vec3 n3 = texelFetch(zdata, ivec2(offset + 8, 0), lod).xyz;
                 
-                    vec3 normal = normalize(cross(B - A, C - A));
+                    vec3 normal = normalize(barycentric3(where, A, B, C, n1, n2, n3));
                     
-                    float lambert = dot(normal, normalize(lightsPosition[l] - where));// / 10;
+                    //vec3 normal = normalize(cross(B - A, C - A));
                     
-                    lambert = abs(lambert);
+                    vec3 lightDir = normalize(lightsPosition[l] - where);
+                    
+                    float lambert = dot(lightDir, normal);// / 10;
+                    
+                    lambert = max(lambert, 0);
                     
                     blend += lightsDiffuse[l] * lambert + ambientTerm;
                     

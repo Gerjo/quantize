@@ -19,15 +19,15 @@
 using namespace Furiosity;
 
 struct Photon {
-    Vector3 color;
+    Vector3 direction;
     Vector3 position;
     Vector3 meta;
     
     // This _works_ for now.
-    Photon(const float* positionData, const float* colorData, const float* metaData) {
-        color.x = colorData[0];
-        color.y = colorData[1];
-        color.z = colorData[2];
+    Photon(const float* positionData, const float* directionData, const float* metaData) {
+        direction.x = directionData[0];
+        direction.y = directionData[1];
+        direction.z = directionData[2];
         position.x = positionData[0];
         position.y = positionData[1];
         position.z = positionData[2];
