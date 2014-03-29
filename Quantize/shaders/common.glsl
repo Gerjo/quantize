@@ -62,6 +62,31 @@ vec2 barycentric(in vec3 f, in vec3 v1, in vec3 v2, in vec3 v3, in vec2 uv1, in 
 }
 
 
+vec3 barycentric3(in vec3 f, in vec3 v1, in vec3 v2, in vec3 v3, in vec3 uv1, in vec3 uv2, in vec3 uv3) {
+    //Linear System Solver Strategy
+    vec3 m0 = v2 - v1;
+    vec3 m1 = v3 - v1;
+    
+    
+    float d00 = dot(m0, m0);
+    float d01 = dot(m0, m1);
+    float d11 = dot(m1, m1);
+    float denom = 1 / (d00 * d11 - d01 * d01);
+    
+    vec3 m2   = f - v1;
+    float d20 = dot(m2, m0);
+    float d21 = dot(m2, m1);
+    
+    float a = (d11 * d20 - d01 * d21) * denom;
+    float b = (d00 * d21 - d01 * d20) * denom;
+    float c = 1.0f - a - b;
+    
+    vec3 uv = uv1 * c + uv2 * a + uv3 * b;
+    
+    return uv;
+}
+
+
 // Source: http://www.lighthouse3d.com/tutorials/maths/ray-triangle-intersection/
 int rayIntersetsTriangle(in Ray ray, in vec3 v0, in vec3 v1, in vec3 v2, in bool light, out vec3 where, out float depth) {
 

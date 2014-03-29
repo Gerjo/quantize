@@ -50,7 +50,7 @@ uniform sampler2D textures[14];
 /// [3] Glbyte[2] padding;
 uniform sampler2D zdata;
 
-const int stride     = 6;        // In vec3
+const int stride     = 9;        // In vec3
 const int lod        = 0;        // mipmap level
 
 out vec4 finalColor;
@@ -164,8 +164,8 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             
             float d = length(pos - where);
                 
-            if(d < 0.5) {
-                color.r += 1;//(0.5-d)*0.7;
+            if(d < 0.3) {
+                color.r += (0.5-d)*0.7;
             }
             
             /*for(int l = 0; l < numPhotons; ++l) {
@@ -181,6 +181,8 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             Ray beam;
             beam.place     = where;
             
+            
+            
             // For each light
             for(int l = 0; l < lightCount; ++l) {
             
@@ -188,43 +190,56 @@ vec4 traceRay(in vec2 pos, in float perspective) {
                 
                 int hits = 0;
                 
-                for(int k = 0; k < numTriangles && hits < 1; ++k) {
-                    vec3 tmp;
-                    float t;
-                    
-                    int offset2 = k * stride;
-                    vec3 D = texelFetch(zdata, ivec2(offset2 + 0, 0), lod).xyz;
-                    vec3 E = texelFetch(zdata, ivec2(offset2 + 1, 0), lod).xyz;
-                    vec3 F = texelFetch(zdata, ivec2(offset2 + 2, 0), lod).xyz;
-                    
-                    // Test the right ray against the current triangle.
-                    int res = rayIntersetsTriangle(beam, D, E, F, true, tmp, t);
-                    
-                    // Test intersection distance.
-                    if(res != 0 && (t >= -0.0000001 && t <= 1.0000001)) {
-                    
-                        vec2 U2 = texelFetch(zdata, ivec2(offset2 + 3, 0), lod).xy;
-                        vec2 V2 = texelFetch(zdata, ivec2(offset2 + 4, 0), lod).xy;
-                        vec2 W2 = texelFetch(zdata, ivec2(offset2 + 5, 0), lod).xy;
-                    
-                        vec2 uv = barycentric(tmp, D, E, F, U2, V2, W2);
+                //if(dot(beam.direction, nurmal) < 0) {
+                
+                    for(int k = 0; k < numTriangles && hits < 1; ++k) {
+                        vec3 tmp;
+                        float t;
                         
-                        int sampler2 = int(texelFetch(zdata, ivec2(offset2 + 3, 0), lod).z);
-                        vec4 color2 = texture(textures[sampler], uv);
-                    
-                        //if(color2.a > 0.4) {
-                            ++hits;
-                        //}
+                        int offset2 = k * stride;
+                        vec3 D = texelFetch(zdata, ivec2(offset2 + 0, 0), lod).xyz;
+                        vec3 E = texelFetch(zdata, ivec2(offset2 + 1, 0), lod).xyz;
+                        vec3 F = texelFetch(zdata, ivec2(offset2 + 2, 0), lod).xyz;
+                        
+                        // Test the right ray against the current triangle.
+                        int res = rayIntersetsTriangle(beam, D, E, F, true, tmp, t);
+                        
+                        // Test intersection distance.
+                        if(res != 0 && (t >= -0.0000001 && t <= 1.0000001)) {
+                        
+                            vec2 U2 = texelFetch(zdata, ivec2(offset2 + 3, 0), lod).xy;
+                            vec2 V2 = texelFetch(zdata, ivec2(offset2 + 4, 0), lod).xy;
+                            vec2 W2 = texelFetch(zdata, ivec2(offset2 + 5, 0), lod).xy;
+                        
+                            vec2 uv = barycentric(tmp, D, E, F, U2, V2, W2);
+                            
+                            int sampler2 = int(texelFetch(zdata, ivec2(offset2 + 3, 0), lod).z);
+                            vec4 color2 = texture(textures[sampler], uv);
+                        
+                            //if(color2.a > 0.4) {
+                                ++hits;
+                            //}
+                        }
                     }
-                }
+                //}
+                
+                const vec4 ambientTerm = vec4(0.2, 0.2, 0.2, 1.0);
             
                 // Hit nothing, Full light!
                 if(hits < 1) {
-                    blend += lightsDiffuse[l] * infLightCount;
+                
+                    vec3 normal = normalize(cross(B - A, C - A));
+                    
+                    float lambert = dot(normal, normalize(lightsPosition[l] - where));// / 10;
+                    
+                    lambert = abs(lambert);
+                    
+                    blend += lightsDiffuse[l] * lambert + ambientTerm;
+                    
                     
                 // Hit something, use ambient term
                 } else {
-                    blend += vec4(0.2, 0.2, 0.2, 1.0);//lightsDiffuse[l] * ambientRatio;
+                    blend += ambientTerm;
                 }
             }
             

@@ -30,7 +30,7 @@ out vec4 outMeta;
 uniform int lightCount;           // Amount of light sources
 uniform vec3 lightPositions[5];  // Position of each light, up to 10.
 
-const int stride     = 6;        // In vec3
+const int stride     = 9;        // In vec3
 const int lod        = 0;        // mipmap level
 
 uniform sampler2D textures[14];

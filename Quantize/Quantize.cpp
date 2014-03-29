@@ -46,9 +46,9 @@ Quantize::Quantize() : _lastLogTime(GetTiming()) {
     exit(0);*/
 
     Light light;
-    light.position.x = 0;//15.0f;
-    light.position.y = 5.0f;
-    light.position.z = 0;//20.0f;
+    light.position.x = -2.22;
+    light.position.y = -3.12;
+    light.position.z = 0.75;
     
     for(size_t i = 0; i < 4; ++i) {
         light.ambient.v[i]  = 0.2f;
@@ -141,6 +141,23 @@ void Quantize::loadDemoScene() {
         scene.push_back(d);
     }
     
+    // Tile backface.
+    /*for(VertexData d : ((Model*)rectangle->sub[0].get())->vertices) {
+        d.position = Matrix44::CreateTranslation(0, 0.01, 0)
+        * Matrix44::CreateScale(Vector3(4, 4, 4))
+        * Matrix44::CreateRotate(1.23, 1, 1, 1)
+        * d.position;
+        scene.push_back(d);
+    }*/
+    
+    // Light visualizer
+    /*for(VertexData d : ((Model*)rectangle->sub[0].get())->vertices) {
+        d.position = Matrix44::CreateTranslation(-1, 1, -1)
+        * Matrix44::CreateScale(Vector3(1, 1, 1))
+        * Matrix44::CreateRotate(1.0, 1, 1, 1)
+        * d.position;
+        scene.push_back(d);
+    }*/
     
     
     assert(scene.size() % 3 == 0);
@@ -153,10 +170,13 @@ void Quantize::loadDemoScene() {
         face.b = scene[i + 1].position;
         face.c = scene[i + 2].position;
         
-        
         face.u = scene[i + 0].uv;
         face.v = scene[i + 1].uv;
         face.w = scene[i + 2].uv;
+        
+        face.n1 = scene[i + 0].normal;
+        face.n2 = scene[i + 1].normal;
+        face.n3 = scene[i + 2].normal;
         
         face.sampler = scene[i].sampler;
     
@@ -808,7 +828,8 @@ void Quantize::handleLogging() {
             "Vertices:           %lu (%lu triangles in %lu bytes)\n"
             "Position:           %.2f %.2f %.2f\n"
             "Orientation:        %.2f %.2f %.2f\n"
-            "Photons:            %lu\n",
+            "Photons:            %lu\n"
+            "Light[0]:           %.2f %.2f %.2f\n",
         
             1.0 / ((time - _lastLogTime) / stats.frames),
             stats.total / stats.frames,
@@ -819,7 +840,8 @@ void Quantize::handleLogging() {
             faces.size() * 3, faces.size(), sizeof(faces[0]) * faces.size(),
             position.x, position.y, position.z,
             orientation.x, orientation.y, orientation.z,
-            kdtree.size()
+            kdtree.size(),
+            lights[0].position.x, lights[0].position.y, lights[0].position.z
         );
     
         stats.reset();

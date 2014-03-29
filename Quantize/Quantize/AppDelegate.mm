@@ -49,15 +49,15 @@ static Quantize* quantize = Quantize::getInstance();
 
 - (IBAction)lights1XSliderAction:(id)sender {
     float value = [sender floatValue] - 50.0f;
-    quantize->lights[0].position.x = value;
+    quantize->lights[0].position.x = value * 0.25;
 }
 - (IBAction)lights1YSliderAction:(id)sender {
     float value = [sender floatValue] - 50.0f;
-    quantize->lights[0].position.y = value;
+    quantize->lights[0].position.y = value * 0.25;
 }
 - (IBAction)lights1ZSliderAction:(id)sender {
     float value = [sender floatValue] - 50.0f;
-    quantize->lights[0].position.z = value;
+    quantize->lights[0].position.z = value * 0.25;
 }
 
 - (IBAction)lights1ColorWellAction:(id)sender {

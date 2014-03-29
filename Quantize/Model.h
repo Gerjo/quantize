@@ -34,6 +34,11 @@ struct Face {
     
     Vector2 w;
     GLfloat padding2{0};
+    
+    // Normals
+    Vector3 n1;
+    Vector3 n2;
+    Vector3 n3;
 };
 
 /// 4 float triplets
