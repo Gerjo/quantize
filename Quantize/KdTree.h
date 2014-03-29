@@ -219,7 +219,7 @@ public:
                 queue.push_front(infinityNode());
             }
             
-            inOrder.push_front(node->photon);
+            inOrder.push_back(node->photon);
         }
         
         std::vector<Photon> vector(inOrder.size());
