@@ -7,12 +7,16 @@
 //  Copyright (c) 2014 Quantize. All rights reserved.
 //
 
-#include <limits>
-
 #pragma once
 
-enum axis{X, Y, Z};
-enum tier{END, LEAF, TWOCHILD, ONLYALPHA, ONLYBETA};
+
+#include <limits>
+#include <deque>
+#include <vector>
+#include <cmath>
+#include "Math/Vector3.h"
+
+using namespace Furiosity;
 
 struct Photon {
     Vector3 color;
@@ -32,25 +36,38 @@ struct Photon {
         meta.z = metaData[2];
     }
     
-    Photon() {
-        
-    }
+    Photon() = default;
 };
 
 struct Node {
-    struct Node* alpha;
-    struct Node* beta;
-    Photon photon;
-    int splitAxis{9};
-    float pivot;
-    int tier;
+    /// Left branch
+    Node* alpha;
     
-    Node() {
+    /// Right branch
+    Node* beta;
+    
+    /// Photon at this node.
+    Photon photon;
+    
+    /// Splitting axis
+    const int axis;
+    
+    /// Recursive constructor, expands the tree.
+    Node(std::deque<Photon> array, int axis);
+    
+    /// Default ctor does not use recursion.
+    Node() : axis(0) {
         alpha = nullptr;
-        beta = nullptr;
+        beta  = nullptr;
+        
+        // Promote to infinity node.
+        photon.position.x = std::numeric_limits<float>::infinity();
+        photon.position.y = std::numeric_limits<float>::infinity();
+        photon.position.z = std::numeric_limits<float>::infinity();
     }
     
-    ~Node() {
+    /// Recursively destroy this node and its branch.
+    virtual ~Node() {
         delete alpha;
         delete beta;
         
@@ -60,184 +77,49 @@ struct Node {
 };
 
 class KdTree {
-    struct Node* tree;
-    
-    static bool comparatorX(Photon a, Photon b) {
-        return (a.position.x < b.position.x);
-    }
-    
-    static bool comparatorY(Photon a, Photon b) {
-        return (a.position.y < b.position.y);
-    }
-    
-    static bool comparatorZ(Photon a, Photon b) {
-        return (a.position.z < b.position.z);
-    }
-    
-    static Node* infinityNode() {
-        Node* node = new Node;
-        node->tier = END;
-        float inf = std::numeric_limits<float>::infinity();
-        node->photon.position.x = inf;
-        node->photon.position.y = inf;
-        node->photon.position.z = inf;
-        return node;
-    }
-    
-    static Photon median(std::deque<Photon> photons, int splitAxis) {
-        switch (splitAxis) {
-            case X:
-                std::sort(photons.begin(), photons.end(), comparatorX);
-                break;
-            case Y:
-                std::sort(photons.begin(), photons.end(), comparatorY);
-                break;
-            case Z:
-                std::sort(photons.begin(), photons.end(), comparatorZ);
-                break;
-        }
-        int index = (int)photons.size() / 2;
-        return photons[index];
-    }
-
-    struct Node* buildTree(std::deque<Photon> photons, int splitAxis) {
-        //``printf("%lu\n", photons.size());
-        
-        struct Node* node = new Node;
-        node->splitAxis = splitAxis;
-        if (photons.size() == 1) {
-            node->tier = LEAF;
-            node->photon = photons[0];
-            return node;
-        }
-        else
-            node->tier = TWOCHILD;
-        
-        std::deque<Photon> alphaSet, betaSet;
-        
-        // find the median
-        //Photon pivot = median(photons, splitAxis);
-        
-        switch (splitAxis) {
-            case X:
-                std::sort(photons.begin(), photons.end(), comparatorX);
-                break;
-            case Y:
-                std::sort(photons.begin(), photons.end(), comparatorY);
-                break;
-            case Z:
-                std::sort(photons.begin(), photons.end(), comparatorZ);
-                break;
-        }
-        int index = (int)photons.size() / 2;
-        Photon pivot = photons[index];
-        
-        node->photon = pivot;
-        
-        // divide set into < pivot and > pivot
-        /*
-        for (Photon p : photons) {
-            if (splitAxis == X) {
-                node->pivot = pivot.position.x;
-                if (p.position.x < pivot.position.x)
-                    alphaSet.push_back(p);
-                else if (p.position.x > pivot.position.x)
-                    betaSet.push_back(p);
-            }
-            else if (splitAxis == Y) {
-                node->pivot = pivot.position.y;
-                if (p.position.y < pivot.position.y)
-                    alphaSet.push_back(p);
-                else if (p.position.y > pivot.position.y)
-                    betaSet.push_back(p);
-            }
-            else {
-                node->pivot = pivot.position.z;
-                if (p.position.z < pivot.position.z)
-                    alphaSet.push_back(p);
-                else if (p.position.z > pivot.position.z)
-                    betaSet.push_back(p);
-            }
-        }
-         */
-        for (int i = 0; i < photons.size(); i++) {
-            if (i < index)
-                alphaSet.push_back(photons[i]);
-            else
-                betaSet.push_back(photons[i]);
-        }
-        
-        // recursion with sets to make alpha and beta
-        splitAxis = (splitAxis + 1) % 3;
-        if (alphaSet.size() > 0)
-            node->alpha = buildTree(alphaSet, splitAxis);
-        else
-            node->tier = ONLYBETA;
-        if (betaSet.size() > 0)
-            node->beta = buildTree(betaSet, splitAxis);
-        else
-            node->tier = ONLYALPHA;
-        
-        return node;
-    }
+    Node* root;
     
 public:
-    KdTree(std::deque<Photon> photons) {
-        tree = buildTree(photons, X);
-        
-        // And then some.
+    KdTree(std::deque<Photon> photons)
+    :  root(new Node(photons, 0))
+    {
     }
     
     ~KdTree() {
-        delete tree;
+        delete root;
+        root = nullptr;
     }
     
     std::vector<Photon> toVector() {
-        std::deque<Photon> inOrder;
+        std::vector<Photon> v;
         
         std::deque<Node*> queue;
         
-        queue.push_front(tree);
+        queue.push_front(root);
         
-        while(queue.size() > 0) {
-            //pop node
+        while( ! queue.empty()) {
             Node* node = queue.front();
             queue.pop_front();
             
-            inOrder.push_back(node->photon);
-            
-            //if not leaf, enqueue children
-            if (node->tier == TWOCHILD) {
-                if (node->tier != ONLYBETA)
-                    queue.push_back(node->alpha);
-                else
-                    queue.push_back(infinityNode());
-                if (node->tier != ONLYALPHA)
-                    queue.push_back(node->beta);
-                else
-                    queue.push_back(infinityNode());
-            }
-            else if (node->tier == LEAF) {
-                queue.push_back(infinityNode());
-                queue.push_back(infinityNode());
+            if(node->alpha) {
+                queue.push_back(node->alpha);
             }
             
-<<<<<<< Updated upstream
-            inOrder.push_back(node->photon);
-=======
+            if(node->beta) {
+                queue.push_back(node->beta);
+            }
             
->>>>>>> Stashed changes
+            v.push_back(node->photon);
         }
         
-        std::vector<Photon> vector(inOrder.size());
-        
-        int i = 0;
-        for (Photon p : inOrder) {
-            vector[i] = p;
-            i++;
+        // Remove trailing infinity photons. This is a space-saving thing, when
+        // a photon out-of-bounds index is requested - we can assume it's an
+        // infinity node.
+        while( ! v.empty() && std::isinf(v.back().position.x)) {
+            v.pop_back();
         }
         
-        return vector;
+        return v;
     }
 };
 

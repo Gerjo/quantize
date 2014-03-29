@@ -200,6 +200,7 @@
 		A6F24E7718D85A1200B4FCE6 /* photon.fsh in Sources */ = {isa = PBXBuildFile; fileRef = A6F24E7518D85A1200B4FCE6 /* photon.fsh */; };
 		A6F24E7818D85A1200B4FCE6 /* photon.vsh in Sources */ = {isa = PBXBuildFile; fileRef = A6F24E7618D85A1200B4FCE6 /* photon.vsh */; };
 		A6F24E7A18D88E5500B4FCE6 /* common.glsl in Resources */ = {isa = PBXBuildFile; fileRef = A6F24E7918D88E5500B4FCE6 /* common.glsl */; };
+		A6F5D80718E73A970096FB32 /* KdTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6F5D80618E73A970096FB32 /* KdTree.cpp */; };
 		CC704C9D18BE3F2300212FB9 /* checkerboard2.dae in Resources */ = {isa = PBXBuildFile; fileRef = CC704C9C18BE3F2300212FB9 /* checkerboard2.dae */; };
 		CC71FFA518BCEC0B003AF106 /* Mage.png in Resources */ = {isa = PBXBuildFile; fileRef = CC71FFA318BCEC0B003AF106 /* Mage.png */; };
 		CC71FFA618BCEC0B003AF106 /* Magey.dae in Resources */ = {isa = PBXBuildFile; fileRef = CC71FFA418BCEC0B003AF106 /* Magey.dae */; };
@@ -446,6 +447,7 @@
 		A6F24E7518D85A1200B4FCE6 /* photon.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = photon.fsh; sourceTree = "<group>"; };
 		A6F24E7618D85A1200B4FCE6 /* photon.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = photon.vsh; sourceTree = "<group>"; };
 		A6F24E7918D88E5500B4FCE6 /* common.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = common.glsl; sourceTree = "<group>"; };
+		A6F5D80618E73A970096FB32 /* KdTree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = KdTree.cpp; sourceTree = "<group>"; };
 		CC65799418A6456E0035EB43 /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		CC704C9C18BE3F2300212FB9 /* checkerboard2.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = checkerboard2.dae; sourceTree = "<group>"; };
 		CC71FFA318BCEC0B003AF106 /* Mage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Mage.png; sourceTree = "<group>"; };
@@ -734,6 +736,7 @@
 			isa = PBXGroup;
 			children = (
 				A6C3425718E1DC4D006A35AB /* KdTree.h */,
+				A6F5D80618E73A970096FB32 /* KdTree.cpp */,
 				A6F24E7418D33D4B00B4FCE6 /* OctTree.h */,
 				A66A071F18B66DC100F2CD15 /* models */,
 				A6C56C6118A58C4D00DFAA00 /* tinyXML */,
@@ -1195,6 +1198,7 @@
 				A6C56C5C18A2AA5000DFAA00 /* pngwrite.c in Sources */,
 				A69FD3E318B54FFE002FB76E /* raytracer.vsh in Sources */,
 				A6C56C2F18A139EB00DFAA00 /* Vector4.cpp in Sources */,
+				A6F5D80718E73A970096FB32 /* KdTree.cpp in Sources */,
 				A6C56C5A18A2AA5000DFAA00 /* pngvalid.c in Sources */,
 				A69FD3E418B54FFE002FB76E /* raytracer.fsh in Sources */,
 				A6C56C5418A2AA5000DFAA00 /* pngread.c in Sources */,
