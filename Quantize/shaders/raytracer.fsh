@@ -61,14 +61,18 @@ out vec4 finalColor;
 uniform sampler2D photons;
 uniform int numPhotons; // Number of photons
 
+struct Photon {
+    vec3 direction;
+    vec3 position;
+    vec3 meta;
+};
 
-ivec2 photonIndex(in int index) {
+ivec2 photonIndex(in int index, in int offset) {
 
     // Each photon has 3 vectors (direction, position and meta)
     const int stride = 3;
     
-    // We do a +1 as position is on the second index.
-    int i = index * stride + 1;
+    int i = index * stride + offset;
     
     // The usual index to grid coordinate routine.
     int y = i / mapWidth;
@@ -77,7 +81,7 @@ ivec2 photonIndex(in int index) {
     return ivec2(x, y);
 }
 
-vec3 nearestPhoton(in vec3 search) {
+Photon nearestPhoton(in vec3 search) {
     const int axes = 3;
     
     int index = 1;
@@ -88,7 +92,7 @@ vec3 nearestPhoton(in vec3 search) {
     vec3 bestPosition = vec3(0, 0, 0);
     
     while(index <= numPhotons) {
-        ivec2 texelIndex = photonIndex(index - 1);
+        ivec2 texelIndex = photonIndex(index - 1, 1/*position offset*/);
         vec3 tentative = texelFetch(photons, texelIndex, lod).xyz;
         float distance = dot(length(tentative - search), length(tentative - search));
         
@@ -107,7 +111,12 @@ vec3 nearestPhoton(in vec3 search) {
         axis = (axis + 1 ) % axes;
     }
 
-    return bestPosition;
+    Photon p;
+    p.position = bestPosition;
+    p.meta = texelFetch(photons, photonIndex(bestIndex - 1, 2/*meta offset*/), lod).xyz;
+    p.direction = texelFetch(photons, photonIndex(bestIndex - 1, 0/*meta offset*/), lod).xyz;
+
+    return p;
 }
 
 ///   ---> direction --->
@@ -171,12 +180,22 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             vec4 blend = vec4(0.0, 0.0, 0.0, 1.0);
             
             
-            vec3 pos = nearestPhoton(where);
+            Photon photon = nearestPhoton(where);
             
-            float d = length(pos - where);
+            float d = length(photon.position - where);
                 
             if(d < 0.3) {
-                color.r += (0.5-d)*0.7;
+                int bounces = int(photon.meta.z);
+            
+                if(bounces == 2) {
+                    color.b += 1;
+                } else if(bounces == 1) {
+                    color.g += 1;
+                } else {
+                    color.r += 1;
+                }
+                
+                // //(0.5-d)*0.7;
             }
             
             /*for(int l = 0; l < numPhotons; ++l) {
@@ -191,7 +210,6 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             
             Ray beam;
             beam.place     = where;
-            
             
             
             // For each light

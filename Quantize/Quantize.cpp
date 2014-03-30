@@ -655,14 +655,6 @@ void Quantize::update(float dt) {
 ////////////////////////////////////////////////////////////////////////////////
 void Quantize::shootPhotons() {
 
-    // Enable framebuffer render target
-    glBindFramebuffer(GL_FRAMEBUFFER, photon.fbo);
-    GLFBError();
-    glClearColor(0, 0, 0, 0.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glDisable(GL_BLEND);
-    
-    glViewport(0, 0, photon.width, photon.height);
 
     
     // Photon program enable!
@@ -715,18 +707,17 @@ void Quantize::shootPhotons() {
     glBindVertexArray(photon.vao);
     GLError();
     
-    std::deque<Photon> photons;
-    int discarded     = 0;      // Pixels discard as they're shot into void.
-    int bounces       = 1;      // Maximum bounces
-    size_t drawBuffer = 0;      // Shader shall write into
-    size_t readBuffer = 1 - drawBuffer; // Shader shall read from
+    std::deque<Photon> photons;     // To hold the generated photons
+    int discarded         = 0;      // Pixels discard as they're shot into void.
+    const int maxBounces  = 7;      // Maximum bounces
+    size_t drawBuffer     = 0;      // Shader shall write into
+    size_t readBuffer     = 1 - drawBuffer; // Shader shall read from
     
     
     std::random_device rd;
     std::mt19937 rng(rd());
     
     std::uniform_real_distribution<> dist(-0.5, 0.5);
-   
     
     const int channels = 3;
     const int nPhotons = int(photon.width * photon.height);
@@ -770,7 +761,18 @@ void Quantize::shootPhotons() {
     glBindTexture(GL_TEXTURE_2D, 0);
     GLError();
    
-    for(int b = 0; b < bounces; ++b) {
+    for(int b = 0; b < maxBounces; ++b) {
+        printf("\n-------------\nStarting Bounce iteration: %d, read: %lu, write: %lu\n", b, readBuffer, drawBuffer);
+        
+        
+        // Enable framebuffer render target
+        glBindFramebuffer(GL_FRAMEBUFFER, photon.fbo);
+        GLFBError();
+        //glClearColor(0, 0, 0, 0);
+        //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glDisable(GL_BLEND);
+        
+        glViewport(0, 0, photon.width, photon.height);
         
         // The two buffer setups.
         static GLenum buffers[2][6] =
@@ -790,7 +792,6 @@ void Quantize::shootPhotons() {
             glUniform1i(photon.uniformReadBuffer[i], 2 + i);
         }
 
-    
         printf("Issuing command to shoot %d photons.\n", photon.width * photon.height);
         
         
@@ -826,6 +827,8 @@ void Quantize::shootPhotons() {
         glBindTexture(GL_TEXTURE_2D, 0);
         GLError();
         
+        printf("Generating photon structs... \n");
+        
         // From the arrays, create photon structs.
         for(int i = 0; i < nFloats; i += channels) {
             
@@ -837,18 +840,24 @@ void Quantize::shootPhotons() {
             
                 photons.push_back(photon);
             }
+            
+            //printf("   [bounce %d] Photon #%d [%.5f, %.5f, %.5f]\n", int(meta[i+2]), i/channels, positions[i], positions[i+1], positions[i+2]);
+        
         }
+        
+        //printf("done.\n");
         
         // Flip buffers
         drawBuffer = 1 - drawBuffer;
+        readBuffer = 1 - readBuffer;
     } // End photon bounce loop
     
+    printf("Discarded %d dead photons :(\n", discarded);
     
     if(photons.empty()) {
         Exit("No photons where read from the GPU, or they are all dead.");
     }
     
-    printf("Discarded %d dead photons :(\n", discarded);
     
     printf("Building KdTreee...");
     
@@ -897,12 +906,12 @@ void Quantize::shootPhotons() {
     // Debugging logging
     for(int i = 0; i < kdtree.size(); ++i) {
         if( ! isinf(kdtree[i].position.x)) {
-            //printf("Photon #%d [%.5f, %.5f, %.5f]\n", i, kdtree[i].position.x, kdtree[i].position.y, kdtree[i].position.z);
+        //    printf("[bounce %d/2] Photon #%d [%.5f, %.5f, %.5f]\n", int(kdtree[i].meta.z), i, kdtree[i].position.x, kdtree[i].position.y, kdtree[i].position.z);
         }
     }
 }
 
-void Quantize::handleLogging() {
+void Quantize::handleLogging() { return;
     const double time = GetTiming();
     if(time - _lastLogTime > _logInterval) {
     

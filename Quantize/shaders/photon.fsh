@@ -61,24 +61,19 @@ void main() {
     // Zero initialize.
     outDirection = vec4(1, 0, 0, 1);
     outPosition  = vec4(0, 0, 0, 0);
-    outMeta      = vec4(9, 9, 9, 9);
-
-    srand(pixelPosition.y + pixelPosition.x * 100);
+    outMeta      = vec4(
+                  1,            // Alive? apply Russian roulette?
+                  0,            // Color?
+                  inMeta.z + 1, // Number of bounces
+                  0             // Homogenious.
+    );
 
     Ray ray;
     
     // Start at a given light source position
-    ray.place = inPosition;//lightPositions[lightSource];
+    ray.place = inPosition;
     
-    // vec3(0, 10, 0);//
-    
-    // Random direction set by the GPU.
-    /*ray.direction = normalize(vec3(
-        rand() - 0.5,
-        rand() - 0.5,
-        rand() - 0.5
-    ));*/
-    
+    // Follow the direction
     ray.direction = inDirection;
 
     
