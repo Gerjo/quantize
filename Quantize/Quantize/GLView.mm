@@ -96,7 +96,12 @@ static bool isInitialized = false;
             return;
         if ( [theKey length] == 1 ) {
             keyChar = [theKey characterAtIndex:0];
-            quantize->camera.onKey(keyChar);
+        
+            if(keyChar == 0x20) {
+                quantize->shootPhotons();
+            } else {
+                quantize->camera.onKey(keyChar);
+            }
         }
     }
 }
@@ -109,7 +114,12 @@ static bool isInitialized = false;
             return;
         if ( [theKey length] == 1 ) {
             keyChar = [theKey characterAtIndex:0];
-            quantize->camera.onKeyUp(keyChar);
+            
+            if(keyChar == 0x20) {
+                
+            } else {
+                quantize->camera.onKeyUp(keyChar);
+            }
         }
     }
 }
