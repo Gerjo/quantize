@@ -250,7 +250,7 @@ public:
     {
         x = -x;
         y = -y;
-        x = -z;
+        z = -z;
     }
     
     float AngleTo(const Vector3& rhs);
