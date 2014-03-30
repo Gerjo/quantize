@@ -10,9 +10,9 @@
 #include "Entity.h"
 #include "Textures.h"
 
-/// Break a number into two factors, each < 16384. I'm pretty sure this
+/// Break a number into two factors, each < max. I'm pretty sure this
 /// method will work most of the times.
-Vector2 primo(int num) {
+Vector2 primo(int num, int max = 8192) {
 
     std::deque<int> primes;
 
@@ -50,7 +50,7 @@ Vector2 primo(int num) {
     int y = 1;
     
     // Grow X until the upper limit is reached.
-    while( ! primes.empty() && x * primes.front() < 8192) {
+    while( ! primes.empty() && x * primes.front() < max) {
         x *= primes.front();
         primes.pop_front();
     }
