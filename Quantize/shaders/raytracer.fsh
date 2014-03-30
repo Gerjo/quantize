@@ -67,6 +67,43 @@ struct Photon {
     vec3 meta;
 };
 
+struct searchStackEntry {
+    int phase;
+    int index;
+    int leftRight;
+    int bestIndex;
+    vec3 bestPosition;
+    float bestDistance;
+    float pivot;
+};
+
+searchStackEntry searchStack[30];
+int searchStackIndex = -1;
+searchStackEntry state;
+
+void setStateToRoot() {
+    state.phase = 0;
+    state.index = 1;
+    
+    // These may be redundant
+    state.leftRight = 0;
+    state.bestIndex = 1;
+    state.bestPosition = vec3(0, 0, 0);
+    state.bestDistance = Infinity;
+    state.pivot = 0.0f;
+}
+
+void searchStackPush() {
+    searchStackIndex++;
+    searchStack[searchStackIndex] = state;
+}
+
+void searchStackPop() {
+    state = searchStack[searchStackIndex];
+    searchStackIndex--;
+}
+
+
 ivec2 photonIndex(in int index, in int offset) {
 
     // Each photon has 3 vectors (direction, position and meta)
@@ -81,42 +118,177 @@ ivec2 photonIndex(in int index, in int offset) {
     return ivec2(x, y);
 }
 
-Photon nearestPhoton(in vec3 search) {
-    const int axes = 3;
+Photon linearNearestPhoton(in vec3 search) {
     
+    float bestDistance = Infinity;
+    vec3 bestPosition;
+    int bestIndex = 0;
+
+    for(int l = 0; l < numPhotons; ++l) {
+        ivec2 texelIndex = photonIndex(l - 1, 1/*position offset*/);
+    
+        vec3 pos = texelFetch(photons, texelIndex, lod).xyz;
+        float d = length(pos - search);
+        
+        if(d < bestDistance) {
+            bestDistance = d;
+            bestPosition = pos;
+            bestIndex = l;
+        }
+    }
+    
+    Photon photon;
+   // photon.position  = bestPosition;
+    photon.position  = texelFetch(photons, photonIndex(bestIndex - 1, 1/*pos offset*/), lod).xyz;
+    photon.meta      = texelFetch(photons, photonIndex(bestIndex - 1, 2/*meta offset*/), lod).xyz;
+    photon.direction = texelFetch(photons, photonIndex(bestIndex - 1, 0/*dir offset*/), lod).xyz;
+    
+    return photon;
+}
+
+Photon approximateNearestPhoton(in vec3 search) {
+    const int axes = 3;
+     
     int index = 1;
     int axis  = 0;
-    
+     
     int bestIndex = 0;
     float bestDistance = Infinity;
     vec3 bestPosition = vec3(0, 0, 0);
-    
+     
     while(index <= numPhotons) {
         ivec2 texelIndex = photonIndex(index - 1, 1/*position offset*/);
         vec3 tentative = texelFetch(photons, texelIndex, lod).xyz;
-        float distance = dot(length(tentative - search), length(tentative - search));
-        
+        vec3 delta = tentative - search;
+        float distance = dot(delta, delta);
+         
         if(distance < bestDistance) {
             bestIndex    = index;
             bestDistance = distance;
             bestPosition = tentative;
         }
-        
+         
         if(search[axis] > tentative[axis]) {
             index = index * 2 + 1;
         } else {
             index = index * 2;
         }
-        
+         
         axis = (axis + 1 ) % axes;
     }
+ 
+    Photon photon;
+    photon.position  = bestPosition;
+    photon.meta      = texelFetch(photons, photonIndex(bestIndex - 1, 2/*meta offset*/), lod).xyz;
+    photon.direction = texelFetch(photons, photonIndex(bestIndex - 1, 0/*dir offset*/), lod).xyz;
+ 
+    return photon;
+}
 
-    Photon p;
-    p.position = bestPosition;
-    p.meta = texelFetch(photons, photonIndex(bestIndex - 1, 2/*meta offset*/), lod).xyz;
-    p.direction = texelFetch(photons, photonIndex(bestIndex - 1, 0/*meta offset*/), lod).xyz;
-
-    return p;
+Photon nearestPhoton(in vec3 search) {
+    const int axes = 3;
+    
+    int index = 1;
+    int axis = 0;
+    
+    setStateToRoot();
+    searchStackPush();
+    
+    while (searchStackIndex > -1) {
+        axis = searchStackIndex % axes;
+        if (searchStack[searchStackIndex].phase == 0) {
+            searchStackPop();
+            // Find branch root's distance score
+            ivec2 texelIndex = photonIndex(state.index - 1, 1);
+            state.bestPosition = texelFetch(photons, texelIndex, lod).xyz;
+            state.bestIndex = state.index;
+            state.pivot = state.bestPosition[axis];
+            
+            vec3 delta = state.bestPosition - search;
+            state.bestDistance = dot(delta, delta);
+            
+            // Determine left/right a la binary search
+            if(search[axis] > state.bestPosition[axis]) {
+                state.leftRight = 1;
+            } else {
+                state.leftRight = 0;
+            }
+            
+            // If feasible, push call on child node
+            int child = state.index * 2 + state.leftRight;
+            if (child <= numPhotons) {
+                // Store state of this call
+                state.phase = 1;
+                searchStackPush();
+                
+                // Push call for child node
+                state.phase = 0;
+                state.index = child;
+                searchStackPush();
+            }
+            else {
+                // Store state of this call, skip child analysis phases
+                state.phase = 3;
+                searchStackPush();
+            }
+        } else if (searchStack[searchStackIndex].phase == 1) {
+            // Store relevant data from child call
+            int childIndex = state.bestIndex;
+            vec3 childPos = state.bestPosition;
+            float childDist = state.bestDistance;
+            searchStackPop();
+            
+            // Compare and store new best
+            if (childDist < state.bestDistance) {
+                state.bestIndex = childIndex;
+                state.bestPosition = childPos;
+                state.bestDistance = childDist;
+            }
+            
+            // Push call for other child node if search point is closer to splitting plane than to current best
+            int child = state.index * 2 + 1 - state.leftRight;
+            vec3 splitPlanePoint = state.bestPosition;
+            splitPlanePoint[axis] = state.pivot;
+            
+            vec3 delta = search - splitPlanePoint;
+            if (child <= numPhotons && dot(delta, delta) < state.bestDistance) {
+                // Store state of this call
+                state.phase = 2;
+                searchStackPush();
+                
+                // Push call for other child node
+                state.phase = 0;
+                state.index = child;
+                searchStackPush();
+            }
+        } else if (searchStack[searchStackIndex].phase == 2) {
+            // Store relevant data from child call
+            int childIndex = state.bestIndex;
+            vec3 childPos = state.bestPosition;
+            float childDist = state.bestDistance;
+            searchStackPop();
+            
+            // Compare and store new best
+            if (childDist < state.bestDistance) {
+                state.bestIndex = childIndex;
+                state.bestPosition = childPos;
+                state.bestDistance = childDist;
+            }
+            
+            // Store state of this call
+            state.phase = 3;
+            searchStackPush();
+        } else {
+            searchStackPop();
+        }
+    }
+    
+    Photon photon;
+    photon.position  = state.bestPosition;
+    photon.meta      = texelFetch(photons, photonIndex(state.bestIndex - 1, 2/*meta offset*/), lod).xyz;
+    photon.direction = texelFetch(photons, photonIndex(state.bestIndex - 1, 0/*dir offset*/), lod).xyz;
+ 
+    return photon;
 }
 
 ///   ---> direction --->
@@ -179,8 +351,9 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             
             vec4 blend = vec4(0.0, 0.0, 0.0, 1.0);
             
-            
-            Photon photon = nearestPhoton(where);
+            Photon photon = linearNearestPhoton(where);
+            //Photon photon = nearestPhoton(where);
+            //Photon photon = approximateNearestPhoton(where);
             
             float d = length(photon.position - where);
             
@@ -188,17 +361,17 @@ vec4 traceRay(in vec2 pos, in float perspective) {
 
             vec3 light = vec3(0.2, 0.2, 0.2);
             
-            color.r += light.r * (3 - bounces);
-            color.g += light.g * (3 - bounces);
-            color.b += light.b * (3 - bounces);
+            color.r += light.r * bounces;
+            color.g += light.g * bounces;
+            color.b += light.b * bounces;
             
             if(d < 0.03) {
             
-                srand(bounces);
+                srand(bounces * 3);
             
                 vec4 rcolor = vec4(rand(), rand(), rand(), 0);
             
-                color += rcolor * 2;
+                color += rcolor * 3;
             
                 /*if(bounces == 2) {
                     color.b += 1;
@@ -257,9 +430,7 @@ vec4 traceRay(in vec2 pos, in float perspective) {
                             int sampler2 = int(texelFetch(zdata, ivec2(offset2 + 3, 0), lod).z);
                             vec4 color2 = texture(textures[sampler], uv);
                         
-                            //if(color2.a > 0.4) {
-                                ++hits;
-                            //}
+                            ++hits;
                         }
                     }
                 //}

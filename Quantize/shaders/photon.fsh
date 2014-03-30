@@ -59,7 +59,7 @@ void main() {
     }
     
     if(bounces > 0) {
-        if(rand() > 0.05) { // Kill n%
+        if(rand() > 0.95) { // Kill n%
             outMeta = vec4(
                     0,           // dead.
                     0,           // no color
