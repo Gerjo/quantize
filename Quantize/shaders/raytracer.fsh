@@ -351,8 +351,8 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             
             vec4 blend = vec4(0.0, 0.0, 0.0, 1.0);
             
-            Photon photon = linearNearestPhoton(where);
-            //Photon photon = nearestPhoton(where);
+            //Photon photon = linearNearestPhoton(where);
+            Photon photon = nearestPhoton(where);
             //Photon photon = approximateNearestPhoton(where);
             
             float d = length(photon.position - where);

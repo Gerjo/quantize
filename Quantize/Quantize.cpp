@@ -837,33 +837,29 @@ void Quantize::shootPhotons() {
         
         // From the arrays, create photon structs.
         for(int i = 0; i < nFloats; i += channels) {
-            
-            // Discard "null" photons, those that hit nothing.
-            if(positions[i] == 0 && positions[i + 1] == 0 && positions[i + 2] == 0) {
-                ++discarded;
-                
-                state = "discard";
-            
             // Killed by russian roulette.
-            } else if(int(meta[i + 0]) == 0) {
+            if(int(meta[i + 0]) == 0) {
                 ++russianFuneral;
                 
-                state = "dead   ";
-            
+                state = "dead ";
+
             // Active photon, collect it.
             } else {
                 Photon photon(&positions[i], &directions[i], &meta[i]);
             
                 photons.push_back(photon);
                 
-                state = "alive  ";
+                state = "alive";
             }
             
-            printf("   [bounce %d] %s Photon #%d p:[%.5f, %.5f, %.5f] d:[%.5f, %.5f, %.5f] \n",
-            
-            
-            int(meta[i+2]), state.c_str(), i/channels, positions[i], positions[i+1], positions[i+2],
-            directions[i], directions[i+1], directions[i+2]);
+            // Spam logging
+            if(true)
+            {
+                printf("   [bounce %d] %s Photon #%d p:[%.5f, %.5f, %.5f] d:[%.5f, %.5f, %.5f] m:[%.5f, %.5f, %.5f]\n",
+                int(meta[i+2]), state.c_str(), i/channels, positions[i], positions[i+1], positions[i+2],
+                directions[i], directions[i+1], directions[i+2],
+                meta[i], meta[i+1], meta[i+2]);
+            }
         }
         
         printf("done. Held %d russian roulette funerals.\n", russianFuneral);

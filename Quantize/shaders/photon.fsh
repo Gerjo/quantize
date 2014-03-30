@@ -24,9 +24,9 @@ uniform vec2 windowSize;
 
 
 // Write new photon into:
-out vec4 outDirection;
-out vec4 outPosition;
-out vec4 outMeta;
+out vec3 outDirection;
+out vec3 outPosition;
+out vec3 outMeta;
 
 // Read from photon from:
 uniform sampler2D inBuffers[3];  // Direction, position and meta.
@@ -37,7 +37,7 @@ uniform vec3 lightPositions[5];  // Position of each light, up to 10.
 const int stride     = 9;        // In vec3
 const int lod        = 0;        // mipmap level
 
-uniform sampler2D textures[14];
+uniform sampler2D textures[11];
 
 
 void main() {
@@ -63,9 +63,9 @@ void main() {
     
     if( ! isAlive) {
         // Transfer the dead meta state.
-        outMeta      = vec4(0, 0, bounces + 1, 0);
-        outPosition  = vec4(0, 0, 0, 0);
-        outDirection = vec4(0, 0, 0, 0);
+        outMeta      = vec3(0, 0, bounces + 1);
+        outPosition  = vec3(0, 0, 0);
+        outDirection = vec3(0, 0, 0);
         return;
     }
     
@@ -83,13 +83,13 @@ void main() {
     }*/
     
     // Zero initialize.
-    outDirection = vec4(9, 9, 9, 1);
-    outPosition  = vec4(0, 0, 0, 0);
-    outMeta      = vec4(
+    outDirection = vec3(9, 9, 9);
+    outPosition  = vec3(0, 0, 0);
+    outMeta      = vec3(
                   1,            // Alive.
                   0,            // Color?
-                  bounces + 1,  // Number of bounces
-                  0             // Homogenious.
+                  bounces + 1  // Number of bounces
+                  
     );
 
     //outPosition = vec4(inDirection,  0);
@@ -167,8 +167,11 @@ void main() {
         
         // Reflect about the surface normal. TODO: not sure if this "reflect" works
         // as expected.
-        outDirection = vec4(reflect(-ray.direction, normal), 0);
-        outPosition  = vec4(bestHitPosition, 0);
+        outDirection = reflect(-ray.direction, normal);//, 0);
+        outPosition  = bestHitPosition; //vec4(bestHitPosition, 0);
+    } else {
+        // Hit nothing, mark as "dead".
+        outMeta.x = 0;
     }
     
 }
