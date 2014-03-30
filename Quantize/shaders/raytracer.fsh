@@ -351,8 +351,8 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             
             vec4 blend = vec4(0.0, 0.0, 0.0, 1.0);
             
-            //Photon photon = linearNearestPhoton(where);
-            Photon photon = nearestPhoton(where);
+            /*Photon photon = linearNearestPhoton(where);
+            //Photon photon = nearestPhoton(where);
             //Photon photon = approximateNearestPhoton(where);
             
             float d = length(photon.position - where);
@@ -381,7 +381,7 @@ vec4 traceRay(in vec2 pos, in float perspective) {
                     color.r += 4;
                 }
                 // //(0.5-d)*0.7;
-            }
+            }*/
             
             /*for(int l = 0; l < numPhotons; ++l) {
                 vec3 pos = texelFetch(photons, ivec2(l * 3 + 1, 0), lod).xyz;
@@ -436,10 +436,9 @@ vec4 traceRay(in vec2 pos, in float perspective) {
                 //}
                 
                 const vec4 ambientTerm = vec4(0.2, 0.2, 0.2, 1.0);
-                //const vec4 ambientTerm = vec4(0,0,0,0);
             
                 // Hit nothing, Full light!
-                if(hits < 1 && false) {
+                if(hits < 1) {
                     vec3 n1 = texelFetch(zdata, ivec2(offset + 6, 0), lod).xyz;
                     vec3 n2 = texelFetch(zdata, ivec2(offset + 7, 0), lod).xyz;
                     vec3 n3 = texelFetch(zdata, ivec2(offset + 8, 0), lod).xyz;
@@ -448,14 +447,15 @@ vec4 traceRay(in vec2 pos, in float perspective) {
                     
                     //vec3 normal = normalize(cross(B - A, C - A));
                     
-                    vec3 lightDir = normalize(lightsPosition[l] - where);
+                    vec3 lpos = lightsPosition[l];
+                    
+                    vec3 lightDir = normalize(lpos - where);
                     
                     float lambert = dot(lightDir, normal);// / 10;
                     
                     lambert = max(lambert, 0);
                     
                     blend += lightsDiffuse[l] * lambert + ambientTerm;
-                    
                     
                 // Hit something, use ambient term
                 } else {
