@@ -17,18 +17,18 @@ in vec2 pixelPosition;
 uniform sampler2D zdata;        // Triangles packed in texture
 uniform int triangleCount;      // Number of triangles
 
-// Previous bounce
-uniform vec4 uniformColor;
-uniform vec4 uniformPosition;
-uniform vec4 uniformMeta;
-
 uniform int mapWidth;
 uniform int mapHeight;
 
-// New bounce
+// Write new photon into:
 out vec4 outDirection;
 out vec4 outPosition;
 out vec4 outMeta;
+
+// Read from photon from:
+uniform sampler2D inDirection;
+uniform sampler2D inPosition;
+uniform sampler2D inMeta;
 
 uniform int lightCount;           // Amount of light sources
 uniform vec3 lightPositions[5];  // Position of each light, up to 10.

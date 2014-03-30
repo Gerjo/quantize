@@ -121,13 +121,19 @@ class Quantize {
     
     struct PhotonVariables {
     
+        size_t bufferOffset{1}; // must be in {0, 1}
+    
         GLuint width{16};
         GLuint height{256};
+        
+        GLint uniformSamplerDirection{0};
+        GLint uniformSamplerPosition{0};
+        GLint uniformSamplerMeta{0};
     
         GLuint program{0};
         GLuint fbo{0};
-        GLuint texture[3] = {0};    // direction, position qnd meta outputs.
-        GLuint renderBuffer{0};     // Ties all buffers together
+        GLuint textures[6] = {0};    // direction, position and meta outputs.
+        GLuint renderBuffer{0};      // Ties all buffers together
         GLuint vbo{0};
         GLuint vao{0};
         GLint uniformWindowSize{-1};

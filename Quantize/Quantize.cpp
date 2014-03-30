@@ -268,10 +268,13 @@ void Quantize::initializePhotonProgram() {
 
     // We render to a texture, so let's create a texture.
     glActiveTexture(GL_TEXTURE0);
-    glGenTextures(3, photon.texture);
+    glGenTextures(6, photon.textures);
     
-    for(size_t i = 0; i < 3; ++i) {
-        glBindTexture(GL_TEXTURE_2D, photon.texture[i]);
+    // Generate output / output textures
+    for(size_t i = 0; i < 6; ++i) {
+    
+        glBindTexture(GL_TEXTURE_2D, photon.textures[i]);
+        
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -280,6 +283,7 @@ void Quantize::initializePhotonProgram() {
         glBindTexture(GL_TEXTURE_2D, 0);
         GLError();
     }
+ 
     
     // Depth buffer  (Render Buffer Object)
     glGenRenderbuffers(1, &photon.renderBuffer);
@@ -295,9 +299,9 @@ void Quantize::initializePhotonProgram() {
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, photon.renderBuffer);
     GLError();
     
-    for(int i = 0; i < 3; ++i) {
-        glBindTexture(GL_TEXTURE_2D, photon.texture[i]);
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, photon.texture[i], 0);
+    for(int i = 0; i < 6; ++i) {
+        glBindTexture(GL_TEXTURE_2D, photon.textures[i]);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, photon.textures[i], 0);
         glBindTexture(GL_TEXTURE_2D, 0);
         GLError();
     }
@@ -338,6 +342,10 @@ void Quantize::initializePhotonProgram() {
     photon.uniformTextures        = glGetUniformLocation(photon.program, "textures");
     photon.uniformPhotonMapWidth  = glGetUniformLocation(photon.program, "mapWidth");
     photon.uniformPhotonMapHeight = glGetUniformLocation(photon.program, "mapHeight");
+    
+    photon.uniformSamplerDirection = glGetUniformLocation(photon.program, "inDirection");
+    photon.uniformSamplerPosition  = glGetUniformLocation(photon.program, "inPosition");
+    photon.uniformSamplerMeta      = glGetUniformLocation(photon.program, "inMeta");
     GLError();
     
     // The rectangle used to render onto, the UVs are derived from this.
@@ -557,11 +565,11 @@ void Quantize::update(float dt) {
     textureSamplers.reserve(Textures::samplers.size());
     for(int i = 0; i < Textures::samplers.size(); ++i) {
         // Texture enabling
-        glActiveTexture(GL_TEXTURE2 + i);                       // Use texture n
+        glActiveTexture(GL_TEXTURE5 + i);                       // Use texture n
         glBindTexture(GL_TEXTURE_2D, Textures::samplers[i]);    // Bind handle to n
         GLError();
         
-        textureSamplers.push_back(i + 2);
+        textureSamplers.push_back(i + 5);
     }
     
     // Inform the shader which sampler indices to use
@@ -659,11 +667,25 @@ void Quantize::shootPhotons() {
     // Photon program enable!
     glUseProgram(photon.program);
     
-    // Draw into the following buffers (Color, position and meta)
-    static GLenum buffers[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1,  GL_COLOR_ATTACHMENT2 };
-    glDrawBuffers(3, buffers);
-    GLError();
+    // Shader shall write into:
+    const size_t drawBuffer = photon.bufferOffset;
+    
+    // Shader shall read from:
+    const size_t readBuffer = 1 - photon.bufferOffset;
+    
+    // Switch buffers for next run
+    photon.bufferOffset = readBuffer;
 
+    // The two buffer setups.
+    static GLenum buffers[2][6] =
+    {
+        { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1,  GL_COLOR_ATTACHMENT2, GL_NONE, GL_NONE, GL_NONE },
+        { GL_COLOR_ATTACHMENT3, GL_COLOR_ATTACHMENT4,  GL_COLOR_ATTACHMENT5, GL_NONE, GL_NONE, GL_NONE }
+    };
+    
+    // Draw into the following buffers (Color, position and meta)
+    glDrawBuffers(6, buffers[drawBuffer]);
+    GLError();
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, _dataTexture);
@@ -697,11 +719,11 @@ void Quantize::shootPhotons() {
     textureSamplers.reserve(Textures::samplers.size());
     for(int i = 0; i < Textures::samplers.size(); ++i) {
         // Texture enabling
-        glActiveTexture(GL_TEXTURE2 + i);                       // Use texture n
+        glActiveTexture(GL_TEXTURE5 + i);                       // Use texture n
         glBindTexture(GL_TEXTURE_2D, Textures::samplers[i]);    // Bind handle to n
         GLError();
         
-        textureSamplers.push_back(i + 2);
+        textureSamplers.push_back(i + 5);
     }
     
     // Inform the shader which sampler indices to use
@@ -733,26 +755,26 @@ void Quantize::shootPhotons() {
     int channels = 4;
     
     // Allocate some memory to hold the to be retrieve data.
-    std::vector<float> directions((int)photon.width * (int)photon.height * channels, 0);      // 1
+    std::vector<float> directions((int)photon.width * (int)photon.height * channels, 0);  // 1
     std::vector<float> positions((int)photon.width * (int)photon.height * channels, 0);   // 2
     std::vector<float> meta((int)photon.width * (int)photon.height * channels, 0);        // 3
     
     glFinish();
     
     // Retrieve the photon directions from the GPU
-    glBindTexture(GL_TEXTURE_2D, photon.texture[0]);
+    glBindTexture(GL_TEXTURE_2D, photon.textures[0 + drawBuffer * 3 ]);
     glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_FLOAT, & directions[0]);
     glBindTexture(GL_TEXTURE_2D, 0);
     GLError();
     
     // Retrieve the photon positions from the GPU
-    glBindTexture(GL_TEXTURE_2D, photon.texture[1]);
+    glBindTexture(GL_TEXTURE_2D, photon.textures[1 + drawBuffer * 3]);
     glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_FLOAT, & positions[0]);
     glBindTexture(GL_TEXTURE_2D, 0);
     GLError();
     
     // Retrieve the photon meta data from the GPU
-    glBindTexture(GL_TEXTURE_2D, photon.texture[2]);
+    glBindTexture(GL_TEXTURE_2D, photon.textures[2 + drawBuffer * 3]);
     glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_FLOAT, & meta[0]);
     glBindTexture(GL_TEXTURE_2D, 0);
     GLError();
@@ -773,6 +795,10 @@ void Quantize::shootPhotons() {
         
             photons.push_back(photon);
         }
+    }
+    
+    if(photons.empty()) {
+        Exit("No photons where read from the GPU, or they are all dead.");
     }
     
     printf("Discarded %d dead photons :(\n", discarded);
