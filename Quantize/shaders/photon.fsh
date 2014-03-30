@@ -20,17 +20,18 @@ uniform int triangleCount;      // Number of triangles
 uniform int mapWidth;
 uniform int mapHeight;
 
+uniform vec2 windowSize;
+
+
 // Write new photon into:
 out vec4 outDirection;
 out vec4 outPosition;
 out vec4 outMeta;
 
 // Read from photon from:
-uniform sampler2D inDirection;
-uniform sampler2D inPosition;
-uniform sampler2D inMeta;
+uniform sampler2D inBuffers[3];  // Direction, position and meta.
 
-uniform int lightCount;           // Amount of light sources
+uniform int lightCount;          // Amount of light sources
 uniform vec3 lightPositions[5];  // Position of each light, up to 10.
 
 const int stride     = 9;        // In vec3
@@ -53,30 +54,33 @@ float rand() {
 
 void main() {
     
+    vec3 inDirection = texture(inBuffers[0], uvmapping).xyz;
+    vec3 inPosition  = texture(inBuffers[1], uvmapping).xyz;
+    vec3 inMeta      = texture(inBuffers[2], uvmapping).xyz;
+    
     // Zero initialize.
-    outDirection     = vec4(1, 0, 0, 1);
+    outDirection = vec4(1, 0, 0, 1);
     outPosition  = vec4(0, 0, 0, 0);
     outMeta      = vec4(9, 9, 9, 9);
-
-    int lightSource = 0;
-
 
     srand(pixelPosition.y + pixelPosition.x * 100);
 
     Ray ray;
     
     // Start at a given light source position
-    ray.place = lightPositions[lightSource];
+    ray.place = inPosition;//lightPositions[lightSource];
     
     // vec3(0, 10, 0);//
     
-    // Random direction, this should be derived from the projection map.
-    ray.direction = normalize(vec3(
+    // Random direction set by the GPU.
+    /*ray.direction = normalize(vec3(
         rand() - 0.5,
         rand() - 0.5,
         rand() - 0.5
-    ));
+    ));*/
     
+    ray.direction = inDirection;
+
     
     int hits             = 0;
     int bestHitOffset    = 0;

@@ -120,15 +120,11 @@ class Quantize {
     int _frameCounter{0};
     
     struct PhotonVariables {
-    
-        size_t bufferOffset{1}; // must be in {0, 1}
-    
-        GLuint width{16};
-        GLuint height{256};
         
-        GLint uniformSamplerDirection{0};
-        GLint uniformSamplerPosition{0};
-        GLint uniformSamplerMeta{0};
+        GLuint width{64};
+        GLuint height{64};
+        
+        GLint uniformReadBuffer[3] = {0};
     
         GLuint program{0};
         GLuint fbo{0};
