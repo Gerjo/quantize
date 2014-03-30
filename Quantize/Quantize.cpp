@@ -175,26 +175,7 @@ void Quantize::loadDemoScene() {
         
         scene.push_back(d);
     }
-    
-    // Tile backface.
-    /*for(VertexData d : ((Model*)rectangle->sub[0].get())->vertices) {
-        d.position = Matrix44::CreateTranslation(0, 0.01, 0)
-        * Matrix44::CreateScale(Vector3(4, 4, 4))
-        * Matrix44::CreateRotate(1.23, 1, 1, 1)
-        * d.position;
-        scene.push_back(d);
-    }*/
-    
-    // Light visualizer
-    /*for(VertexData d : ((Model*)rectangle->sub[0].get())->vertices) {
-        d.position = Matrix44::CreateTranslation(-1, 1, -1)
-        * Matrix44::CreateScale(Vector3(1, 1, 1))
-        * Matrix44::CreateRotate(1.0, 1, 1, 1)
-        * d.position;
-        scene.push_back(d);
-    }*/
-    
-    
+
     assert(scene.size() % 3 == 0);
     
     for(size_t i = 0; i < scene.size(); i += 3) {
@@ -218,22 +199,6 @@ void Quantize::loadDemoScene() {
         faces.push_back(face);
     }
 
-    /*
-    printf("Will insert: %lu triangles.\n", vertices.size()/3);
-    
-    Tree tree;
-
-    
-    for(size_t i = 0; i < vertices.size(); i += 3) {
-        tree.insert(vertices[i], vertices[i + 1], vertices[i + 2]);
-    }
-    
-    tree.print();
-    
-    printf("Tree bytes: %lu, root bytes: %lu\n", tree.size(), tree.root.triangles.size() * sizeof(VertexData) * 3);
-    */
-    
-    
     shootPhotons();
 }
 
