@@ -121,8 +121,8 @@ class Quantize {
     
     struct PhotonVariables {
     
-        GLuint width{16};
-        GLuint height{256};
+        GLuint width{4};
+        GLuint height{4};
     
         GLuint program{0};
         GLuint fbo{0};
