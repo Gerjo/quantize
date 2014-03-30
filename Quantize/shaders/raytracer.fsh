@@ -228,11 +228,7 @@ Photon nearestPhoton(in vec3 search) {
                 state.index = child;
                 searchStackPush();
             }
-            else {
-                // Store state of this call, skip child analysis phases
-                state.phase = 3;
-                searchStackPush();
-            }
+            // Otherwise, this node is already done
         } else if (searchStack[searchStackIndex].phase == 1) {
             // Store relevant data from child call
             int childIndex = state.bestIndex;
@@ -278,10 +274,6 @@ Photon nearestPhoton(in vec3 search) {
             }
             
             // Store state of this call
-            state.phase = 3;
-            searchStackPush();
-        } else {
-            searchStackPop();
         }
     }
     
