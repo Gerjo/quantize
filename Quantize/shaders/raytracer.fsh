@@ -34,6 +34,9 @@ uniform mat4 rotation;
 uniform int frameCounter;
 uniform float time;
 
+uniform int mapWidth;
+uniform int mapHeight;
+
 
 // My Intel onboard chip only supports 16 textures. If this becomes a limit,
 // we can make an atlas - textures up to 16k resolution are supported. Reading
@@ -59,13 +62,20 @@ uniform sampler2D photons;
 uniform int numPhotons; // Number of photons
 
 
-struct Photon {
-    vec3 color;
-    vec3 position;
-    vec3 meta;
-};
+ivec2 photonIndex(in int index) {
 
-
+    // Each photon has 3 vectors (direction, position and meta)
+    const int stride = 3;
+    
+    // We do a +1 as position is on the second index.
+    int i = index * stride + 1;
+    
+    // The usual index to grid coordinate routine.
+    int y = i / mapWidth;
+    int x = i - y * mapWidth;
+    
+    return ivec2(x, y);
+}
 
 vec3 nearestPhoton(in vec3 search) {
     const int axes = 3;
@@ -78,7 +88,8 @@ vec3 nearestPhoton(in vec3 search) {
     vec3 bestPosition = vec3(0, 0, 0);
     
     while(index <= numPhotons) {
-        vec3 tentative = texelFetch(photons, ivec2((index - 1) * 3 + 1, 0), lod).xyz;
+        ivec2 texelIndex = photonIndex(index - 1);
+        vec3 tentative = texelFetch(photons, texelIndex, lod).xyz;
         float distance = dot(length(tentative - search), length(tentative - search));
         
         if(distance < bestDistance) {

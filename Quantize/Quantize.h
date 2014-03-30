@@ -59,6 +59,9 @@ class Quantize {
     GLint _uniformPhotonTexture{-1};
     GLint _uniformNumPhotons{-1};
     
+    GLint _uniformPhotonMapWidth{-1};
+    GLint _uniformPhotonMapHeight{-1};
+    
     /// Ray tracingproperties
     GLint _uniformN;
     GLint _uniformSigma;
@@ -118,8 +121,8 @@ class Quantize {
     
     struct PhotonVariables {
     
-        GLuint width{64};
-        GLuint height{64};
+        GLuint width{16};
+        GLuint height{256};
     
         GLuint program{0};
         GLuint fbo{0};
@@ -130,6 +133,9 @@ class Quantize {
         GLint uniformWindowSize{-1};
         GLint attrPosition{-1};
         GLint uniformTextures{-1};
+        
+        GLint uniformPhotonMapWidth{-1};
+        GLint uniformPhotonMapHeight{-1};
 
         GLuint photonTexture;
         

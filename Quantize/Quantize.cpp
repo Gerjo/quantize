@@ -10,6 +10,64 @@
 #include "Entity.h"
 #include "Textures.h"
 
+/// Break a number into two factors, each < 16384. I'm pretty sure this
+/// method will work most of the times.
+Vector2 primo(int num) {
+
+    std::deque<int> primes;
+
+    const int root = (int) std::sqrt(num);
+    
+    std::function<void(int)> recurse;
+
+    // Mostly from: http://www.coderenaissance.com/2011/06/finding-prime-factors-in-javascript.html
+    recurse = [&primes, &recurse, root] (int num) -> void {
+        int x = 2;
+        
+        // if not divisible by 2
+        if(num % x) {
+             x = 3; // assign first odd
+            
+             // iterate odds
+             while((num % x) && ((x = x + 2) < root)) {
+                ; // nop
+             }
+        }
+        
+        //if no factor found then num is prime
+        x = (x <= root) ? x : num;
+        
+        if(x != num) {
+            recurse(num / x);
+        }
+       
+        primes.push_back(x);//push latest prime factor
+    };
+
+    recurse(num);
+
+    int x = 1;
+    int y = 1;
+    
+    // Grow X until the upper limit is reached.
+    while( ! primes.empty() && x * primes.front() < 8192) {
+        x *= primes.front();
+        primes.pop_front();
+    }
+    
+    // Pass the remaining primes to y.
+    while( ! primes.empty() ) {
+        y *= primes.front();
+        primes.pop_front();
+    }
+
+    if(x > 16384 || y > 16384) {
+        Exit("Primes don't work. Add padding bytes or more photons.");
+    }
+
+    return Vector2(x, y);
+}
+
 Quantize::Quantize() : _lastLogTime(GetTiming()) {
     
     /*float f[] = {
@@ -44,7 +102,7 @@ Quantize::Quantize() : _lastLogTime(GetTiming()) {
     }
     
     exit(0);*/
-
+    
     Light light;
     light.position.x = -2.22;
     light.position.y = -3.12;
@@ -339,14 +397,15 @@ void Quantize::initializePhotonProgram() {
     glLinkProgram(photon.program);
     GLError();
 
-    photon.attrPosition          = glGetAttribLocation(photon.program, "position");
-    photon.uniformWindowSize     = glGetUniformLocation(photon.program, "windowSize");
-    photon.uniformLightCount     = glGetUniformLocation(photon.program, "lightCount");
-    photon.uniformLightsPosition = glGetUniformLocation(photon.program, "lightPositions");
-    photon.uniformData           = glGetUniformLocation(photon.program, "zdata");
-    photon.unformTriangleCount   = glGetUniformLocation(photon.program, "triangleCount");
-    photon.uniformTextures       = glGetUniformLocation(photon.program, "textures");
-
+    photon.attrPosition           = glGetAttribLocation(photon.program, "position");
+    photon.uniformWindowSize      = glGetUniformLocation(photon.program, "windowSize");
+    photon.uniformLightCount      = glGetUniformLocation(photon.program, "lightCount");
+    photon.uniformLightsPosition  = glGetUniformLocation(photon.program, "lightPositions");
+    photon.uniformData            = glGetUniformLocation(photon.program, "zdata");
+    photon.unformTriangleCount    = glGetUniformLocation(photon.program, "triangleCount");
+    photon.uniformTextures        = glGetUniformLocation(photon.program, "textures");
+    photon.uniformPhotonMapWidth  = glGetUniformLocation(photon.program, "mapWidth");
+    photon.uniformPhotonMapHeight = glGetUniformLocation(photon.program, "mapHeight");
     GLError();
     
     // The rectangle used to render onto, the UVs are derived from this.
@@ -415,6 +474,9 @@ void Quantize::initializeRaytraceProgram() {
     _uniformPhotonTexture = glGetUniformLocation(_programRaytracer, "photons");
     _uniformNumPhotons    = glGetUniformLocation(_programRaytracer, "numPhotons");
 
+    _uniformPhotonMapWidth  = glGetUniformLocation(_programRaytracer, "mapWidth");
+    _uniformPhotonMapHeight = glGetUniformLocation(_programRaytracer, "mapHeight");
+    
     _uniformTextures     = glGetUniformLocation(_programRaytracer, "textures");
     _uniformDataTexture  = glGetUniformLocation(_programRaytracer, "zdata");
     _uniformTime         = glGetUniformLocation(_programRaytracer, "time");
@@ -795,25 +857,42 @@ void Quantize::shootPhotons() {
     
     printf(" %lu items in tree. Done.\n", kdtree.size());
     
+    int pixels = (int) kdtree.size() * 3;
+
+    // The photons do not fit in a single row. This call finds an optimal
+    // width and height that do not require byte padding.
+    Vector2 dims = primo(pixels);
+    int w = (int) dims.x;
+    int h = (int) dims.y;
+
+    printf("Computing optimal photon map size... %d = (%d x %d)\n", pixels, w, h);
     
     printf("Uploading kdtree to GPU...");
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, photon.photonTexture);
+
     
-    if(kdtree.size() > 16000) {
-        Exit("Too many. Wrap around texture rows.");
-    }
-    
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, (int) kdtree.size() * 3, 1, 0, GL_RGB, GL_FLOAT, kdtree[0].direction.v);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, w, h, 0, GL_RGB, GL_FLOAT, kdtree[0].direction.v);
     glBindTexture(GL_TEXTURE_2D, 0);
     GLError();
 
     printf(" done.\n");
     
+    // Setting uniforms
+    glUniform1i(photon.uniformPhotonMapWidth, w);
+    glUniform1i(photon.uniformPhotonMapHeight, h);
+    GLError();
     
+    // Update the raytracer shader, too.
+    glUseProgram(_programRaytracer);
+    glUniform1i(_uniformPhotonMapWidth, w);
+    glUniform1i(_uniformPhotonMapHeight, h);
+    GLError();
+    
+    // Debugging logging
     for(int i = 0; i < kdtree.size(); ++i) {
         if( ! isinf(kdtree[i].position.x)) {
-            printf("Photon #%d [%.5f %.5f %.5f]\n", i, kdtree[i].position.x, kdtree[i].position.y, kdtree[i].position.z);
+            //printf("Photon #%d [%.5f %.5f %.5f]\n", i, kdtree[i].position.x, kdtree[i].position.y, kdtree[i].position.z);
         }
     }
 }

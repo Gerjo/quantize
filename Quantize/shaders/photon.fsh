@@ -22,6 +22,9 @@ uniform vec4 uniformColor;
 uniform vec4 uniformPosition;
 uniform vec4 uniformMeta;
 
+uniform int mapWidth;
+uniform int mapHeight;
+
 // New bounce
 out vec4 outDirection;
 out vec4 outPosition;
@@ -127,7 +130,8 @@ void main() {
         vec3 n3 = texelFetch(zdata, ivec2(bestHitOffset + 8, 0), lod).xyz;
         
         // Solve for UV coordinates
-        /*vec2 uv     = barycentric(bestHitPosition, A, B, C, U, V, W);
+        /*
+        vec2 uv     = barycentric(bestHitPosition, A, B, C, U, V, W);
         int sampler = int(texelFetch(zdata, ivec2(bestHitOffset + 3, 0), lod).z);
         outDirection    = texture(textures[sampler], uv);
         */
@@ -135,6 +139,8 @@ void main() {
         // Find normal
         vec3 normal = barycentric3(bestHitPosition, A, B, C, n1, n2, n3);
         
+        // Reflect about the surface normal. TODO: not sure if this "reflect" works
+        // as expected.
         outDirection = vec4(reflect(ray.direction, normal), 8);
     }
     
