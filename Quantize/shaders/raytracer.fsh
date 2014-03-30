@@ -13,6 +13,8 @@ uniform vec4 lightsDiffuse[10];
 uniform vec4 lightsSpecular[10];
 uniform vec4 lightsAmbiant[10];
 
+uniform int maxBounces;
+
 uniform vec2 windowSize;        // Size of the viewport
 in vec2 position;               // Normalize position on screen
 in vec2 pixelPosition;          // The approximate pixel on screen.
@@ -351,25 +353,25 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             
             vec4 blend = vec4(0.0, 0.0, 0.0, 1.0);
             
-            Photon photon = linearNearestPhoton(where);
+            //Photon photon = linearNearestPhoton(where);
             //Photon photon = nearestPhoton(where);
-            //Photon photon = approximateNearestPhoton(where);
+            Photon photon  = approximateNearestPhoton(where);
             
             float d = length(photon.position - where);
             
             int bounces = int(photon.meta.z);
 
-            vec3 light = vec3(0.2, 0.2, 0.2);
+            vec3 light = vec3(0.1, 0.1, 0.1);
             
-            //color.r += light.r * bounces;
-            //color.g += light.g * bounces;
-            //color.b += light.b * bounces;
+            //color.r += light.r * (maxBounces - bounces);
+            //color.g += light.g * (maxBounces - bounces);
+            //color.b += light.b * (maxBounces - bounces);
             
-            if(d < 0.1) {
+            float photonIntensity = (maxBounces - bounces + 1) * 0.1;
             
-                srand(bounces * 3);
             
-                vec4 rcolor = vec4(rand(), rand(), rand(), 0);
+            if(d < 0.005) {
+            
             
                 //color += rcolor * 3;
             
@@ -377,8 +379,12 @@ vec4 traceRay(in vec2 pos, in float perspective) {
                     color.b += 10;
                 } else if(bounces == 1) {
                     color.g += 10;
-                } else {
+                } else if(bounces == 3){
                     color.r += 10;
+                } else {
+                    srand(bounces * 3);
+                    
+                    color += vec4(rand(), rand(), rand(), 0) * 2;
                 }
                 // //(0.5-d)*0.7;
             }
@@ -453,13 +459,16 @@ vec4 traceRay(in vec2 pos, in float perspective) {
                     
                     lambert = max(lambert, 0);
                     
-                    blend += lightsDiffuse[l] * lambert + ambientTerm;
+                   // blend += lightsDiffuse[l] * lambert;// + ambientTerm;
                     
                 // Hit something, use ambient term
                 } else {
-                    blend += ambientTerm;
+                    //blend += ambientTerm;
                 }
             }
+            
+            // Photon map counts as ambient-like term
+            blend += photonIntensity;
             
             // No alpha channel in light.
             blend.a = 1.0;

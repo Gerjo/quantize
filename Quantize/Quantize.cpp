@@ -64,7 +64,7 @@ Vector2 primo(int num, int max = 8192) {
     }
 
     if(x > 16384 || y > 16384) {
-        Exit("Primes don't work. Add padding bytes or more photons.");
+        Exit("Primes don't work. Add padding bytes or more photons. Result: %d x %d", x, y);
     }
 
     return Vector2(x, y);
@@ -416,7 +416,7 @@ void Quantize::initializeRaytraceProgram() {
     _uniformRtTranslation = glGetUniformLocation(_programRaytracer, "translation");
     _uniformPhotonTexture = glGetUniformLocation(_programRaytracer, "photons");
     _uniformNumPhotons    = glGetUniformLocation(_programRaytracer, "numPhotons");
-
+    _uniformMaxBounces    = glGetUniformLocation(_programRaytracer, "maxBounces");
     _uniformPhotonMapWidth  = glGetUniformLocation(_programRaytracer, "mapWidth");
     _uniformPhotonMapHeight = glGetUniformLocation(_programRaytracer, "mapHeight");
     
@@ -561,6 +561,7 @@ void Quantize::update(float dt) {
     
     glUniform1i(_uniformFrameCounter, (int) _frameCounter);
     glUniform1f(_uniformTime, (float) GetTiming());
+    glUniform1i(_uniformMaxBounces, photon.maxBounces); // TODO: effective bounces?
     GLError();
     stats.uniforms += GetTiming() - time;
     
@@ -841,30 +842,32 @@ void Quantize::shootPhotons() {
         
         std::string state;
         
-        // From the arrays, create photon structs.
-        for(int i = 0; i < nFloats; i += channels) {
-            // Killed by russian roulette.
-            if(int(meta[i + 0]) == 0) {
-                ++russianFuneral;
-                
-                state = "dead ";
+        if( ! photon.skipFirstBounce || b > 0) {
+            // From the arrays, create photon structs.
+            for(int i = 0; i < nFloats; i += channels) {
+                // Killed by russian roulette.
+                if(int(meta[i + 0]) == 0) {
+                    ++russianFuneral;
+                    
+                    state = "dead ";
 
-            // Active photon, collect it.
-            } else {
-                Photon photon(&positions[i], &directions[i], &meta[i]);
-            
-                photons.push_back(photon);
+                // Active photon, collect it.
+                } else {
+                    Photon photon(&positions[i], &directions[i], &meta[i]);
                 
-                state = "alive";
-            }
-            
-            // Spam logging
-            if(true)
-            {
-                printf("   [bounce %d] %s Photon #%d p:[%.5f, %.5f, %.5f] d:[%.5f, %.5f, %.5f] m:[%.5f, %.5f, %.5f]\n",
-                int(meta[i+2]), state.c_str(), i/channels, positions[i], positions[i+1], positions[i+2],
-                directions[i], directions[i+1], directions[i+2],
-                meta[i], meta[i+1], meta[i+2]);
+                    photons.push_back(photon);
+                    
+                    state = "alive";
+                }
+                
+                // Spam logging
+                if(false)
+                {
+                    printf("   [bounce %d] %s Photon #%d p:[%.5f, %.5f, %.5f] d:[%.5f, %.5f, %.5f] m:[%.5f, %.5f, %.5f]\n",
+                    int(meta[i+2]), state.c_str(), i/channels, positions[i], positions[i+1], positions[i+2],
+                    directions[i], directions[i+1], directions[i+2],
+                    meta[i], meta[i+1], meta[i+2]);
+                }
             }
         }
         

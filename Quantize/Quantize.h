@@ -68,6 +68,7 @@ class Quantize {
     GLint _uniformRange;
     GLint _uniformJitter;
     GLint _uniformUseTexture;
+    GLint _uniformMaxBounces;
 
     /// Light uniforms
     GLint _lightCount{-1};
@@ -121,9 +122,10 @@ class Quantize {
     
     struct PhotonVariables {
         
-        GLuint width{4};
-        GLuint height{4};
+        GLuint width{256};
+        GLuint height{128};
         GLuint maxBounces{4};
+        bool skipFirstBounce{false}; // first bounce = direct light
         
         GLint uniformReadBuffer[3] = {0};
 
