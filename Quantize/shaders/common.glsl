@@ -30,6 +30,19 @@ float random(in float x, in float y) {
 }
 
 
+// Some initial seed.
+int _seed = 10;
+
+void srand(float s) {
+    _seed = int(s * 12345);
+}
+
+float rand() {
+    _seed = (1103515245 * _seed + 12345) % 2147483648;
+
+    return fract(_seed * 0.001);
+}
+
 /// Find the barycenter using the weights (UV) and vertices. I spend little time
 /// on getting this to work - there might be optimal solutions without so many
 /// square roots.

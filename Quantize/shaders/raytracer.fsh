@@ -194,13 +194,19 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             
             if(d < 0.03) {
             
-                if(bounces == 2) {
+                srand(bounces);
+            
+                vec4 rcolor = vec4(rand(), rand(), rand(), 0);
+            
+                color += rcolor * 2;
+            
+                /*if(bounces == 2) {
                     color.b += 1;
                 } else if(bounces == 1) {
                     color.g += 1;
                 } else {
                     color.r += 1;
-                }
+                }*/
                 // //(0.5-d)*0.7;
             }
             

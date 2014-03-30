@@ -39,18 +39,6 @@ const int lod        = 0;        // mipmap level
 
 uniform sampler2D textures[14];
 
-// Some initial seed.
-int seed = 10;
-
-void srand(float s) {
-    seed = int(s * 12345);
-}
-
-float rand() {
-    seed = (1103515245 * seed + 12345) % 2147483648;
-
-    return fract(seed * 0.001);
-}
 
 void main() {
     
@@ -71,7 +59,7 @@ void main() {
     }
     
     if(bounces > 0) {
-        if(rand() > 0.15) { // Kill 10%
+        if(rand() > 0.05) { // Kill n%
             outMeta = vec4(
                     0,           // dead.
                     0,           // no color
