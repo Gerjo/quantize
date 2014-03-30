@@ -167,7 +167,7 @@ void main() {
         
         // Reflect about the surface normal. TODO: not sure if this "reflect" works
         // as expected.
-        outDirection = reflect(-ray.direction, normal);//, 0);
+        outDirection = reflect(ray.direction, normal);//, 0);
         outPosition  = bestHitPosition; //vec4(bestHitPosition, 0);
     } else {
         // Hit nothing, mark as "dead".
