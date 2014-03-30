@@ -125,12 +125,12 @@ Photon linearNearestPhoton(in vec3 search) {
     int bestIndex = 0;
 
     for(int l = 0; l < numPhotons; ++l) {
-        ivec2 texelIndex = photonIndex(l - 1, 1/*position offset*/);
+        ivec2 texelIndex = photonIndex(l, 1/*position offset*/);
     
         vec3 pos = texelFetch(photons, texelIndex, lod).xyz;
-        float d = length(pos - search);
+        float d = dot(pos - search, pos - search);
         
-        if(d < bestDistance) {
+        if(d <= bestDistance) {
             bestDistance = d;
             bestPosition = pos;
             bestIndex = l;
@@ -138,10 +138,10 @@ Photon linearNearestPhoton(in vec3 search) {
     }
     
     Photon photon;
-   // photon.position  = bestPosition;
-    photon.position  = texelFetch(photons, photonIndex(bestIndex - 1, 1/*pos offset*/), lod).xyz;
-    photon.meta      = texelFetch(photons, photonIndex(bestIndex - 1, 2/*meta offset*/), lod).xyz;
-    photon.direction = texelFetch(photons, photonIndex(bestIndex - 1, 0/*dir offset*/), lod).xyz;
+    photon.position  = bestPosition;
+    //photon.position  = texelFetch(photons, photonIndex(bestIndex, 1/*pos offset*/), lod).xyz;
+    photon.meta      = texelFetch(photons, photonIndex(bestIndex, 2/*meta offset*/), lod).xyz;
+    photon.direction = texelFetch(photons, photonIndex(bestIndex, 0/*dir offset*/), lod).xyz;
     
     return photon;
 }
@@ -351,8 +351,8 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             
             vec4 blend = vec4(0.0, 0.0, 0.0, 1.0);
             
-            Photon photon = linearNearestPhoton(where);
-            //Photon photon = nearestPhoton(where);
+            //Photon photon = linearNearestPhoton(where);
+            Photon photon = nearestPhoton(where);
             //Photon photon = approximateNearestPhoton(where);
             
             float d = length(photon.position - where);

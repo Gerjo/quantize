@@ -39,7 +39,7 @@ Vector2 primo(int num, int max = 8192) {
         //if no factor found then num is prime
         x = (x <= root) ? x : num;
         
-        if(x != num) {
+        if(x != num && num > 0) {
             recurse(num / x);
         }
        
