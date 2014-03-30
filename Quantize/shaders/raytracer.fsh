@@ -183,9 +183,16 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             Photon photon = nearestPhoton(where);
             
             float d = length(photon.position - where);
-                
-            if(d < 0.3) {
-                int bounces = int(photon.meta.z);
+            
+            int bounces = int(photon.meta.z);
+
+            vec3 light = vec3(0.2, 0.2, 0.2);
+            
+            color.r += light.r * (3 - bounces);
+            color.g += light.g * (3 - bounces);
+            color.b += light.b * (3 - bounces);
+            
+            if(d < 0.03) {
             
                 if(bounces == 2) {
                     color.b += 1;
@@ -194,7 +201,6 @@ vec4 traceRay(in vec2 pos, in float perspective) {
                 } else {
                     color.r += 1;
                 }
-                
                 // //(0.5-d)*0.7;
             }
             
@@ -256,7 +262,7 @@ vec4 traceRay(in vec2 pos, in float perspective) {
                 //const vec4 ambientTerm = vec4(0,0,0,0);
             
                 // Hit nothing, Full light!
-                if(hits < 1) {
+                if(hits < 1 && false) {
                     vec3 n1 = texelFetch(zdata, ivec2(offset + 6, 0), lod).xyz;
                     vec3 n2 = texelFetch(zdata, ivec2(offset + 7, 0), lod).xyz;
                     vec3 n3 = texelFetch(zdata, ivec2(offset + 8, 0), lod).xyz;

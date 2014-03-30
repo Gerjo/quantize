@@ -709,7 +709,6 @@ void Quantize::shootPhotons() {
     
     std::deque<Photon> photons;     // To hold the generated photons
     int discarded         = 0;      // Pixels discard as they're shot into void.
-    const int maxBounces  = 7;      // Maximum bounces
     size_t drawBuffer     = 0;      // Shader shall write into
     size_t readBuffer     = 1 - drawBuffer; // Shader shall read from
     
@@ -761,7 +760,7 @@ void Quantize::shootPhotons() {
     glBindTexture(GL_TEXTURE_2D, 0);
     GLError();
    
-    for(int b = 0; b < maxBounces; ++b) {
+    for(int b = 0; b < photon.maxBounces; ++b) {
         printf("\n-------------\nStarting Bounce iteration: %d, read: %lu, write: %lu\n", b, readBuffer, drawBuffer);
         
         
@@ -827,7 +826,9 @@ void Quantize::shootPhotons() {
         glBindTexture(GL_TEXTURE_2D, 0);
         GLError();
         
-        printf("Generating photon structs... \n");
+        printf("Generating photon structs... ");
+        
+        int russianFuneral = 0;
         
         // From the arrays, create photon structs.
         for(int i = 0; i < nFloats; i += channels) {
@@ -835,6 +836,12 @@ void Quantize::shootPhotons() {
             // Discard "null" photons, those that hit nothing.
             if(positions[i] == 0 && positions[i + 1] == 0 && positions[i + 2] == 0) {
                 ++discarded;
+            
+            // Killed by russian roulette.
+            } else if(int(meta[i + 0]) == 0) {
+                ++russianFuneral;
+            
+            // Active photon, collect it.
             } else {
                 Photon photon(&positions[i], &directions[i], &meta[i]);
             
@@ -842,8 +849,9 @@ void Quantize::shootPhotons() {
             }
             
             //printf("   [bounce %d] Photon #%d [%.5f, %.5f, %.5f]\n", int(meta[i+2]), i/channels, positions[i], positions[i+1], positions[i+2]);
-        
         }
+        
+        printf("done. Held %d russian roulette funerals.\n", russianFuneral);
         
         //printf("done.\n");
         

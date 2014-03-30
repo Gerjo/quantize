@@ -54,17 +54,42 @@ float rand() {
 
 void main() {
     
+    srand(uvmapping.x + uvmapping.y * 100);
+    
     vec3 inDirection = texture(inBuffers[0], uvmapping).xyz;
     vec3 inPosition  = texture(inBuffers[1], uvmapping).xyz;
     vec3 inMeta      = texture(inBuffers[2], uvmapping).xyz;
+    
+    bool isAlive = int(inMeta.x) == 1;
+    int bounces  = int(inMeta.z);
+    
+    if( ! isAlive) {
+        // Transfer the dead meta state.
+        outMeta = vec4(inMeta, 0);
+        
+        return;
+    }
+    
+    if(bounces > 0) {
+        if(rand() > 0.15) { // Kill 10%
+            outMeta = vec4(
+                    0,           // dead.
+                    0,           // no color
+                    bounces + 1, // bounces
+                    0            // Homogenious
+            );
+            
+            return;
+        }
+    }
     
     // Zero initialize.
     outDirection = vec4(1, 0, 0, 1);
     outPosition  = vec4(0, 0, 0, 0);
     outMeta      = vec4(
-                  1,            // Alive? apply Russian roulette?
+                  1,            // Alive.
                   0,            // Color?
-                  inMeta.z + 1, // Number of bounces
+                  bounces + 1,  // Number of bounces
                   0             // Homogenious.
     );
 

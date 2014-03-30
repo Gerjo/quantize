@@ -121,8 +121,9 @@ class Quantize {
     
     struct PhotonVariables {
         
-        GLuint width{64};
-        GLuint height{64};
+        GLuint width{128};
+        GLuint height{128};
+        GLuint maxBounces{50};
         
         GLint uniformReadBuffer[3] = {0};
     
