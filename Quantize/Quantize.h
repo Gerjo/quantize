@@ -184,8 +184,6 @@ private:
     /// Statistical reporting to the console.
     void handleLogging();
     
-    /// Shoot... photons.
-    void shootPhotons();
     
 public:
     /// Destructor
@@ -207,5 +205,9 @@ public:
     ///
     /// @param Time elapsed since previous call to update.
     void update(float dt);
+    
+    
+    /// Shoot... photons.
+    void shootPhotons();
 };
 
