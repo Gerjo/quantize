@@ -351,7 +351,7 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             
             vec4 blend = vec4(0.0, 0.0, 0.0, 1.0);
             
-            /*Photon photon = linearNearestPhoton(where);
+            Photon photon = linearNearestPhoton(where);
             //Photon photon = nearestPhoton(where);
             //Photon photon = approximateNearestPhoton(where);
             
@@ -361,11 +361,11 @@ vec4 traceRay(in vec2 pos, in float perspective) {
 
             vec3 light = vec3(0.2, 0.2, 0.2);
             
-            color.r += light.r * bounces;
-            color.g += light.g * bounces;
-            color.b += light.b * bounces;
+            //color.r += light.r * bounces;
+            //color.g += light.g * bounces;
+            //color.b += light.b * bounces;
             
-            if(d < 0.03) {
+            if(d < 0.1) {
             
                 srand(bounces * 3);
             
@@ -374,14 +374,14 @@ vec4 traceRay(in vec2 pos, in float perspective) {
                 //color += rcolor * 3;
             
                 if(bounces == 2) {
-                    color.b += 4;
+                    color.b += 10;
                 } else if(bounces == 1) {
-                    color.g += 4;
+                    color.g += 10;
                 } else {
-                    color.r += 4;
+                    color.r += 10;
                 }
                 // //(0.5-d)*0.7;
-            }*/
+            }
             
             /*for(int l = 0; l < numPhotons; ++l) {
                 vec3 pos = texelFetch(photons, ivec2(l * 3 + 1, 0), lod).xyz;
@@ -444,8 +444,6 @@ vec4 traceRay(in vec2 pos, in float perspective) {
                     vec3 n3 = texelFetch(zdata, ivec2(offset + 8, 0), lod).xyz;
                 
                     vec3 normal = normalize(barycentric3(where, A, B, C, n1, n2, n3));
-                    
-                    //vec3 normal = normalize(cross(B - A, C - A));
                     
                     vec3 lpos = lightsPosition[l];
                     

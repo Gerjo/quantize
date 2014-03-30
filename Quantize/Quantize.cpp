@@ -74,7 +74,7 @@ Quantize::Quantize() : _lastLogTime(GetTiming()) {
     
     Light light;
     light.position.x = -2.22;
-    light.position.y = -3.12;
+    light.position.y = -2.444;
     light.position.z = 0.75;
     
     for(size_t i = 0; i < 4; ++i) {
