@@ -138,8 +138,8 @@ Photon linearNearestPhoton(in vec3 search) {
     }
     
     Photon photon;
-    photon.position  = bestPosition;
-    //photon.position  = texelFetch(photons, photonIndex(bestIndex, 1/*pos offset*/), lod).xyz;
+    //photon.position  = bestPosition;
+    photon.position  = texelFetch(photons, photonIndex(bestIndex, 1/*pos offset*/), lod).xyz;
     photon.meta      = texelFetch(photons, photonIndex(bestIndex, 2/*meta offset*/), lod).xyz;
     photon.direction = texelFetch(photons, photonIndex(bestIndex, 0/*dir offset*/), lod).xyz;
     
@@ -351,8 +351,8 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             
             vec4 blend = vec4(0.0, 0.0, 0.0, 1.0);
             
-            //Photon photon = linearNearestPhoton(where);
-            Photon photon = nearestPhoton(where);
+            Photon photon = linearNearestPhoton(where);
+            //Photon photon = nearestPhoton(where);
             //Photon photon = approximateNearestPhoton(where);
             
             float d = length(photon.position - where);
@@ -371,15 +371,15 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             
                 vec4 rcolor = vec4(rand(), rand(), rand(), 0);
             
-                color += rcolor * 3;
+                //color += rcolor * 3;
             
-                /*if(bounces == 2) {
-                    color.b += 1;
+                if(bounces == 2) {
+                    color.b += 4;
                 } else if(bounces == 1) {
-                    color.g += 1;
+                    color.g += 4;
                 } else {
-                    color.r += 1;
-                }*/
+                    color.r += 4;
+                }
                 // //(0.5-d)*0.7;
             }
             

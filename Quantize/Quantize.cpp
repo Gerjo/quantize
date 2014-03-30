@@ -714,7 +714,8 @@ void Quantize::shootPhotons() {
     
     
     std::random_device rd;
-    std::mt19937 rng(rd());
+    //std::mt19937 rng(rd());
+    std::mt19937 rng(42);
     
     std::uniform_real_distribution<> dist(-0.5, 0.5);
     
@@ -732,6 +733,8 @@ void Quantize::shootPhotons() {
         
         Vector3 direction(dist(rng), dist(rng), dist(rng));
         direction.Normalize();
+        
+        //printf("Created: %0.6f, %0.6f, %0.6f\n", direction.x, direction.y, direction.z);
         
         directions[i + 0] = direction.x;
         directions[i + 1] = direction.y;
@@ -826,9 +829,11 @@ void Quantize::shootPhotons() {
         glBindTexture(GL_TEXTURE_2D, 0);
         GLError();
         
-        printf("Generating photon structs... ");
+        printf("Generating photon structs... \n");
         
         int russianFuneral = 0;
+        
+        std::string state;
         
         // From the arrays, create photon structs.
         for(int i = 0; i < nFloats; i += channels) {
@@ -836,19 +841,29 @@ void Quantize::shootPhotons() {
             // Discard "null" photons, those that hit nothing.
             if(positions[i] == 0 && positions[i + 1] == 0 && positions[i + 2] == 0) {
                 ++discarded;
+                
+                state = "discard";
             
             // Killed by russian roulette.
             } else if(int(meta[i + 0]) == 0) {
                 ++russianFuneral;
+                
+                state = "dead   ";
             
             // Active photon, collect it.
             } else {
                 Photon photon(&positions[i], &directions[i], &meta[i]);
             
                 photons.push_back(photon);
+                
+                state = "alive  ";
             }
             
-            //printf("   [bounce %d] Photon #%d [%.5f, %.5f, %.5f]\n", int(meta[i+2]), i/channels, positions[i], positions[i+1], positions[i+2]);
+            printf("   [bounce %d] %s Photon #%d p:[%.5f, %.5f, %.5f] d:[%.5f, %.5f, %.5f] \n",
+            
+            
+            int(meta[i+2]), state.c_str(), i/channels, positions[i], positions[i+1], positions[i+2],
+            directions[i], directions[i+1], directions[i+2]);
         }
         
         printf("done. Held %d russian roulette funerals.\n", russianFuneral);
@@ -913,9 +928,9 @@ void Quantize::shootPhotons() {
     
     // Debugging logging
     for(int i = 0; i < kdtree.size(); ++i) {
-        if( ! isinf(kdtree[i].position.x)) {
-        //    printf("[bounce %d/2] Photon #%d [%.5f, %.5f, %.5f]\n", int(kdtree[i].meta.z), i, kdtree[i].position.x, kdtree[i].position.y, kdtree[i].position.z);
-        }
+        //if( ! isinf(kdtree[i].position.x)) {
+            //printf("[bounce %d/2] Photon #%d [%.5f, %.5f, %.5f]\n", int(kdtree[i].meta.z), i, kdtree[i].position.x, kdtree[i].position.y, kdtree[i].position.z);
+        //}
     }
 }
 

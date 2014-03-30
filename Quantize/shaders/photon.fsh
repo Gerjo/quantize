@@ -44,21 +44,32 @@ void main() {
     
     srand(uvmapping.x + uvmapping.y * 100);
     
-    vec3 inDirection = texture(inBuffers[0], uvmapping).xyz;
-    vec3 inPosition  = texture(inBuffers[1], uvmapping).xyz;
-    vec3 inMeta      = texture(inBuffers[2], uvmapping).xyz;
+    ivec2 texelIndex = ivec2(
+        uvmapping.x * windowSize.x,
+        uvmapping.y * windowSize.y
+    );
+    
+    vec3 inDirection = texelFetch(inBuffers[0], texelIndex, lod).xyz;
+    vec3 inPosition  = texelFetch(inBuffers[1], texelIndex, lod).xyz;
+    vec3 inMeta      = texelFetch(inBuffers[2], texelIndex, lod).xyz;
+    
+    //vec3 inDirection = texture(inBuffers[0], uvmapping).xyz;
+    //vec3 inPosition  = texture(inBuffers[1], uvmapping).xyz;
+    //vec3 inMeta      = texture(inBuffers[2], uvmapping).xyz;
+    
     
     bool isAlive = int(inMeta.x) == 1;
     int bounces  = int(inMeta.z);
     
     if( ! isAlive) {
         // Transfer the dead meta state.
-        outMeta = vec4(inMeta, 0);
-        
+        outMeta      = vec4(0, 0, bounces + 1, 0);
+        outPosition  = vec4(0, 0, 0, 0);
+        outDirection = vec4(0, 0, 0, 0);
         return;
     }
     
-    if(bounces > 0) {
+    /*if(bounces > 0) {
         if(rand() > 0.95) { // Kill n%
             outMeta = vec4(
                     0,           // dead.
@@ -69,10 +80,10 @@ void main() {
             
             return;
         }
-    }
+    }*/
     
     // Zero initialize.
-    outDirection = vec4(1, 0, 0, 1);
+    outDirection = vec4(9, 9, 9, 1);
     outPosition  = vec4(0, 0, 0, 0);
     outMeta      = vec4(
                   1,            // Alive.
@@ -80,6 +91,9 @@ void main() {
                   bounces + 1,  // Number of bounces
                   0             // Homogenious.
     );
+
+    //outPosition = vec4(inDirection,  0);
+    //return;
 
     Ray ray;
     
@@ -149,12 +163,12 @@ void main() {
         */
         
         // Find normal
-        vec3 normal = barycentric3(bestHitPosition, A, B, C, n1, n2, n3);
+        vec3 normal = normalize(barycentric3(bestHitPosition, A, B, C, n1, n2, n3));
         
         // Reflect about the surface normal. TODO: not sure if this "reflect" works
         // as expected.
-        outDirection = vec4(reflect(ray.direction, normal), 8);
+        outDirection = vec4(reflect(-ray.direction, normal), 0);
+        outPosition  = vec4(bestHitPosition, 0);
     }
     
-    outPosition = vec4(bestHitPosition, 1);
 }

@@ -64,6 +64,10 @@ struct Node {
         photon.position.x = std::numeric_limits<float>::infinity();
         photon.position.y = std::numeric_limits<float>::infinity();
         photon.position.z = std::numeric_limits<float>::infinity();
+        
+        photon.meta.x = 0; // dead
+        photon.meta.y = 0; // no color
+        photon.meta.z = 0; // no bounces
     }
     
     /// Recursively destroy this node and its branch.
