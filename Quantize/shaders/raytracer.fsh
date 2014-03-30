@@ -77,37 +77,111 @@ ivec2 photonIndex(in int index) {
     return ivec2(x, y);
 }
 
+int nearestPhotonBranch(in int start, in vec3 search, in int axis, in int axes) {
+    // Terminate recursion when running out of tree
+    if (start > numPhotons)
+        return 0;
+    
+    vec3 tentative;
+    float distance;
+    
+    // Keep track of best photon's index within the branch
+    int best = start;
+    
+    // Find branch root's distance score
+    ivec2 texelIndex = photonIndex(start - 1);
+    vec3 bestPosition = texelFetch(photons, texelIndex, lod).xyz;
+    float pivot = bestPosition[axis];
+    float bestDistance = dot(length(bestPosition - search), length(bestPosition - search));
+    
+    // Find child index a la binary search
+    int index;
+    int offIndex;
+    
+    if(search[axis] > tentative[axis]) {
+        index = start * 2 + 1;
+        offIndex = start * 2;
+    } else {
+        index = start * 2;
+        offIndex = start * 2 + 1;
+    }
+    
+    // Execute recursion on desired child
+    int mainBranch = nearestPhotonBranch(index, search, (axis + 1) % axes, axes);
+    
+    // If child exists, compare distance score
+    if (mainBranch != 0) {
+        texelIndex = photonIndex(mainBranch - 1);
+        tentative = texelFetch(photons, texelIndex, lod).xyz;
+        distance = dot(length(tentative - search), length(tentative - search));
+        
+        if (distance < bestDistance) {
+            best = index;
+            bestPosition = tentative;
+            bestDistance = distance;
+        }
+    }
+    
+    // Execute recursion on other child if search point is closer to splitting plane than to current best
+    vec3 splitPlanePoint = bestPosition;
+    splitPlanePoint[axis] = pivot;
+    if (dot(length(search - splitPlanePoint), length(search - splitPlanePoint)) < bestDistance) {
+        int offBranch = nearestPhotonBranch(offIndex, search, (axis + 1) % axes, axes);
+        
+        texelIndex = photonIndex(offBranch - 1);
+        tentative = texelFetch(photons, texelIndex, lod).xyz;
+        distance = dot(length(tentative - search), length(tentative - search));
+        
+        if (distance < bestDistance) {
+            best = index;
+            bestPosition = tentative;
+            bestDistance = distance;
+        }
+    }
+    
+    return best;
+}
+
 vec3 nearestPhoton(in vec3 search) {
     const int axes = 3;
     
     int index = 1;
     int axis  = 0;
     
-    int bestIndex = 0;
-    float bestDistance = Infinity;
-    vec3 bestPosition = vec3(0, 0, 0);
+    /*
+     int bestIndex = 0;
+     float bestDistance = Infinity;
+     vec3 bestPosition = vec3(0, 0, 0);
+     
+     while(index <= numPhotons) {
+     ivec2 texelIndex = photonIndex(index - 1);
+     vec3 tentative = texelFetch(photons, texelIndex, lod).xyz;
+     float distance = dot(length(tentative - search), length(tentative - search));
+     
+     if(distance < bestDistance) {
+     bestIndex    = index;
+     bestDistance = distance;
+     bestPosition = tentative;
+     }
+     
+     if(search[axis] > tentative[axis]) {
+     index = index * 2 + 1;
+     } else {
+     index = index * 2;
+     }
+     
+     axis = (axis + 1 ) % axes;
+     }
+     
+     return bestPosition;
+     */
     
-    while(index <= numPhotons) {
-        ivec2 texelIndex = photonIndex(index - 1);
-        vec3 tentative = texelFetch(photons, texelIndex, lod).xyz;
-        float distance = dot(length(tentative - search), length(tentative - search));
-        
-        if(distance < bestDistance) {
-            bestIndex    = index;
-            bestDistance = distance;
-            bestPosition = tentative;
-        }
-        
-        if(search[axis] > tentative[axis]) {
-            index = index * 2 + 1;
-        } else {
-            index = index * 2;
-        }
-        
-        axis = (axis + 1 ) % axes;
-    }
-
-    return bestPosition;
+    index = nearestPhotonBranch(index, search, axis, axes);
+    
+    ivec2 texelIndex = photonIndex(index - 1);
+    vec3 tentative = texelFetch(photons, texelIndex, lod).xyz;
+    
+    return tentative;
 }
 
 ///   ---> direction --->
