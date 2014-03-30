@@ -74,7 +74,7 @@ Quantize::Quantize() : _lastLogTime(GetTiming()) {
     
     Light light;
     light.position.x = -2.22;
-    light.position.y = -3.12;
+    light.position.y = -2.444;
     light.position.z = 0.75;
     
     for(size_t i = 0; i < 4; ++i) {
@@ -148,7 +148,10 @@ void Quantize::loadDemoScene() {
     auto &vertices = ((Model*)cube->sub[0].get())->vertices;
     
     // Mega cube
-    for(VertexData d : vertices) {
+    for(int i = 0; i < vertices.size(); ++i) {
+    //for(int i = vertices.size() - 1; i >= 0; --i) {
+        VertexData d = vertices[i];
+        
         d.position = Matrix44::CreateTranslation(0, 0, 0) * Matrix44::CreateScale(Vector3(20, 10, 20)) * d.position;
         
         // Flip the normal, we're inside the cube.
@@ -174,6 +177,9 @@ void Quantize::loadDemoScene() {
         * d.position;
         
         d.normal = r * d.normal;
+        
+        // Flip normals to face camera
+        d.normal.Invert();
         
         scene.push_back(d);
     }
