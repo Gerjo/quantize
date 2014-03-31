@@ -21,6 +21,7 @@ in vec2 pixelPosition;          // The approximate pixel on screen.
 
 uniform int numTriangles;       // Number of triangles
 
+uniform int useLambertian;
 uniform int useTexture;
 
 uniform int n;
@@ -349,6 +350,17 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             //Photon photon = nearestPhoton(where);
             Photon photon  = approximateNearestPhoton(where);
             
+            // Unpack color
+            int intColor     = int(photon.meta.y);
+            vec4 photonColor = vec4(
+                float((intColor >> 24) & 255) / 255,
+                float((intColor >> 16) & 255) / 255,
+                float((intColor >>  8) & 255) / 255,
+                float((intColor >>  0) & 255) / 255
+            );
+            
+            photonColor.a = 1;
+            
             float d = length(photon.position - where);
             
             int bounces = int(photon.meta.z);
@@ -361,13 +373,14 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             
             float photonIntensity = (maxBounces - bounces + 1) * 0.1;
             
+             //color = photonColor;
             
             if(d < 0.005) {
             
-            
+               
                 //color += rcolor * 3;
             
-                if(bounces == 2) {
+                /*if(bounces == 2) {
                     color.b += 10;
                 } else if(bounces == 1) {
                     color.g += 10;
@@ -377,7 +390,7 @@ vec4 traceRay(in vec2 pos, in float perspective) {
                     srand(bounces * 3);
                     
                     color += vec4(rand(), rand(), rand(), 0) * 2;
-                }
+                }*/
                 // //(0.5-d)*0.7;
             }
             
@@ -451,8 +464,9 @@ vec4 traceRay(in vec2 pos, in float perspective) {
                     
                     lambert = max(lambert, 0);
                     
-                   // blend += lightsDiffuse[l] * lambert;// + ambientTerm;
-                    
+                    if(useLambertian == 1) {
+                        blend += lightsDiffuse[l] * lambert;// + ambientTerm;
+                    }
                 // Hit something, use ambient term
                 } else {
                     //blend += ambientTerm;

@@ -99,6 +99,8 @@ static bool isInitialized = false;
         
             if(keyChar == 0x20) {
                 quantize->shootPhotons();
+            } else if(keyChar == 0x6e) {
+                quantize->useLambertian = 1 - quantize->useLambertian;
             } else {
                 quantize->camera.onKey(keyChar);
             }

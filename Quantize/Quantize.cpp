@@ -431,6 +431,7 @@ void Quantize::initializeRaytraceProgram() {
     _uniformRange      = glGetUniformLocation(_programRaytracer, "range");
     _uniformJitter     = glGetUniformLocation(_programRaytracer, "enableJitter");
     _uniformUseTexture = glGetUniformLocation(_programRaytracer, "useTexture");
+    _uniformUseLambertian = glGetUniformLocation(_programRaytracer, "useLambertian");
     GLError();
     
     _lightCount     = glGetUniformLocation(_programRaytracer, "lightCount");
@@ -555,6 +556,7 @@ void Quantize::update(float dt) {
     glUniform1f(_uniformRange, range);
     glUniform1i(_uniformJitter, (int) enableJitter);
     glUniform1i(_uniformUseTexture, (int) useTexture);
+    glUniform1i(_uniformUseLambertian, useLambertian);
     GLError();
     
     
@@ -721,8 +723,8 @@ void Quantize::shootPhotons() {
     
     
     std::random_device rd;
-    //std::mt19937 rng(rd());
-    std::mt19937 rng(42);
+    std::mt19937 rng(rd());
+    //std::mt19937 rng(42);
     
     std::uniform_real_distribution<> dist(-0.5, 0.5);
     
@@ -757,12 +759,17 @@ void Quantize::shootPhotons() {
         meta[i + 2] = 0; // Number of bounces
     }
     
+    glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, photon.textures[0 + readBuffer * 3]);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, photon.width, photon.height, 0, GL_RGB, GL_FLOAT, & directions[0]);
     GLError();
+    
+    glActiveTexture(GL_TEXTURE2);
     glBindTexture(GL_TEXTURE_2D, photon.textures[1 + readBuffer * 3]);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, photon.width, photon.height, 0, GL_RGB, GL_FLOAT, & positions[0]);
+    
     GLError();
+    glActiveTexture(GL_TEXTURE3);
     glBindTexture(GL_TEXTURE_2D, photon.textures[2 + readBuffer * 3]);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, photon.width, photon.height, 0, GL_RGB, GL_FLOAT, & meta[0]);
     GLError();

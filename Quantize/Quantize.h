@@ -61,6 +61,7 @@ class Quantize {
     
     GLint _uniformPhotonMapWidth{-1};
     GLint _uniformPhotonMapHeight{-1};
+    GLint _uniformUseLambertian{-1};
     
     /// Ray tracingproperties
     GLint _uniformN;
@@ -159,6 +160,7 @@ public:
     int enableLights{1};
     bool enableJitter{true};
     bool useTexture{true};
+    int useLambertian{1};
     
     /// Camera
     Camera camera;

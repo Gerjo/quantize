@@ -20,6 +20,7 @@ uniform int triangleCount;      // Number of triangles
 uniform int mapWidth;
 uniform int mapHeight;
 
+
 uniform vec2 windowSize;
 
 
@@ -69,26 +70,26 @@ void main() {
         return;
     }
     
-    /*if(bounces > 0) {
+    // Russian roulette after the first bounce
+    if(bounces > 0) {
         if(rand() > 0.95) { // Kill n%
-            outMeta = vec4(
+            outMeta = vec3(
                     0,           // dead.
                     0,           // no color
-                    bounces + 1, // bounces
-                    0            // Homogenious
+                    bounces + 1  // bounces
             );
             
             return;
         }
-    }*/
+    }
     
     // Zero initialize.
     outDirection = vec3(9, 9, 9);
     outPosition  = vec3(0, 0, 0);
     outMeta      = vec3(
                   1,            // Alive.
-                  0,            // Color?
-                  bounces + 1  // Number of bounces
+                  0,            // Color
+                  bounces + 1   // Number of bounces
                   
     );
 
@@ -156,19 +157,27 @@ void main() {
         vec3 n3 = texelFetch(zdata, ivec2(bestHitOffset + 8, 0), lod).xyz;
         
         // Solve for UV coordinates
-        /*
+        
         vec2 uv     = barycentric(bestHitPosition, A, B, C, U, V, W);
         int sampler = int(texelFetch(zdata, ivec2(bestHitOffset + 3, 0), lod).z);
-        outDirection    = texture(textures[sampler], uv);
-        */
+        
+        vec4 color = texture(textures[sampler], uv);
+        //color = vec4(1, 1, 0, 1);//
+        
+        // Pack color into integer. msb (rrrrrrrr gggggggg bbbbbbbb aaaaaaaa) lsb
+        int intColor =  ((int(color.r * 255) & 255) << 24) |
+                        ((int(color.g * 255) & 255) << 16) |
+                        ((int(color.b * 255) & 255) <<  8) |
+                        ((int(color.a * 255) & 255) <<  0) ;
+        
+        outMeta.y = intColor;
         
         // Find normal
         vec3 normal = normalize(barycentric3(bestHitPosition, A, B, C, n1, n2, n3));
         
-        // Reflect about the surface normal. TODO: not sure if this "reflect" works
-        // as expected.
-        outDirection = reflect(ray.direction, normal);//, 0);
-        outPosition  = bestHitPosition; //vec4(bestHitPosition, 0);
+        // Reflect about the surface normal.
+        outDirection = reflect(ray.direction, normal);
+        outPosition  = bestHitPosition;
     } else {
         // Hit nothing, mark as "dead".
         outMeta.x = 0;
