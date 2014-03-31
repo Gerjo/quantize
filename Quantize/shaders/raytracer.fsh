@@ -23,6 +23,8 @@ uniform int numTriangles;       // Number of triangles
 
 uniform int useLambertian;
 uniform int useTexture;
+uniform int showPhotons;
+uniform int useANN;
 
 uniform int n;
 uniform float sigma;
@@ -346,9 +348,17 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             
             vec4 blend = vec4(0.0, 0.0, 0.0, 1.0);
             
+            // Only works with tiny amounts of photon. Use as ground truth test.
             //Photon photon = linearNearestPhoton(where);
-            //Photon photon = nearestPhoton(where);
-            Photon photon  = approximateNearestPhoton(where);
+            
+            Photon photon = approximateNearestPhoton(where);
+            
+            /*if(useANN == 0) {
+                photon = nearestPhoton(where);
+            } else if(useANN == 1) {
+                photon = approximateNearestPhoton(where);
+            }*/
+            
             
             // Unpack color
             int intColor     = int(photon.meta.y);
@@ -371,16 +381,16 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             //color.g += light.g * (maxBounces - bounces);
             //color.b += light.b * (maxBounces - bounces);
             
-            float photonIntensity = (maxBounces - bounces + 1) * 0.1;
+            float photonIntensity = pow(maxBounces - bounces + 1, 2) * 0.05;
             
              //color = photonColor;
             
-            if(d < 0.005) {
+            if(showPhotons == 1 && d < 0.005) {
             
                
                 //color += rcolor * 3;
             
-                /*if(bounces == 2) {
+                if(bounces == 2) {
                     color.b += 10;
                 } else if(bounces == 1) {
                     color.g += 10;
@@ -390,7 +400,7 @@ vec4 traceRay(in vec2 pos, in float perspective) {
                     srand(bounces * 3);
                     
                     color += vec4(rand(), rand(), rand(), 0) * 2;
-                }*/
+                }
                 // //(0.5-d)*0.7;
             }
             

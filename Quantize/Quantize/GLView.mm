@@ -101,6 +101,17 @@ static bool isInitialized = false;
                 quantize->shootPhotons();
             } else if(keyChar == 0x6e) {
                 quantize->useLambertian = 1 - quantize->useLambertian;
+                printf("useLambertian = %d\n", quantize->useLambertian);
+                
+             } else if(keyChar == 0x6d) {
+                quantize->showPhotons = 1 - quantize->showPhotons;
+                printf("showPhotons = %d\n", quantize->showPhotons);
+                
+              } else if(keyChar == 0x62) {
+                quantize->useANN = 1 - quantize->useANN;
+                
+                printf("useANN = %d\n", quantize->useANN);
+                
             } else {
                 quantize->camera.onKey(keyChar);
             }

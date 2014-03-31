@@ -432,6 +432,9 @@ void Quantize::initializeRaytraceProgram() {
     _uniformJitter     = glGetUniformLocation(_programRaytracer, "enableJitter");
     _uniformUseTexture = glGetUniformLocation(_programRaytracer, "useTexture");
     _uniformUseLambertian = glGetUniformLocation(_programRaytracer, "useLambertian");
+    _uniformShowPhotons = glGetUniformLocation(_programRaytracer, "showPhotons");
+    _uniformUseANN      = glGetUniformLocation(_programRaytracer, "useANN");
+    
     GLError();
     
     _lightCount     = glGetUniformLocation(_programRaytracer, "lightCount");
@@ -557,6 +560,8 @@ void Quantize::update(float dt) {
     glUniform1i(_uniformJitter, (int) enableJitter);
     glUniform1i(_uniformUseTexture, (int) useTexture);
     glUniform1i(_uniformUseLambertian, useLambertian);
+    glUniform1i(_uniformShowPhotons, showPhotons);
+    glUniform1i(_uniformUseANN, useANN);
     GLError();
     
     

@@ -62,6 +62,8 @@ class Quantize {
     GLint _uniformPhotonMapWidth{-1};
     GLint _uniformPhotonMapHeight{-1};
     GLint _uniformUseLambertian{-1};
+    GLint _uniformShowPhotons{-1};
+    GLint _uniformUseANN{-1};
     
     /// Ray tracingproperties
     GLint _uniformN;
@@ -124,7 +126,7 @@ class Quantize {
     struct PhotonVariables {
         
         GLuint width{256};
-        GLuint height{128};
+        GLuint height{168};
         GLuint maxBounces{4};
         bool skipFirstBounce{false}; // first bounce = direct light
         
@@ -161,6 +163,8 @@ public:
     bool enableJitter{true};
     bool useTexture{true};
     int useLambertian{1};
+    int showPhotons{1};
+    int useANN{1};
     
     /// Camera
     Camera camera;
