@@ -453,6 +453,7 @@
 		CC71FFA318BCEC0B003AF106 /* Mage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Mage.png; sourceTree = "<group>"; };
 		CC71FFA418BCEC0B003AF106 /* Magey.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = Magey.dae; sourceTree = "<group>"; };
 		CC80945E18C0A9EF00361414 /* checkerboard3.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = checkerboard3.dae; sourceTree = "<group>"; };
+		CCBFA48D18F0758400905CF9 /* PhotonGrid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotonGrid.h; sourceTree = "<group>"; };
 		CCD8E8DA18B212BB0097323A /* Camera Controls.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "Camera Controls.rtf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -735,6 +736,7 @@
 		A6C56A08189FC8DF00DFAA00 = {
 			isa = PBXGroup;
 			children = (
+				CCBFA48D18F0758400905CF9 /* PhotonGrid.h */,
 				A6C3425718E1DC4D006A35AB /* KdTree.h */,
 				A6F5D80618E73A970096FB32 /* KdTree.cpp */,
 				A6F24E7418D33D4B00B4FCE6 /* OctTree.h */,
