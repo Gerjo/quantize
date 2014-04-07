@@ -898,6 +898,8 @@ void Quantize::shootPhotons() {
         Exit("No photons where read from the GPU, or they are all dead.");
     }
     
+    // Make the grid!
+    PhotonGrid grid(photons, *new Vector3(-10, -10, -10), *new Vector3(10, 10, 10));
     
     printf("Building KdTreee...");
     

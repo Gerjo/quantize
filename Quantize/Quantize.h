@@ -21,6 +21,7 @@
 #include "Collada.h"
 #include "Model.h"
 #include "KdTree.h"
+#include "PhotonGrid.h"
 
 using namespace Furiosity;
 using std::string;
