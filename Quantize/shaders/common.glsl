@@ -12,9 +12,14 @@ struct Ray {
     vec3 direction;
 };
 
-// Integer modulo.
+/// Integer modulo.
 int mod(int i, int n) {
     return i - i / n * n;
+}
+
+/// Number rounding
+int round(float f) {
+    return int(floor(f + 0.5));
 }
 
 float random(in vec2 seed) {
@@ -28,6 +33,8 @@ float random(in vec3 seed) {
 float random(in float x, in float y) {
     return random(vec2(x, y));
 }
+
+
 
 
 // Some initial seed.

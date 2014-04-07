@@ -45,6 +45,7 @@ uniform int mapHeight;
 uniform ivec3 gridResolution;
 uniform vec3  gridMin;
 uniform vec3  gridMax;
+uniform vec3  gridInterval;
 
 // My Intel onboard chip only supports 16 textures. If this becomes a limit,
 // we can make an atlas - textures up to 16k resolution are supported. Reading
@@ -68,6 +69,8 @@ out vec4 finalColor;
 
 uniform sampler2D photons;
 uniform int numPhotons; // Number of photons
+
+uniform sampler2D gridTexture;
 
 struct Photon {
     vec3 direction;
@@ -351,10 +354,48 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             
             vec4 blend = vec4(0.0, 0.0, 0.0, 1.0);
             
+            
+            vec4 photonIntensity = vec4(0, 0, 0, 0);
+            
+            ivec3 gridQuantize = ivec3(
+                round((where.x - gridMin.x) / gridInterval.x),
+                round((where.y - gridMin.y) / gridInterval.y),
+                round((where.z - gridMin.z) / gridInterval.z)
+            );
+            
+            int cellIndex = gridQuantize.x +
+                                (gridQuantize.y * gridResolution.x)
+                                +
+                                (gridQuantize.z * gridResolution.x * gridResolution.y);
+            
+            ivec2 size = textureSize(gridTexture, lod);
+            
+            ivec2 texIndex = ivec2(0, 0);
+            texIndex.y = cellIndex / size.x;
+            texIndex.x = cellIndex - texIndex.y * size.x;
+
+            vec3 cell = texelFetch(gridTexture, texIndex, lod).xyz;
+            
+            photonIntensity.x = cell.x / 40;
+            photonIntensity.y = cell.x / 40;
+            
+            /*if(int(cell.x) == 9) {
+                photonIntensity.x = 1;
+            } else {
+                photonIntensity.x = 0.2;
+            }*/
+            
+            
+            //photonIntensity.x = length((where - gridMin) - gridQuantize * gridInterval) * 1;
+            
+            //photonIntensity.x = float(gridQuantize.x) / gridResolution.x;
+            //photonIntensity.y = float(gridQuantize.y) / gridResolution.y;
+            //photonIntensity.z = float(gridQuantize.z) / gridResolution.z;
+            
             // Only works with tiny amounts of photon. Use as ground truth test.
             //Photon photon = linearNearestPhoton(where);
             
-            Photon photon = approximateNearestPhoton(where);
+            /*Photon photon = approximateNearestPhoton(where);
     
             srand(where.x);
     
@@ -367,11 +408,11 @@ vec4 traceRay(in vec2 pos, in float perspective) {
                 photon.meta.z += approximateNearestPhoton(location).meta.z;
             }
 
-            /*if(useANN == 0) {
+            if(useANN == 0) {
                 photon = nearestPhoton(where);
             } else if(useANN == 1) {
                 photon = approximateNearestPhoton(where);
-            }*/
+            }
             
             // Unpack color
             int intColor     = int(photon.meta.y);
@@ -412,7 +453,7 @@ vec4 traceRay(in vec2 pos, in float perspective) {
                     
                     color += vec4(rand(), rand(), rand(), 0) * 2;
                 }
-            }
+            }*/
             
             Ray beam;
             beam.place     = where;
@@ -475,7 +516,7 @@ vec4 traceRay(in vec2 pos, in float perspective) {
                     lambert = max(lambert, 0);
                     
                     if(useLambertian == 1) {
-                        blend += lightsDiffuse[l] * lambert;// + ambientTerm;
+                        //blend += lightsDiffuse[l] * lambert;// + ambientTerm;
                     }
                 // Hit something, use ambient term
                 } else {

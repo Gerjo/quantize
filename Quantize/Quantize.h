@@ -67,17 +67,20 @@ class Quantize {
     GLint _uniformUseANN{-1};
     
     /// Ray tracingproperties
-    GLint _uniformN;
-    GLint _uniformSigma;
-    GLint _uniformRange;
-    GLint _uniformJitter;
-    GLint _uniformUseTexture;
-    GLint _uniformMaxBounces;
+    GLint _uniformN{-1};
+    GLint _uniformSigma{-1};
+    GLint _uniformRange{-1};
+    GLint _uniformJitter{-1};
+    GLint _uniformUseTexture{-1};
+    GLint _uniformMaxBounces{-1};
     
-    GLint _uniformGridRes;
-    GLint _uniformGridMax;
-    GLint _uniformGridMin;
-
+    GLint  _uniformGridRes{-1};
+    GLint  _uniformGridMax{-1};
+    GLint  _uniformGridMin{-1};
+    GLint  _uniformGridInterval{-1};
+    GLint  _uniformGridSampler{-1};
+    GLuint _gridTexture{0};
+    
     /// Light uniforms
     GLint _lightCount{-1};
     GLint _lightsPosition{-1};

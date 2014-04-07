@@ -152,7 +152,7 @@ void Quantize::loadDemoScene() {
     //for(int i = vertices.size() - 1; i >= 0; --i) {
         VertexData d = vertices[i];
         
-        d.position = Matrix44::CreateTranslation(0, 0, 0) * Matrix44::CreateScale(Vector3(20, 10, 20)) * d.position;
+        d.position = Matrix44::CreateTranslation(0, 0, 0) * Matrix44::CreateScale(Vector3(20, 20, 20)) * d.position;
         
         // Flip the normal, we're inside the cube.
         d.normal.Invert();
@@ -274,6 +274,17 @@ void Quantize::initializePhotonProgram() {
     // Texture to hold the photon data
     glGenTextures(1, &photon.photonTexture);
     glBindTexture(GL_TEXTURE_2D, photon.photonTexture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, width, height, 0, GL_RGB, GL_FLOAT, NULL);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    GLError();
+    
+    // Texture to hold the photon data as a grid
+    glGenTextures(1, &_gridTexture);
+    glBindTexture(GL_TEXTURE_2D, _gridTexture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -453,8 +464,10 @@ void Quantize::initializeRaytraceProgram() {
     GLError();
     
     _uniformGridRes = glGetUniformLocation(_programRaytracer, "gridResolution");
-    _uniformGridMax = glGetUniformLocation(_programRaytracer, "gridMin");
-    _uniformGridMin = glGetUniformLocation(_programRaytracer, "gridMax");
+    _uniformGridMax = glGetUniformLocation(_programRaytracer, "gridMax");
+    _uniformGridMin = glGetUniformLocation(_programRaytracer, "gridMin");
+    _uniformGridInterval = glGetUniformLocation(_programRaytracer, "gridInterval");
+    _uniformGridSampler  = glGetUniformLocation(_programRaytracer, "gridTexture");
     GLError();
     
     _lightCount     = glGetUniformLocation(_programRaytracer, "lightCount");
@@ -644,7 +657,13 @@ void Quantize::update(float dt) {
     glUniform1i(_uniformNumPhotons, (int) kdtree.size());
     GLError();
 
+    // Enable photon grid texture
+    glActiveTexture(GL_TEXTURE5);
+    glBindTexture(GL_TEXTURE_2D, _gridTexture);
+    glUniform1i(_uniformGridSampler, 5);
+
     glEnableVertexAttribArray(_attrRtPosition);
+    
     
     // Validate just before drawing. If there are errors, this will show them. The
     // actual draw call does not contain debug information at all.
@@ -748,8 +767,8 @@ void Quantize::shootPhotons() {
     
     
     std::random_device rd;
-    std::mt19937 rng(rd());
-    //std::mt19937 rng(42);
+    //std::mt19937 rng(rd());
+    std::mt19937 rng(42 + 42);
     
     std::uniform_real_distribution<> dist(-0.5, 0.5);
     
@@ -921,12 +940,27 @@ void Quantize::shootPhotons() {
     printf("Building grid...");
     
     // Make the grid!
-    PhotonGrid grid(photons, Vector3(-10, -10, -10), Vector3(10, 10, 10));
+    PhotonGrid grid(photons);
     
-    auto g = grid.toVector();
+    std::vector<float> g = grid.toVector();
     
+    // The photons do not fit in a single row. This call finds an optimal
+    // width and height that do not require byte padding.
+    Vector2 texDims = primo((int) g.size() / 3);
+    int texW = (int) texDims.x;
+    int texH = (int) texDims.y;
+    
+    
+    printf("Uploading grid to GPU %d pixels at [%dx%d]... ", (int) g.size() / 3, texW, texH);
+    
+    glActiveTexture(GL_TEXTURE5);
+    glBindTexture(GL_TEXTURE_2D, _gridTexture);
+
+    
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, texW, texH, 0, GL_RGB, GL_FLOAT, & g[0]);
+    GLError();
+    glBindTexture(GL_TEXTURE_2D, 0);
     printf("done.\n");
-    
     
     
     
@@ -973,12 +1007,13 @@ void Quantize::shootPhotons() {
     glUseProgram(_programRaytracer);
     glUniform1i(_uniformPhotonMapWidth, w);
     glUniform1i(_uniformPhotonMapHeight, h);
+    GLError();
     
     // Upload grid particulars
-    glUniform3i(_uniformGridRes, PhotonGrid::xRes, PhotonGrid::yRes, PhotonGrid::zRes);
-    glUniform3fv(_uniformGridMin, 3, grid.lowLimit.v);
-    glUniform3fv(_uniformGridMax, 3, grid.highLimit.v);
-    GLError();
+    glUniform3i(_uniformGridRes, PhotonGrid::xRes, PhotonGrid::yRes, PhotonGrid::zRes); GLError();
+    glUniform3fv(_uniformGridMin, 1, grid.lowLimit.v); GLError();
+    glUniform3fv(_uniformGridMax, 1, grid.highLimit.v); GLError();
+    glUniform3fv(_uniformGridInterval, 1, grid.interval.v); GLError();
     
     // Debugging logging
     for(int i = 0; i < kdtree.size(); ++i) {
