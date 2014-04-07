@@ -13,12 +13,12 @@ struct Ray {
 };
 
 /// Integer modulo.
-int mod(int i, int n) {
+int mod(in int i, in int n) {
     return i - i / n * n;
 }
 
 /// Number rounding
-int round(float f) {
+int round(in float f) {
     return int(floor(f + 0.5));
 }
 
@@ -34,7 +34,13 @@ float random(in float x, in float y) {
     return random(vec2(x, y));
 }
 
-
+/// Wrap an index to appropriate x and y coordinates.
+ivec2 indexWrap(in int index, in int width) {
+    ivec2 texIndex = ivec2(0, index / width);
+    texIndex.x = index - texIndex.y * width;
+    
+    return texIndex;
+}
 
 
 // Some initial seed.

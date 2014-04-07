@@ -368,16 +368,27 @@ vec4 traceRay(in vec2 pos, in float perspective) {
                                 +
                                 (gridQuantize.z * gridResolution.x * gridResolution.y);
             
-            ivec2 size = textureSize(gridTexture, lod);
+            int textureWidth = textureSize(gridTexture, lod).x;
             
-            ivec2 texIndex = ivec2(0, 0);
-            texIndex.y = cellIndex / size.x;
-            texIndex.x = cellIndex - texIndex.y * size.x;
-
+            ivec2 texIndex = indexWrap(cellIndex, textureWidth);
             vec3 cell = texelFetch(gridTexture, texIndex, lod).xyz;
             
-            photonIntensity.x = cell.x / 40;
-            photonIntensity.y = cell.x / 40;
+            const int photonStride = 3; // 3 x vec3 [direction, position, meta]
+            int photonCount = int(cell.x);
+            int startIndex  = int(cell.y);
+            int endIndex    = int(cell.z);
+            
+            float flux = 0;
+            for(int i = startIndex; i < endIndex; ++i) {
+                vec3 photonDirection = texelFetch(gridTexture, indexWrap(i * photonStride + 0, textureWidth), lod).xyz;
+                vec3 photonPosition  = texelFetch(gridTexture, indexWrap(i * photonStride + 1, textureWidth), lod).xyz;
+                vec3 photonMeta      = texelFetch(gridTexture, indexWrap(i * photonStride + 2, textureWidth), lod).xyz; // dead color bounces
+            
+                flux += maxBounces - photonMeta.z;
+            }
+            
+            photonIntensity.x = flux / 60;
+            //photonIntensity.y = cell.x / 40;
             
             /*if(int(cell.x) == 9) {
                 photonIntensity.x = 1;
@@ -386,7 +397,7 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             }*/
             
             
-            //photonIntensity.x = length((where - gridMin) - gridQuantize * gridInterval) * 1;
+            //photonIntensity.x = length((where - gridMin) - gridQuantize * gridInterval) * 2;
             
             //photonIntensity.x = float(gridQuantize.x) / gridResolution.x;
             //photonIntensity.y = float(gridQuantize.y) / gridResolution.y;
