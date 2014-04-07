@@ -73,6 +73,10 @@ class Quantize {
     GLint _uniformJitter;
     GLint _uniformUseTexture;
     GLint _uniformMaxBounces;
+    
+    GLint _uniformGridRes;
+    GLint _uniformGridMax;
+    GLint _uniformGridMin;
 
     /// Light uniforms
     GLint _lightCount{-1};

@@ -42,11 +42,14 @@ uniform float time;
 uniform int mapWidth;
 uniform int mapHeight;
 
+uniform ivec3 gridResolution;
+uniform vec3  gridMin;
+uniform vec3  gridMax;
 
 // My Intel onboard chip only supports 16 textures. If this becomes a limit,
 // we can make an atlas - textures up to 16k resolution are supported. Reading
 // the spec further, we can use a sampler2DArray!
-uniform sampler2D textures[14];
+uniform sampler2D textures[13];
 
 
 /// Format (non optimized structure, directly copied from c++)
@@ -352,13 +355,23 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             //Photon photon = linearNearestPhoton(where);
             
             Photon photon = approximateNearestPhoton(where);
-            
+    
+            srand(where.x);
+    
+    
+            int maxDerp = 1;
+            float scale = 0.5;
+            for(int g = 1; g < maxDerp; ++g) {
+                vec3 location = where + vec3((rand()-0.5)*scale, (rand()-0.5)*scale, (rand()-0.5)*scale);
+                
+                photon.meta.z += approximateNearestPhoton(location).meta.z;
+            }
+
             /*if(useANN == 0) {
                 photon = nearestPhoton(where);
             } else if(useANN == 1) {
                 photon = approximateNearestPhoton(where);
             }*/
-            
             
             // Unpack color
             int intColor     = int(photon.meta.y);
@@ -381,15 +394,13 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             //color.g += light.g * (maxBounces - bounces);
             //color.b += light.b * (maxBounces - bounces);
             
-            float photonIntensity = pow(maxBounces - bounces + 1, 2) * 0.05;
+            float photonIntensity = pow(maxBounces*maxDerp - bounces + 1, 2) * 0.05;
             
-             //color = photonColor;
+            // Inherit the color from the photon.
+            //color = photonColor;
             
-            if(showPhotons == 1 && d < 0.005) {
-            
-               
-                //color += rcolor * 3;
-            
+            if(showPhotons == 1 && d < 0.01) {
+                
                 if(bounces == 2) {
                     color.b += 10;
                 } else if(bounces == 1) {
@@ -401,18 +412,7 @@ vec4 traceRay(in vec2 pos, in float perspective) {
                     
                     color += vec4(rand(), rand(), rand(), 0) * 2;
                 }
-                // //(0.5-d)*0.7;
             }
-            
-            /*for(int l = 0; l < numPhotons; ++l) {
-                vec3 pos = texelFetch(photons, ivec2(l * 3 + 1, 0), lod).xyz;
-                float d = length(pos - where);
-                
-                if(d < 0.5) {
-                    color.r += (0.5-d)*0.7;
-                }
-            }*/
-            
             
             Ray beam;
             beam.place     = where;

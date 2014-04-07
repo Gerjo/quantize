@@ -166,10 +166,23 @@ void Quantize::loadDemoScene() {
         scene.push_back(d);
     }
     
+       // Mini cube
+    
+    
+    for(VertexData d : vertices) {
+        const auto r = Matrix44::CreateRotate(1.23, 1, 1, 1);
+    
+        d.position = Matrix44::CreateTranslation(-5, 0, -5) * Matrix44::CreateScale(Vector3(1, 1, 1)) * r * d.position;
+        
+        d.normal = r * d.normal;
+        
+        scene.push_back(d);
+    }
+    
     // Tile
     for(VertexData d : ((Model*)rectangle->sub[0].get())->vertices) {
-    
         const auto r = Matrix44::CreateRotate(1.23, 1, 1, 1);
+        
     
         d.position = Matrix44::CreateTranslation(0, 0, 0)
         * Matrix44::CreateScale(Vector3(4, 4, 4))
@@ -351,6 +364,8 @@ void Quantize::initializePhotonProgram() {
     photon.uniformReadBuffer[2]   = glGetUniformLocation(photon.program, "inBuffers[2]");
     GLError();
     
+    
+    
     // The rectangle used to render onto, the UVs are derived from this.
     GLfloat fbo_vertices[] = {
         -1, -1,
@@ -435,6 +450,11 @@ void Quantize::initializeRaytraceProgram() {
     _uniformShowPhotons = glGetUniformLocation(_programRaytracer, "showPhotons");
     _uniformUseANN      = glGetUniformLocation(_programRaytracer, "useANN");
     
+    GLError();
+    
+    _uniformGridRes = glGetUniformLocation(_programRaytracer, "gridResolution");
+    _uniformGridMax = glGetUniformLocation(_programRaytracer, "gridMin");
+    _uniformGridMin = glGetUniformLocation(_programRaytracer, "gridMax");
     GLError();
     
     _lightCount     = glGetUniformLocation(_programRaytracer, "lightCount");
@@ -577,11 +597,11 @@ void Quantize::update(float dt) {
     textureSamplers.reserve(Textures::samplers.size());
     for(int i = 0; i < Textures::samplers.size(); ++i) {
         // Texture enabling
-        glActiveTexture(GL_TEXTURE5 + i);                       // Use texture n
+        glActiveTexture(GL_TEXTURE6 + i);                       // Use texture n
         glBindTexture(GL_TEXTURE_2D, Textures::samplers[i]);    // Bind handle to n
         GLError();
         
-        textureSamplers.push_back(i + 5);
+        textureSamplers.push_back(i + 6);
     }
     
     // Inform the shader which sampler indices to use
@@ -707,11 +727,11 @@ void Quantize::shootPhotons() {
     textureSamplers.reserve(Textures::samplers.size());
     for(int i = 0; i < Textures::samplers.size(); ++i) {
         // Texture enabling
-        glActiveTexture(GL_TEXTURE5 + i);                       // Use texture n
+        glActiveTexture(GL_TEXTURE6 + i);                       // Use texture n
         glBindTexture(GL_TEXTURE_2D, Textures::samplers[i]);    // Bind handle to n
         GLError();
         
-        textureSamplers.push_back(i + 5);
+        textureSamplers.push_back(i + 6);
     }
     
     // Inform the shader which sampler indices to use
@@ -898,8 +918,18 @@ void Quantize::shootPhotons() {
         Exit("No photons where read from the GPU, or they are all dead.");
     }
     
+    printf("Building grid...");
+    
     // Make the grid!
-    PhotonGrid grid(photons, *new Vector3(-10, -10, -10), *new Vector3(10, 10, 10));
+    PhotonGrid grid(photons, Vector3(-10, -10, -10), Vector3(10, 10, 10));
+    
+    auto g = grid.toVector();
+    
+    printf("done.\n");
+    
+    
+    
+    
     
     printf("Building KdTreee...");
     
@@ -943,6 +973,11 @@ void Quantize::shootPhotons() {
     glUseProgram(_programRaytracer);
     glUniform1i(_uniformPhotonMapWidth, w);
     glUniform1i(_uniformPhotonMapHeight, h);
+    
+    // Upload grid particulars
+    glUniform3i(_uniformGridRes, PhotonGrid::xRes, PhotonGrid::yRes, PhotonGrid::zRes);
+    glUniform3fv(_uniformGridMin, 3, grid.lowLimit.v);
+    glUniform3fv(_uniformGridMax, 3, grid.highLimit.v);
     GLError();
     
     // Debugging logging
@@ -953,7 +988,7 @@ void Quantize::shootPhotons() {
     }
 }
 
-void Quantize::handleLogging() { return;
+void Quantize::handleLogging() {
     const double time = GetTiming();
     if(time - _lastLogTime > _logInterval) {
     
