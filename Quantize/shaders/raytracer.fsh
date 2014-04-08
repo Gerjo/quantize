@@ -396,10 +396,16 @@ vec4 traceRay(in vec2 pos, in float perspective) {
                     //flux += 0.1 / d;
                 //}
                 
-                flux += (maxBounces - photonMeta.z) * 0.1 / d;
+                // d = 0.1 / d;
+                d = -pow(d, 2) + 2;
+                
+                if (d > 0.0) {
+                    flux += (maxBounces - photonMeta.z) * d;
+                }
                 
                 //break;
             }
+            flux = 1.0 * log(flux * 0.5);
             
             //flux /= max(0, photonCount - 2);
             
