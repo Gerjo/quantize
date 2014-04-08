@@ -23,7 +23,7 @@ using namespace Furiosity;
 
 class PhotonGrid {
 public:
-    static const int res = 50;
+    static const int res = 40;
 
     static const int xRes = res, yRes = res, zRes = res;
     
@@ -37,7 +37,7 @@ public:
     const int photonCount;
     
 public:
-    PhotonGrid(const std::deque<Photon>& photons)
+    PhotonGrid(std::deque<Photon> photons)
         : interval(0, 0, 0)
         , photonCount((int)photons.size())
         , lowLimit( +std::numeric_limits<float>::infinity())
@@ -55,6 +55,9 @@ public:
             highLimit.z = std::max(highLimit.z, p.position.z);
         }
     
+        highLimit(20, 20, 20);
+        lowLimit(-20, -20, -20);
+    
         printf("From: %.4f %.4f %.4f\n", lowLimit.x, lowLimit.y, lowLimit.z);
         printf("To:   %.4f %.4f %.4f\n", highLimit.x, highLimit.y, highLimit.z);
     
@@ -65,8 +68,7 @@ public:
         
         size_t max = 0;
         
-        
-        for (const Photon& p : photons) {
+        for (Photon p : photons) {
             
             // Offset to a [0...n] range
             Vector3 position = p.position - lowLimit;
@@ -79,6 +81,10 @@ public:
             assert(xIndex >= 0); assert(xIndex < xRes);
             assert(yIndex >= 0); assert(yIndex < yRes);
             assert(zIndex >= 0); assert(zIndex < zRes);
+            
+            //p.direction(1,1,1);
+            //p.position(2,2,2);
+            //p.meta(3,3,3);
             
             grid[xIndex][yIndex][zIndex].push_back(p);
             
@@ -107,42 +113,95 @@ public:
         
         
         
+        
+        
         int gridIndex    = 0;
         int photonIndex  = photonOffset;
+        
+        printf("Resulution: %dx%dx%d\n", xRes, yRes, zRes);
         
         for(int x = 0; x < xRes; ++x) {
             for(int y = 0; y < yRes; ++y) {
                 for(int z = 0; z < zRes; ++z) {
+                
+                    
+                    int cellIndex = z +
+                            (y * xRes)
+                            +
+                            (x * xRes * yRes);
+                    
+                    assert(cellIndex == gridIndex/3);
+                
+                    //printf("Grid: [index: %d, %dx%dx%d] -> [compute: %d] - quantized.\n", gridIndex/3, x,y,z, cellIndex);
+                
+                    std::sort(grid[x][y][z].begin(), grid[x][y][z].end(), [] (const Photon& a, const Photon& b) {
+                        return a.meta.z > b.meta.z;
+                    });
+                
                     int count = (int) grid[x][y][z].size();
                     
                     // Count in this cell stored in de X component
                     result[gridIndex + 0] = count;
 
                     // Starting index stored in de Y component
-                    result[gridIndex + 1] = photonIndex / photonSize;
+                    result[gridIndex + 1] = photonIndex / 3;
+                   
                     
                     // Copy each photon into the output array
                     for(int j = 0; j < count; ++j) {
                     
+                        // quantize.
+                        int xIndex = std::round((grid[x][y][z][j].position.x - lowLimit.x) / interval.x);
+                        int yIndex = std::round((grid[x][y][z][j].position.y - lowLimit.y) / interval.y);
+                        int zIndex = std::round((grid[x][y][z][j].position.z - lowLimit.z) / interval.z);
+                    
+                        if(xIndex != x) {
+                            printf("%d != %d\n", xIndex, x);
+                            assert(xIndex == x);
+                        }
+                        if(yIndex != y) {
+                            printf("%d != %d\n", yIndex, y);
+                            assert(yIndex == y);
+                        }
+                        if(zIndex != z) {
+                            printf("%d != %d\n", zIndex, z);
+                            assert(zIndex == z);
+                        }
+                        
+                    
+                        //if(cellIndex != gridIndex/3) {
+                        //    printf("Grid: [index: %d, %dx%dx%d] -> [compute: %d] - quantized.\n", gridIndex/3, x,y,z, cellIndex);
+                          //  assert(cellIndex == gridIndex/3);
+                        //}
+                    
                         // Such memory hack, many photon wow float.
-                        float* floaton = (float*) & grid[x][y][z][j];
+                        float* floaton = grid[x][y][z][j].direction.v;
                         for(int i = 0; i < photonSize; ++i) {
+                        
+                           
+                        
                             result[photonIndex] = floaton[i];
                             
                             ++photonIndex;
+                 
                         }
                     }
                     
                     // Photons are n bytes, make sure the buffer contains a
                     // multiple of n bytes. If not, this indicates a photon
                     // was only copied partically.
-                    assert((photonIndex - photonOffset) % photonSize == 0);
+                    assert(photonOffset % 3 == 0);
                     
                     // Test for memory overflow
                     assert(photonIndex <= result.size());
                     
                     // End index stored in de Z component
-                    result[gridIndex + 2] = photonIndex / photonSize;
+                    result[gridIndex + 2] = photonIndex / 3;
+                    
+                    //if(count != 0)
+                        //printf("Start: %.0f End: %.0f, delta: %.0f == %d\n", result[gridIndex + 1], result[gridIndex + 2],
+                        
+                       // result[gridIndex + 2] - result[gridIndex + 1], count * 3);
                     
                     // Offset by a vector
                     gridIndex += 3;
@@ -151,7 +210,15 @@ public:
         }
         
         
+        auto foo = result;
         
+        /*for(int i = 0; i < result.size(); ++i) {
+            printf("result[%d] = %.0f\n", i, result[i]);
+
+            if((i+1) % 3 == 0) {
+                printf("--\n");
+            }
+        }*/
         
         printf("Float size: %zu, pixel size: %zu\n", result.size(), result.size()/3);
         

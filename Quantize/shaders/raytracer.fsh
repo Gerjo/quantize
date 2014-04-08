@@ -363,10 +363,10 @@ vec4 traceRay(in vec2 pos, in float perspective) {
                 round((where.z - gridMin.z) / gridInterval.z)
             );
             
-            int cellIndex = gridQuantize.x +
+            int cellIndex = gridQuantize.z +
                                 (gridQuantize.y * gridResolution.x)
                                 +
-                                (gridQuantize.z * gridResolution.x * gridResolution.y);
+                                (gridQuantize.x * gridResolution.x * gridResolution.y);
             
             int textureWidth = textureSize(gridTexture, lod).x;
             
@@ -378,80 +378,43 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             int startIndex  = int(cell.y);
             int endIndex    = int(cell.z);
             
+            //float maxDistance = length(gridResolution);
+            
             float flux = 0;
-            for(int i = startIndex; i < endIndex; ++i) {
-                vec3 photonDirection = texelFetch(gridTexture, indexWrap(i * photonStride + 0, textureWidth), lod).xyz;
-                vec3 photonPosition  = texelFetch(gridTexture, indexWrap(i * photonStride + 1, textureWidth), lod).xyz;
-                vec3 photonMeta      = texelFetch(gridTexture, indexWrap(i * photonStride + 2, textureWidth), lod).xyz; // dead color bounces
+            for(int i = startIndex, j = startIndex; i < endIndex; ++i, j += photonStride) {
+                vec3 photonDirection = texelFetch(gridTexture, indexWrap(j + 0, textureWidth), lod).xyz;
+                vec3 photonPosition  = texelFetch(gridTexture, indexWrap(j + 1, textureWidth), lod).xyz;
+                vec3 photonMeta      = texelFetch(gridTexture, indexWrap(j + 2, textureWidth), lod).xyz; // dead color bounces
             
-                flux += maxBounces - photonMeta.z;
-            }
+                float d = length(photonPosition - where);
             
-            photonIntensity.x = flux / 60;
-            //photonIntensity.y = cell.x / 40;
-            
-            /*if(int(cell.x) == 9) {
-                photonIntensity.x = 1;
-            } else {
-                photonIntensity.x = 0.2;
-            }*/
-            
-            
-            //photonIntensity.x = length((where - gridMin) - gridQuantize * gridInterval) * 2;
-            
-            //photonIntensity.x = float(gridQuantize.x) / gridResolution.x;
-            //photonIntensity.y = float(gridQuantize.y) / gridResolution.y;
-            //photonIntensity.z = float(gridQuantize.z) / gridResolution.z;
-            
-            // Only works with tiny amounts of photon. Use as ground truth test.
-            //Photon photon = linearNearestPhoton(where);
-            
-            /*Photon photon = approximateNearestPhoton(where);
-    
-            srand(where.x);
-    
-    
-            int maxDerp = 1;
-            float scale = 0.5;
-            for(int g = 1; g < maxDerp; ++g) {
-                vec3 location = where + vec3((rand()-0.5)*scale, (rand()-0.5)*scale, (rand()-0.5)*scale);
+                if(int(photonPosition.x) == 2) {
+                    //photonIntensity.r = 3;
+                }
                 
-                photon.meta.z += approximateNearestPhoton(location).meta.z;
+                if(d < 0.4) {
+                    flux += 0.4;
+                }
+                
+               // flux += (maxBounces - photonMeta.z) / d;
+                
+                //break;
             }
-
-            if(useANN == 0) {
-                photon = nearestPhoton(where);
-            } else if(useANN == 1) {
-                photon = approximateNearestPhoton(where);
+            
+            if(photonCount == 0) {
+                photonIntensity.g = 3;
             }
             
-            // Unpack color
-            int intColor     = int(photon.meta.y);
-            vec4 photonColor = vec4(
-                float((intColor >> 24) & 255) / 255,
-                float((intColor >> 16) & 255) / 255,
-                float((intColor >>  8) & 255) / 255,
-                float((intColor >>  0) & 255) / 255
-            );
+            photonIntensity.x = flux / 2;
+            photonIntensity.y = photonIntensity.x;
+            photonIntensity.z = photonIntensity.x;
             
-            photonColor.a = 1;
-            
-            float d = length(photon.position - where);
-            
+            Photon photon = approximateNearestPhoton(where);
+    
             int bounces = int(photon.meta.z);
-
-            vec3 light = vec3(0.1, 0.1, 0.1);
             
-            //color.r += light.r * (maxBounces - bounces);
-            //color.g += light.g * (maxBounces - bounces);
-            //color.b += light.b * (maxBounces - bounces);
             
-            float photonIntensity = pow(maxBounces*maxDerp - bounces + 1, 2) * 0.05;
-            
-            // Inherit the color from the photon.
-            //color = photonColor;
-            
-            if(showPhotons == 1 && d < 0.01) {
+            if(showPhotons == 1 && length(photon.position - where) < 0.01) {
                 
                 if(bounces == 2) {
                     color.b += 10;
@@ -463,75 +426,6 @@ vec4 traceRay(in vec2 pos, in float perspective) {
                     srand(bounces * 3);
                     
                     color += vec4(rand(), rand(), rand(), 0) * 2;
-                }
-            }*/
-            
-            Ray beam;
-            beam.place     = where;
-            
-            
-            // For each light
-            for(int l = 0; l < lightCount; ++l) {
-            
-                beam.direction = lightsPosition[l] - beam.place;
-                
-                int hits = 0;
-                
-                //if(dot(beam.direction, nurmal) < 0) {
-                
-                    for(int k = 0; k < numTriangles && hits < 1; ++k) {
-                        vec3 tmp;
-                        float t;
-                        
-                        int offset2 = k * stride;
-                        vec3 D = texelFetch(zdata, ivec2(offset2 + 0, 0), lod).xyz;
-                        vec3 E = texelFetch(zdata, ivec2(offset2 + 1, 0), lod).xyz;
-                        vec3 F = texelFetch(zdata, ivec2(offset2 + 2, 0), lod).xyz;
-                        
-                        // Test the right ray against the current triangle.
-                        int res = rayIntersetsTriangle(beam, D, E, F, true, tmp, t);
-                        
-                        // Test intersection distance.
-                        if(res != 0 && (t >= -0.0000001 && t <= 1.0000001)) {
-                        
-                            vec2 U2 = texelFetch(zdata, ivec2(offset2 + 3, 0), lod).xy;
-                            vec2 V2 = texelFetch(zdata, ivec2(offset2 + 4, 0), lod).xy;
-                            vec2 W2 = texelFetch(zdata, ivec2(offset2 + 5, 0), lod).xy;
-                        
-                            vec2 uv = barycentric(tmp, D, E, F, U2, V2, W2);
-                            
-                            int sampler2 = int(texelFetch(zdata, ivec2(offset2 + 3, 0), lod).z);
-                            vec4 color2 = texture(textures[sampler], uv);
-                        
-                            ++hits;
-                        }
-                    }
-                //}
-                
-                const vec4 ambientTerm = vec4(0.2, 0.2, 0.2, 1.0);
-            
-                // Hit nothing, Full light!
-                if(hits < 1) {
-                    vec3 n1 = texelFetch(zdata, ivec2(offset + 6, 0), lod).xyz;
-                    vec3 n2 = texelFetch(zdata, ivec2(offset + 7, 0), lod).xyz;
-                    vec3 n3 = texelFetch(zdata, ivec2(offset + 8, 0), lod).xyz;
-                
-                    vec3 normal = normalize(barycentric3(where, A, B, C, n1, n2, n3));
-                    
-                    vec3 lpos = lightsPosition[l];
-                    
-                    vec3 lightDir = normalize(lpos - where);
-                    
-                    float lambert = dot(lightDir, normal);// / 10;
-                    
-                    lambert = max(lambert, 0);
-                    
-                    if(useLambertian == 1) {
-                        //blend += lightsDiffuse[l] * lambert;// + ambientTerm;
-                    }
-                // Hit something, use ambient term
-                } else {
-                    //blend += ambientTerm;
                 }
             }
             

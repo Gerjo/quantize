@@ -135,7 +135,7 @@ class Quantize {
         
         GLuint width{256};
         GLuint height{168};
-        GLuint maxBounces{4};
+        GLuint maxBounces{1};
         bool skipFirstBounce{false}; // first bounce = direct light
         
         GLint uniformReadBuffer[3] = {0};
@@ -154,7 +154,7 @@ class Quantize {
         GLint uniformPhotonMapWidth{-1};
         GLint uniformPhotonMapHeight{-1};
 
-        GLuint photonTexture;
+        GLuint photonTexture{0};
         
         GLint uniformData{-1};
         GLint unformTriangleCount{-1};

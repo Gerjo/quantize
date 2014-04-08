@@ -950,7 +950,6 @@ void Quantize::shootPhotons() {
     int texW = (int) texDims.x;
     int texH = (int) texDims.y;
     
-    
     printf("Uploading grid to GPU %d pixels at [%dx%d]... ", (int) g.size() / 3, texW, texH);
     
     glActiveTexture(GL_TEXTURE5);
