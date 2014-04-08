@@ -134,9 +134,9 @@ class Quantize {
     struct PhotonVariables {
         
         GLuint width{256};
-        GLuint height{168};
-        GLuint maxBounces{1};
-        bool skipFirstBounce{false}; // first bounce = direct light
+        GLuint height{166};
+        GLuint maxBounces{3};
+        bool skipFirstBounce{true}; // first bounce = direct light
         
         GLint uniformReadBuffer[3] = {0};
 

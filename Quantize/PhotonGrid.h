@@ -112,6 +112,17 @@ public:
         );
         
         
+        // Sort all buckets. Assume photons with less bounces to be
+        // more important than photons with many bounces.
+        for(int x = 0; x < xRes; ++x) {
+            for(int y = 0; y < yRes; ++y) {
+                for(int z = 0; z < zRes; ++z) {
+                    std::sort(grid[x][y][z].begin(), grid[x][y][z].end(), [] (const Photon& a, const Photon& b) {
+                        return a.meta.z > b.meta.z;
+                    });
+                }
+            }
+        }
         
         
         
@@ -124,19 +135,11 @@ public:
             for(int y = 0; y < yRes; ++y) {
                 for(int z = 0; z < zRes; ++z) {
                 
-                    
-                    int cellIndex = z +
-                            (y * xRes)
-                            +
-                            (x * xRes * yRes);
-                    
+                    // Test reverse lookup
+                    int cellIndex = z + (y * xRes) + (x * xRes * yRes);
                     assert(cellIndex == gridIndex/3);
                 
                     //printf("Grid: [index: %d, %dx%dx%d] -> [compute: %d] - quantized.\n", gridIndex/3, x,y,z, cellIndex);
-                
-                    std::sort(grid[x][y][z].begin(), grid[x][y][z].end(), [] (const Photon& a, const Photon& b) {
-                        return a.meta.z > b.meta.z;
-                    });
                 
                     int count = (int) grid[x][y][z].size();
                     
@@ -167,20 +170,12 @@ public:
                             printf("%d != %d\n", zIndex, z);
                             assert(zIndex == z);
                         }
-                        
                     
-                        //if(cellIndex != gridIndex/3) {
-                        //    printf("Grid: [index: %d, %dx%dx%d] -> [compute: %d] - quantized.\n", gridIndex/3, x,y,z, cellIndex);
-                          //  assert(cellIndex == gridIndex/3);
-                        //}
                     
                         // Such memory hack, many photon wow float.
                         float* floaton = grid[x][y][z][j].direction.v;
                         for(int i = 0; i < photonSize; ++i) {
-                        
-                           
-                        
-                            result[photonIndex] = floaton[i];
+                                                    result[photonIndex] = floaton[i];
                             
                             ++photonIndex;
                  

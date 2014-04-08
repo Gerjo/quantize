@@ -841,7 +841,7 @@ void Quantize::shootPhotons() {
             { GL_COLOR_ATTACHMENT3, GL_COLOR_ATTACHMENT4,  GL_COLOR_ATTACHMENT5, GL_NONE, GL_NONE, GL_NONE }
         };
         
-        // Draw into the following buffers (Color, position and meta)
+        // Draw into the following buffers (direction, position and meta)
         glDrawBuffers(6, buffers[drawBuffer]);
         GLError();
         

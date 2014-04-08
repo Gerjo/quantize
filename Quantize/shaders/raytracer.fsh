@@ -381,7 +381,7 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             //float maxDistance = length(gridResolution);
             
             float flux = 0;
-            for(int i = startIndex, j = startIndex; i < endIndex; ++i, j += photonStride) {
+            for(int i = startIndex, j = startIndex, max = 50; max != 0 && i < endIndex; --max, ++i, j += photonStride) {
                 vec3 photonDirection = texelFetch(gridTexture, indexWrap(j + 0, textureWidth), lod).xyz;
                 vec3 photonPosition  = texelFetch(gridTexture, indexWrap(j + 1, textureWidth), lod).xyz;
                 vec3 photonMeta      = texelFetch(gridTexture, indexWrap(j + 2, textureWidth), lod).xyz; // dead color bounces
@@ -392,14 +392,16 @@ vec4 traceRay(in vec2 pos, in float perspective) {
                     //photonIntensity.r = 3;
                 }
                 
-                if(d < 0.4) {
-                    flux += 0.4;
-                }
+                //if(d < 0.4) {
+                    //flux += 0.1 / d;
+                //}
                 
-               // flux += (maxBounces - photonMeta.z) / d;
+                flux += (maxBounces - photonMeta.z) * 0.1 / d;
                 
                 //break;
             }
+            
+            //flux /= max(0, photonCount - 2);
             
             if(photonCount == 0) {
                 photonIntensity.g = 3;
@@ -409,7 +411,7 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             photonIntensity.y = photonIntensity.x;
             photonIntensity.z = photonIntensity.x;
             
-            Photon photon = approximateNearestPhoton(where);
+            /*Photon photon = approximateNearestPhoton(where);
     
             int bounces = int(photon.meta.z);
             
@@ -427,7 +429,7 @@ vec4 traceRay(in vec2 pos, in float perspective) {
                     
                     color += vec4(rand(), rand(), rand(), 0) * 2;
                 }
-            }
+            }*/
             
             // Photon map counts as ambient-like term
             blend += photonIntensity;
