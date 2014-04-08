@@ -68,6 +68,7 @@ public:
         
         size_t max = 0;
         
+        // Assign photons to cells
         for (Photon p : photons) {
             
             // Offset to a [0...n] range
@@ -91,6 +92,21 @@ public:
             max = std::max(max, grid[xIndex][yIndex][zIndex].size());
         }
         
+        // Sort all buckets. Assume photons with less bounces to be
+        // more important than photons with many bounces.
+        for(int x = 0; x < xRes; ++x) {
+            for(int y = 0; y < yRes; ++y) {
+                for(int z = 0; z < zRes; ++z) {
+                    std::sort(grid[x][y][z].begin(), grid[x][y][z].end(), [] (const Photon& a, const Photon& b) {
+                        return a.meta.z > b.meta.z;
+                    });
+                }
+            }
+        }
+        
+        // Merge cell neighbourhoods
+        
+        
         printf(" done. Volume: %d cells. Max occupancy: %zu\n", mass, max);
     }
     
@@ -112,19 +128,6 @@ public:
         );
         
         
-        // Sort all buckets. Assume photons with less bounces to be
-        // more important than photons with many bounces.
-        for(int x = 0; x < xRes; ++x) {
-            for(int y = 0; y < yRes; ++y) {
-                for(int z = 0; z < zRes; ++z) {
-                    std::sort(grid[x][y][z].begin(), grid[x][y][z].end(), [] (const Photon& a, const Photon& b) {
-                        return a.meta.z > b.meta.z;
-                    });
-                }
-            }
-        }
-        
-        
         
         int gridIndex    = 0;
         int photonIndex  = photonOffset;
@@ -141,7 +144,8 @@ public:
                 
                     //printf("Grid: [index: %d, %dx%dx%d] -> [compute: %d] - quantized.\n", gridIndex/3, x,y,z, cellIndex);
                 
-                    int count = (int) grid[x][y][z].size();
+                    //int count = (int) grid[x][y][z].size();
+                    int count = std::min((int) grid[x][y][z].size(), 10);
                     
                     // Count in this cell stored in de X component
                     result[gridIndex + 0] = count;

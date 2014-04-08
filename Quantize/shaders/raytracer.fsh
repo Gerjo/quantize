@@ -363,48 +363,71 @@ vec4 traceRay(in vec2 pos, in float perspective) {
                 round((where.z - gridMin.z) / gridInterval.z)
             );
             
-            int cellIndex = gridQuantize.z +
-                                (gridQuantize.y * gridResolution.x)
-                                +
-                                (gridQuantize.x * gridResolution.x * gridResolution.y);
+            float flux = 0.0;
+            int photonCount = 0;
             
-            int textureWidth = textureSize(gridTexture, lod).x;
-            
-            ivec2 texIndex = indexWrap(cellIndex, textureWidth);
-            vec3 cell = texelFetch(gridTexture, texIndex, lod).xyz;
-            
-            const int photonStride = 3; // 3 x vec3 [direction, position, meta]
-            int photonCount = int(cell.x);
-            int startIndex  = int(cell.y);
-            int endIndex    = int(cell.z);
-            
-            //float maxDistance = length(gridResolution);
-            
-            float flux = 0;
-            for(int i = startIndex, j = startIndex, max = 50; max != 0 && i < endIndex; --max, ++i, j += photonStride) {
-                vec3 photonDirection = texelFetch(gridTexture, indexWrap(j + 0, textureWidth), lod).xyz;
-                vec3 photonPosition  = texelFetch(gridTexture, indexWrap(j + 1, textureWidth), lod).xyz;
-                vec3 photonMeta      = texelFetch(gridTexture, indexWrap(j + 2, textureWidth), lod).xyz; // dead color bounces
-            
-                float d = length(photonPosition - where);
-            
-                if(int(photonPosition.x) == 2) {
-                    //photonIntensity.r = 3;
+            for (int xShift = -1; xShift < 2; xShift++) {
+                for (int yShift = -1; yShift < 2; yShift++) {
+                    for (int zShift = -1; zShift < 2; zShift++) {
+                        ivec3 gridShifted = ivec3(
+                            gridQuantize.x + xShift,
+                            gridQuantize.y + yShift,
+                            gridQuantize.z + zShift
+                        );
+                        
+                        if (gridShifted.x < 0 || gridShifted.y < 0 || gridShifted.z < 0) {
+                            continue;
+                        }
+                        
+                        if (gridShifted.x >= gridResolution.x || gridShifted.y >= gridResolution.y || gridShifted.z >= gridResolution.z) {
+                            continue;
+                        }
+                        
+                        int cellIndex = gridShifted.z +
+                        (gridShifted.y * gridResolution.x)
+                        +
+                        (gridShifted.x * gridResolution.x * gridResolution.y);
+                        
+                        int textureWidth = textureSize(gridTexture, lod).x;
+                        
+                        ivec2 texIndex = indexWrap(cellIndex, textureWidth);
+                        vec3 cell = texelFetch(gridTexture, texIndex, lod).xyz;
+                        
+                        const int photonStride = 3; // 3 x vec3 [direction, position, meta]
+                        photonCount += int(cell.x);
+                        int startIndex  = int(cell.y);
+                        int endIndex    = int(cell.z);
+                        
+                        //float maxDistance = length(gridResolution);
+                        
+                        for(int i = startIndex, j = startIndex, max = 50; max != 0 && i < endIndex; --max, ++i, j += photonStride) {
+                            vec3 photonDirection = texelFetch(gridTexture, indexWrap(j + 0, textureWidth), lod).xyz;
+                            vec3 photonPosition  = texelFetch(gridTexture, indexWrap(j + 1, textureWidth), lod).xyz;
+                            vec3 photonMeta      = texelFetch(gridTexture, indexWrap(j + 2, textureWidth), lod).xyz; // dead color bounces
+                            
+                            float d = length(photonPosition - where);
+                            
+                            if(int(photonPosition.x) == 2) {
+                                //photonIntensity.r = 3;
+                            }
+                            
+                            //if(d < 0.4) {
+                            //flux += 0.1 / d;
+                            //}
+                            
+                            // d = 0.1 / d;
+                            d = -pow(d, 2) + 2;
+                            
+                            if (d > 0.0) {
+                                flux += (maxBounces - photonMeta.z) * d;
+                            }
+                            
+                            //break;
+                        }
+                    }
                 }
-                
-                //if(d < 0.4) {
-                    //flux += 0.1 / d;
-                //}
-                
-                // d = 0.1 / d;
-                d = -pow(d, 2) + 2;
-                
-                if (d > 0.0) {
-                    flux += (maxBounces - photonMeta.z) * d;
-                }
-                
-                //break;
             }
+            
             flux = 1.0 * log(flux * 0.5);
             
             //flux /= max(0, photonCount - 2);
