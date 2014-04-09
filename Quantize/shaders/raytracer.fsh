@@ -47,6 +47,8 @@ uniform vec3  gridMin;
 uniform vec3  gridMax;
 uniform vec3  gridInterval;
 
+uniform float totalFlux;
+
 // My Intel onboard chip only supports 16 textures. If this becomes a limit,
 // we can make an atlas - textures up to 16k resolution are supported. Reading
 // the spec further, we can use a sampler2DArray!

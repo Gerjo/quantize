@@ -387,13 +387,12 @@ void Quantize::initializeRaytraceProgram() {
     _uniformPhotonTexture = glGetUniformLocation(_programRaytracer, "photons");
     _uniformNumPhotons    = glGetUniformLocation(_programRaytracer, "numPhotons");
     _uniformMaxBounces    = glGetUniformLocation(_programRaytracer, "maxBounces");
-    _uniformPhotonMapWidth  = glGetUniformLocation(_programRaytracer, "mapWidth");
-    _uniformPhotonMapHeight = glGetUniformLocation(_programRaytracer, "mapHeight");
     
     _uniformTextures     = glGetUniformLocation(_programRaytracer, "textures");
     _uniformDataTexture  = glGetUniformLocation(_programRaytracer, "zdata");
     _uniformTime         = glGetUniformLocation(_programRaytracer, "time");
     _uniformFrameCounter = glGetUniformLocation(_programRaytracer, "frameCounter");
+    _uniformTotalFlux    = glGetUniformLocation(_programRaytracer, "totalFlux");
     GLError();
     
     _uniformN          = glGetUniformLocation(_programRaytracer, "n");
@@ -644,14 +643,15 @@ void Quantize::update(float dt) {
 
     handleLogging();
     
-
 }
+
+
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Photon stuff
 ////////////////////////////////////////////////////////////////////////////////
 void Quantize::shootPhotons() {
-
 
     
     // Photon program enable!
@@ -731,9 +731,9 @@ void Quantize::shootPhotons() {
         positions[i + 1] = lights[0].position.y;
         positions[i + 2] = lights[0].position.z;
         
-        meta[i + 0] = 1; // Photon is alive
-        meta[i + 1] = 0; // Color of the photon
-        meta[i + 2] = 0; // Number of bounces
+        meta[i + 0] = 1;                  // Photon is alive
+        meta[i + 1] = 0xffffff;           // Color of the photon (white?)
+        meta[i + 2] = photon.initialFlux; // Initial flux
     }
     
     glActiveTexture(GL_TEXTURE1);
@@ -754,9 +754,14 @@ void Quantize::shootPhotons() {
     glBindTexture(GL_TEXTURE_2D, 0);
     GLError();
    
+       
+    std::vector<float> flux;
+
+   
     for(int b = 0; b < photon.maxBounces; ++b) {
         printf("\n-------------\nStarting Bounce iteration: %d, read: %lu, write: %lu\n", b, readBuffer, drawBuffer);
         
+        // Scale time to some simple integer range.
         double tmp;
         float t = int(std::modf(GetTiming(), &tmp) * 1000);
         
@@ -833,6 +838,9 @@ void Quantize::shootPhotons() {
         
         std::string state;
         
+        // Empty accumulator for each bounce
+        flux.push_back(0);
+        
         if( ! photon.skipFirstBounce || b > 0) {
             // From the arrays, create photon structs.
             for(int i = 0; i < nFloats; i += channels) {
@@ -847,6 +855,9 @@ void Quantize::shootPhotons() {
                     Photon photon(&positions[i], &directions[i], &meta[i]);
                 
                     photons.push_back(photon);
+                    
+                    // Accumulate total flux
+                    flux[b] += photon.meta.z;
                     
                     state = "alive";
                 }
@@ -863,6 +874,7 @@ void Quantize::shootPhotons() {
         }
         
         printf("done. Held %d russian roulette funerals.\n", russianFuneral);
+        printf("Flux produced: %.2f fluxies\n", flux[b]);
         
         //printf("done.\n");
         
@@ -930,6 +942,13 @@ void Quantize::shootPhotons() {
     glUniform3fv(_uniformGridMin, 1, grid.lowLimit.v); GLError();
     glUniform3fv(_uniformGridMax, 1, grid.highLimit.v); GLError();
     glUniform3fv(_uniformGridInterval, 1, grid.interval.v); GLError();
+    
+    // Accumulate all flux in the world.
+    float totalFlux = 0;
+    for(float f : flux) {
+        totalFlux += f;
+    }
+    glUniform1f(_uniformTotalFlux, totalFlux); GLError();
     
     // Debugging logging
     for(int i = 0; i < kdtree.size(); ++i) {

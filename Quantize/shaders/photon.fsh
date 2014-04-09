@@ -55,33 +55,27 @@ void main() {
     vec3 inPosition  = texelFetch(inBuffers[1], texelIndex, lod).xyz;
     vec3 inMeta      = texelFetch(inBuffers[2], texelIndex, lod).xyz;
     
-    //vec3 inDirection = texture(inBuffers[0], uvmapping).xyz;
-    //vec3 inPosition  = texture(inBuffers[1], uvmapping).xyz;
-    //vec3 inMeta      = texture(inBuffers[2], uvmapping).xyz;
-    
-    
     bool isAlive = int(inMeta.x) == 1;
-    int bounces  = int(inMeta.z);
+    int color    = int(inMeta.y);
+    float flux   = int(inMeta.z);
     
     if( ! isAlive) {
         // Transfer the dead meta state.
-        outMeta      = vec3(0, 0, bounces + 1);
+        outMeta      = vec3(0, 0, flux + 1);
         outPosition  = vec3(0, 0, 0);
         outDirection = vec3(0, 0, 0);
         return;
     }
     
-    // Russian roulette after the first bounce
-    if(bounces > 0) {
-        if(rand() > 0.80) { // Kill n%
-            outMeta = vec3(
-                    0,           // dead.
-                    0,           // no color
-                    bounces + 1  // bounces
-            );
-            
-            return;
-        }
+    // Russian roulette
+    if(rand() > 0.80) { // Kill n%
+        outMeta = vec3(
+                0,           // Yes dead
+                0,           // No color
+                0            // No flux
+        );
+        
+        return;
     }
     
     // Zero initialize.
@@ -90,12 +84,10 @@ void main() {
     outMeta      = vec3(
                   1,            // Alive.
                   0,            // Color
-                  bounces + 1   // Number of bounces
+                  flux          // Inherit flux
                   
     );
 
-    //outPosition = vec4(inDirection,  0);
-    //return;
 
     Ray ray;
     
@@ -179,9 +171,15 @@ void main() {
         // Reflect about the surface normal.
         outDirection = reflect(ray.direction, normal);
         outPosition  = bestHitPosition;
+        
+        // Reduce flux.
+        outMeta.z    = flux * dot(normal, outDirection);
+        
     } else {
         // Hit nothing, mark as "dead".
-        outMeta.x = 0;
+        outMeta.x = 0; // Dead.
+        outMeta.y = 0; // No color.
+        outMeta.z = 0; // No flux.
     }
     
 }

@@ -65,6 +65,9 @@ class Quantize {
     GLint _uniformUseLambertian{-1};
     GLint _uniformShowPhotons{-1};
     GLint _uniformUseANN{-1};
+    GLint _uniformTotalFlux{-1};
+    
+    
     
     /// Ray tracingproperties
     GLint _uniformN{-1};
@@ -137,6 +140,8 @@ class Quantize {
         GLuint height{166};
         GLuint maxBounces{5};
         bool skipFirstBounce{true}; // first bounce = direct light
+        
+        float initialFlux{50}; // Flux per photon
         
         GLint uniformReadBuffer[3] = {0};
 
