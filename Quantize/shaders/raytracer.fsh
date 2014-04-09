@@ -162,6 +162,97 @@ vec4 computeDirectLight(in int offset, in vec3 where, in vec3 A, in vec3 B, in v
 }
 
 
+vec4 computeGlobalIllumination(in vec3 where) {
+  
+    // Light term added by photons
+    vec4 photonIntensity = vec4(0, 0, 0, 0);
+    
+    // Quantize pixel location to a grid location
+    ivec3 gridQuantize = ivec3(
+        round((where.x - gridMin.x) / gridInterval.x),
+        round((where.y - gridMin.y) / gridInterval.y),
+        round((where.z - gridMin.z) / gridInterval.z)
+    );
+    
+    float flux      = 0.0;
+    int photonCount = 0;
+    
+    const int shiftRange = 1;
+    
+    for (int xShift = -shiftRange; xShift < shiftRange; xShift++) {
+        for (int yShift = -shiftRange; yShift < shiftRange; yShift++) {
+            for (int zShift = -shiftRange; zShift < shiftRange; zShift++) {
+                ivec3 gridShifted = ivec3(
+                    gridQuantize.x + xShift,
+                    gridQuantize.y + yShift,
+                    gridQuantize.z + zShift
+                );
+                
+                if (gridShifted.x < 0 || gridShifted.y < 0 || gridShifted.z < 0) {
+                    continue;
+                }
+                
+                if (gridShifted.x >= gridResolution.x || gridShifted.y >= gridResolution.y || gridShifted.z >= gridResolution.z) {
+                    continue;
+                }
+                
+                int cellIndex = gridShifted.z + (gridShifted.y * gridResolution.x)
+                                + (gridShifted.x * gridResolution.x * gridResolution.y);
+                
+                int textureWidth = textureSize(gridTexture, lod).x;
+                
+                ivec2 texIndex = indexWrap(cellIndex, textureWidth);
+                vec3 cell      = texelFetch(gridTexture, texIndex, lod).xyz;
+                
+                const int photonStride = 3; // 3 x vec3 [direction, position, meta]
+                photonCount    += int(cell.x);
+                int startIndex  = int(cell.y);
+                int endIndex    = int(cell.z);
+                
+                
+                for(int i = startIndex, j = startIndex, max = 50; max != 0 && i < endIndex; --max, ++i, j += photonStride) {
+                    vec3 photonDirection = texelFetch(gridTexture, indexWrap(j + 0, textureWidth), lod).xyz;
+                    vec3 photonPosition  = texelFetch(gridTexture, indexWrap(j + 1, textureWidth), lod).xyz;
+                    vec3 photonMeta      = texelFetch(gridTexture, indexWrap(j + 2, textureWidth), lod).xyz; // dead color bounces
+                    
+                    float d = length(photonPosition - where);
+                    
+                    if(int(photonPosition.x) == 2) {
+                        //photonIntensity.r = 3;
+                    }
+                    
+                    //if(d < 0.4) {
+                    //flux += 0.1 / d;
+                    //}
+                    
+                    //d = 0.1 / d;
+                    d = -pow(d, 2) + 2;
+                    
+                    if (d > 0.0) {
+                        flux += pow(0.1, maxBounces - photonMeta.z) * d;
+                    }
+                }
+            }
+        }
+    }
+    
+
+    flux = 1.0 * log(flux * 0.5);
+    
+    if(photonCount == 0) {
+        photonIntensity.g = 3;
+    }
+    
+    
+    // Photons have no color yet.
+    photonIntensity.x = flux / 2;
+    photonIntensity.y = photonIntensity.x;
+    photonIntensity.z = photonIntensity.x;
+
+    return photonIntensity;
+}
+
+
 
 ///   ---> direction --->
 ///   eye       canvas            object
@@ -224,100 +315,17 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             
             vec4 blend = vec4(0.0, 0.0, 0.0, 1.0);
             
-            // Light term added by photons
-            vec4 photonIntensity = vec4(0, 0, 0, 0);
-            
-            // Quantize pixel location to a grid location
-            ivec3 gridQuantize = ivec3(
-                round((where.x - gridMin.x) / gridInterval.x),
-                round((where.y - gridMin.y) / gridInterval.y),
-                round((where.z - gridMin.z) / gridInterval.z)
-            );
-            
-            float flux      = 0.0;
-            int photonCount = 0;
-            
-            const int shiftRange = 1;
-            
-            for (int xShift = -shiftRange; xShift < shiftRange; xShift++) {
-                for (int yShift = -shiftRange; yShift < shiftRange; yShift++) {
-                    for (int zShift = -shiftRange; zShift < shiftRange; zShift++) {
-                        ivec3 gridShifted = ivec3(
-                            gridQuantize.x + xShift,
-                            gridQuantize.y + yShift,
-                            gridQuantize.z + zShift
-                        );
-                        
-                        if (gridShifted.x < 0 || gridShifted.y < 0 || gridShifted.z < 0) {
-                            continue;
-                        }
-                        
-                        if (gridShifted.x >= gridResolution.x || gridShifted.y >= gridResolution.y || gridShifted.z >= gridResolution.z) {
-                            continue;
-                        }
-                        
-                        int cellIndex = gridShifted.z + (gridShifted.y * gridResolution.x)
-                                        + (gridShifted.x * gridResolution.x * gridResolution.y);
-                        
-                        int textureWidth = textureSize(gridTexture, lod).x;
-                        
-                        ivec2 texIndex = indexWrap(cellIndex, textureWidth);
-                        vec3 cell      = texelFetch(gridTexture, texIndex, lod).xyz;
-                        
-                        const int photonStride = 3; // 3 x vec3 [direction, position, meta]
-                        photonCount    += int(cell.x);
-                        int startIndex  = int(cell.y);
-                        int endIndex    = int(cell.z);
-                        
-                        
-                        for(int i = startIndex, j = startIndex, max = 50; max != 0 && i < endIndex; --max, ++i, j += photonStride) {
-                            vec3 photonDirection = texelFetch(gridTexture, indexWrap(j + 0, textureWidth), lod).xyz;
-                            vec3 photonPosition  = texelFetch(gridTexture, indexWrap(j + 1, textureWidth), lod).xyz;
-                            vec3 photonMeta      = texelFetch(gridTexture, indexWrap(j + 2, textureWidth), lod).xyz; // dead color bounces
-                            
-                            float d = length(photonPosition - where);
-                            
-                            if(int(photonPosition.x) == 2) {
-                                //photonIntensity.r = 3;
-                            }
-                            
-                            //if(d < 0.4) {
-                            //flux += 0.1 / d;
-                            //}
-                            
-                            //d = 0.1 / d;
-                            d = -pow(d, 2) + 2;
-                            
-                            if (d > 0.0) {
-                                flux += pow(0.1, maxBounces - photonMeta.z) * d;
-                            }
-                        }
-                    }
-                }
-            }
-            
             vec4 direct = computeDirectLight(offset, where, A, B, C);
+            vec4 global = computeGlobalIllumination(where);
+            
             blend += direct;
+            blend += global;
 
-
-            flux = 1.0 * log(flux * 0.5);
-            
-            if(photonCount == 0) {
-                photonIntensity.g = 3;
-            }
-            
-            
-            // Photons have no color yet.
-            photonIntensity.x = flux / 2;
-            photonIntensity.y = photonIntensity.x;
-            photonIntensity.z = photonIntensity.x;
-            
-            // Photon map counts as ambient-like term
-            blend += photonIntensity;
             
             // No alpha channel in light.
             blend.a = 1.0;
             
+            // Cap the light blending term
             blend.r = max(0.1, blend.r);
             blend.g = max(0.1, blend.g);
             blend.b = max(0.1, blend.b);
@@ -330,8 +338,10 @@ vec4 traceRay(in vec2 pos, in float perspective) {
                 zBufferColor[j] = zBufferColor[j] * blend;
             }
             
-            // Move to the next depth slot. TODO: test for limit!
-            j++;
+            // Move to the next depth slot.
+            if(++j > maxBuffer) {
+                break;
+            }
         }
     }
     
