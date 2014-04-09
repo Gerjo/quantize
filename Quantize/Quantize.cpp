@@ -15,7 +15,7 @@
 #include <random>
 
 Quantize::Quantize() : _lastLogTime(GetTiming()) {
-    
+
     Light light;
     light.position.x = -2.22;
     light.position.y = -2.444;
@@ -701,7 +701,7 @@ void Quantize::shootPhotons() {
     
     std::random_device rd;
     //std::mt19937 rng(rd());
-    std::mt19937 rng(42 + 42);
+    std::mt19937 rng(369+1+1);
     
     std::uniform_real_distribution<> dist(-0.5, 0.5);
     
@@ -886,67 +886,44 @@ void Quantize::shootPhotons() {
     
     // The photons do not fit in a single row. This call finds an optimal
     // width and height that do not require byte padding.
-    Vector2 texDims = Factors((int) g.size() / 3);
-    int texW = (int) texDims.x;
-    int texH = (int) texDims.y;
+    Vector2 texDims;
+
     
-    printf("Uploading grid to GPU %d pixels at [%dx%d]... ", (int) g.size() / 3, texW, texH);
+    // Find optimal factors. Account for primes.
+    int textureMax = 8192;
+    do {
+        texDims = Factors((int) g.size() / 3);
+        
+        // Test if the dimensions are acceptable.
+        if(texDims.x < textureMax && texDims.y < textureMax) {
+            break;
+        }
+        
+        printf("Poppin' prime\n");
+        
+        // Pop a triplet.
+        g.pop_back();
+        g.pop_back();
+        g.pop_back();
+        
+    } while(true);
+    
+    printf("Uploading grid to GPU %d pixels at [%.0fx%.0f]... ", (int) g.size() / 3, texDims.x, texDims.y);
     
     glActiveTexture(GL_TEXTURE5);
     glBindTexture(GL_TEXTURE_2D, _gridTexture);
 
     
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, texW, texH, 0, GL_RGB, GL_FLOAT, & g[0]);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, (int) texDims.x, (int) texDims.y, 0, GL_RGB, GL_FLOAT, & g[0]);
     GLError();
     glBindTexture(GL_TEXTURE_2D, 0);
     printf("done.\n");
     
     
     
-    
-    printf("Building KdTreee...");
-    
-    // Make the KdTree!
-    KdTree tree(photons);
-    
-    printf(" done.\n");
-
-    printf("Exporting %lu photons to vector... ", photons.size());
-    kdtree = tree.toVector();
-    
-    printf(" %lu items in tree. Done.\n", kdtree.size());
-    
-    int pixels = (int) kdtree.size() * 3;
-
-    // The photons do not fit in a single row. This call finds an optimal
-    // width and height that do not require byte padding.
-    Vector2 dims = Factors(pixels);
-    int w = (int) dims.x;
-    int h = (int) dims.y;
-
-    printf("Computing optimal photon map size... %d = (%d x %d)\n", pixels, w, h);
-    
-    printf("Uploading kdtree to GPU...");
-    glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, photon.photonTexture);
-
-    
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, w, h, 0, GL_RGB, GL_FLOAT, kdtree[0].direction.v);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    GLError();
-
-    printf(" done.\n");
-    
-    // Setting uniforms
-    glUniform1i(photon.uniformPhotonMapWidth, w);
-    glUniform1i(photon.uniformPhotonMapHeight, h);
-    GLError();
-    
+   
     // Update the raytracer shader, too.
     glUseProgram(_programRaytracer);
-    glUniform1i(_uniformPhotonMapWidth, w);
-    glUniform1i(_uniformPhotonMapHeight, h);
-    GLError();
     
     // Upload grid particulars
     glUniform3i(_uniformGridRes, PhotonGrid::xRes, PhotonGrid::yRes, PhotonGrid::zRes); GLError();

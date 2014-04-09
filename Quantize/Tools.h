@@ -400,6 +400,13 @@ static Furiosity::Vector2 Factors(int num, int max = 8192) {
     int x = 1;
     int y = 1;
     
+    // Sorting increases the odds of this thing actually working
+    std::sort(primes.begin(), primes.end());
+    
+    //for(int p : primes) {
+    //    printf("%d\n", p);
+    //}
+    
     // Grow X until the upper limit is reached.
     while( ! primes.empty() && x * primes.front() < max) {
         x *= primes.front();
@@ -412,9 +419,9 @@ static Furiosity::Vector2 Factors(int num, int max = 8192) {
         primes.pop_front();
     }
 
-    if(x > 16384 || y > 16384) {
-        Exit("Primes don't work. Add padding bytes or more photons. Result: %d x %d", x, y);
-    }
+    //if(x > 16384 || y > 16384) {
+    //    Exit("Primes don't work. Add padding bytes or more photons. Result: %d x %d", x, y);
+    //}
 
     return Furiosity::Vector2(x, y);
 }
