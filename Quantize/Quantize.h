@@ -135,7 +135,7 @@ class Quantize {
         
         GLuint width{256};
         GLuint height{166};
-        GLuint maxBounces{3};
+        GLuint maxBounces{5};
         bool skipFirstBounce{true}; // first bounce = direct light
         
         GLint uniformReadBuffer[3] = {0};
