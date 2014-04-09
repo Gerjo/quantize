@@ -94,6 +94,73 @@ ivec2 photonIndex(in int index, in int offset) {
 }
 
 
+vec4 computeDirectLight(in int offset, in vec3 where, in vec3 A, in vec3 B, in vec3 C) {
+
+    vec4 direct = vec4(0, 0, 0, 0);
+
+    Ray beam;
+    beam.place     = where;
+     
+     
+    // Test each light against the world
+    for(int l = 0; l < lightCount; ++l) {
+     
+        beam.direction = lightsPosition[l] - beam.place;
+        
+        bool hitSomething = false;
+        
+        for(int k = 0; k < numTriangles; ++k) {
+            vec3 tmp;
+            float t;
+            
+            // Find the vertices of this triangle
+            int offset2 = k * stride;
+            vec3 D = texelFetch(zdata, ivec2(offset2 + 0, 0), lod).xyz;
+            vec3 E = texelFetch(zdata, ivec2(offset2 + 1, 0), lod).xyz;
+            vec3 F = texelFetch(zdata, ivec2(offset2 + 2, 0), lod).xyz;
+             
+            // Test the right ray against the current triangle.
+            int res = rayIntersetsTriangle(beam, D, E, F, true, tmp, t);
+             
+            // Test intersection distance.
+            if(res != 0 && (t >= -0.0000001 && t <= 1.0000001)) {
+             
+                // Use this to let direct light pass through semi transparent
+                // objects.
+                //vec2 U2 = texelFetch(zdata, ivec2(offset2 + 3, 0), lod).xy;
+                //vec2 V2 = texelFetch(zdata, ivec2(offset2 + 4, 0), lod).xy;
+                //vec2 W2 = texelFetch(zdata, ivec2(offset2 + 5, 0), lod).xy;
+             
+                //vec2 uv = barycentric(tmp, D, E, F, U2, V2, W2);
+                 
+                //int sampler2 = int(texelFetch(zdata, ivec2(offset2 + 3, 0), lod).z);
+                //vec4 color2 = texture(textures[sampler2], uv);
+             
+                hitSomething = true;
+                break;
+            }
+        }
+         
+        const vec4 ambientTerm = vec4(0.2, 0.2, 0.2, 1.0);
+     
+        // Did not hit anything. Apply light.
+        if( ! hitSomething) {
+            vec3 n1 = texelFetch(zdata, ivec2(offset + 6, 0), lod).xyz;
+            vec3 n2 = texelFetch(zdata, ivec2(offset + 7, 0), lod).xyz;
+            vec3 n3 = texelFetch(zdata, ivec2(offset + 8, 0), lod).xyz;
+         
+            vec3 normal   = normalize(barycentric3(where, A, B, C, n1, n2, n3));
+            vec3 lpos     = lightsPosition[l];
+            vec3 lightDir = normalize(lpos - where);
+            float lambert = max(dot(lightDir, normal), 0);// / 10;
+             
+            direct += lightsDiffuse[l] * lambert;
+        }
+    }
+    
+    return direct;
+}
+
 
 
 ///   ---> direction --->
@@ -229,11 +296,16 @@ vec4 traceRay(in vec2 pos, in float perspective) {
                 }
             }
             
+            vec4 direct = computeDirectLight(offset, where, A, B, C);
+            blend += direct;
+
+
             flux = 1.0 * log(flux * 0.5);
             
             if(photonCount == 0) {
                 photonIntensity.g = 3;
             }
+            
             
             // Photons have no color yet.
             photonIntensity.x = flux / 2;
