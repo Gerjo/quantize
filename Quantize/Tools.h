@@ -16,8 +16,11 @@
 #include <cstdio>
 #include <cassert>
 #include <vector>
+#include <cmath>
 #include <string>
+#include <deque>
 #include <sys/time.h>  // For ::gettimeofday
+#include "Math/Vector2.h"
 
 static std::string ReadFile(const std::string& filename) {
     std::ifstream t(filename.c_str());
@@ -330,3 +333,89 @@ static double GetTiming()
     
     return now.tv_sec + (now.tv_usec / 1000000.0);
 }
+
+/// From: http://www.cplusplus.com/forum/general/1125/
+static bool IsPrime (int num)
+{
+    if (num <=1)
+        return false;
+    else if (num == 2)         
+        return true;
+    else if (num % 2 == 0)
+        return false;
+    else
+    {
+        bool prime = true;
+        int divisor = 3;
+        double num_d = static_cast<double>(num);
+        int upperLimit = static_cast<int>(sqrt(num_d) +1);
+        
+        while (divisor <= upperLimit)
+        {
+            if (num % divisor == 0)
+                prime = false;
+            divisor +=2;
+        }
+        return prime;
+    }
+}
+
+
+/// Break a number into two factors, each < max. I'm pretty sure this
+/// method will work most of the times.
+static Furiosity::Vector2 Factors(int num, int max = 8192) {
+
+    std::deque<int> primes;
+
+    const int root = (int) std::sqrt(num);
+    
+    std::function<void(int)> recurse;
+
+    // Mostly from: http://www.coderenaissance.com/2011/06/finding-prime-factors-in-javascript.html
+    recurse = [&primes, &recurse, root] (int num) -> void {
+        int x = 2;
+        
+        // if not divisible by 2
+        if(num % x) {
+             x = 3; // assign first odd
+            
+             // iterate odds
+             while((num % x) && ((x = x + 2) < root)) {
+                ; // nop
+             }
+        }
+        
+        //if no factor found then num is prime
+        x = (x <= root) ? x : num;
+        
+        if(x != num && num > 0) {
+            recurse(num / x);
+        }
+       
+        primes.push_back(x);//push latest prime factor
+    };
+
+    recurse(num);
+
+    int x = 1;
+    int y = 1;
+    
+    // Grow X until the upper limit is reached.
+    while( ! primes.empty() && x * primes.front() < max) {
+        x *= primes.front();
+        primes.pop_front();
+    }
+    
+    // Pass the remaining primes to y.
+    while( ! primes.empty() ) {
+        y *= primes.front();
+        primes.pop_front();
+    }
+
+    if(x > 16384 || y > 16384) {
+        Exit("Primes don't work. Add padding bytes or more photons. Result: %d x %d", x, y);
+    }
+
+    return Furiosity::Vector2(x, y);
+}
+

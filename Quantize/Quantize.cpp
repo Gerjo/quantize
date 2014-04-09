@@ -14,64 +14,6 @@
 
 #include <random>
 
-/// Break a number into two factors, each < max. I'm pretty sure this
-/// method will work most of the times.
-Vector2 primo(int num, int max = 8192) {
-
-    std::deque<int> primes;
-
-    const int root = (int) std::sqrt(num);
-    
-    std::function<void(int)> recurse;
-
-    // Mostly from: http://www.coderenaissance.com/2011/06/finding-prime-factors-in-javascript.html
-    recurse = [&primes, &recurse, root] (int num) -> void {
-        int x = 2;
-        
-        // if not divisible by 2
-        if(num % x) {
-             x = 3; // assign first odd
-            
-             // iterate odds
-             while((num % x) && ((x = x + 2) < root)) {
-                ; // nop
-             }
-        }
-        
-        //if no factor found then num is prime
-        x = (x <= root) ? x : num;
-        
-        if(x != num && num > 0) {
-            recurse(num / x);
-        }
-       
-        primes.push_back(x);//push latest prime factor
-    };
-
-    recurse(num);
-
-    int x = 1;
-    int y = 1;
-    
-    // Grow X until the upper limit is reached.
-    while( ! primes.empty() && x * primes.front() < max) {
-        x *= primes.front();
-        primes.pop_front();
-    }
-    
-    // Pass the remaining primes to y.
-    while( ! primes.empty() ) {
-        y *= primes.front();
-        primes.pop_front();
-    }
-
-    if(x > 16384 || y > 16384) {
-        Exit("Primes don't work. Add padding bytes or more photons. Result: %d x %d", x, y);
-    }
-
-    return Vector2(x, y);
-}
-
 Quantize::Quantize() : _lastLogTime(GetTiming()) {
     
     Light light;
@@ -944,7 +886,7 @@ void Quantize::shootPhotons() {
     
     // The photons do not fit in a single row. This call finds an optimal
     // width and height that do not require byte padding.
-    Vector2 texDims = primo((int) g.size() / 3);
+    Vector2 texDims = Factors((int) g.size() / 3);
     int texW = (int) texDims.x;
     int texH = (int) texDims.y;
     
@@ -978,7 +920,7 @@ void Quantize::shootPhotons() {
 
     // The photons do not fit in a single row. This call finds an optimal
     // width and height that do not require byte padding.
-    Vector2 dims = primo(pixels);
+    Vector2 dims = Factors(pixels);
     int w = (int) dims.x;
     int h = (int) dims.y;
 
