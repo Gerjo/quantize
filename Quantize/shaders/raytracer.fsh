@@ -202,7 +202,8 @@ vec4 computeGlobalIllumination(in vec3 where) {
                     //}
                     
                     //d = 0.1 / d;
-                    d = -pow(d, 2) + 2;
+                    //d = -pow(d, 2) + 2;
+                    d = 1.0 * exp(-(pow(d,2) / 1.2));
                     
                     if (d > 0.0) {
                         flux += pow(0.1, maxBounces - photonMeta.z) * d;
