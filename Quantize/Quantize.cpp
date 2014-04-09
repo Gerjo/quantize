@@ -394,7 +394,8 @@ void Quantize::initializeRaytraceProgram() {
     GLError();
     
     _uniformUseLambertian = glGetUniformLocation(_programRaytracer, "useLambertian");
-    _uniformShowPhotons = glGetUniformLocation(_programRaytracer, "showPhotons");
+    _uniformUseGlobal     = glGetUniformLocation(_programRaytracer, "useGlobal");
+    _uniformShowPhotons   = glGetUniformLocation(_programRaytracer, "showPhotons");
     
     GLError();
     
@@ -523,6 +524,7 @@ void Quantize::update(float dt) {
     
     // Upload raytracing properties
     glUniform1i(_uniformUseLambertian, useLambertian);
+    glUniform1i(_uniformUseGlobal, useGlobal);
     glUniform1i(_uniformShowPhotons, showPhotons);
     GLError();
     
@@ -679,8 +681,8 @@ void Quantize::shootPhotons() {
     
     
     std::random_device rd;
-    //std::mt19937 rng(rd());
-    std::mt19937 rng(369+1+1);
+    std::mt19937 rng(rd());
+    //std::mt19937 rng(369);
     
     std::uniform_real_distribution<> dist(-0.5, 0.5);
     
@@ -929,6 +931,24 @@ void Quantize::shootPhotons() {
     }
     glUniform1f(_uniformTotalFlux, totalFlux); GLError();
     
+    
+     // Volumes
+    float totalVolume = (grid.highLimit.x - grid.lowLimit.x) * (grid.highLimit.y - grid.lowLimit.y) * (grid.highLimit.z - grid.lowLimit.z);
+    float localVolume = grid.interval.x * grid.interval.y * grid.interval.z;
+    
+    // Ratio between local (grid cell) and world
+    float ratioVolume = localVolume / totalVolume;
+
+    // Scale flux in world to match the cell. "average light"
+    float expectedFlux   = ratioVolume * totalFlux;
+
+    
+    printf("Total Volume  : %f\n", totalVolume);
+    printf("Local Volume  : %f\n", localVolume);
+    printf("       ratio  : %f\n", ratioVolume);
+    printf("Expected flux : %f\n", expectedFlux);
+    printf("Total flux    : %f\n", totalFlux);
+
     // Debugging logging
     for(int i = 0; i < kdtree.size(); ++i) {
         //if( ! isinf(kdtree[i].position.x)) {

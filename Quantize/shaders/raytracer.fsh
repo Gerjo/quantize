@@ -22,6 +22,7 @@ in vec2 pixelPosition;          // The approximate pixel on screen.
 uniform int numTriangles;       // Number of triangles
 
 uniform int useLambertian;
+uniform int useGlobal;
 uniform int showPhotons;
 
 // Some transforms
@@ -138,7 +139,7 @@ vec4 computeDirectLight(in int texelOffset, in vec3 where, in vec3 A, in vec3 B,
 }
 
 
-vec4 computeGlobalIllumination(in vec3 where) {
+vec4 computeGlobalIllumination(in vec3 where, inout vec4 textureColor) {
   
     // Light term added by photons
     vec4 photonIntensity = vec4(0, 0, 0, 0);
@@ -153,11 +154,16 @@ vec4 computeGlobalIllumination(in vec3 where) {
     float flux      = 0.0;
     int photonCount = 0;
     
-    const int shiftRange = 1;
+    const int shiftRange = 1; // make var
     
     for (int xShift = -shiftRange; xShift < shiftRange; xShift++) {
         for (int yShift = -shiftRange; yShift < shiftRange; yShift++) {
             for (int zShift = -shiftRange; zShift < shiftRange; zShift++) {
+    //}}}{{{
+    //int xShift = 0;
+    //int yShift = 0;
+    //int zShift = 0;
+    
                 ivec3 gridShifted = ivec3(
                     gridQuantize.x + xShift,
                     gridQuantize.y + yShift,
@@ -165,11 +171,11 @@ vec4 computeGlobalIllumination(in vec3 where) {
                 );
                 
                 if (gridShifted.x < 0 || gridShifted.y < 0 || gridShifted.z < 0) {
-                    continue;
+                    //continue;
                 }
                 
                 if (gridShifted.x >= gridResolution.x || gridShifted.y >= gridResolution.y || gridShifted.z >= gridResolution.z) {
-                    continue;
+                    //continue;
                 }
                 
                 int cellIndex = gridShifted.z + (gridShifted.y * gridResolution.x)
@@ -181,48 +187,70 @@ vec4 computeGlobalIllumination(in vec3 where) {
                 vec3 cell      = texelFetch(gridTexture, texIndex, lod).xyz;
                 
                 const int photonStride = 3; // 3 x vec3 [direction, position, meta]
-                photonCount    += int(cell.x);
+                
                 int startIndex  = int(cell.y);
                 int endIndex    = int(cell.z);
                 
                 
-                for(int i = startIndex, j = startIndex, max = 50; max != 0 && i < endIndex; --max, ++i, j += photonStride) {
+                for(int i = startIndex, j = startIndex, max = 450; max != 0 && i < endIndex; --max, ++i, j += photonStride) {
                     vec3 photonDirection = texelFetch(gridTexture, indexWrap(j + 0, textureWidth), lod).xyz;
                     vec3 photonPosition  = texelFetch(gridTexture, indexWrap(j + 1, textureWidth), lod).xyz;
                     vec3 photonMeta      = texelFetch(gridTexture, indexWrap(j + 2, textureWidth), lod).xyz; // dead color bounces
                     
                     float d = length(photonPosition - where);
                     
-                    if(int(photonPosition.x) == 2) {
-                        //photonIntensity.r = 3;
-                    }
                     
-                    //if(d < 0.4) {
-                    //flux += 0.1 / d;
-                    //}
+                    // Show photons? Add a ton of flux when the current location is
+                    // near a photon.
+                    if(showPhotons == 1) {
+                        if(d < 0.06) {
+                            textureColor.r = 10;//photonMeta.z;
+                        }
+                    }
                     
                     //d = 0.1 / d;
                     //d = -pow(d, 2) + 2;
+                    
+                    //d = 1.0;
                     d = 1.0 * exp(-(pow(d,2) / 1.2));
                     
-                    if (d > 0.0) {
-                        flux += photonMeta.z * d;//pow(0.1, maxBounces - photonMeta.z) * d;
-                    }
+                    //d = 1;
+                    
+                    flux += photonMeta.z * d;//pow(0.1, maxBounces - photonMeta.z) * d;
+                    
+                    ++photonCount;
                 }
             }
         }
     }
     
+    // Volumes
+    float totalVolume = (gridMax.x - gridMin.x) * (gridMax.y - gridMin.y) * (gridMax.z - gridMin.z);
+    float localVolume = gridInterval.x * gridInterval.y * gridInterval.z;
+    
+    // Ratio between local (grid cell) and world
+    float ratioVolume = localVolume / totalVolume;
 
-    flux = 1.0 * log(flux * 0.5);
+    //0.25 1 = 0.25 / 1 = 0.25
+
+    // Scale flux in world to match the cell. "average light"
+    float expectedFlux = ratioVolume * totalFlux;
+
+    
+    flux = flux / expectedFlux * (0.025/shiftRange);
+    
+    flux = log(flux * 2);//min(flux, 0.5);
+    
+    //flux = photonCount/130.0;//0.2;
 
     // No photons? Must be an error surface. Make it green!
-    if(photonCount == 0) {
-        photonIntensity.g = 3;
+    if(false && photonCount == 0) {
+        //photonIntensity.g = 3;
         
     } else {
-        // Photons have no color yet.
-        photonIntensity.x = flux / 2;
+        photonIntensity.x = flux;
+        
+        // Photons have no color yet. Assume white.
         photonIntensity.y = photonIntensity.x;
         photonIntensity.z = photonIntensity.x;
     }
@@ -294,11 +322,16 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             vec4 blend = vec4(0.0, 0.0, 0.0, 1.0);
             
             vec4 direct = computeDirectLight(texelOffset, where, A, B, C);
-            vec4 global = computeGlobalIllumination(where);
             
-            blend += direct;
-            blend += global;
-
+            vec4 global = computeGlobalIllumination(where, color);
+            
+            if(useLambertian == 1) {
+                blend += direct;
+            }
+            
+            if(useGlobal == 1) {
+                blend += global;
+            }
             
             // No alpha channel in light.
             blend.a = 1.0;

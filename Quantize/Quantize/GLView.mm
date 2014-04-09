@@ -108,9 +108,9 @@ static bool isInitialized = false;
                 printf("showPhotons = %d\n", quantize->showPhotons);
                 
               } else if(keyChar == 0x62) {
-                quantize->useANN = 1 - quantize->useANN;
+                quantize->useGlobal = 1 - quantize->useGlobal;
                 
-                printf("useANN = %d\n", quantize->useANN);
+                printf("useGlobal = %d\n", quantize->useGlobal);
                 
             } else {
                 quantize->camera.onKey(keyChar);

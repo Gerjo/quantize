@@ -59,6 +59,7 @@ class Quantize {
     GLint _uniformFrameCounter{-1};
     
     GLint _uniformUseLambertian{-1};
+    GLint _uniformUseGlobal{-1};
     GLint _uniformShowPhotons{-1};
     GLint _uniformTotalFlux{-1};
     
@@ -127,7 +128,7 @@ class Quantize {
         
         GLuint width{256};
         GLuint height{166};
-        GLuint maxBounces{5};
+        GLuint maxBounces{3};
         bool skipFirstBounce{true}; // first bounce = direct light
         
         float initialFlux{50}; // Flux per photon
@@ -165,8 +166,8 @@ public:
     bool enableJitter{true};
     bool useTexture{true};
     int useLambertian{1};
-    int showPhotons{1};
-    int useANN{1};
+    int useGlobal{1};
+    int showPhotons{0};
     
     /// Camera
     Camera camera;
