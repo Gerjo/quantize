@@ -157,8 +157,6 @@ class Quantize {
         
         GLint uniformData{-1};
         GLint unformTriangleCount{-1};
-        GLint uniformLightCount{-1};
-        GLint uniformLightsPosition{-1};
         
         GLint uniformTime{-1};
         GLint uniformFrameCounter{-1};

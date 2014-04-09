@@ -362,8 +362,6 @@ void Quantize::initializePhotonProgram() {
 
     photon.attrPosition           = glGetAttribLocation(photon.program, "position");
     photon.uniformWindowSize      = glGetUniformLocation(photon.program, "windowSize");
-    photon.uniformLightCount      = glGetUniformLocation(photon.program, "lightCount");
-    photon.uniformLightsPosition  = glGetUniformLocation(photon.program, "lightPositions");
     photon.uniformData            = glGetUniformLocation(photon.program, "zdata");
     photon.unformTriangleCount    = glGetUniformLocation(photon.program, "triangleCount");
     photon.uniformTextures        = glGetUniformLocation(photon.program, "textures");
@@ -724,19 +722,7 @@ void Quantize::shootPhotons() {
     GLError();
     printf(" done.\n");
 
-    // Amount of lights, when disabled - simply upload nothing.
-    const int nLights = std::min(enableLights, (int) lights.size());
     
-    // Build Structure of arrays (SOA) from Array of structures (AOS)
-    std::vector<Vector3> position;
-    
-    // Collect light properties
-    for(const Light& light : lights) {
-        position.push_back(light.position);
-    }
-    
-    glUniform1i(photon.uniformLightCount, nLights);
-    glUniform3fv(photon.uniformLightsPosition, nLights, position[0].v);
     glUniform1i(photon.unformTriangleCount, (int) faces.size());
     glUniform1i(photon.uniformData, 0);
     glUniform2f(photon.uniformWindowSize, photon.width, photon.height);
