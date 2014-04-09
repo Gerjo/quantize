@@ -43,7 +43,8 @@ uniform sampler2D textures[11];
 
 void main() {
     
-    srand(uvmapping.x + uvmapping.y * 100);
+    // Time should be unique per photon bounce.
+    srand((uvmapping.x + 100 + uvmapping.y * 100) + time * 100);
     
     ivec2 texelIndex = ivec2(
         uvmapping.x * windowSize.x,
@@ -72,7 +73,7 @@ void main() {
     
     // Russian roulette after the first bounce
     if(bounces > 0) {
-        if(rand() > 0.95) { // Kill n%
+        if(rand() > 0.80) { // Kill n%
             outMeta = vec3(
                     0,           // dead.
                     0,           // no color

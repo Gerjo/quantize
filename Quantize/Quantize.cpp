@@ -9,6 +9,8 @@
 #include "Quantize.h"
 #include "Entity.h"
 #include "Textures.h"
+#include <cmath>
+
 
 #include <random>
 
@@ -813,6 +815,13 @@ void Quantize::shootPhotons() {
     for(int b = 0; b < photon.maxBounces; ++b) {
         printf("\n-------------\nStarting Bounce iteration: %d, read: %lu, write: %lu\n", b, readBuffer, drawBuffer);
         
+        double tmp;
+        float t = int(std::modf(GetTiming(), &tmp) * 1000);
+        
+        // Update "time" in the shader. This is used for random numbers.
+        glUniform1f(photon.uniformTime, t);
+        
+        printf("time: %f\n", t);
         
         // Enable framebuffer render target
         glBindFramebuffer(GL_FRAMEBUFFER, photon.fbo);
