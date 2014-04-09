@@ -156,9 +156,9 @@ vec4 computeGlobalIllumination(in vec3 where, inout vec4 textureColor) {
     
     const int shiftRange = 1; // make var
     
-    for (int xShift = -shiftRange; xShift < shiftRange; xShift++) {
-        for (int yShift = -shiftRange; yShift < shiftRange; yShift++) {
-            for (int zShift = -shiftRange; zShift < shiftRange; zShift++) {
+    for (int xShift = -shiftRange; xShift < shiftRange + 1; xShift++) {
+        for (int yShift = -shiftRange; yShift < shiftRange + 1; yShift++) {
+            for (int zShift = -shiftRange; zShift < shiftRange + 1; zShift++) {
     //}}}{{{
     //int xShift = 0;
     //int yShift = 0;
