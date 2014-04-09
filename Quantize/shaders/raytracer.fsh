@@ -13,7 +13,7 @@ uniform vec4 lightsDiffuse[10];
 uniform vec4 lightsSpecular[10];
 uniform vec4 lightsAmbiant[10];
 
-uniform int maxBounces;
+uniform int maxBounces;         // Amount of bounce iterations
 
 uniform vec2 windowSize;        // Size of the viewport
 in vec2 position;               // Normalize position on screen
@@ -22,14 +22,7 @@ in vec2 pixelPosition;          // The approximate pixel on screen.
 uniform int numTriangles;       // Number of triangles
 
 uniform int useLambertian;
-uniform int useTexture;
 uniform int showPhotons;
-uniform int useANN;
-
-uniform int n;
-uniform float sigma;
-uniform float range;
-uniform int enableJitter;
 
 // Some transforms
 uniform mat4 translation;
@@ -39,15 +32,12 @@ uniform mat4 rotation;
 uniform int frameCounter;
 uniform float time;
 
-uniform int mapWidth;
-uniform int mapHeight;
-
 uniform ivec3 gridResolution;
 uniform vec3  gridMin;
 uniform vec3  gridMax;
 uniform vec3  gridInterval;
 
-uniform float totalFlux;
+uniform float totalFlux;       // Total flux in the world
 
 // My Intel onboard chip only supports 16 textures. If this becomes a limit,
 // we can make an atlas - textures up to 16k resolution are supported. Reading
@@ -79,22 +69,6 @@ struct Photon {
     vec3 position;
     vec3 meta;          // dead, color and bounces
 };
-
-
-ivec2 photonIndex(in int index, in int texelOffset) {
-
-    // Each photon has 3 vectors (direction, position and meta)
-    const int stride = 3;
-    
-    int i = index * stride + texelOffset;
-    
-    // The usual index to grid coordinate routine.
-    int y = i / mapWidth;
-    int x = i - y * mapWidth;
-    
-    return ivec2(x, y);
-}
-
 
 vec4 computeDirectLight(in int texelOffset, in vec3 where, in vec3 A, in vec3 B, in vec3 C) {
 

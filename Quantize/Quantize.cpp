@@ -384,8 +384,6 @@ void Quantize::initializeRaytraceProgram() {
     _uniformNumTriangles  = glGetUniformLocation(_programRaytracer, "numTriangles");
     _uniformRtRotation    = glGetUniformLocation(_programRaytracer, "rotation");
     _uniformRtTranslation = glGetUniformLocation(_programRaytracer, "translation");
-    _uniformPhotonTexture = glGetUniformLocation(_programRaytracer, "photons");
-    _uniformNumPhotons    = glGetUniformLocation(_programRaytracer, "numPhotons");
     _uniformMaxBounces    = glGetUniformLocation(_programRaytracer, "maxBounces");
     
     _uniformTextures     = glGetUniformLocation(_programRaytracer, "textures");
@@ -395,14 +393,8 @@ void Quantize::initializeRaytraceProgram() {
     _uniformTotalFlux    = glGetUniformLocation(_programRaytracer, "totalFlux");
     GLError();
     
-    _uniformN          = glGetUniformLocation(_programRaytracer, "n");
-    _uniformSigma      = glGetUniformLocation(_programRaytracer, "sigma");
-    _uniformRange      = glGetUniformLocation(_programRaytracer, "range");
-    _uniformJitter     = glGetUniformLocation(_programRaytracer, "enableJitter");
-    _uniformUseTexture = glGetUniformLocation(_programRaytracer, "useTexture");
     _uniformUseLambertian = glGetUniformLocation(_programRaytracer, "useLambertian");
     _uniformShowPhotons = glGetUniformLocation(_programRaytracer, "showPhotons");
-    _uniformUseANN      = glGetUniformLocation(_programRaytracer, "useANN");
     
     GLError();
     
@@ -530,14 +522,8 @@ void Quantize::update(float dt) {
     GLError();
     
     // Upload raytracing properties
-    glUniform1i(_uniformN, n);
-    glUniform1f(_uniformSigma, sigma);
-    glUniform1f(_uniformRange, range);
-    glUniform1i(_uniformJitter, (int) enableJitter);
-    glUniform1i(_uniformUseTexture, (int) useTexture);
     glUniform1i(_uniformUseLambertian, useLambertian);
     glUniform1i(_uniformShowPhotons, showPhotons);
-    glUniform1i(_uniformUseANN, useANN);
     GLError();
     
     
@@ -591,13 +577,6 @@ void Quantize::update(float dt) {
     
     // Set uniform sampler to use the data texture
     glUniform1i(_uniformDataTexture, 0);
-    GLError();
-
-    // Enable photon map texture
-    glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, photon.photonTexture);
-    glUniform1i(_uniformPhotonTexture, 1);
-    glUniform1i(_uniformNumPhotons, (int) kdtree.size());
     GLError();
 
     // Enable photon grid texture
