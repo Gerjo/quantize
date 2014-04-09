@@ -124,9 +124,9 @@ void main() {
         
         
         // Ray collision test; "where" is an output: the point of intersection.
-        int res = rayIntersetsTriangle(ray, A, B, C, true, where, depth);
+        bool collision = rayIntersetsTriangle(ray, A, B, C, true, where, depth);
         
-        if(res != 0) {
+        if( ! collision) {
         
             // Keep only the nearest surface. We've simplified the model to not
             // use z-buffers.

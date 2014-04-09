@@ -114,7 +114,7 @@ vec3 barycentric3(in vec3 f, in vec3 v1, in vec3 v2, in vec3 v3, in vec3 uv1, in
 
 
 // Source: http://www.lighthouse3d.com/tutorials/maths/ray-triangle-intersection/
-int rayIntersetsTriangle(in Ray ray, in vec3 v0, in vec3 v1, in vec3 v2, in bool light, out vec3 where, out float depth) {
+bool rayIntersetsTriangle(in Ray ray, in vec3 v0, in vec3 v1, in vec3 v2, in bool light, out vec3 where, out float depth) {
 
     vec3 e1 = v1 - v0;
     vec3 e2 = v2 - v0;
@@ -123,7 +123,7 @@ int rayIntersetsTriangle(in Ray ray, in vec3 v0, in vec3 v1, in vec3 v2, in bool
 	float a = dot(e1, h);
 
 	if (a > -0.00001 && a < 0.00001) {
-		return 0;
+		return true;
     }
     
 	float f = 1 / a;
@@ -131,14 +131,14 @@ int rayIntersetsTriangle(in Ray ray, in vec3 v0, in vec3 v1, in vec3 v2, in bool
 	float u = f * dot(s, h);
 
 	if (u < 0.0 || u > 1.0) {
-		return 0;
+		return true;
     }
 	
     vec3 q  = cross(s, e1);
 	float v = f * dot(ray.direction, q);
 
 	if (v < 0.0 || u + v > 1.0) {
-		return 0;
+		return true;
     }
     
 	// at this stage we can compute t to find out where
@@ -148,9 +148,10 @@ int rayIntersetsTriangle(in Ray ray, in vec3 v0, in vec3 v1, in vec3 v2, in bool
 	if (depth > 0.00001) {// ray intersection
         where = ray.place + depth * ray.direction;
 
-        return 1;
-    } else { // this means that there is a line intersection
-		 // but not a ray intersection
-		 return 0;
+        return false;
+    } else {
+        // this means that there is a line intersection
+		// but not a ray intersection
+		return true;
     }
 }

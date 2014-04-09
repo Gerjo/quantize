@@ -120,10 +120,10 @@ vec4 computeDirectLight(in int texelOffset, in vec3 where, in vec3 A, in vec3 B,
             vec3 F = texelFetch(zdata, ivec2(texelOffset + 2, 0), lod).xyz;
              
             // Test the right ray against the current triangle.
-            int res = rayIntersetsTriangle(beam, D, E, F, true, tmp, t);
+            bool collision = rayIntersetsTriangle(beam, D, E, F, true, tmp, t);
              
             // Test intersection distance.
-            if(res != 0 && (t >= -0.0000001 && t <= 1.0000001)) {
+            if( ! collision && (t >= -0.0000001 && t <= 1.0000001)) {
              
                 // Use this to let direct light pass through semi transparent
                 // objects.
@@ -238,16 +238,17 @@ vec4 computeGlobalIllumination(in vec3 where) {
     
 
     flux = 1.0 * log(flux * 0.5);
-    
+
+    // No photons? Must be an error surface. Make it green!
     if(photonCount == 0) {
         photonIntensity.g = 3;
+        
+    } else {
+        // Photons have no color yet.
+        photonIntensity.x = flux / 2;
+        photonIntensity.y = photonIntensity.x;
+        photonIntensity.z = photonIntensity.x;
     }
-    
-    
-    // Photons have no color yet.
-    photonIntensity.x = flux / 2;
-    photonIntensity.y = photonIntensity.x;
-    photonIntensity.z = photonIntensity.x;
 
     return photonIntensity;
 }
@@ -300,9 +301,9 @@ vec4 traceRay(in vec2 pos, in float perspective) {
         float depth;
         
         // Ray collision test; "where" is an output: the point of intersection.
-        int res = rayIntersetsTriangle(ray, A, B, C, false, where, depth);
+        bool collision = rayIntersetsTriangle(ray, A, B, C, false, where, depth);
         
-        if(res != 0) {
+        if( ! collision) {
             vec2 U  = texelFetch(zdata, ivec2(texelOffset + 3, 0), lod).xy;
             vec2 V  = texelFetch(zdata, ivec2(texelOffset + 4, 0), lod).xy;
             vec2 W  = texelFetch(zdata, ivec2(texelOffset + 5, 0), lod).xy;
