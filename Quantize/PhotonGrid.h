@@ -145,7 +145,7 @@ public:
                     //printf("Grid: [index: %d, %dx%dx%d] -> [compute: %d] - quantized.\n", gridIndex/3, x,y,z, cellIndex);
                 
                     //int count = (int) grid[x][y][z].size();
-                    int count = std::min((int) grid[x][y][z].size(), 10);
+                    int count = std::min((int) grid[x][y][z].size(), 50);
                     
                     // Count in this cell stored in de X component
                     result[gridIndex + 0] = count;
