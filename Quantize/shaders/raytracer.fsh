@@ -128,7 +128,7 @@ vec4 computeDirectLight(in int texelOffset, in vec3 where, in vec3 A, in vec3 B,
             vec3 normal   = normalize(barycentric3(where, A, B, C, n1, n2, n3));
             vec3 lpos     = lightsPosition[l];
             vec3 lightDir = normalize(lpos - where);
-            float lambert = max(dot(lightDir, normal), 0);// / 10;
+            float lambert = max(dot(lightDir, normal), 0);
              
             direct += lightsDiffuse[l] * lambert;
         }
