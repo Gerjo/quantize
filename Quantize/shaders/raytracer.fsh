@@ -288,7 +288,7 @@ vec4 traceRay(in vec2 pos, in float perspective) {
     float infLightCount = 1.0 / lightCount;
     float ambientRatio  = 0.4 * infLightCount;
     
-    int j = 0;
+    int currentBuffer = 0;
     for(int i = 0; i < numTriangles; ++i) {
         
         int offset = i * stride;
@@ -330,16 +330,16 @@ vec4 traceRay(in vec2 pos, in float perspective) {
             blend.g = max(0.1, blend.g);
             blend.b = max(0.1, blend.b);
 
-            zBufferDepth[j] = depth;
-            zBufferColor[j] = color;
+            zBufferDepth[currentBuffer] = depth;
+            zBufferColor[currentBuffer] = color;
             
             // There are lights, blend them. Otherwise do nothing.
             if(lightCount > 0) {
-                zBufferColor[j] = zBufferColor[j] * blend;
+                zBufferColor[currentBuffer] = zBufferColor[currentBuffer] * blend;
             }
             
             // Move to the next depth slot.
-            if(++j > maxBuffer) {
+            if(++currentBuffer > maxBuffer) {
                 break;
             }
         }
@@ -351,7 +351,7 @@ vec4 traceRay(in vec2 pos, in float perspective) {
     
     
     // Sort depth buffer
-    for (int pivot = j; pivot > 1; --pivot) {
+    for (int pivot = currentBuffer; pivot > 1; --pivot) {
         for (int k = 0; k < pivot - 1; ++k) {
             if (zBufferDepth[k] > zBufferDepth[k+1]) {
                 swapV = zBufferColor[k];
@@ -368,7 +368,7 @@ vec4 traceRay(in vec2 pos, in float perspective) {
     vec4 color = vec4(0.0, 0.0, 0.0, 0.0);
     
     // Keep blending until there is no alpha or the buffer is empty.
-    for(int i = 0; i < j && color.a < 1.0; ++i) {
+    for(int i = 0; i < currentBuffer && color.a < 1.0; ++i) {
         color += zBufferColor[i] * zBufferColor[i].a;
     }
     
