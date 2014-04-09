@@ -140,7 +140,6 @@ class Quantize {
         
         GLint uniformReadBuffer[3] = {0};
 
-    
         GLuint program{0};
         GLuint fbo{0};
         GLuint textures[6] = {0};    // direction, position and meta outputs.
@@ -160,6 +159,9 @@ class Quantize {
         GLint unformTriangleCount{-1};
         GLint uniformLightCount{-1};
         GLint uniformLightsPosition{-1};
+        
+        GLint uniformTime{-1};
+        GLint uniformFrameCounter{-1};
     } photon;
     
 public:

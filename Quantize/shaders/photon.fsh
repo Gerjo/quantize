@@ -13,6 +13,9 @@ in vec2 uvunit;
 in vec2 localPosition;
 in vec2 pixelPosition;
 
+// Used for randomness
+uniform int frameCounter;
+uniform float time;
 
 uniform sampler2D zdata;        // Triangles packed in texture
 uniform int triangleCount;      // Number of triangles

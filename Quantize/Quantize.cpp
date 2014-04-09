@@ -369,6 +369,8 @@ void Quantize::initializePhotonProgram() {
     photon.uniformTextures        = glGetUniformLocation(photon.program, "textures");
     photon.uniformPhotonMapWidth  = glGetUniformLocation(photon.program, "mapWidth");
     photon.uniformPhotonMapHeight = glGetUniformLocation(photon.program, "mapHeight");
+    photon.uniformTime            = glGetUniformLocation(photon.program, "time");
+    photon.uniformFrameCounter    = glGetUniformLocation(photon.program, "frameCounter");
     
     photon.uniformReadBuffer[0]   = glGetUniformLocation(photon.program, "inBuffers[0]");
     photon.uniformReadBuffer[1]   = glGetUniformLocation(photon.program, "inBuffers[1]");
@@ -738,8 +740,9 @@ void Quantize::shootPhotons() {
     glUniform1i(photon.unformTriangleCount, (int) faces.size());
     glUniform1i(photon.uniformData, 0);
     glUniform2f(photon.uniformWindowSize, photon.width, photon.height);
+    glUniform1i(photon.uniformFrameCounter, (int) _frameCounter);
+    glUniform1f(photon.uniformTime, (float) GetTiming());
     GLError();
-    
       
     // Bind the triangle textures (up to 15)
     std::vector<int> textureSamplers;
