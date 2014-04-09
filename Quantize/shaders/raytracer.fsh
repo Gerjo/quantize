@@ -79,12 +79,12 @@ struct Photon {
 };
 
 
-ivec2 photonIndex(in int index, in int offset) {
+ivec2 photonIndex(in int index, in int texelOffset) {
 
     // Each photon has 3 vectors (direction, position and meta)
     const int stride = 3;
     
-    int i = index * stride + offset;
+    int i = index * stride + texelOffset;
     
     // The usual index to grid coordinate routine.
     int y = i / mapWidth;
@@ -94,7 +94,7 @@ ivec2 photonIndex(in int index, in int offset) {
 }
 
 
-vec4 computeDirectLight(in int offset, in vec3 where, in vec3 A, in vec3 B, in vec3 C) {
+vec4 computeDirectLight(in int texelOffset, in vec3 where, in vec3 A, in vec3 B, in vec3 C) {
 
     vec4 direct = vec4(0, 0, 0, 0);
 
@@ -114,10 +114,10 @@ vec4 computeDirectLight(in int offset, in vec3 where, in vec3 A, in vec3 B, in v
             float t;
             
             // Find the vertices of this triangle
-            int offset2 = k * stride;
-            vec3 D = texelFetch(zdata, ivec2(offset2 + 0, 0), lod).xyz;
-            vec3 E = texelFetch(zdata, ivec2(offset2 + 1, 0), lod).xyz;
-            vec3 F = texelFetch(zdata, ivec2(offset2 + 2, 0), lod).xyz;
+            int texelOffset = k * stride;
+            vec3 D = texelFetch(zdata, ivec2(texelOffset + 0, 0), lod).xyz;
+            vec3 E = texelFetch(zdata, ivec2(texelOffset + 1, 0), lod).xyz;
+            vec3 F = texelFetch(zdata, ivec2(texelOffset + 2, 0), lod).xyz;
              
             // Test the right ray against the current triangle.
             int res = rayIntersetsTriangle(beam, D, E, F, true, tmp, t);
@@ -127,13 +127,13 @@ vec4 computeDirectLight(in int offset, in vec3 where, in vec3 A, in vec3 B, in v
              
                 // Use this to let direct light pass through semi transparent
                 // objects.
-                //vec2 U2 = texelFetch(zdata, ivec2(offset2 + 3, 0), lod).xy;
-                //vec2 V2 = texelFetch(zdata, ivec2(offset2 + 4, 0), lod).xy;
-                //vec2 W2 = texelFetch(zdata, ivec2(offset2 + 5, 0), lod).xy;
+                //vec2 U2 = texelFetch(zdata, ivec2(texelOffset + 3, 0), lod).xy;
+                //vec2 V2 = texelFetch(zdata, ivec2(texelOffset + 4, 0), lod).xy;
+                //vec2 W2 = texelFetch(zdata, ivec2(texelOffset + 5, 0), lod).xy;
              
                 //vec2 uv = barycentric(tmp, D, E, F, U2, V2, W2);
                  
-                //int sampler2 = int(texelFetch(zdata, ivec2(offset2 + 3, 0), lod).z);
+                //int sampler2 = int(texelFetch(zdata, ivec2(texelOffset + 3, 0), lod).z);
                 //vec4 color2 = texture(textures[sampler2], uv);
              
                 hitSomething = true;
@@ -145,9 +145,9 @@ vec4 computeDirectLight(in int offset, in vec3 where, in vec3 A, in vec3 B, in v
      
         // Did not hit anything. Apply light.
         if( ! hitSomething) {
-            vec3 n1 = texelFetch(zdata, ivec2(offset + 6, 0), lod).xyz;
-            vec3 n2 = texelFetch(zdata, ivec2(offset + 7, 0), lod).xyz;
-            vec3 n3 = texelFetch(zdata, ivec2(offset + 8, 0), lod).xyz;
+            vec3 n1 = texelFetch(zdata, ivec2(texelOffset + 6, 0), lod).xyz;
+            vec3 n2 = texelFetch(zdata, ivec2(texelOffset + 7, 0), lod).xyz;
+            vec3 n3 = texelFetch(zdata, ivec2(texelOffset + 8, 0), lod).xyz;
          
             vec3 normal   = normalize(barycentric3(where, A, B, C, n1, n2, n3));
             vec3 lpos     = lightsPosition[l];
@@ -291,10 +291,10 @@ vec4 traceRay(in vec2 pos, in float perspective) {
     int currentBuffer = 0;
     for(int i = 0; i < numTriangles; ++i) {
         
-        int offset = i * stride;
-        vec3 A = texelFetch(zdata, ivec2(offset + 0, 0), lod).xyz;
-        vec3 B = texelFetch(zdata, ivec2(offset + 1, 0), lod).xyz;
-        vec3 C = texelFetch(zdata, ivec2(offset + 2, 0), lod).xyz;
+        int texelOffset = i * stride;
+        vec3 A = texelFetch(zdata, ivec2(texelOffset + 0, 0), lod).xyz;
+        vec3 B = texelFetch(zdata, ivec2(texelOffset + 1, 0), lod).xyz;
+        vec3 C = texelFetch(zdata, ivec2(texelOffset + 2, 0), lod).xyz;
         
         vec3 where;
         float depth;
@@ -303,19 +303,19 @@ vec4 traceRay(in vec2 pos, in float perspective) {
         int res = rayIntersetsTriangle(ray, A, B, C, false, where, depth);
         
         if(res != 0) {
-            vec2 U  = texelFetch(zdata, ivec2(offset + 3, 0), lod).xy;
-            vec2 V  = texelFetch(zdata, ivec2(offset + 4, 0), lod).xy;
-            vec2 W  = texelFetch(zdata, ivec2(offset + 5, 0), lod).xy;
+            vec2 U  = texelFetch(zdata, ivec2(texelOffset + 3, 0), lod).xy;
+            vec2 V  = texelFetch(zdata, ivec2(texelOffset + 4, 0), lod).xy;
+            vec2 W  = texelFetch(zdata, ivec2(texelOffset + 5, 0), lod).xy;
             vec2 uv = barycentric(where, A, B, C, U, V, W);
             
-            int sampler = int(texelFetch(zdata, ivec2(offset + 3, 0), lod).z);
+            int sampler = int(texelFetch(zdata, ivec2(texelOffset + 3, 0), lod).z);
             
             // Color of the texture
             vec4 color = texture(textures[sampler], uv);
             
             vec4 blend = vec4(0.0, 0.0, 0.0, 1.0);
             
-            vec4 direct = computeDirectLight(offset, where, A, B, C);
+            vec4 direct = computeDirectLight(texelOffset, where, A, B, C);
             vec4 global = computeGlobalIllumination(where);
             
             blend += direct;
